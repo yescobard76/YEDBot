@@ -1,0 +1,1948 @@
+{
+ "code": [
+  "14d2c9f961089a72267cd3fb00c06bb4129e791f3a846d58b3032293a97f2931",
+  65
+ ],
+ "mode": "adjusted",
+ "lock": "docs/protocolo_backtest.lock.json",
+ "rows": [
+  {
+   "window": "W2",
+   "metrics": {
+    "trades": 4,
+    "wins": 1,
+    "losses": 3,
+    "breakeven": 0,
+    "win_rate": 25.0,
+    "profit_factor": 1.71,
+    "expectancy": 67.1,
+    "net_profit": 268.4,
+    "gross_profit": 647.28,
+    "gross_loss": -378.88,
+    "fees": 18.6,
+    "avg_win": 647.28,
+    "avg_loss": -126.29,
+    "avg_trade": 67.1,
+    "avg_r": 0.11,
+    "avg_mfe_r": 2.06,
+    "avg_mae_r": -0.93,
+    "avg_open_drawdown": 407.12,
+    "max_open_drawdown": 586.0,
+    "max_open_drawdown_pct": 2.344,
+    "open_drawdown": 586.0,
+    "open_drawdown_pct": 2.344,
+    "avg_mfe": 2.06,
+    "avg_mae": -0.93,
+    "total_r": 0.45,
+    "best_trade": 647.28,
+    "worst_trade": -161.2,
+    "max_drawdown": 378.88,
+    "max_drawdown_pct": 1.516,
+    "equity_trough": 24621.12,
+    "sharpe": 0.8,
+    "sortino": 2.41,
+    "best_win_streak": 1,
+    "worst_loss_streak": 3,
+    "current_win_streak": 1,
+    "current_loss_streak": 0,
+    "avg_duration_sec": 6120,
+    "avg_win_r": 2.91,
+    "avg_loss_r": -0.82,
+    "equity_curve": [
+     {
+      "ts": 1747067940,
+      "equity": 25000.0
+     },
+     {
+      "ts": 1747068240,
+      "equity": 24838.8
+     },
+     {
+      "ts": 1747415760,
+      "equity": 24702.6
+     },
+     {
+      "ts": 1747943760,
+      "equity": 24621.12
+     },
+     {
+      "ts": 1750873200,
+      "equity": 25268.4
+     }
+    ],
+    "daily": [
+     {
+      "key": "2025-04-01",
+      "label": "04-01",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-02",
+      "label": "04-02",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-03",
+      "label": "04-03",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-04",
+      "label": "04-04",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-07",
+      "label": "04-07",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-08",
+      "label": "04-08",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-09",
+      "label": "04-09",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-10",
+      "label": "04-10",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-11",
+      "label": "04-11",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-14",
+      "label": "04-14",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-15",
+      "label": "04-15",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-16",
+      "label": "04-16",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-17",
+      "label": "04-17",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-21",
+      "label": "04-21",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-22",
+      "label": "04-22",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-23",
+      "label": "04-23",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-24",
+      "label": "04-24",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-25",
+      "label": "04-25",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-28",
+      "label": "04-28",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-29",
+      "label": "04-29",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-04-30",
+      "label": "04-30",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-01",
+      "label": "05-01",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-02",
+      "label": "05-02",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-05",
+      "label": "05-05",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-06",
+      "label": "05-06",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-07",
+      "label": "05-07",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-08",
+      "label": "05-08",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-09",
+      "label": "05-09",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-12",
+      "label": "05-12",
+      "pnl": -161.2
+     },
+     {
+      "key": "2025-05-13",
+      "label": "05-13",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-14",
+      "label": "05-14",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-15",
+      "label": "05-15",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-16",
+      "label": "05-16",
+      "pnl": -136.2
+     },
+     {
+      "key": "2025-05-19",
+      "label": "05-19",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-20",
+      "label": "05-20",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-21",
+      "label": "05-21",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-22",
+      "label": "05-22",
+      "pnl": -81.48
+     },
+     {
+      "key": "2025-05-23",
+      "label": "05-23",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-27",
+      "label": "05-27",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-28",
+      "label": "05-28",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-29",
+      "label": "05-29",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-05-30",
+      "label": "05-30",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-02",
+      "label": "06-02",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-03",
+      "label": "06-03",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-04",
+      "label": "06-04",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-05",
+      "label": "06-05",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-06",
+      "label": "06-06",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-09",
+      "label": "06-09",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-10",
+      "label": "06-10",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-11",
+      "label": "06-11",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-13",
+      "label": "06-13",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-16",
+      "label": "06-16",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-17",
+      "label": "06-17",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-18",
+      "label": "06-18",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-20",
+      "label": "06-20",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-23",
+      "label": "06-23",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-24",
+      "label": "06-24",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-25",
+      "label": "06-25",
+      "pnl": 647.28
+     },
+     {
+      "key": "2025-06-26",
+      "label": "06-26",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-27",
+      "label": "06-27",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-06-30",
+      "label": "06-30",
+      "pnl": 0.0
+     }
+    ],
+    "monthly": [
+     {
+      "key": "2025-05",
+      "label": "2025-05",
+      "trades": 3,
+      "pnl": -378.88,
+      "wins": 0,
+      "win_rate": 0.0
+     },
+     {
+      "key": "2025-06",
+      "label": "2025-06",
+      "trades": 1,
+      "pnl": 647.28,
+      "wins": 1,
+      "win_rate": 100.0
+     }
+    ],
+    "by_hour": [
+     {
+      "key": 12,
+      "trades": 1,
+      "pnl": -161.2,
+      "wins": 0,
+      "losses": 1,
+      "label": "12:00",
+      "win_rate": 0.0
+     },
+     {
+      "key": 13,
+      "trades": 2,
+      "pnl": 511.08,
+      "wins": 1,
+      "losses": 1,
+      "label": "13:00",
+      "win_rate": 50.0
+     },
+     {
+      "key": 15,
+      "trades": 1,
+      "pnl": -81.48,
+      "wins": 0,
+      "losses": 1,
+      "label": "15:00",
+      "win_rate": 0.0
+     }
+    ],
+    "by_direction": [
+     {
+      "key": "long",
+      "trades": 1,
+      "pnl": -81.48,
+      "wins": 0,
+      "losses": 1,
+      "label": "Larga",
+      "win_rate": 0.0
+     },
+     {
+      "key": "short",
+      "trades": 3,
+      "pnl": 349.88,
+      "wins": 1,
+      "losses": 2,
+      "label": "Corta",
+      "win_rate": 33.3
+     }
+    ],
+    "by_signal": [
+     {
+      "key": "ORB+SMT+Retest",
+      "trades": 4,
+      "pnl": 268.4,
+      "wins": 1,
+      "losses": 3,
+      "label": "ORB+SMT+Retest",
+      "win_rate": 25.0
+     }
+    ],
+    "by_weekday": [
+     {
+      "key": 0,
+      "trades": 1,
+      "pnl": -161.2,
+      "wins": 0,
+      "losses": 1,
+      "label": "Lun"
+     },
+     {
+      "key": 2,
+      "trades": 1,
+      "pnl": 647.28,
+      "wins": 1,
+      "losses": 0,
+      "label": "Mié"
+     },
+     {
+      "key": 3,
+      "trades": 1,
+      "pnl": -81.48,
+      "wins": 0,
+      "losses": 1,
+      "label": "Jue"
+     },
+     {
+      "key": 4,
+      "trades": 1,
+      "pnl": -136.2,
+      "wins": 0,
+      "losses": 1,
+      "label": "Vie"
+     }
+    ],
+    "distribution": {
+     "wins": 1,
+     "losses": 3,
+     "breakeven": 0
+    },
+    "exit_reasons": {
+     "session_close": 1,
+     "stop_loss": 2,
+     "take_profit": 1
+    },
+    "stop_losses": 2,
+    "take_profits": 1,
+    "session_closes": 1,
+    "stop_loss_rate": 50.0,
+    "take_profit_rate": 25.0,
+    "avg_stop_ticks": 111.3,
+    "signals": 4,
+    "retests": 13,
+    "breakouts": 49,
+    "event_metrics": {
+     "events": 49,
+     "signals": 4,
+     "traded": 4,
+     "retest_distance_ticks": {
+      "count": 43,
+      "median": 367.0,
+      "p90": 475.6,
+      "max": 624.5
+     },
+     "direct_stop_ticks": {
+      "count": 43,
+      "median": 619.0,
+      "p90": 911.0,
+      "max": 1303.0
+     },
+     "entry_delay_min": {
+      "count": 4,
+      "median": 71.0,
+      "p90": 118.2,
+      "max": 129.0
+     },
+     "direct_stop_cap_binding": 43,
+     "stop_cap_binding": 0
+    },
+    "stop_cap_sessions": 6,
+    "no_stop_sessions": 0,
+    "qty_zero_sessions": 0,
+    "ambiguous_bars": 0,
+    "days_traded": 61,
+    "winning_days": 1,
+    "losing_days": 3
+   },
+   "trades": [
+    {
+     "id": "ff5d5bf41479",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 5,
+     "entry_ts": 1747067940,
+     "entry_price": 22109.75,
+     "exit_ts": 1747068240,
+     "exit_price": 22125.25,
+     "stop": 22125.04,
+     "target": 22063.89,
+     "pnl": -161.2,
+     "gross_pnl": -155.0,
+     "fees": 6.2,
+     "r_multiple": -1.01,
+     "risk_amount": 152.9,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 22023.50 confirmada por cierre 15m · SMT bajista (NQ 22075.75, ES 6124.25) · retesteo de 50% del Opening Range 22120.12 con cierre de recuperación 22109.75",
+     "exit_reason": "stop_loss",
+     "duration_sec": 300,
+     "mode": "backtest",
+     "mfe_r": 0.18,
+     "mae_r": -1.28,
+     "mfe_usd": 27.5,
+     "mae_usd": -195.0,
+     "open_drawdown": 222.5,
+     "contract": "MNQM25",
+     "expiry": "2025-06-20",
+     "meta": {
+      "signal_id": "2025-05-12-short-1747059300",
+      "orb_high": 22216.75,
+      "orb_low": 22023.5,
+      "orb_mid": 22120.125,
+      "stop_ticks": 61.1,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-05-12-short-1747059300",
+      "retest_distance_ticks": 405.5,
+      "direct_stop_ticks": 438.0,
+      "entry_delay_min": 129.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1747059300,
+      "retest_ts": 1747067820,
+      "trigger_ts": 1747067880,
+      "direct_entry": false,
+      "contract": "MNQM25",
+      "expiry": "2025-06-20",
+      "planned_qty": 5,
+      "planned_risk_amount": 152.9,
+      "signal_entry": 22109.75,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "c3d772522032",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 5,
+     "entry_ts": 1747412280,
+     "entry_price": 22718.0,
+     "exit_ts": 1747415760,
+     "exit_price": 22731.0,
+     "stop": 22730.76,
+     "target": 22679.73,
+     "pnl": -136.2,
+     "gross_pnl": -130.0,
+     "fees": 6.2,
+     "r_multiple": -1.02,
+     "risk_amount": 127.6,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 22665.25 confirmada por cierre 15m · SMT bajista (NQ 22733.50, ES 6238.75) · retesteo de 50% del Opening Range 22723.50 con cierre de recuperación 22718.00",
+     "exit_reason": "stop_loss",
+     "duration_sec": 3480,
+     "mode": "backtest",
+     "mfe_r": 2.0,
+     "mae_r": -1.96,
+     "mfe_usd": 255.0,
+     "mae_usd": -250.0,
+     "open_drawdown": 505.0,
+     "contract": "MNQM25",
+     "expiry": "2025-06-20",
+     "meta": {
+      "signal_id": "2025-05-16-short-1747405800",
+      "orb_high": 22781.75,
+      "orb_low": 22665.25,
+      "orb_mid": 22723.5,
+      "stop_ticks": 51.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-05-16-short-1747405800",
+      "retest_distance_ticks": 479.0,
+      "direct_stop_ticks": 716.0,
+      "entry_delay_min": 93.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1747405800,
+      "retest_ts": 1747412100,
+      "trigger_ts": 1747412220,
+      "direct_entry": false,
+      "contract": "MNQM25",
+      "expiry": "2025-06-20",
+      "planned_qty": 5,
+      "planned_risk_amount": 127.6,
+      "signal_entry": 22718.0,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "434838513b7c",
+     "symbol": "MNQ",
+     "direction": "long",
+     "qty": 2,
+     "entry_ts": 1747933440,
+     "entry_price": 22488.5,
+     "exit_ts": 1747943760,
+     "exit_price": 22468.75,
+     "stop": 22442.5,
+     "target": 22627.5,
+     "pnl": -81.48,
+     "gross_pnl": -79.0,
+     "fees": 2.48,
+     "r_multiple": -0.43,
+     "risk_amount": 184.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura alcista del ORH 22569.50 confirmada por cierre 15m · SMT alcista (NQ 22475.75, ES 6144.75) · retesteo de 50% del Opening Range 22480.12 con cierre de recuperación 22488.75",
+     "exit_reason": "session_close",
+     "duration_sec": 10320,
+     "mode": "backtest",
+     "mfe_r": 2.74,
+     "mae_r": -0.44,
+     "mfe_usd": 505.0,
+     "mae_usd": -81.0,
+     "open_drawdown": 586.0,
+     "contract": "MNQM25",
+     "expiry": "2025-06-20",
+     "meta": {
+      "signal_id": "2025-05-22-long-1747929600",
+      "orb_high": 22569.5,
+      "orb_low": 22390.75,
+      "orb_mid": 22480.125,
+      "stop_ticks": 185.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-05-22-long-1747929600",
+      "retest_distance_ticks": 394.5,
+      "direct_stop_ticks": 545.0,
+      "entry_delay_min": 49.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1747929600,
+      "retest_ts": 1747933320,
+      "trigger_ts": 1747933380,
+      "direct_entry": false,
+      "contract": "MNQM25",
+      "expiry": "2025-06-20",
+      "planned_qty": 2,
+      "planned_risk_amount": 185.0,
+      "signal_entry": 22488.75
+     }
+    },
+    {
+     "id": "e9be99355563",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 3,
+     "entry_ts": 1750862820,
+     "entry_price": 23846.0,
+     "exit_ts": 1750873200,
+     "exit_price": 23737.5,
+     "stop": 23883.25,
+     "target": 23737.25,
+     "pnl": 647.28,
+     "gross_pnl": 651.0,
+     "fees": 3.72,
+     "r_multiple": 2.91,
+     "risk_amount": 223.5,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 23819.75 confirmada por cierre 15m · SMT bajista (NQ 23850.50, ES 6455.75) · retesteo de 50% del Opening Range 23851.00 con cierre de recuperación 23846.75",
+     "exit_reason": "take_profit",
+     "duration_sec": 10380,
+     "mode": "backtest",
+     "mfe_r": 3.32,
+     "mae_r": -0.04,
+     "mfe_usd": 742.5,
+     "mae_usd": -9.0,
+     "open_drawdown": 315.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-06-25-short-1750860000",
+      "orb_high": 23882.25,
+      "orb_low": 23819.75,
+      "orb_mid": 23851.0,
+      "stop_ticks": 146.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-06-25-short-1750860000",
+      "retest_distance_ticks": 170.0,
+      "direct_stop_ticks": 299.0,
+      "entry_delay_min": 32.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1750860000,
+      "retest_ts": 1750862640,
+      "trigger_ts": 1750862760,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 3,
+      "planned_risk_amount": 219.0,
+      "signal_entry": 23846.75,
+      "gap_target": false
+     }
+    }
+   ],
+   "dataset": {
+    "series_mode": "adjusted",
+    "selected_range": {
+     "first_ts": 1743512400,
+     "last_ts": 1751313540,
+     "first_et": "2025-04-01 09:00",
+     "last_et": "2025-06-30 15:59"
+    },
+    "sessions": 61,
+    "code": {
+     "sha256": "14d2c9f961089a72267cd3fb00c06bb4129e791f3a846d58b3032293a97f2931",
+     "algorithm": "sha256-tree-v1",
+     "roots": [
+      "server",
+      "tests"
+     ],
+     "files": 65
+    },
+    "config_sha256": "87b8b9f18dbce9e4739112cf734850fe75de7e82e7548425d246027d2234e708"
+   },
+   "elapsed_s": 81.9
+  },
+  {
+   "window": "W3",
+   "metrics": {
+    "trades": 9,
+    "wins": 2,
+    "losses": 7,
+    "breakeven": 0,
+    "win_rate": 22.22,
+    "profit_factor": 0.92,
+    "expectancy": -12.27,
+    "net_profit": -110.46,
+    "gross_profit": 1228.56,
+    "gross_loss": -1339.02,
+    "fees": 35.96,
+    "avg_win": 614.28,
+    "avg_loss": -191.29,
+    "avg_trade": -12.27,
+    "avg_r": -0.13,
+    "avg_mfe_r": 1.73,
+    "avg_mae_r": -1.06,
+    "avg_open_drawdown": 484.78,
+    "max_open_drawdown": 780.0,
+    "max_open_drawdown_pct": 3.12,
+    "open_drawdown": 780.0,
+    "open_drawdown_pct": 3.12,
+    "avg_mfe": 1.73,
+    "avg_mae": -1.06,
+    "total_r": -1.16,
+    "best_trade": 705.04,
+    "worst_trade": -348.72,
+    "max_drawdown": 1084.8,
+    "max_drawdown_pct": 4.176,
+    "equity_trough": 24889.54,
+    "sharpe": -0.21,
+    "sortino": -0.4,
+    "best_win_streak": 1,
+    "worst_loss_streak": 6,
+    "current_win_streak": 0,
+    "current_loss_streak": 6,
+    "avg_duration_sec": 6360,
+    "avg_win_r": 2.96,
+    "avg_loss_r": -1.01,
+    "equity_curve": [
+     {
+      "ts": 1751903940,
+      "equity": 25000.0
+     },
+     {
+      "ts": 1751912400,
+      "equity": 25523.52
+     },
+     {
+      "ts": 1751991960,
+      "equity": 25269.3
+     },
+     {
+      "ts": 1752607380,
+      "equity": 25974.34
+     },
+     {
+      "ts": 1753377120,
+      "equity": 25855.12
+     },
+     {
+      "ts": 1754935440,
+      "equity": 25506.4
+     },
+     {
+      "ts": 1756921500,
+      "equity": 25317.92
+     },
+     {
+      "ts": 1757349120,
+      "equity": 25211.72
+     },
+     {
+      "ts": 1757437260,
+      "equity": 25073.02
+     },
+     {
+      "ts": 1758298980,
+      "equity": 24889.54
+     }
+    ],
+    "daily": [
+     {
+      "key": "2025-07-01",
+      "label": "07-01",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-02",
+      "label": "07-02",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-03",
+      "label": "07-03",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-07",
+      "label": "07-07",
+      "pnl": 523.52
+     },
+     {
+      "key": "2025-07-08",
+      "label": "07-08",
+      "pnl": -254.22
+     },
+     {
+      "key": "2025-07-09",
+      "label": "07-09",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-10",
+      "label": "07-10",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-11",
+      "label": "07-11",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-14",
+      "label": "07-14",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-15",
+      "label": "07-15",
+      "pnl": 705.04
+     },
+     {
+      "key": "2025-07-16",
+      "label": "07-16",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-17",
+      "label": "07-17",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-18",
+      "label": "07-18",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-21",
+      "label": "07-21",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-22",
+      "label": "07-22",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-23",
+      "label": "07-23",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-24",
+      "label": "07-24",
+      "pnl": -119.22
+     },
+     {
+      "key": "2025-07-25",
+      "label": "07-25",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-28",
+      "label": "07-28",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-29",
+      "label": "07-29",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-30",
+      "label": "07-30",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-07-31",
+      "label": "07-31",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-01",
+      "label": "08-01",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-04",
+      "label": "08-04",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-05",
+      "label": "08-05",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-06",
+      "label": "08-06",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-07",
+      "label": "08-07",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-08",
+      "label": "08-08",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-11",
+      "label": "08-11",
+      "pnl": -348.72
+     },
+     {
+      "key": "2025-08-12",
+      "label": "08-12",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-13",
+      "label": "08-13",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-14",
+      "label": "08-14",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-15",
+      "label": "08-15",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-18",
+      "label": "08-18",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-19",
+      "label": "08-19",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-20",
+      "label": "08-20",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-21",
+      "label": "08-21",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-22",
+      "label": "08-22",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-25",
+      "label": "08-25",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-26",
+      "label": "08-26",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-27",
+      "label": "08-27",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-28",
+      "label": "08-28",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-08-29",
+      "label": "08-29",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-02",
+      "label": "09-02",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-03",
+      "label": "09-03",
+      "pnl": -188.48
+     },
+     {
+      "key": "2025-09-04",
+      "label": "09-04",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-05",
+      "label": "09-05",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-08",
+      "label": "09-08",
+      "pnl": -106.2
+     },
+     {
+      "key": "2025-09-09",
+      "label": "09-09",
+      "pnl": -138.7
+     },
+     {
+      "key": "2025-09-10",
+      "label": "09-10",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-12",
+      "label": "09-12",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-15",
+      "label": "09-15",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-16",
+      "label": "09-16",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-17",
+      "label": "09-17",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-18",
+      "label": "09-18",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-19",
+      "label": "09-19",
+      "pnl": -183.48
+     },
+     {
+      "key": "2025-09-22",
+      "label": "09-22",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-23",
+      "label": "09-23",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-24",
+      "label": "09-24",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-25",
+      "label": "09-25",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-26",
+      "label": "09-26",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-29",
+      "label": "09-29",
+      "pnl": 0.0
+     },
+     {
+      "key": "2025-09-30",
+      "label": "09-30",
+      "pnl": 0.0
+     }
+    ],
+    "monthly": [
+     {
+      "key": "2025-07",
+      "label": "2025-07",
+      "trades": 4,
+      "pnl": 855.1199999999999,
+      "wins": 2,
+      "win_rate": 50.0
+     },
+     {
+      "key": "2025-08",
+      "label": "2025-08",
+      "trades": 1,
+      "pnl": -348.72,
+      "wins": 0,
+      "win_rate": 0.0
+     },
+     {
+      "key": "2025-09",
+      "label": "2025-09",
+      "trades": 4,
+      "pnl": -616.86,
+      "wins": 0,
+      "win_rate": 0.0
+     }
+    ],
+    "by_hour": [
+     {
+      "key": 12,
+      "trades": 3,
+      "pnl": -543.9,
+      "wins": 0,
+      "losses": 3,
+      "label": "12:00",
+      "win_rate": 0.0
+     },
+     {
+      "key": 13,
+      "trades": 3,
+      "pnl": -446.4,
+      "wins": 0,
+      "losses": 3,
+      "label": "13:00",
+      "win_rate": 0.0
+     },
+     {
+      "key": 14,
+      "trades": 2,
+      "pnl": 174.79999999999995,
+      "wins": 1,
+      "losses": 1,
+      "label": "14:00",
+      "win_rate": 50.0
+     },
+     {
+      "key": 15,
+      "trades": 1,
+      "pnl": 705.04,
+      "wins": 1,
+      "losses": 0,
+      "label": "15:00",
+      "win_rate": 100.0
+     }
+    ],
+    "by_direction": [
+     {
+      "key": "long",
+      "trades": 3,
+      "pnl": -643.4000000000001,
+      "wins": 0,
+      "losses": 3,
+      "label": "Larga",
+      "win_rate": 0.0
+     },
+     {
+      "key": "short",
+      "trades": 6,
+      "pnl": 532.9399999999998,
+      "wins": 2,
+      "losses": 4,
+      "label": "Corta",
+      "win_rate": 33.3
+     }
+    ],
+    "by_signal": [
+     {
+      "key": "ORB+SMT+Retest",
+      "trades": 9,
+      "pnl": -110.46000000000012,
+      "wins": 2,
+      "losses": 7,
+      "label": "ORB+SMT+Retest",
+      "win_rate": 22.2
+     }
+    ],
+    "by_weekday": [
+     {
+      "key": 0,
+      "trades": 3,
+      "pnl": 68.59999999999995,
+      "wins": 1,
+      "losses": 2,
+      "label": "Lun"
+     },
+     {
+      "key": 1,
+      "trades": 3,
+      "pnl": 312.11999999999995,
+      "wins": 1,
+      "losses": 2,
+      "label": "Mar"
+     },
+     {
+      "key": 2,
+      "trades": 1,
+      "pnl": -188.48,
+      "wins": 0,
+      "losses": 1,
+      "label": "Mié"
+     },
+     {
+      "key": 3,
+      "trades": 1,
+      "pnl": -119.22,
+      "wins": 0,
+      "losses": 1,
+      "label": "Jue"
+     },
+     {
+      "key": 4,
+      "trades": 1,
+      "pnl": -183.48,
+      "wins": 0,
+      "losses": 1,
+      "label": "Vie"
+     }
+    ],
+    "distribution": {
+     "wins": 2,
+     "losses": 7,
+     "breakeven": 0
+    },
+    "exit_reasons": {
+     "stop_loss": 7,
+     "take_profit": 2
+    },
+    "stop_losses": 7,
+    "take_profits": 2,
+    "session_closes": 0,
+    "stop_loss_rate": 77.78,
+    "take_profit_rate": 22.22,
+    "avg_stop_ticks": 136.0,
+    "signals": 9,
+    "retests": 17,
+    "breakouts": 59,
+    "event_metrics": {
+     "events": 59,
+     "signals": 9,
+     "traded": 9,
+     "retest_distance_ticks": {
+      "count": 54,
+      "median": 277.5,
+      "p90": 439.65,
+      "max": 1252.5
+     },
+     "direct_stop_ticks": {
+      "count": 54,
+      "median": 461.0,
+      "p90": 751.5,
+      "max": 1454.0
+     },
+     "entry_delay_min": {
+      "count": 9,
+      "median": 48.0,
+      "p90": 96.6,
+      "max": 103.0
+     },
+     "direct_stop_cap_binding": 52,
+     "stop_cap_binding": 0
+    },
+    "stop_cap_sessions": 7,
+    "no_stop_sessions": 0,
+    "qty_zero_sessions": 0,
+    "ambiguous_bars": 0,
+    "days_traded": 63,
+    "winning_days": 2,
+    "losing_days": 7
+   },
+   "trades": [
+    {
+     "id": "4468c827abdb",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 2,
+     "entry_ts": 1751903940,
+     "entry_price": 24268.25,
+     "exit_ts": 1751912400,
+     "exit_price": 24136.75,
+     "stop": 24312.5,
+     "target": 24136.5,
+     "pnl": 523.52,
+     "gross_pnl": 526.0,
+     "fees": 2.48,
+     "r_multiple": 2.97,
+     "risk_amount": 177.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 24234.50 confirmada por cierre 15m · SMT bajista (NQ 24269.00, ES 6595.75) · retesteo de 50% del Opening Range 24273.00 con cierre de recuperación 24268.50",
+     "exit_reason": "take_profit",
+     "duration_sec": 8460,
+     "mode": "backtest",
+     "mfe_r": 3.02,
+     "mae_r": -0.64,
+     "mfe_usd": 534.0,
+     "mae_usd": -114.0,
+     "open_drawdown": 379.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-07-07-short-1751899500",
+      "orb_high": 24311.5,
+      "orb_low": 24234.5,
+      "orb_mid": 24273.0,
+      "stop_ticks": 176.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-07-07-short-1751899500",
+      "retest_distance_ticks": 174.0,
+      "direct_stop_ticks": 332.0,
+      "entry_delay_min": 59.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1751899500,
+      "retest_ts": 1751903820,
+      "trigger_ts": 1751903880,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 2,
+      "planned_risk_amount": 176.0,
+      "signal_entry": 24268.5,
+      "gap_target": false
+     }
+    },
+    {
+     "id": "cee310bc4c1c",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 3,
+     "entry_ts": 1751985960,
+     "entry_price": 24244.75,
+     "exit_ts": 1751991960,
+     "exit_price": 24286.5,
+     "stop": 24286.25,
+     "target": 24121.25,
+     "pnl": -254.22,
+     "gross_pnl": -250.5,
+     "fees": 3.72,
+     "r_multiple": -1.01,
+     "risk_amount": 249.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 24215.00 confirmada por cierre 15m · SMT bajista (NQ 24259.00, ES 6580.75) · retesteo de 50% del Opening Range 24252.62 con cierre de recuperación 24245.00",
+     "exit_reason": "stop_loss",
+     "duration_sec": 6000,
+     "mode": "backtest",
+     "mfe_r": 1.68,
+     "mae_r": -1.19,
+     "mfe_usd": 418.5,
+     "mae_usd": -295.5,
+     "open_drawdown": 714.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-07-08-short-1751984100",
+      "orb_high": 24290.25,
+      "orb_low": 24215.0,
+      "orb_mid": 24252.625,
+      "stop_ticks": 165.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-07-08-short-1751984100",
+      "retest_distance_ticks": 174.5,
+      "direct_stop_ticks": 329.0,
+      "entry_delay_min": 16.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1751984100,
+      "retest_ts": 1751985240,
+      "trigger_ts": 1751985900,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 3,
+      "planned_risk_amount": 247.5,
+      "signal_entry": 24245.0,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "80bff5a2a5b7",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 4,
+     "entry_ts": 1752593460,
+     "entry_price": 24503.5,
+     "exit_ts": 1752607380,
+     "exit_price": 24414.75,
+     "stop": 24533.5,
+     "target": 24414.5,
+     "pnl": 705.04,
+     "gross_pnl": 710.0,
+     "fees": 4.96,
+     "r_multiple": 2.96,
+     "risk_amount": 240.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 24457.00 confirmada por cierre 15m · SMT bajista (NQ 24521.25, ES 6621.50) · retesteo de 50% del Opening Range 24506.88 con cierre de recuperación 24503.75",
+     "exit_reason": "take_profit",
+     "duration_sec": 13920,
+     "mode": "backtest",
+     "mfe_r": 3.13,
+     "mae_r": -0.38,
+     "mfe_usd": 752.0,
+     "mae_usd": -92.0,
+     "open_drawdown": 780.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-07-15-short-1752590700",
+      "orb_high": 24556.75,
+      "orb_low": 24457.0,
+      "orb_mid": 24506.875,
+      "stop_ticks": 119.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-07-15-short-1752590700",
+      "retest_distance_ticks": 293.5,
+      "direct_stop_ticks": 497.0,
+      "entry_delay_min": 31.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1752590700,
+      "retest_ts": 1752593340,
+      "trigger_ts": 1752593400,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 4,
+      "planned_risk_amount": 238.0,
+      "signal_entry": 24503.75,
+      "gap_target": false
+     }
+    },
+    {
+     "id": "93f087beac00",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 3,
+     "entry_ts": 1753370520,
+     "entry_price": 24717.0,
+     "exit_ts": 1753377120,
+     "exit_price": 24736.25,
+     "stop": 24736.0,
+     "target": 24571.0,
+     "pnl": -119.22,
+     "gross_pnl": -115.5,
+     "fees": 3.72,
+     "r_multiple": -1.01,
+     "risk_amount": 114.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 24668.25 confirmada por cierre 15m · SMT bajista (NQ 24727.50, ES 6713.50) · retesteo de 50% del Opening Range 24701.62 con cierre de recuperación 24694.75",
+     "exit_reason": "stop_loss",
+     "duration_sec": 6600,
+     "mode": "backtest",
+     "mfe_r": 2.26,
+     "mae_r": -1.14,
+     "mfe_usd": 258.0,
+     "mae_usd": -130.5,
+     "open_drawdown": 388.5,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-07-24-short-1753365600",
+      "orb_high": 24735.0,
+      "orb_low": 24668.25,
+      "orb_mid": 24701.625,
+      "stop_ticks": 165.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-07-24-short-1753365600",
+      "retest_distance_ticks": 221.5,
+      "direct_stop_ticks": 359.0,
+      "entry_delay_min": 35.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1753365600,
+      "retest_ts": 1753368480,
+      "trigger_ts": 1753368540,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 3,
+      "planned_risk_amount": 247.5,
+      "signal_entry": 24694.75,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "06853e8978b5",
+     "symbol": "MNQ",
+     "direction": "long",
+     "qty": 3,
+     "entry_ts": 1754925240,
+     "entry_price": 25071.0,
+     "exit_ts": 1754935440,
+     "exit_price": 25013.5,
+     "stop": 25013.75,
+     "target": 25158.75,
+     "pnl": -348.72,
+     "gross_pnl": -345.0,
+     "fees": 3.72,
+     "r_multiple": -1.0,
+     "risk_amount": 343.5,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura alcista del ORH 25079.25 confirmada por cierre 15m · SMT alcista (NQ 25049.00, ES 6704.75) · retesteo de 50% del Opening Range 25047.00 con cierre de recuperación 25050.00",
+     "exit_reason": "stop_loss",
+     "duration_sec": 10200,
+     "mode": "backtest",
+     "mfe_r": 1.18,
+     "mae_r": -1.05,
+     "mfe_usd": 405.0,
+     "mae_usd": -360.0,
+     "open_drawdown": 765.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-08-11-long-1754920800",
+      "orb_high": 25079.25,
+      "orb_low": 25014.75,
+      "orb_mid": 25047.0,
+      "stop_ticks": 145.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-08-11-long-1754920800",
+      "retest_distance_ticks": 132.0,
+      "direct_stop_ticks": 265.0,
+      "entry_delay_min": 53.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1754920800,
+      "retest_ts": 1754924760,
+      "trigger_ts": 1754924820,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 3,
+      "planned_risk_amount": 217.5,
+      "signal_entry": 25050.0,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "336a36438db8",
+     "symbol": "MNQ",
+     "direction": "long",
+     "qty": 2,
+     "entry_ts": 1756913580,
+     "entry_price": 24749.25,
+     "exit_ts": 1756921500,
+     "exit_price": 24702.75,
+     "stop": 24703.0,
+     "target": 24889.0,
+     "pnl": -188.48,
+     "gross_pnl": -186.0,
+     "fees": 2.48,
+     "r_multiple": -1.01,
+     "risk_amount": 185.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura alcista del ORH 24791.00 confirmada por cierre 15m · SMT alcista (NQ 24705.75, ES 6745.00) · retesteo de 50% del Opening Range 24747.50 con cierre de recuperación 24749.50",
+     "exit_reason": "stop_loss",
+     "duration_sec": 7920,
+     "mode": "backtest",
+     "mfe_r": 1.05,
+     "mae_r": -1.49,
+     "mfe_usd": 195.0,
+     "mae_usd": -276.0,
+     "open_drawdown": 471.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-09-03-long-1756909800",
+      "orb_high": 24791.0,
+      "orb_low": 24704.0,
+      "orb_mid": 24747.5,
+      "stop_ticks": 186.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-09-03-long-1756909800",
+      "retest_distance_ticks": 374.0,
+      "direct_stop_ticks": 552.0,
+      "entry_delay_min": 48.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1756909800,
+      "retest_ts": 1756913460,
+      "trigger_ts": 1756913520,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 2,
+      "planned_risk_amount": 186.0,
+      "signal_entry": 24749.5,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "791f070033fd",
+     "symbol": "MNQ",
+     "direction": "long",
+     "qty": 5,
+     "entry_ts": 1757348880,
+     "entry_price": 25157.25,
+     "exit_ts": 1757349120,
+     "exit_price": 25147.25,
+     "stop": 25147.42,
+     "target": 25184.75,
+     "pnl": -106.2,
+     "gross_pnl": -100.0,
+     "fees": 6.2,
+     "r_multiple": -1.02,
+     "risk_amount": 98.3,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura alcista del ORH 25210.25 confirmada por cierre 15m · SMT alcista (NQ 25188.75, ES 6809.50) · retesteo de 50% del Opening Range 25155.62 con cierre de recuperación 25156.75",
+     "exit_reason": "stop_loss",
+     "duration_sec": 240,
+     "mode": "backtest",
+     "mfe_r": 1.45,
+     "mae_r": -1.42,
+     "mfe_usd": 142.5,
+     "mae_usd": -140.0,
+     "open_drawdown": 282.5,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-09-08-long-1757341800",
+      "orb_high": 25210.25,
+      "orb_low": 25101.0,
+      "orb_mid": 25155.625,
+      "stop_ticks": 37.3,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-09-08-long-1757341800",
+      "retest_distance_ticks": 237.5,
+      "direct_stop_ticks": 441.0,
+      "entry_delay_min": 103.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1757341800,
+      "retest_ts": 1757348760,
+      "trigger_ts": 1757348820,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 5,
+      "planned_risk_amount": 93.3,
+      "signal_entry": 25156.75,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "bcfad4350b35",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 5,
+     "entry_ts": 1757434800,
+     "entry_price": 25151.0,
+     "exit_ts": 1757437260,
+     "exit_price": 25164.25,
+     "stop": 25163.88,
+     "target": 25111.38,
+     "pnl": -138.7,
+     "gross_pnl": -132.5,
+     "fees": 6.2,
+     "r_multiple": -1.03,
+     "risk_amount": 128.8,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 25134.00 confirmada por cierre 15m · SMT bajista (NQ 25146.75, ES 6803.50) · retesteo de 50% del Opening Range 25162.88 con cierre de recuperación 25150.75",
+     "exit_reason": "stop_loss",
+     "duration_sec": 2460,
+     "mode": "backtest",
+     "mfe_r": 1.67,
+     "mae_r": -1.13,
+     "mfe_usd": 215.0,
+     "mae_usd": -145.0,
+     "open_drawdown": 360.0,
+     "contract": "MNQU25",
+     "expiry": "2025-09-19",
+     "meta": {
+      "signal_id": "2025-09-09-short-1757428200",
+      "orb_high": 25191.75,
+      "orb_low": 25134.0,
+      "orb_mid": 25162.875,
+      "stop_ticks": 52.5,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-09-09-short-1757428200",
+      "retest_distance_ticks": 338.5,
+      "direct_stop_ticks": 342.5,
+      "entry_delay_min": 95.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1757428200,
+      "retest_ts": 1757434500,
+      "trigger_ts": 1757434740,
+      "direct_entry": false,
+      "contract": "MNQU25",
+      "expiry": "2025-09-19",
+      "planned_qty": 5,
+      "planned_risk_amount": 131.3,
+      "signal_entry": 25150.75,
+      "gap_stop": false
+     }
+    },
+    {
+     "id": "ba2d7cee9721",
+     "symbol": "MNQ",
+     "direction": "short",
+     "qty": 2,
+     "entry_ts": 1758297540,
+     "entry_price": 25845.0,
+     "exit_ts": 1758298980,
+     "exit_price": 25890.25,
+     "stop": 25890.0,
+     "target": 25710.0,
+     "pnl": -183.48,
+     "gross_pnl": -181.0,
+     "fees": 2.48,
+     "r_multiple": -1.01,
+     "risk_amount": 180.0,
+     "signal_type": "ORB+SMT+Retest",
+     "entry_reason": "Ruptura bajista del ORL 25806.25 confirmada por cierre 15m · SMT bajista (NQ 25861.25, ES 6950.50) · retesteo de 50% del Opening Range 25847.62 con cierre de recuperación 25845.00",
+     "exit_reason": "stop_loss",
+     "duration_sec": 1440,
+     "mode": "backtest",
+     "mfe_r": 0.11,
+     "mae_r": -1.13,
+     "mfe_usd": 19.0,
+     "mae_usd": -204.0,
+     "open_drawdown": 223.0,
+     "contract": "MNQZ25",
+     "expiry": "2025-12-19",
+     "meta": {
+      "signal_id": "2025-09-19-short-1758294900",
+      "orb_high": 25889.0,
+      "orb_low": 25806.25,
+      "orb_mid": 25847.625,
+      "stop_ticks": 180.0,
+      "rr": 3.0,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "retest_depth": 1.0,
+      "or_retracement_pct": null,
+      "event_id": "2025-09-19-short-1758294900",
+      "retest_distance_ticks": 195.5,
+      "direct_stop_ticks": 365.0,
+      "entry_delay_min": 29.0,
+      "sl_mode": "structural",
+      "require_recovery_close": true,
+      "structural_depth": 3,
+      "sl_buffer_ticks": 4,
+      "breakout_ts": 1758294900,
+      "retest_ts": 1758297420,
+      "trigger_ts": 1758297480,
+      "direct_entry": false,
+      "contract": "MNQZ25",
+      "expiry": "2025-12-19",
+      "planned_qty": 2,
+      "planned_risk_amount": 180.0,
+      "signal_entry": 25845.0,
+      "gap_stop": false
+     }
+    }
+   ],
+   "dataset": {
+    "series_mode": "adjusted",
+    "selected_range": {
+     "first_ts": 1751374800,
+     "last_ts": 1759262340,
+     "first_et": "2025-07-01 09:00",
+     "last_et": "2025-09-30 15:59"
+    },
+    "sessions": 63,
+    "code": {
+     "sha256": "14d2c9f961089a72267cd3fb00c06bb4129e791f3a846d58b3032293a97f2931",
+     "algorithm": "sha256-tree-v1",
+     "roots": [
+      "server",
+      "tests"
+     ],
+     "files": 65
+    },
+    "config_sha256": "87b8b9f18dbce9e4739112cf734850fe75de7e82e7548425d246027d2234e708"
+   },
+   "elapsed_s": 85.7
+  }
+ ]
+}

@@ -1,0 +1,169 @@
+{
+  "window": {
+    "arms": {
+      "control": {
+        "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+        "config_file_sha256": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+        "port": 8775,
+        "profile_dir": "arms/control/profile"
+      },
+      "treatment": {
+        "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+        "config_file_sha256": "7a5835b6a1f20054848f0161fe7a91d29921a82d8e2c535f23d610874ace56a0",
+        "port": 8776,
+        "profile_dir": "arms/treatment/profile"
+      }
+    },
+    "created_at": "2026-11-24T00:40:07Z",
+    "holdout_used": false,
+    "kind": "harness",
+    "note": "Prueba hostil de arnés; sin feed, cero trades. No es desempeño.",
+    "schema": "forward-window-v1",
+    "sessions_target": 378,
+    "start_date": "2026-12-01",
+    "window_id": "HARNESS-20261123-184005-14756"
+  },
+  "window_id": "HARNESS-20261123-184005-14756",
+  "status": "NO_VALIDA",
+  "arms": {
+    "control": {
+      "arm": "control",
+      "status": "NO_VALIDA",
+      "chain_ok": true,
+      "chain_problems": [],
+      "hash_ok": true,
+      "hash_problems": [],
+      "config_ok": true,
+      "config_file_sha256_current": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+      "sessions_sealed": 1,
+      "sessions_valid": 1,
+      "last_session": "2026-11-24",
+      "signals_total": 0,
+      "trades_total": 0,
+      "net_pnl": 0.0,
+      "equity": 25000.0,
+      "max_drawdown": 0.0,
+      "config_file_sha256": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+      "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+      "events": 12,
+      "last_event": {
+        "event": "SESSION_CLOSED",
+        "seq": 12,
+        "ts": "2026-11-24T00:40:21Z"
+      },
+      "violations": [
+        {
+          "seq": 5,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "PUT",
+            "path": "/api/config",
+            "query": ""
+          }
+        },
+        {
+          "seq": 6,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/bot/start",
+            "query": ""
+          }
+        },
+        {
+          "seq": 7,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/position/close",
+            "query": ""
+          }
+        },
+        {
+          "seq": 8,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/orders/cancel",
+            "query": ""
+          }
+        },
+        {
+          "seq": 9,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/emergency",
+            "query": ""
+          }
+        },
+        {
+          "seq": 10,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "DELETE",
+            "path": "/api/emergency",
+            "query": ""
+          }
+        },
+        {
+          "seq": 11,
+          "ts": "2026-11-24T00:40:19Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/stats/reset",
+            "query": ""
+          }
+        }
+      ],
+      "integrity_failures": [],
+      "supervisor": {
+        "events": 5,
+        "restarts": 1,
+        "last_event": "ARM_SPAWN"
+      }
+    },
+    "treatment": {
+      "arm": "treatment",
+      "status": "ACTIVA",
+      "chain_ok": true,
+      "chain_problems": [],
+      "hash_ok": true,
+      "hash_problems": [],
+      "config_ok": true,
+      "config_file_sha256_current": "7a5835b6a1f20054848f0161fe7a91d29921a82d8e2c535f23d610874ace56a0",
+      "sessions_sealed": 1,
+      "sessions_valid": 1,
+      "last_session": "2026-11-24",
+      "signals_total": 0,
+      "trades_total": 0,
+      "net_pnl": 0.0,
+      "equity": 25000.0,
+      "max_drawdown": 0.0,
+      "config_file_sha256": "7a5835b6a1f20054848f0161fe7a91d29921a82d8e2c535f23d610874ace56a0",
+      "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+      "events": 3,
+      "last_event": {
+        "event": "SESSION_CLOSED",
+        "seq": 3,
+        "ts": "2026-11-24T00:40:24Z"
+      },
+      "violations": [],
+      "integrity_failures": [],
+      "supervisor": {
+        "events": 2,
+        "restarts": 0,
+        "last_event": "ARM_SPAWN"
+      }
+    }
+  },
+  "generated_at": "2026-11-24T00:40:27Z",
+  "read_only": true
+}

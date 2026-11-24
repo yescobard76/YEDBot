@@ -1,0 +1,1418 @@
+{
+  "schema": "hour11-entry-filter-v1",
+  "source": {
+    "paper_db": "reports\\backtest\\preset_card_8766.db",
+    "bars": "data\\real\\bars_mnq_nq_es_1m.csv",
+    "be_reference": "reports\\backtest\\breakeven_1r_experiment.json",
+    "filtered_trades": 44,
+    "hour11_losses": 8,
+    "hour11_loss_usd": -1729.86,
+    "winners": 22,
+    "losses": 22,
+    "holdout_used": false
+  },
+  "definitions": {
+    "ret3_dir": "retorno 3 velas / ancho ORB, firmado por dirección",
+    "ret20_dir": "retorno 20 velas / ancho ORB, firmado por dirección",
+    "vwap_dir": "(entry - VWAP sesión) / ancho ORB, firmado por dirección",
+    "entry_min": "minutos desde 09:30 ET",
+    "core": "ret3_dir <= -0,05 y ret20_dir <= -0,40",
+    "extended": "core o (10:50 <= entry_min < 11:05 y vwap_dir <= 0)",
+    "wide": "core o (10:45 <= entry_min < 11:15 y vwap_dir <= 0)",
+    "time_only": "(10:50 <= entry_min < 11:05 y vwap_dir <= 0)"
+  },
+  "hour11_losses": [
+    {
+      "signal_id": "2025-02-19-short-1739977200",
+      "entry_et": "2025-02-19 10:33",
+      "exit_et": "2025-02-19 11:11",
+      "direction": "short",
+      "pnl": -220.48,
+      "mfe_r": 0.4,
+      "ret3_dir": -0.097,
+      "ret20_dir": -0.472,
+      "vwap_dir": 0.004,
+      "entry_min": 63.0
+    },
+    {
+      "signal_id": "2025-07-23-short-1753279200",
+      "entry_et": "2025-07-23 11:02",
+      "exit_et": "2025-07-23 11:54",
+      "direction": "short",
+      "pnl": -232.48,
+      "mfe_r": 0.53,
+      "ret3_dir": -0.028,
+      "ret20_dir": -0.204,
+      "vwap_dir": -0.172,
+      "entry_min": 92.0
+    },
+    {
+      "signal_id": "2025-09-04-short-1756994400",
+      "entry_et": "2025-09-04 11:13",
+      "exit_et": "2025-09-04 11:22",
+      "direction": "short",
+      "pnl": -176.48,
+      "mfe_r": 0.32,
+      "ret3_dir": 0.327,
+      "ret20_dir": 0.203,
+      "vwap_dir": -0.238,
+      "entry_min": 103.0
+    },
+    {
+      "signal_id": "2025-09-29-long-1759155300",
+      "entry_et": "2025-09-29 11:12",
+      "exit_et": "2025-09-29 11:36",
+      "direction": "long",
+      "pnl": -239.48,
+      "mfe_r": 0.0,
+      "ret3_dir": -0.22,
+      "ret20_dir": -0.516,
+      "vwap_dir": -0.195,
+      "entry_min": 102.0
+    },
+    {
+      "signal_id": "2025-10-15-long-1760536800",
+      "entry_et": "2025-10-15 11:43",
+      "exit_et": "2025-10-15 11:50",
+      "direction": "long",
+      "pnl": -268.48,
+      "mfe_r": 0.05,
+      "ret3_dir": -0.233,
+      "ret20_dir": -0.921,
+      "vwap_dir": -0.502,
+      "entry_min": 133.0
+    },
+    {
+      "signal_id": "2025-11-20-long-1763652600",
+      "entry_et": "2025-11-20 10:52",
+      "exit_et": "2025-11-20 11:00",
+      "direction": "long",
+      "pnl": -150.24,
+      "mfe_r": 0.1,
+      "ret3_dir": -0.125,
+      "ret20_dir": -0.38,
+      "vwap_dir": -0.072,
+      "entry_min": 82.0
+    },
+    {
+      "signal_id": "2026-04-09-short-1775744100",
+      "entry_et": "2026-04-09 11:02",
+      "exit_et": "2026-04-09 11:32",
+      "direction": "short",
+      "pnl": -153.74,
+      "mfe_r": 0.3,
+      "ret3_dir": 0.045,
+      "ret20_dir": -0.462,
+      "vwap_dir": -0.088,
+      "entry_min": 92.0
+    },
+    {
+      "signal_id": "2026-04-21-long-1776780000",
+      "entry_et": "2026-04-21 10:49",
+      "exit_et": "2026-04-21 11:00",
+      "direction": "long",
+      "pnl": -288.48,
+      "mfe_r": 0.16,
+      "ret3_dir": -0.091,
+      "ret20_dir": -0.41,
+      "vwap_dir": -0.111,
+      "entry_min": 79.0
+    }
+  ],
+  "rules": {
+    "core": {
+      "rule": "core",
+      "removed_trades": 8,
+      "kept_trades": 36,
+      "hour11_losses_total": 8,
+      "hour11_losses_avoided": 4,
+      "hour11_loss_usd_avoided": 1016.92,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "other_losses_removed": 4,
+      "other_loss_usd_avoided": 824.16,
+      "net_delta_base": 1841.08,
+      "net_delta_be": 1430.08,
+      "removed": {
+        "hour11": [
+          {
+            "signal_id": "2025-02-19-short-1739977200",
+            "entry_et": "2025-02-19 10:33",
+            "exit_et": "2025-02-19 11:11",
+            "direction": "short",
+            "pnl": -220.48,
+            "mfe_r": 0.4,
+            "ret3_dir": -0.097,
+            "ret20_dir": -0.472,
+            "vwap_dir": 0.004,
+            "entry_min": 63.0
+          },
+          {
+            "signal_id": "2025-09-29-long-1759155300",
+            "entry_et": "2025-09-29 11:12",
+            "exit_et": "2025-09-29 11:36",
+            "direction": "long",
+            "pnl": -239.48,
+            "mfe_r": 0.0,
+            "ret3_dir": -0.22,
+            "ret20_dir": -0.516,
+            "vwap_dir": -0.195,
+            "entry_min": 102.0
+          },
+          {
+            "signal_id": "2025-10-15-long-1760536800",
+            "entry_et": "2025-10-15 11:43",
+            "exit_et": "2025-10-15 11:50",
+            "direction": "long",
+            "pnl": -268.48,
+            "mfe_r": 0.05,
+            "ret3_dir": -0.233,
+            "ret20_dir": -0.921,
+            "vwap_dir": -0.502,
+            "entry_min": 133.0
+          },
+          {
+            "signal_id": "2026-04-21-long-1776780000",
+            "entry_et": "2026-04-21 10:49",
+            "exit_et": "2026-04-21 11:00",
+            "direction": "long",
+            "pnl": -288.48,
+            "mfe_r": 0.16,
+            "ret3_dir": -0.091,
+            "ret20_dir": -0.41,
+            "vwap_dir": -0.111,
+            "entry_min": 79.0
+          }
+        ],
+        "winners": [],
+        "other_losses": [
+          {
+            "signal_id": "2025-07-30-long-1753890300",
+            "entry_et": "2025-07-30 14:52",
+            "exit_et": "2025-07-30 14:55",
+            "direction": "long",
+            "pnl": -222.72,
+            "mfe_r": 0.09,
+            "ret3_dir": -0.295,
+            "ret20_dir": -0.881,
+            "vwap_dir": -0.051,
+            "entry_min": 322.0
+          },
+          {
+            "signal_id": "2025-09-03-long-1756909800",
+            "entry_et": "2025-09-03 11:33",
+            "exit_et": "2025-09-03 13:45",
+            "direction": "long",
+            "pnl": -188.48,
+            "mfe_r": 1.05,
+            "ret3_dir": -0.063,
+            "ret20_dir": -0.842,
+            "vwap_dir": -0.283,
+            "entry_min": 123.0
+          },
+          {
+            "signal_id": "2025-09-19-short-1758294900",
+            "entry_et": "2025-09-19 11:59",
+            "exit_et": "2025-09-19 12:23",
+            "direction": "short",
+            "pnl": -183.48,
+            "mfe_r": 0.11,
+            "ret3_dir": -0.051,
+            "ret20_dir": -0.532,
+            "vwap_dir": -0.112,
+            "entry_min": 149.0
+          },
+          {
+            "signal_id": "2025-12-16-short-1765907100",
+            "entry_et": "2025-12-16 13:43",
+            "exit_et": "2025-12-16 15:04",
+            "direction": "short",
+            "pnl": -229.48,
+            "mfe_r": 1.32,
+            "ret3_dir": -0.061,
+            "ret20_dir": -0.491,
+            "vwap_dir": -0.094,
+            "entry_min": 253.0
+          }
+        ]
+      },
+      "remaining_hour11": [
+        {
+          "signal_id": "2025-07-23-short-1753279200",
+          "entry_et": "2025-07-23 11:02",
+          "exit_et": "2025-07-23 11:54",
+          "direction": "short",
+          "pnl": -232.48,
+          "mfe_r": 0.53,
+          "ret3_dir": -0.028,
+          "ret20_dir": -0.204,
+          "vwap_dir": -0.172,
+          "entry_min": 92.0
+        },
+        {
+          "signal_id": "2025-09-04-short-1756994400",
+          "entry_et": "2025-09-04 11:13",
+          "exit_et": "2025-09-04 11:22",
+          "direction": "short",
+          "pnl": -176.48,
+          "mfe_r": 0.32,
+          "ret3_dir": 0.327,
+          "ret20_dir": 0.203,
+          "vwap_dir": -0.238,
+          "entry_min": 103.0
+        },
+        {
+          "signal_id": "2025-11-20-long-1763652600",
+          "entry_et": "2025-11-20 10:52",
+          "exit_et": "2025-11-20 11:00",
+          "direction": "long",
+          "pnl": -150.24,
+          "mfe_r": 0.1,
+          "ret3_dir": -0.125,
+          "ret20_dir": -0.38,
+          "vwap_dir": -0.072,
+          "entry_min": 82.0
+        },
+        {
+          "signal_id": "2026-04-09-short-1775744100",
+          "entry_et": "2026-04-09 11:02",
+          "exit_et": "2026-04-09 11:32",
+          "direction": "short",
+          "pnl": -153.74,
+          "mfe_r": 0.3,
+          "ret3_dir": 0.045,
+          "ret20_dir": -0.462,
+          "vwap_dir": -0.088,
+          "entry_min": 92.0
+        }
+      ],
+      "base_before": {
+        "trades": 44,
+        "wins": 22,
+        "losses": 22,
+        "win_rate": 50.0,
+        "net_profit": 4543.62,
+        "profit_factor": 2.0,
+        "max_drawdown": 2128.28,
+        "max_drawdown_pct": 7.341,
+        "worst_loss_streak": 10,
+        "avg_r": 0.55,
+        "gross_profit": 9106.2,
+        "gross_loss": -4562.58
+      },
+      "base_after": {
+        "trades": 36,
+        "wins": 22,
+        "losses": 14,
+        "win_rate": 61.11,
+        "net_profit": 6384.7,
+        "profit_factor": 3.35,
+        "max_drawdown": 1294.12,
+        "max_drawdown_pct": 4.43,
+        "worst_loss_streak": 6,
+        "avg_r": 0.89,
+        "gross_profit": 9106.2,
+        "gross_loss": -2721.5
+      },
+      "be_before": {
+        "trades": 44,
+        "wins": 16,
+        "losses": 28,
+        "win_rate": 36.36,
+        "net_profit": 3670.12,
+        "profit_factor": 2.2,
+        "max_drawdown": 1501.44,
+        "max_drawdown_pct": 5.42,
+        "worst_loss_streak": 13,
+        "avg_r": 0.55,
+        "gross_profit": 6736.56,
+        "gross_loss": -3066.44
+      },
+      "be_after": {
+        "trades": 36,
+        "wins": 16,
+        "losses": 20,
+        "win_rate": 44.44,
+        "net_profit": 5100.2,
+        "profit_factor": 4.12,
+        "max_drawdown": 852.28,
+        "max_drawdown_pct": 3.052,
+        "worst_loss_streak": 9,
+        "avg_r": 0.89,
+        "gross_profit": 6736.56,
+        "gross_loss": -1636.36
+      },
+      "by_period": {
+        "2025": {
+          "all": {
+            "trades": 39,
+            "hour11_losses": 6,
+            "net_profit": 4383.06
+          },
+          "removed": {
+            "trades": 7,
+            "hour11_losses": 3,
+            "winners": 0,
+            "pnl": -1552.6
+          },
+          "kept": {
+            "trades": 32,
+            "hour11_losses": 3,
+            "net_profit": 5935.66
+          }
+        },
+        "2026": {
+          "all": {
+            "trades": 5,
+            "hour11_losses": 2,
+            "net_profit": 160.56
+          },
+          "removed": {
+            "trades": 1,
+            "hour11_losses": 1,
+            "winners": 0,
+            "pnl": -288.48
+          },
+          "kept": {
+            "trades": 4,
+            "hour11_losses": 1,
+            "net_profit": 449.04
+          }
+        }
+      },
+      "removed_ids": [
+        "2025-02-19-short-1739977200",
+        "2025-07-30-long-1753890300",
+        "2025-09-03-long-1756909800",
+        "2025-09-19-short-1758294900",
+        "2025-09-29-long-1759155300",
+        "2025-10-15-long-1760536800",
+        "2025-12-16-short-1765907100",
+        "2026-04-21-long-1776780000"
+      ]
+    },
+    "extended": {
+      "rule": "extended",
+      "removed_trades": 13,
+      "kept_trades": 31,
+      "hour11_losses_total": 8,
+      "hour11_losses_avoided": 7,
+      "hour11_loss_usd_avoided": 1553.38,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "other_losses_removed": 6,
+      "other_loss_usd_avoided": 1234.12,
+      "net_delta_base": 2787.5,
+      "net_delta_be": 1973.5,
+      "removed": {
+        "hour11": [
+          {
+            "signal_id": "2025-02-19-short-1739977200",
+            "entry_et": "2025-02-19 10:33",
+            "exit_et": "2025-02-19 11:11",
+            "direction": "short",
+            "pnl": -220.48,
+            "mfe_r": 0.4,
+            "ret3_dir": -0.097,
+            "ret20_dir": -0.472,
+            "vwap_dir": 0.004,
+            "entry_min": 63.0
+          },
+          {
+            "signal_id": "2025-07-23-short-1753279200",
+            "entry_et": "2025-07-23 11:02",
+            "exit_et": "2025-07-23 11:54",
+            "direction": "short",
+            "pnl": -232.48,
+            "mfe_r": 0.53,
+            "ret3_dir": -0.028,
+            "ret20_dir": -0.204,
+            "vwap_dir": -0.172,
+            "entry_min": 92.0
+          },
+          {
+            "signal_id": "2025-09-29-long-1759155300",
+            "entry_et": "2025-09-29 11:12",
+            "exit_et": "2025-09-29 11:36",
+            "direction": "long",
+            "pnl": -239.48,
+            "mfe_r": 0.0,
+            "ret3_dir": -0.22,
+            "ret20_dir": -0.516,
+            "vwap_dir": -0.195,
+            "entry_min": 102.0
+          },
+          {
+            "signal_id": "2025-10-15-long-1760536800",
+            "entry_et": "2025-10-15 11:43",
+            "exit_et": "2025-10-15 11:50",
+            "direction": "long",
+            "pnl": -268.48,
+            "mfe_r": 0.05,
+            "ret3_dir": -0.233,
+            "ret20_dir": -0.921,
+            "vwap_dir": -0.502,
+            "entry_min": 133.0
+          },
+          {
+            "signal_id": "2025-11-20-long-1763652600",
+            "entry_et": "2025-11-20 10:52",
+            "exit_et": "2025-11-20 11:00",
+            "direction": "long",
+            "pnl": -150.24,
+            "mfe_r": 0.1,
+            "ret3_dir": -0.125,
+            "ret20_dir": -0.38,
+            "vwap_dir": -0.072,
+            "entry_min": 82.0
+          },
+          {
+            "signal_id": "2026-04-09-short-1775744100",
+            "entry_et": "2026-04-09 11:02",
+            "exit_et": "2026-04-09 11:32",
+            "direction": "short",
+            "pnl": -153.74,
+            "mfe_r": 0.3,
+            "ret3_dir": 0.045,
+            "ret20_dir": -0.462,
+            "vwap_dir": -0.088,
+            "entry_min": 92.0
+          },
+          {
+            "signal_id": "2026-04-21-long-1776780000",
+            "entry_et": "2026-04-21 10:49",
+            "exit_et": "2026-04-21 11:00",
+            "direction": "long",
+            "pnl": -288.48,
+            "mfe_r": 0.16,
+            "ret3_dir": -0.091,
+            "ret20_dir": -0.41,
+            "vwap_dir": -0.111,
+            "entry_min": 79.0
+          }
+        ],
+        "winners": [],
+        "other_losses": [
+          {
+            "signal_id": "2025-02-06-long-1738854000",
+            "entry_et": "2025-02-06 11:03",
+            "exit_et": "2025-02-06 14:33",
+            "direction": "long",
+            "pnl": -184.48,
+            "mfe_r": 1.31,
+            "ret3_dir": 0.114,
+            "ret20_dir": 0.047,
+            "vwap_dir": -0.089,
+            "entry_min": 93.0
+          },
+          {
+            "signal_id": "2025-06-17-long-1750168800",
+            "entry_et": "2025-06-17 10:59",
+            "exit_et": "2025-06-17 13:00",
+            "direction": "long",
+            "pnl": -225.48,
+            "mfe_r": 1.01,
+            "ret3_dir": -0.077,
+            "ret20_dir": -0.217,
+            "vwap_dir": -0.072,
+            "entry_min": 89.0
+          },
+          {
+            "signal_id": "2025-07-30-long-1753890300",
+            "entry_et": "2025-07-30 14:52",
+            "exit_et": "2025-07-30 14:55",
+            "direction": "long",
+            "pnl": -222.72,
+            "mfe_r": 0.09,
+            "ret3_dir": -0.295,
+            "ret20_dir": -0.881,
+            "vwap_dir": -0.051,
+            "entry_min": 322.0
+          },
+          {
+            "signal_id": "2025-09-03-long-1756909800",
+            "entry_et": "2025-09-03 11:33",
+            "exit_et": "2025-09-03 13:45",
+            "direction": "long",
+            "pnl": -188.48,
+            "mfe_r": 1.05,
+            "ret3_dir": -0.063,
+            "ret20_dir": -0.842,
+            "vwap_dir": -0.283,
+            "entry_min": 123.0
+          },
+          {
+            "signal_id": "2025-09-19-short-1758294900",
+            "entry_et": "2025-09-19 11:59",
+            "exit_et": "2025-09-19 12:23",
+            "direction": "short",
+            "pnl": -183.48,
+            "mfe_r": 0.11,
+            "ret3_dir": -0.051,
+            "ret20_dir": -0.532,
+            "vwap_dir": -0.112,
+            "entry_min": 149.0
+          },
+          {
+            "signal_id": "2025-12-16-short-1765907100",
+            "entry_et": "2025-12-16 13:43",
+            "exit_et": "2025-12-16 15:04",
+            "direction": "short",
+            "pnl": -229.48,
+            "mfe_r": 1.32,
+            "ret3_dir": -0.061,
+            "ret20_dir": -0.491,
+            "vwap_dir": -0.094,
+            "entry_min": 253.0
+          }
+        ]
+      },
+      "remaining_hour11": [
+        {
+          "signal_id": "2025-09-04-short-1756994400",
+          "entry_et": "2025-09-04 11:13",
+          "exit_et": "2025-09-04 11:22",
+          "direction": "short",
+          "pnl": -176.48,
+          "mfe_r": 0.32,
+          "ret3_dir": 0.327,
+          "ret20_dir": 0.203,
+          "vwap_dir": -0.238,
+          "entry_min": 103.0
+        }
+      ],
+      "base_before": {
+        "trades": 44,
+        "wins": 22,
+        "losses": 22,
+        "win_rate": 50.0,
+        "net_profit": 4543.62,
+        "profit_factor": 2.0,
+        "max_drawdown": 2128.28,
+        "max_drawdown_pct": 7.341,
+        "worst_loss_streak": 10,
+        "avg_r": 0.55,
+        "gross_profit": 9106.2,
+        "gross_loss": -4562.58
+      },
+      "base_after": {
+        "trades": 31,
+        "wins": 22,
+        "losses": 9,
+        "win_rate": 70.97,
+        "net_profit": 7331.12,
+        "profit_factor": 5.13,
+        "max_drawdown": 1061.64,
+        "max_drawdown_pct": 3.584,
+        "worst_loss_streak": 5,
+        "avg_r": 1.2,
+        "gross_profit": 9106.2,
+        "gross_loss": -1775.08
+      },
+      "be_before": {
+        "trades": 44,
+        "wins": 16,
+        "losses": 28,
+        "win_rate": 36.36,
+        "net_profit": 3670.12,
+        "profit_factor": 2.2,
+        "max_drawdown": 1501.44,
+        "max_drawdown_pct": 5.42,
+        "worst_loss_streak": 13,
+        "avg_r": 0.55,
+        "gross_profit": 6736.56,
+        "gross_loss": -3066.44
+      },
+      "be_after": {
+        "trades": 31,
+        "wins": 16,
+        "losses": 15,
+        "win_rate": 51.61,
+        "net_profit": 5643.62,
+        "profit_factor": 6.16,
+        "max_drawdown": 619.8,
+        "max_drawdown_pct": 2.219,
+        "worst_loss_streak": 8,
+        "avg_r": 1.2,
+        "gross_profit": 6736.56,
+        "gross_loss": -1092.94
+      },
+      "by_period": {
+        "2025": {
+          "all": {
+            "trades": 39,
+            "hour11_losses": 6,
+            "net_profit": 4383.06
+          },
+          "removed": {
+            "trades": 11,
+            "hour11_losses": 5,
+            "winners": 0,
+            "pnl": -2345.28
+          },
+          "kept": {
+            "trades": 28,
+            "hour11_losses": 1,
+            "net_profit": 6728.34
+          }
+        },
+        "2026": {
+          "all": {
+            "trades": 5,
+            "hour11_losses": 2,
+            "net_profit": 160.56
+          },
+          "removed": {
+            "trades": 2,
+            "hour11_losses": 2,
+            "winners": 0,
+            "pnl": -442.22
+          },
+          "kept": {
+            "trades": 3,
+            "hour11_losses": 0,
+            "net_profit": 602.78
+          }
+        }
+      },
+      "removed_ids": [
+        "2025-02-06-long-1738854000",
+        "2025-02-19-short-1739977200",
+        "2025-06-17-long-1750168800",
+        "2025-07-23-short-1753279200",
+        "2025-07-30-long-1753890300",
+        "2025-09-03-long-1756909800",
+        "2025-09-19-short-1758294900",
+        "2025-09-29-long-1759155300",
+        "2025-10-15-long-1760536800",
+        "2025-11-20-long-1763652600",
+        "2025-12-16-short-1765907100",
+        "2026-04-09-short-1775744100",
+        "2026-04-21-long-1776780000"
+      ]
+    },
+    "wide": {
+      "rule": "wide",
+      "removed_trades": 19,
+      "kept_trades": 25,
+      "hour11_losses_total": 8,
+      "hour11_losses_avoided": 8,
+      "hour11_loss_usd_avoided": 1729.86,
+      "winners_removed": 4,
+      "winner_pnl_removed": 1539.82,
+      "other_losses_removed": 7,
+      "other_loss_usd_avoided": 1488.34,
+      "net_delta_base": 1678.38,
+      "net_delta_be": 736.38,
+      "removed": {
+        "hour11": [
+          {
+            "signal_id": "2025-02-19-short-1739977200",
+            "entry_et": "2025-02-19 10:33",
+            "exit_et": "2025-02-19 11:11",
+            "direction": "short",
+            "pnl": -220.48,
+            "mfe_r": 0.4,
+            "ret3_dir": -0.097,
+            "ret20_dir": -0.472,
+            "vwap_dir": 0.004,
+            "entry_min": 63.0
+          },
+          {
+            "signal_id": "2025-07-23-short-1753279200",
+            "entry_et": "2025-07-23 11:02",
+            "exit_et": "2025-07-23 11:54",
+            "direction": "short",
+            "pnl": -232.48,
+            "mfe_r": 0.53,
+            "ret3_dir": -0.028,
+            "ret20_dir": -0.204,
+            "vwap_dir": -0.172,
+            "entry_min": 92.0
+          },
+          {
+            "signal_id": "2025-09-04-short-1756994400",
+            "entry_et": "2025-09-04 11:13",
+            "exit_et": "2025-09-04 11:22",
+            "direction": "short",
+            "pnl": -176.48,
+            "mfe_r": 0.32,
+            "ret3_dir": 0.327,
+            "ret20_dir": 0.203,
+            "vwap_dir": -0.238,
+            "entry_min": 103.0
+          },
+          {
+            "signal_id": "2025-09-29-long-1759155300",
+            "entry_et": "2025-09-29 11:12",
+            "exit_et": "2025-09-29 11:36",
+            "direction": "long",
+            "pnl": -239.48,
+            "mfe_r": 0.0,
+            "ret3_dir": -0.22,
+            "ret20_dir": -0.516,
+            "vwap_dir": -0.195,
+            "entry_min": 102.0
+          },
+          {
+            "signal_id": "2025-10-15-long-1760536800",
+            "entry_et": "2025-10-15 11:43",
+            "exit_et": "2025-10-15 11:50",
+            "direction": "long",
+            "pnl": -268.48,
+            "mfe_r": 0.05,
+            "ret3_dir": -0.233,
+            "ret20_dir": -0.921,
+            "vwap_dir": -0.502,
+            "entry_min": 133.0
+          },
+          {
+            "signal_id": "2025-11-20-long-1763652600",
+            "entry_et": "2025-11-20 10:52",
+            "exit_et": "2025-11-20 11:00",
+            "direction": "long",
+            "pnl": -150.24,
+            "mfe_r": 0.1,
+            "ret3_dir": -0.125,
+            "ret20_dir": -0.38,
+            "vwap_dir": -0.072,
+            "entry_min": 82.0
+          },
+          {
+            "signal_id": "2026-04-09-short-1775744100",
+            "entry_et": "2026-04-09 11:02",
+            "exit_et": "2026-04-09 11:32",
+            "direction": "short",
+            "pnl": -153.74,
+            "mfe_r": 0.3,
+            "ret3_dir": 0.045,
+            "ret20_dir": -0.462,
+            "vwap_dir": -0.088,
+            "entry_min": 92.0
+          },
+          {
+            "signal_id": "2026-04-21-long-1776780000",
+            "entry_et": "2026-04-21 10:49",
+            "exit_et": "2026-04-21 11:00",
+            "direction": "long",
+            "pnl": -288.48,
+            "mfe_r": 0.16,
+            "ret3_dir": -0.091,
+            "ret20_dir": -0.41,
+            "vwap_dir": -0.111,
+            "entry_min": 79.0
+          }
+        ],
+        "winners": [
+          {
+            "signal_id": "2025-01-16-short-1737039600",
+            "entry_et": "2025-01-16 11:06",
+            "exit_et": "2025-01-16 15:56",
+            "direction": "short",
+            "pnl": 317.76,
+            "mfe_r": 2.52,
+            "ret3_dir": 0.006,
+            "ret20_dir": -0.541,
+            "vwap_dir": -0.236,
+            "entry_min": 96.0
+          },
+          {
+            "signal_id": "2025-06-25-short-1750860000",
+            "entry_et": "2025-06-25 10:47",
+            "exit_et": "2025-06-25 13:40",
+            "direction": "short",
+            "pnl": 647.28,
+            "mfe_r": 3.32,
+            "ret3_dir": 0.168,
+            "ret20_dir": -0.176,
+            "vwap_dir": -0.077,
+            "entry_min": 77.0
+          },
+          {
+            "signal_id": "2025-12-26-short-1766761200",
+            "entry_et": "2025-12-26 11:09",
+            "exit_et": "2025-12-26 15:56",
+            "direction": "short",
+            "pnl": 117.52,
+            "mfe_r": 1.03,
+            "ret3_dir": 0.233,
+            "ret20_dir": 0.025,
+            "vwap_dir": -0.114,
+            "entry_min": 99.0
+          },
+          {
+            "signal_id": "2026-03-18-short-1773843300",
+            "entry_et": "2026-03-18 11:09",
+            "exit_et": "2026-03-18 15:41",
+            "direction": "short",
+            "pnl": 457.26,
+            "mfe_r": 2.99,
+            "ret3_dir": -0.045,
+            "ret20_dir": -0.747,
+            "vwap_dir": -0.083,
+            "entry_min": 99.0
+          }
+        ],
+        "other_losses": [
+          {
+            "signal_id": "2025-02-06-long-1738854000",
+            "entry_et": "2025-02-06 11:03",
+            "exit_et": "2025-02-06 14:33",
+            "direction": "long",
+            "pnl": -184.48,
+            "mfe_r": 1.31,
+            "ret3_dir": 0.114,
+            "ret20_dir": 0.047,
+            "vwap_dir": -0.089,
+            "entry_min": 93.0
+          },
+          {
+            "signal_id": "2025-06-17-long-1750168800",
+            "entry_et": "2025-06-17 10:59",
+            "exit_et": "2025-06-17 13:00",
+            "direction": "long",
+            "pnl": -225.48,
+            "mfe_r": 1.01,
+            "ret3_dir": -0.077,
+            "ret20_dir": -0.217,
+            "vwap_dir": -0.072,
+            "entry_min": 89.0
+          },
+          {
+            "signal_id": "2025-07-08-short-1751984100",
+            "entry_et": "2025-07-08 10:46",
+            "exit_et": "2025-07-08 12:26",
+            "direction": "short",
+            "pnl": -254.22,
+            "mfe_r": 1.68,
+            "ret3_dir": 0.153,
+            "ret20_dir": -0.757,
+            "vwap_dir": -0.137,
+            "entry_min": 76.0
+          },
+          {
+            "signal_id": "2025-07-30-long-1753890300",
+            "entry_et": "2025-07-30 14:52",
+            "exit_et": "2025-07-30 14:55",
+            "direction": "long",
+            "pnl": -222.72,
+            "mfe_r": 0.09,
+            "ret3_dir": -0.295,
+            "ret20_dir": -0.881,
+            "vwap_dir": -0.051,
+            "entry_min": 322.0
+          },
+          {
+            "signal_id": "2025-09-03-long-1756909800",
+            "entry_et": "2025-09-03 11:33",
+            "exit_et": "2025-09-03 13:45",
+            "direction": "long",
+            "pnl": -188.48,
+            "mfe_r": 1.05,
+            "ret3_dir": -0.063,
+            "ret20_dir": -0.842,
+            "vwap_dir": -0.283,
+            "entry_min": 123.0
+          },
+          {
+            "signal_id": "2025-09-19-short-1758294900",
+            "entry_et": "2025-09-19 11:59",
+            "exit_et": "2025-09-19 12:23",
+            "direction": "short",
+            "pnl": -183.48,
+            "mfe_r": 0.11,
+            "ret3_dir": -0.051,
+            "ret20_dir": -0.532,
+            "vwap_dir": -0.112,
+            "entry_min": 149.0
+          },
+          {
+            "signal_id": "2025-12-16-short-1765907100",
+            "entry_et": "2025-12-16 13:43",
+            "exit_et": "2025-12-16 15:04",
+            "direction": "short",
+            "pnl": -229.48,
+            "mfe_r": 1.32,
+            "ret3_dir": -0.061,
+            "ret20_dir": -0.491,
+            "vwap_dir": -0.094,
+            "entry_min": 253.0
+          }
+        ]
+      },
+      "remaining_hour11": [],
+      "base_before": {
+        "trades": 44,
+        "wins": 22,
+        "losses": 22,
+        "win_rate": 50.0,
+        "net_profit": 4543.62,
+        "profit_factor": 2.0,
+        "max_drawdown": 2128.28,
+        "max_drawdown_pct": 7.341,
+        "worst_loss_streak": 10,
+        "avg_r": 0.55,
+        "gross_profit": 9106.2,
+        "gross_loss": -4562.58
+      },
+      "base_after": {
+        "trades": 25,
+        "wins": 18,
+        "losses": 7,
+        "win_rate": 72.0,
+        "net_profit": 6222.0,
+        "profit_factor": 5.63,
+        "max_drawdown": 885.16,
+        "max_drawdown_pct": 3.062,
+        "worst_loss_streak": 4,
+        "avg_r": 1.21,
+        "gross_profit": 7566.38,
+        "gross_loss": -1344.38
+      },
+      "be_before": {
+        "trades": 44,
+        "wins": 16,
+        "losses": 28,
+        "win_rate": 36.36,
+        "net_profit": 3670.12,
+        "profit_factor": 2.2,
+        "max_drawdown": 1501.44,
+        "max_drawdown_pct": 5.42,
+        "worst_loss_streak": 13,
+        "avg_r": 0.55,
+        "gross_profit": 6736.56,
+        "gross_loss": -3066.44
+      },
+      "be_after": {
+        "trades": 25,
+        "wins": 13,
+        "losses": 12,
+        "win_rate": 52.0,
+        "net_profit": 4406.5,
+        "profit_factor": 5.85,
+        "max_drawdown": 438.1,
+        "max_drawdown_pct": 1.625,
+        "worst_loss_streak": 6,
+        "avg_r": 1.21,
+        "gross_profit": 5314.26,
+        "gross_loss": -907.76
+      },
+      "by_period": {
+        "2025": {
+          "all": {
+            "trades": 39,
+            "hour11_losses": 6,
+            "net_profit": 4383.06
+          },
+          "removed": {
+            "trades": 16,
+            "hour11_losses": 6,
+            "winners": 3,
+            "pnl": -1693.42
+          },
+          "kept": {
+            "trades": 23,
+            "hour11_losses": 0,
+            "net_profit": 6076.48
+          }
+        },
+        "2026": {
+          "all": {
+            "trades": 5,
+            "hour11_losses": 2,
+            "net_profit": 160.56
+          },
+          "removed": {
+            "trades": 3,
+            "hour11_losses": 2,
+            "winners": 1,
+            "pnl": 15.04
+          },
+          "kept": {
+            "trades": 2,
+            "hour11_losses": 0,
+            "net_profit": 145.52
+          }
+        }
+      },
+      "removed_ids": [
+        "2025-01-16-short-1737039600",
+        "2025-02-06-long-1738854000",
+        "2025-02-19-short-1739977200",
+        "2025-06-17-long-1750168800",
+        "2025-06-25-short-1750860000",
+        "2025-07-08-short-1751984100",
+        "2025-07-23-short-1753279200",
+        "2025-07-30-long-1753890300",
+        "2025-09-03-long-1756909800",
+        "2025-09-04-short-1756994400",
+        "2025-09-19-short-1758294900",
+        "2025-09-29-long-1759155300",
+        "2025-10-15-long-1760536800",
+        "2025-11-20-long-1763652600",
+        "2025-12-16-short-1765907100",
+        "2025-12-26-short-1766761200",
+        "2026-03-18-short-1773843300",
+        "2026-04-09-short-1775744100",
+        "2026-04-21-long-1776780000"
+      ]
+    },
+    "time_only": {
+      "rule": "time_only",
+      "removed_trades": 5,
+      "kept_trades": 39,
+      "hour11_losses_total": 8,
+      "hour11_losses_avoided": 3,
+      "hour11_loss_usd_avoided": 536.46,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "other_losses_removed": 2,
+      "other_loss_usd_avoided": 409.96,
+      "net_delta_base": 946.42,
+      "net_delta_be": 543.42,
+      "removed": {
+        "hour11": [
+          {
+            "signal_id": "2025-07-23-short-1753279200",
+            "entry_et": "2025-07-23 11:02",
+            "exit_et": "2025-07-23 11:54",
+            "direction": "short",
+            "pnl": -232.48,
+            "mfe_r": 0.53,
+            "ret3_dir": -0.028,
+            "ret20_dir": -0.204,
+            "vwap_dir": -0.172,
+            "entry_min": 92.0
+          },
+          {
+            "signal_id": "2025-11-20-long-1763652600",
+            "entry_et": "2025-11-20 10:52",
+            "exit_et": "2025-11-20 11:00",
+            "direction": "long",
+            "pnl": -150.24,
+            "mfe_r": 0.1,
+            "ret3_dir": -0.125,
+            "ret20_dir": -0.38,
+            "vwap_dir": -0.072,
+            "entry_min": 82.0
+          },
+          {
+            "signal_id": "2026-04-09-short-1775744100",
+            "entry_et": "2026-04-09 11:02",
+            "exit_et": "2026-04-09 11:32",
+            "direction": "short",
+            "pnl": -153.74,
+            "mfe_r": 0.3,
+            "ret3_dir": 0.045,
+            "ret20_dir": -0.462,
+            "vwap_dir": -0.088,
+            "entry_min": 92.0
+          }
+        ],
+        "winners": [],
+        "other_losses": [
+          {
+            "signal_id": "2025-02-06-long-1738854000",
+            "entry_et": "2025-02-06 11:03",
+            "exit_et": "2025-02-06 14:33",
+            "direction": "long",
+            "pnl": -184.48,
+            "mfe_r": 1.31,
+            "ret3_dir": 0.114,
+            "ret20_dir": 0.047,
+            "vwap_dir": -0.089,
+            "entry_min": 93.0
+          },
+          {
+            "signal_id": "2025-06-17-long-1750168800",
+            "entry_et": "2025-06-17 10:59",
+            "exit_et": "2025-06-17 13:00",
+            "direction": "long",
+            "pnl": -225.48,
+            "mfe_r": 1.01,
+            "ret3_dir": -0.077,
+            "ret20_dir": -0.217,
+            "vwap_dir": -0.072,
+            "entry_min": 89.0
+          }
+        ]
+      },
+      "remaining_hour11": [
+        {
+          "signal_id": "2025-02-19-short-1739977200",
+          "entry_et": "2025-02-19 10:33",
+          "exit_et": "2025-02-19 11:11",
+          "direction": "short",
+          "pnl": -220.48,
+          "mfe_r": 0.4,
+          "ret3_dir": -0.097,
+          "ret20_dir": -0.472,
+          "vwap_dir": 0.004,
+          "entry_min": 63.0
+        },
+        {
+          "signal_id": "2025-09-04-short-1756994400",
+          "entry_et": "2025-09-04 11:13",
+          "exit_et": "2025-09-04 11:22",
+          "direction": "short",
+          "pnl": -176.48,
+          "mfe_r": 0.32,
+          "ret3_dir": 0.327,
+          "ret20_dir": 0.203,
+          "vwap_dir": -0.238,
+          "entry_min": 103.0
+        },
+        {
+          "signal_id": "2025-09-29-long-1759155300",
+          "entry_et": "2025-09-29 11:12",
+          "exit_et": "2025-09-29 11:36",
+          "direction": "long",
+          "pnl": -239.48,
+          "mfe_r": 0.0,
+          "ret3_dir": -0.22,
+          "ret20_dir": -0.516,
+          "vwap_dir": -0.195,
+          "entry_min": 102.0
+        },
+        {
+          "signal_id": "2025-10-15-long-1760536800",
+          "entry_et": "2025-10-15 11:43",
+          "exit_et": "2025-10-15 11:50",
+          "direction": "long",
+          "pnl": -268.48,
+          "mfe_r": 0.05,
+          "ret3_dir": -0.233,
+          "ret20_dir": -0.921,
+          "vwap_dir": -0.502,
+          "entry_min": 133.0
+        },
+        {
+          "signal_id": "2026-04-21-long-1776780000",
+          "entry_et": "2026-04-21 10:49",
+          "exit_et": "2026-04-21 11:00",
+          "direction": "long",
+          "pnl": -288.48,
+          "mfe_r": 0.16,
+          "ret3_dir": -0.091,
+          "ret20_dir": -0.41,
+          "vwap_dir": -0.111,
+          "entry_min": 79.0
+        }
+      ],
+      "base_before": {
+        "trades": 44,
+        "wins": 22,
+        "losses": 22,
+        "win_rate": 50.0,
+        "net_profit": 4543.62,
+        "profit_factor": 2.0,
+        "max_drawdown": 2128.28,
+        "max_drawdown_pct": 7.341,
+        "worst_loss_streak": 10,
+        "avg_r": 0.55,
+        "gross_profit": 9106.2,
+        "gross_loss": -4562.58
+      },
+      "base_after": {
+        "trades": 39,
+        "wins": 22,
+        "losses": 17,
+        "win_rate": 56.41,
+        "net_profit": 5490.04,
+        "profit_factor": 2.52,
+        "max_drawdown": 1895.8,
+        "max_drawdown_pct": 6.448,
+        "worst_loss_streak": 9,
+        "avg_r": 0.74,
+        "gross_profit": 9106.2,
+        "gross_loss": -3616.16
+      },
+      "be_before": {
+        "trades": 44,
+        "wins": 16,
+        "losses": 28,
+        "win_rate": 36.36,
+        "net_profit": 3670.12,
+        "profit_factor": 2.2,
+        "max_drawdown": 1501.44,
+        "max_drawdown_pct": 5.42,
+        "worst_loss_streak": 13,
+        "avg_r": 0.55,
+        "gross_profit": 6736.56,
+        "gross_loss": -3066.44
+      },
+      "be_after": {
+        "trades": 39,
+        "wins": 16,
+        "losses": 23,
+        "win_rate": 41.03,
+        "net_profit": 4213.54,
+        "profit_factor": 2.67,
+        "max_drawdown": 1268.96,
+        "max_drawdown_pct": 4.58,
+        "worst_loss_streak": 12,
+        "avg_r": 0.74,
+        "gross_profit": 6736.56,
+        "gross_loss": -2523.02
+      },
+      "by_period": {
+        "2025": {
+          "all": {
+            "trades": 39,
+            "hour11_losses": 6,
+            "net_profit": 4383.06
+          },
+          "removed": {
+            "trades": 4,
+            "hour11_losses": 2,
+            "winners": 0,
+            "pnl": -792.68
+          },
+          "kept": {
+            "trades": 35,
+            "hour11_losses": 4,
+            "net_profit": 5175.74
+          }
+        },
+        "2026": {
+          "all": {
+            "trades": 5,
+            "hour11_losses": 2,
+            "net_profit": 160.56
+          },
+          "removed": {
+            "trades": 1,
+            "hour11_losses": 1,
+            "winners": 0,
+            "pnl": -153.74
+          },
+          "kept": {
+            "trades": 4,
+            "hour11_losses": 1,
+            "net_profit": 314.3
+          }
+        }
+      },
+      "removed_ids": [
+        "2025-02-06-long-1738854000",
+        "2025-06-17-long-1750168800",
+        "2025-07-23-short-1753279200",
+        "2025-11-20-long-1763652600",
+        "2026-04-09-short-1775744100"
+      ]
+    }
+  },
+  "official_14_cross_check": {
+    "core": {
+      "trades": 14,
+      "removed": 2,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "losses_removed": 2,
+      "net_saved": 371.96,
+      "detail": [
+        {
+          "signal_id": "2025-09-03-long-1756909800",
+          "pnl": -188.48,
+          "ret3_dir": -0.063,
+          "ret20_dir": -0.842,
+          "vwap_dir": -0.283,
+          "entry_min": 123.0
+        },
+        {
+          "signal_id": "2025-09-19-short-1758294900",
+          "pnl": -183.48,
+          "ret3_dir": -0.051,
+          "ret20_dir": -0.532,
+          "vwap_dir": -0.112,
+          "entry_min": 149.0
+        }
+      ]
+    },
+    "extended": {
+      "trades": 14,
+      "removed": 2,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "losses_removed": 2,
+      "net_saved": 371.96,
+      "detail": [
+        {
+          "signal_id": "2025-09-03-long-1756909800",
+          "pnl": -188.48,
+          "ret3_dir": -0.063,
+          "ret20_dir": -0.842,
+          "vwap_dir": -0.283,
+          "entry_min": 123.0
+        },
+        {
+          "signal_id": "2025-09-19-short-1758294900",
+          "pnl": -183.48,
+          "ret3_dir": -0.051,
+          "ret20_dir": -0.532,
+          "vwap_dir": -0.112,
+          "entry_min": 149.0
+        }
+      ]
+    },
+    "wide": {
+      "trades": 14,
+      "removed": 5,
+      "winners_removed": 2,
+      "winner_pnl_removed": 764.8,
+      "losses_removed": 3,
+      "net_saved": -138.62,
+      "detail": [
+        {
+          "signal_id": "2025-06-25-short-1750860000",
+          "pnl": 647.28,
+          "ret3_dir": 0.168,
+          "ret20_dir": -0.176,
+          "vwap_dir": -0.077,
+          "entry_min": 77.0
+        },
+        {
+          "signal_id": "2025-07-08-short-1751984100",
+          "pnl": -254.22,
+          "ret3_dir": 0.153,
+          "ret20_dir": -0.757,
+          "vwap_dir": -0.137,
+          "entry_min": 76.0
+        },
+        {
+          "signal_id": "2025-09-03-long-1756909800",
+          "pnl": -188.48,
+          "ret3_dir": -0.063,
+          "ret20_dir": -0.842,
+          "vwap_dir": -0.283,
+          "entry_min": 123.0
+        },
+        {
+          "signal_id": "2025-09-19-short-1758294900",
+          "pnl": -183.48,
+          "ret3_dir": -0.051,
+          "ret20_dir": -0.532,
+          "vwap_dir": -0.112,
+          "entry_min": 149.0
+        },
+        {
+          "signal_id": "2025-12-26-short-1766761200",
+          "pnl": 117.52,
+          "ret3_dir": 0.233,
+          "ret20_dir": 0.025,
+          "vwap_dir": -0.114,
+          "entry_min": 99.0
+        }
+      ]
+    },
+    "time_only": {
+      "trades": 14,
+      "removed": 0,
+      "winners_removed": 0,
+      "winner_pnl_removed": 0,
+      "losses_removed": 0,
+      "net_saved": 0,
+      "detail": []
+    }
+  }
+}

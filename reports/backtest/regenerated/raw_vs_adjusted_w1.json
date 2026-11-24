@@ -1,0 +1,37 @@
+{
+  "raw_file": "W1.json",
+  "adjusted_file": "W1_adjusted.json",
+  "raw_trades": 8,
+  "adjusted_trades": 8,
+  "same_operations": true,
+  "operation_differences": [],
+  "identical_pnl": true,
+  "identical_trades": true,
+  "pnl_differences": [],
+  "qty_differences": [],
+  "cumulative_roll_offsets": {
+    "MNQ": 1725.25,
+    "NQ": 1722.75,
+    "ES": 396.5
+  },
+  "applied_cumulative_offsets": {
+    "MNQ": 1725.25,
+    "NQ": 1725.25,
+    "ES": 396.5
+  },
+  "basis_residual_cumulative": {
+    "MNQ": 0.0,
+    "NQ": -2.5,
+    "ES": 0.0
+  },
+  "adjusted_offset_policy": {
+    "pair": [
+      "NQ",
+      "MNQ"
+    ],
+    "basis_symbol": "MNQ",
+    "es": "own_offset",
+    "rounding": "raw_base_then_translate"
+  },
+  "cause": "Corregido: NQ y MNQ comparten el offset de ejecucion de MNQ en cada roll; ES conserva su propio offset y el SMT compara pivotes dentro de cada instrumento. El redondeo de niveles se ancla a la base raw antes de trasladarlos a adjusted. W1 produce las mismas operaciones y el mismo P&L."
+}

@@ -1,0 +1,170 @@
+{
+  "raw_file": "W1.json",
+  "adjusted_file": "W1_adjusted.json",
+  "raw_trades": 8,
+  "adjusted_trades": 8,
+  "same_operations": false,
+  "operation_differences": [
+    {
+      "signal_id": "2025-02-11-long-1739286900",
+      "fields": [
+        "exit_ts",
+        "exit_reason"
+      ],
+      "raw": {
+        "entry_ts": 1739294280,
+        "exit_ts": 1739307360,
+        "direction": "long",
+        "qty": 3,
+        "exit_reason": "session_close"
+      },
+      "adjusted": {
+        "entry_ts": 1739294280,
+        "exit_ts": 1739302920,
+        "direction": "long",
+        "qty": 3,
+        "exit_reason": "take_profit"
+      }
+    },
+    {
+      "signal_id": "2025-03-21-long-1742568300",
+      "fields": [
+        "exit_ts"
+      ],
+      "raw": {
+        "entry_ts": 1742571900,
+        "exit_ts": 1742572560,
+        "direction": "long",
+        "qty": 5,
+        "exit_reason": "take_profit"
+      },
+      "adjusted": {
+        "entry_ts": 1742571900,
+        "exit_ts": 1742572320,
+        "direction": "long",
+        "qty": 5,
+        "exit_reason": "take_profit"
+      }
+    },
+    {
+      "signal_id": "2025-03-27-long-1743084900",
+      "fields": [
+        "exit_ts"
+      ],
+      "raw": {
+        "entry_ts": 1743094740,
+        "exit_ts": 1743095640,
+        "direction": "long",
+        "qty": 5,
+        "exit_reason": "take_profit"
+      },
+      "adjusted": {
+        "entry_ts": 1743094740,
+        "exit_ts": 1743095520,
+        "direction": "long",
+        "qty": 5,
+        "exit_reason": "take_profit"
+      }
+    }
+  ],
+  "identical_pnl": false,
+  "pnl_differences": [
+    {
+      "signal_id": "2025-01-15-long-1736953200",
+      "raw_pnl": -168.7,
+      "adjusted_pnl": -196.2,
+      "raw_entry": 21281.0,
+      "adjusted_entry": 23006.25,
+      "raw_stop": 21264.88,
+      "adjusted_stop": 22987.62,
+      "raw_r": -1.01,
+      "adjusted_r": -1.02,
+      "raw_qty": 5,
+      "adjusted_qty": 5
+    },
+    {
+      "signal_id": "2025-01-27-long-1737990900",
+      "raw_pnl": -450.72,
+      "adjusted_pnl": -465.72,
+      "raw_entry": 21267.25,
+      "adjusted_entry": 22992.5,
+      "raw_stop": 21193.0,
+      "adjusted_stop": 22915.75,
+      "raw_r": -1.0,
+      "adjusted_r": -1.0,
+      "raw_qty": 3,
+      "adjusted_qty": 3
+    },
+    {
+      "signal_id": "2025-02-11-long-1739286900",
+      "raw_pnl": 162.78,
+      "adjusted_pnl": 548.28,
+      "raw_entry": 21747.0,
+      "adjusted_entry": 23472.25,
+      "raw_stop": 21714.75,
+      "adjusted_stop": 23437.5,
+      "raw_r": 0.86,
+      "adjusted_r": 2.65,
+      "raw_qty": 3,
+      "adjusted_qty": 3
+    },
+    {
+      "signal_id": "2025-03-12-short-1741789800",
+      "raw_pnl": -224.96,
+      "adjusted_pnl": -204.96,
+      "raw_entry": 19670.0,
+      "adjusted_entry": 21395.25,
+      "raw_stop": 19697.14,
+      "adjusted_stop": 21419.89,
+      "raw_r": -1.01,
+      "adjusted_r": -1.01,
+      "raw_qty": 4,
+      "adjusted_qty": 4
+    },
+    {
+      "signal_id": "2025-03-17-short-1742224500",
+      "raw_pnl": -203.7,
+      "adjusted_pnl": -176.2,
+      "raw_entry": 19964.0,
+      "adjusted_entry": 21241.0,
+      "raw_stop": 19983.39,
+      "adjusted_stop": 21257.64,
+      "raw_r": -1.02,
+      "adjusted_r": -1.02,
+      "raw_qty": 5,
+      "adjusted_qty": 5
+    },
+    {
+      "signal_id": "2025-03-21-long-1742568300",
+      "raw_pnl": 501.3,
+      "adjusted_pnl": 473.8,
+      "raw_entry": 19684.25,
+      "adjusted_entry": 20961.25,
+      "raw_stop": 19666.95,
+      "adjusted_stop": 20941.2,
+      "raw_r": 2.93,
+      "adjusted_r": 2.39,
+      "raw_qty": 5,
+      "adjusted_qty": 5
+    },
+    {
+      "signal_id": "2025-03-27-long-1743084900",
+      "raw_pnl": 456.3,
+      "adjusted_pnl": 428.8,
+      "raw_entry": 20015.75,
+      "adjusted_entry": 21292.75,
+      "raw_stop": 20000.6,
+      "adjusted_stop": 21274.85,
+      "raw_r": 3.05,
+      "adjusted_r": 2.43,
+      "raw_qty": 5,
+      "adjusted_qty": 5
+    }
+  ],
+  "cumulative_roll_offsets": {
+    "MNQ": 1725.25,
+    "NQ": 1722.75,
+    "ES": 396.5
+  },
+  "cause": "La estrategia calcula ORB, entrada y stop con barras de NQ y ejecuta en MNQ. En adjusted cada raiz recibe su propio desplazamiento acumulado; MNQ y NQ dejan de compartir la misma base y los niveles NQ aplicados a MNQ cambian."
+}

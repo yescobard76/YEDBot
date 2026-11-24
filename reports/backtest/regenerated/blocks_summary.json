@@ -1,0 +1,197 @@
+[
+  {
+    "id": "W1",
+    "start": "2025-01-10",
+    "end": "2025-03-31",
+    "sessions": 54,
+    "first_et": "2025-01-10 09:00",
+    "last_et": "2025-03-31 15:59",
+    "trades": 8,
+    "profit_factor": 1.35,
+    "expectancy_r": 0.56,
+    "net_profit": 364.82,
+    "max_drawdown": 619.42,
+    "worst_loss_streak": 2,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 6,
+        "pnl": 793.4799999999999,
+        "wins": 4,
+        "losses": 2,
+        "label": "Larga",
+        "win_rate": 66.7
+      },
+      {
+        "key": "short",
+        "trades": 2,
+        "pnl": -428.65999999999997,
+        "wins": 0,
+        "losses": 2,
+        "label": "Corta",
+        "win_rate": 0.0
+      }
+    ]
+  },
+  {
+    "id": "W2",
+    "start": "2025-04-01",
+    "end": "2025-06-30",
+    "sessions": 61,
+    "first_et": "2025-04-01 09:00",
+    "last_et": "2025-06-30 15:59",
+    "trades": 4,
+    "profit_factor": 1.71,
+    "expectancy_r": 0.11,
+    "net_profit": 268.4,
+    "max_drawdown": 378.88,
+    "worst_loss_streak": 3,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 1,
+        "pnl": -81.48,
+        "wins": 0,
+        "losses": 1,
+        "label": "Larga",
+        "win_rate": 0.0
+      },
+      {
+        "key": "short",
+        "trades": 3,
+        "pnl": 349.88,
+        "wins": 1,
+        "losses": 2,
+        "label": "Corta",
+        "win_rate": 33.3
+      }
+    ]
+  },
+  {
+    "id": "W3",
+    "start": "2025-07-01",
+    "end": "2025-09-30",
+    "sessions": 63,
+    "first_et": "2025-07-01 09:00",
+    "last_et": "2025-09-30 15:59",
+    "trades": 9,
+    "profit_factor": 0.92,
+    "expectancy_r": -0.13,
+    "net_profit": -110.46,
+    "max_drawdown": 1084.8,
+    "worst_loss_streak": 6,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 3,
+        "pnl": -643.4000000000001,
+        "wins": 0,
+        "losses": 3,
+        "label": "Larga",
+        "win_rate": 0.0
+      },
+      {
+        "key": "short",
+        "trades": 6,
+        "pnl": 532.9399999999998,
+        "wins": 2,
+        "losses": 4,
+        "label": "Corta",
+        "win_rate": 33.3
+      }
+    ]
+  },
+  {
+    "id": "W4",
+    "start": "2025-10-01",
+    "end": "2025-12-31",
+    "sessions": 63,
+    "first_et": "2025-10-01 09:00",
+    "last_et": "2025-12-31 15:59",
+    "trades": 4,
+    "profit_factor": null,
+    "expectancy_r": 2.36,
+    "net_profit": 2034.12,
+    "max_drawdown": 0.0,
+    "worst_loss_streak": 0,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 2,
+        "pnl": 1383.08,
+        "wins": 2,
+        "losses": 0,
+        "label": "Larga",
+        "win_rate": 100.0
+      },
+      {
+        "key": "short",
+        "trades": 2,
+        "pnl": 651.04,
+        "wins": 2,
+        "losses": 0,
+        "label": "Corta",
+        "win_rate": 100.0
+      }
+    ]
+  },
+  {
+    "id": "W5",
+    "start": "2026-01-01",
+    "end": "2026-03-31",
+    "sessions": 60,
+    "first_et": "2026-01-02 09:00",
+    "last_et": "2026-03-31 15:59",
+    "trades": 5,
+    "profit_factor": 0.0,
+    "expectancy_r": -1.01,
+    "net_profit": -1036.52,
+    "max_drawdown": 1036.52,
+    "worst_loss_streak": 5,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 5,
+        "pnl": -1036.52,
+        "wins": 0,
+        "losses": 5,
+        "label": "Larga",
+        "win_rate": 0.0
+      }
+    ]
+  },
+  {
+    "id": "W6",
+    "start": "2026-04-01",
+    "end": "2026-06-30",
+    "sessions": 61,
+    "first_et": "2026-04-01 09:00",
+    "last_et": "2026-06-30 15:59",
+    "trades": 8,
+    "profit_factor": 0.27,
+    "expectancy_r": -0.4,
+    "net_profit": -858.92,
+    "max_drawdown": 931.3,
+    "worst_loss_streak": 5,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 4,
+        "pnl": -79.79999999999997,
+        "wins": 1,
+        "losses": 3,
+        "label": "Larga",
+        "win_rate": 25.0
+      },
+      {
+        "key": "short",
+        "trades": 4,
+        "pnl": -779.12,
+        "wins": 0,
+        "losses": 4,
+        "label": "Corta",
+        "win_rate": 0.0
+      }
+    ]
+  }
+]

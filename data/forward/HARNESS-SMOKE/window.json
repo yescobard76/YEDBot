@@ -1,0 +1,24 @@
+{
+  "arms": {
+    "control": {
+      "code_sha256": "36eb1135f22820b71d419a3a439ec165530a49957987d79a4a246f357f56b4d8",
+      "config_file_sha256": "cf54ab4ccfada0dab0a10ff7642d090c4f9f1a026d8f9659ceb499d9118d747d",
+      "port": 8775,
+      "profile_dir": "arms/control/profile"
+    },
+    "treatment": {
+      "code_sha256": "36eb1135f22820b71d419a3a439ec165530a49957987d79a4a246f357f56b4d8",
+      "config_file_sha256": "0f65c875fef381707a443384afe45c35cb64270b929fe417df8f27bdb80291df",
+      "port": 8776,
+      "profile_dir": "arms/treatment/profile"
+    }
+  },
+  "created_at": "2026-11-24T00:34:15Z",
+  "holdout_used": false,
+  "kind": "harness",
+  "note": "smoke test",
+  "schema": "forward-window-v1",
+  "sessions_target": 378,
+  "start_date": "2026-12-01",
+  "window_id": "HARNESS-SMOKE"
+}

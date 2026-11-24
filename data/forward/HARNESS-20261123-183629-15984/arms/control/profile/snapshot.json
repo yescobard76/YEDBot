@@ -1,0 +1,21 @@
+{
+  "arm": "control",
+  "base_config": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\profiles\\p2_freq\\config.json",
+  "code_algorithm": "sha256-tree-v1",
+  "code_files": 77,
+  "code_roots": [
+    "server",
+    "tests"
+  ],
+  "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+  "config_file_sha256": "0e331a922cc1ee839dfec381348547b84da8e4613ea94add5ac716a50dbccb48",
+  "config_path": "config.json",
+  "config_sha256": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+  "created_at": "2026-11-24T00:36:31Z",
+  "initial_capital": 25000.0,
+  "kind": "harness",
+  "note": "Prueba hostil de arnés; sin feed, cero trades. No es desempeño.",
+  "port": 8775,
+  "schema": "forward-snapshot-v1",
+  "window_id": "HARNESS-20261123-183629-15984"
+}

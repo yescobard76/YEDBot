@@ -1,0 +1,155 @@
+{
+  "schema": "backtest-golden-v1",
+  "window": {
+    "days": 3,
+    "start_date": "2025-12-24"
+  },
+  "dataset": {
+    "path": "tests/fixtures/bars_mnq_nq_es_1m_3sessions.csv",
+    "file_name": "bars_mnq_nq_es_1m_3sessions.csv",
+    "file_hash": "5346075eb64300fc198ea7acae50237cc0f86b339fd27856d973da1032d4001b",
+    "series_id": "b4b2a12a65e5687d5ae258bdd8f3a084ac4d9828e7707dca4f5ac2e7515aef94",
+    "row_count": 3285,
+    "common_bars": 1095,
+    "sessions": [
+      "2025-12-24",
+      "2025-12-26",
+      "2025-12-29"
+    ],
+    "selected_range": {
+      "first_ts": 1766584800,
+      "last_ts": 1767041940,
+      "first_et": "2025-12-24 09:00",
+      "last_et": "2025-12-29 15:59"
+    }
+  },
+  "initial_capital": 25000.0,
+  "metrics": {
+    "trades": 2,
+    "signals": 2,
+    "breakouts": 2,
+    "retests": 2,
+    "wins": 2,
+    "losses": 0,
+    "breakeven": 0,
+    "win_rate": 100.0,
+    "profit_factor": null,
+    "expectancy": 366.28,
+    "net_profit": 732.56,
+    "gross_profit": 732.56,
+    "gross_loss": 0,
+    "fees": 7.44,
+    "avg_r": 1.82,
+    "total_r": 3.64,
+    "max_drawdown": 0.0,
+    "max_drawdown_pct": 0.0,
+    "equity_trough": 25000.0,
+    "stop_losses": 0,
+    "take_profits": 1,
+    "session_closes": 1,
+    "stop_loss_rate": 0.0,
+    "take_profit_rate": 50.0,
+    "avg_stop_ticks": 139.0,
+    "days_traded": 3,
+    "winning_days": 2,
+    "losing_days": 0,
+    "stop_cap_sessions": 0,
+    "qty_zero_sessions": 0,
+    "equity_curve": [
+      {
+        "ts": 1766589960,
+        "equity": 25000.0
+      },
+      {
+        "ts": 1766597400,
+        "equity": 25615.04
+      },
+      {
+        "ts": 1766782560,
+        "equity": 25732.56
+      }
+    ]
+  },
+  "trades": [
+    {
+      "signal_id": "2025-12-24-long-1766588400",
+      "direction": "long",
+      "qty": 4,
+      "entry_ts": 1766589960,
+      "exit_ts": 1766597400,
+      "entry_price": 25809.25,
+      "exit_price": 25886.75,
+      "stop": 25783.0,
+      "target": 25887.0,
+      "pnl": 615.04,
+      "gross_pnl": 620.0,
+      "fees": 4.96,
+      "r_multiple": 2.95,
+      "risk_amount": 210.0,
+      "signal_type": "ORB+SMT+Retest",
+      "exit_reason": "take_profit",
+      "duration_sec": 7440
+    },
+    {
+      "signal_id": "2025-12-26-short-1766761200",
+      "direction": "short",
+      "qty": 2,
+      "entry_ts": 1766765340,
+      "exit_ts": 1766782560,
+      "entry_price": 25893.0,
+      "exit_price": 25863.0,
+      "stop": 25936.25,
+      "target": 25736.25,
+      "pnl": 117.52,
+      "gross_pnl": 120.0,
+      "fees": 2.48,
+      "r_multiple": 0.69,
+      "risk_amount": 173.0,
+      "signal_type": "ORB+SMT+Retest",
+      "exit_reason": "session_close",
+      "duration_sec": 17220
+    }
+  ],
+  "equity": [
+    {
+      "ts": 1766589960,
+      "equity": 25000.0
+    },
+    {
+      "ts": 1766597400,
+      "equity": 25615.04
+    },
+    {
+      "ts": 1766782560,
+      "equity": 25732.56
+    }
+  ],
+  "days_detail": [
+    {
+      "date": "2025-12-24",
+      "pnl": 615.04,
+      "trades": 1,
+      "equity": 25615.04
+    },
+    {
+      "date": "2025-12-26",
+      "pnl": 117.52,
+      "trades": 1,
+      "equity": 25732.56
+    },
+    {
+      "date": "2025-12-29",
+      "pnl": 0.0,
+      "trades": 0,
+      "equity": 25732.56
+    }
+  ],
+  "funnel": {
+    "sessions": 3,
+    "breakouts": 2,
+    "smt_confirmed": 2,
+    "retests": 2,
+    "signals": 2,
+    "traded": 2
+  }
+}

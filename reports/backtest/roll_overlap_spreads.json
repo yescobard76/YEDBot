@@ -1,0 +1,1010 @@
+{
+ "schema": "roll-overlap-spreads-v1",
+ "source": {
+  "raw": "data/real/raw_mnq_nq_es_1m.jsonl.gz",
+  "raw_sha256": "4346a1751493c307cd2967766ec60a3499431c0ba8ea109490074e88ba682058",
+  "raw_start": "2025-01-10",
+  "raw_end": "2026-06-30",
+  "definitions": 24,
+  "mapped_contracts": 24
+ },
+ "boundary_source": "data/real/bars_mnq_nq_es_1m_roll_adjusted.manifest.json",
+ "method": {
+  "spread": "new.close - old.close en timestamps comunes",
+  "session": "09:00–15:59 America/New_York",
+  "boundary": "new.open 09:00 switch - old.close 15:59 roll",
+  "window": "roll_date y switch_date",
+  "holdout_start": "2026-07-01",
+  "holdout_used": false
+ },
+ "rolls": [
+  {
+   "sequence": 1,
+   "roll_date": "2025-03-13",
+   "switch_date": "2025-03-14",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQH25",
+     "new_contract": "MNQM25",
+     "applied_offset_points": 448.25,
+     "manifest_raw_spread_points": 448.25,
+     "boundary_recalc_points": 448.25,
+     "boundary_ts": {
+      "old_close_et": "2025-03-13T15:59:00-04:00",
+      "new_open_et": "2025-03-14T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 202.5,
+     "roll_close_ts": "2025-03-13T15:59:00-04:00",
+     "switch_open_spread_points": 204.25,
+     "switch_open_ts": "2025-03-14T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 205.2095,
+      "median": 205.25,
+      "stdev": 2.4493,
+      "min": 195.0,
+      "max": 214.5,
+      "p10": 202.25,
+      "p90": 208.25
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 204.5667,
+      "median": 204.25,
+      "stdev": 2.8035,
+      "min": 195.0,
+      "max": 214.5,
+      "p10": 201.5,
+      "p90": 208.5
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 205.8524,
+      "median": 205.75,
+      "stdev": 1.8232,
+      "min": 197.5,
+      "max": 213.5,
+      "p10": 203.75,
+      "p90": 208.0
+     },
+     "median_minus_applied": -243.0,
+     "boundary_minus_median": 243.0,
+     "boundary_minus_switch_open": 244.0,
+     "roll_close_minus_applied": -245.75,
+     "switch_open_minus_applied": -244.0
+    },
+    "NQ": {
+     "old_contract": "NQH25",
+     "new_contract": "NQM25",
+     "applied_offset_points": 448.25,
+     "manifest_raw_spread_points": 448.5,
+     "boundary_recalc_points": 448.5,
+     "boundary_ts": {
+      "old_close_et": "2025-03-13T15:59:00-04:00",
+      "new_open_et": "2025-03-14T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.25,
+     "roll_close_spread_points": 204.25,
+     "roll_close_ts": "2025-03-13T15:59:00-04:00",
+     "switch_open_spread_points": 204.25,
+     "switch_open_ts": "2025-03-14T09:00:00-04:00",
+     "overlap": {
+      "count": 838,
+      "mean": 205.3276,
+      "median": 205.5,
+      "stdev": 2.94,
+      "min": 189.0,
+      "max": 219.75,
+      "p10": 202.25,
+      "p90": 208.25
+     },
+     "overlap_roll": {
+      "count": 418,
+      "mean": 204.8301,
+      "median": 204.75,
+      "stdev": 3.8461,
+      "min": 189.0,
+      "max": 219.75,
+      "p10": 200.425,
+      "p90": 209.25
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 205.8226,
+      "median": 206.0,
+      "stdev": 1.4327,
+      "min": 197.0,
+      "max": 211.5,
+      "p10": 204.0,
+      "p90": 207.5
+     },
+     "median_minus_applied": -242.75,
+     "boundary_minus_median": 243.0,
+     "boundary_minus_switch_open": 244.25,
+     "roll_close_minus_applied": -244.0,
+     "switch_open_minus_applied": -244.0
+    },
+    "ES": {
+     "old_contract": "ESH25",
+     "new_contract": "ESM25",
+     "applied_offset_points": 104.5,
+     "manifest_raw_spread_points": 104.5,
+     "boundary_recalc_points": 104.5,
+     "boundary_ts": {
+      "old_close_et": "2025-03-13T15:59:00-04:00",
+      "new_open_et": "2025-03-14T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 50.75,
+     "roll_close_ts": "2025-03-13T15:59:00-04:00",
+     "switch_open_spread_points": 51.25,
+     "switch_open_ts": "2025-03-14T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 51.3839,
+      "median": 51.5,
+      "stdev": 0.5287,
+      "min": 49.75,
+      "max": 53.0,
+      "p10": 50.5,
+      "p90": 52.0
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 51.047,
+      "median": 51.0,
+      "stdev": 0.5012,
+      "min": 49.75,
+      "max": 53.0,
+      "p10": 50.5,
+      "p90": 51.75
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 51.7208,
+      "median": 51.75,
+      "stdev": 0.2847,
+      "min": 50.75,
+      "max": 52.5,
+      "p10": 51.25,
+      "p90": 52.0
+     },
+     "median_minus_applied": -53.0,
+     "boundary_minus_median": 53.0,
+     "boundary_minus_switch_open": 53.25,
+     "roll_close_minus_applied": -53.75,
+     "switch_open_minus_applied": -53.25
+    }
+   }
+  },
+  {
+   "sequence": 2,
+   "roll_date": "2025-06-12",
+   "switch_date": "2025-06-13",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQM25",
+     "new_contract": "MNQU25",
+     "applied_offset_points": -57.0,
+     "manifest_raw_spread_points": -57.0,
+     "boundary_recalc_points": -57.0,
+     "boundary_ts": {
+      "old_close_et": "2025-06-12T15:59:00-04:00",
+      "new_open_et": "2025-06-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 225.25,
+     "roll_close_ts": "2025-06-12T15:59:00-04:00",
+     "switch_open_spread_points": 222.0,
+     "switch_open_ts": "2025-06-13T09:00:00-04:00",
+     "overlap": {
+      "count": 829,
+      "mean": 221.8381,
+      "median": 221.75,
+      "stdev": 3.3346,
+      "min": 214.25,
+      "max": 232.5,
+      "p10": 217.0,
+      "p90": 225.75
+     },
+     "overlap_roll": {
+      "count": 409,
+      "mean": 224.541,
+      "median": 224.5,
+      "stdev": 1.9065,
+      "min": 217.25,
+      "max": 232.5,
+      "p10": 222.25,
+      "p90": 226.75
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 219.206,
+      "median": 219.75,
+      "stdev": 2.0878,
+      "min": 214.25,
+      "max": 223.0,
+      "p10": 216.25,
+      "p90": 221.75
+     },
+     "median_minus_applied": 278.75,
+     "boundary_minus_median": -278.75,
+     "boundary_minus_switch_open": -279.0,
+     "roll_close_minus_applied": 282.25,
+     "switch_open_minus_applied": 279.0
+    },
+    "NQ": {
+     "old_contract": "NQM25",
+     "new_contract": "NQU25",
+     "applied_offset_points": -57.0,
+     "manifest_raw_spread_points": -57.0,
+     "boundary_recalc_points": -57.0,
+     "boundary_ts": {
+      "old_close_et": "2025-06-12T15:59:00-04:00",
+      "new_open_et": "2025-06-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 226.25,
+     "roll_close_ts": "2025-06-12T15:59:00-04:00",
+     "switch_open_spread_points": 220.5,
+     "switch_open_ts": "2025-06-13T09:00:00-04:00",
+     "overlap": {
+      "count": 821,
+      "mean": 221.7387,
+      "median": 221.75,
+      "stdev": 3.5622,
+      "min": 212.25,
+      "max": 247.75,
+      "p10": 217.0,
+      "p90": 226.0
+     },
+     "overlap_roll": {
+      "count": 401,
+      "mean": 224.331,
+      "median": 224.5,
+      "stdev": 2.7257,
+      "min": 212.25,
+      "max": 247.75,
+      "p10": 221.0,
+      "p90": 226.75
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 219.2637,
+      "median": 219.5,
+      "stdev": 2.2734,
+      "min": 213.25,
+      "max": 225.25,
+      "p10": 216.0,
+      "p90": 222.0
+     },
+     "median_minus_applied": 278.75,
+     "boundary_minus_median": -278.75,
+     "boundary_minus_switch_open": -277.5,
+     "roll_close_minus_applied": 283.25,
+     "switch_open_minus_applied": 277.5
+    },
+    "ES": {
+     "old_contract": "ESM25",
+     "new_contract": "ESU25",
+     "applied_offset_points": -6.0,
+     "manifest_raw_spread_points": -6.0,
+     "boundary_recalc_points": -6.25,
+     "boundary_ts": {
+      "old_close_et": "2025-06-12T15:59:00-04:00",
+      "new_open_et": "2025-06-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": -0.25,
+     "boundary_recalc_minus_applied": -0.25,
+     "roll_close_spread_points": 53.25,
+     "roll_close_ts": "2025-06-12T15:59:00-04:00",
+     "switch_open_spread_points": 52.5,
+     "switch_open_ts": "2025-06-13T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 52.8435,
+      "median": 53.0,
+      "stdev": 0.4356,
+      "min": 51.5,
+      "max": 54.0,
+      "p10": 52.25,
+      "p90": 53.25
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 53.1613,
+      "median": 53.25,
+      "stdev": 0.2343,
+      "min": 52.0,
+      "max": 54.0,
+      "p10": 53.0,
+      "p90": 53.5
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 52.5256,
+      "median": 52.5,
+      "stdev": 0.3499,
+      "min": 51.5,
+      "max": 54.0,
+      "p10": 52.0,
+      "p90": 53.0
+     },
+     "median_minus_applied": 59.0,
+     "boundary_minus_median": -59.25,
+     "boundary_minus_switch_open": -58.75,
+     "roll_close_minus_applied": 59.25,
+     "switch_open_minus_applied": 58.5
+    }
+   }
+  },
+  {
+   "sequence": 3,
+   "roll_date": "2025-09-11",
+   "switch_date": "2025-09-12",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQU25",
+     "new_contract": "MNQZ25",
+     "applied_offset_points": 262.5,
+     "manifest_raw_spread_points": 262.5,
+     "boundary_recalc_points": 262.5,
+     "boundary_ts": {
+      "old_close_et": "2025-09-11T15:59:00-04:00",
+      "new_open_et": "2025-09-12T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 230.25,
+     "roll_close_ts": "2025-09-11T15:59:00-04:00",
+     "switch_open_spread_points": 232.5,
+     "switch_open_ts": "2025-09-12T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 232.7842,
+      "median": 233.0,
+      "stdev": 2.596,
+      "min": 226.5,
+      "max": 238.5,
+      "p10": 229.5,
+      "p90": 236.25
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 230.6435,
+      "median": 230.5,
+      "stdev": 1.5233,
+      "min": 226.5,
+      "max": 235.75,
+      "p10": 229.0,
+      "p90": 233.0
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 234.925,
+      "median": 234.875,
+      "stdev": 1.4094,
+      "min": 230.75,
+      "max": 238.5,
+      "p10": 233.0,
+      "p90": 236.75
+     },
+     "median_minus_applied": -29.5,
+     "boundary_minus_median": 29.5,
+     "boundary_minus_switch_open": 30.0,
+     "roll_close_minus_applied": -32.25,
+     "switch_open_minus_applied": -30.0
+    },
+    "NQ": {
+     "old_contract": "NQU25",
+     "new_contract": "NQZ25",
+     "applied_offset_points": 262.5,
+     "manifest_raw_spread_points": 262.25,
+     "boundary_recalc_points": 261.5,
+     "boundary_ts": {
+      "old_close_et": "2025-09-11T15:59:00-04:00",
+      "new_open_et": "2025-09-12T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": -0.75,
+     "boundary_recalc_minus_applied": -1.0,
+     "roll_close_spread_points": 229.75,
+     "roll_close_ts": "2025-09-11T15:59:00-04:00",
+     "switch_open_spread_points": 232.0,
+     "switch_open_ts": "2025-09-12T09:00:00-04:00",
+     "overlap": {
+      "count": 829,
+      "mean": 232.7268,
+      "median": 233.0,
+      "stdev": 2.6981,
+      "min": 225.0,
+      "max": 238.5,
+      "p10": 229.25,
+      "p90": 236.25
+     },
+     "overlap_roll": {
+      "count": 409,
+      "mean": 230.5281,
+      "median": 230.25,
+      "stdev": 1.8421,
+      "min": 225.0,
+      "max": 238.5,
+      "p10": 228.5,
+      "p90": 232.75
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 234.8679,
+      "median": 234.75,
+      "stdev": 1.3297,
+      "min": 231.25,
+      "max": 238.0,
+      "p10": 233.225,
+      "p90": 236.75
+     },
+     "median_minus_applied": -29.5,
+     "boundary_minus_median": 28.5,
+     "boundary_minus_switch_open": 29.5,
+     "roll_close_minus_applied": -32.75,
+     "switch_open_minus_applied": -30.5
+    },
+    "ES": {
+     "old_contract": "ESU25",
+     "new_contract": "ESZ25",
+     "applied_offset_points": 53.5,
+     "manifest_raw_spread_points": 53.5,
+     "boundary_recalc_points": 53.5,
+     "boundary_ts": {
+      "old_close_et": "2025-09-11T15:59:00-04:00",
+      "new_open_et": "2025-09-12T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 54.75,
+     "roll_close_ts": "2025-09-11T15:59:00-04:00",
+     "switch_open_spread_points": 55.25,
+     "switch_open_ts": "2025-09-12T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 55.3277,
+      "median": 55.25,
+      "stdev": 0.8368,
+      "min": 53.5,
+      "max": 57.0,
+      "p10": 54.25,
+      "p90": 56.5
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 54.5685,
+      "median": 54.5,
+      "stdev": 0.3108,
+      "min": 53.5,
+      "max": 55.5,
+      "p10": 54.25,
+      "p90": 55.0
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 56.0869,
+      "median": 56.0,
+      "stdev": 0.3872,
+      "min": 55.0,
+      "max": 57.0,
+      "p10": 55.5,
+      "p90": 56.5
+     },
+     "median_minus_applied": 1.75,
+     "boundary_minus_median": -1.75,
+     "boundary_minus_switch_open": -1.75,
+     "roll_close_minus_applied": 1.25,
+     "switch_open_minus_applied": 1.75
+    }
+   }
+  },
+  {
+   "sequence": 4,
+   "roll_date": "2025-12-11",
+   "switch_date": "2025-12-12",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQZ25",
+     "new_contract": "MNQH26",
+     "applied_offset_points": 171.0,
+     "manifest_raw_spread_points": 171.0,
+     "boundary_recalc_points": 171.0,
+     "boundary_ts": {
+      "old_close_et": "2025-12-11T15:59:00-05:00",
+      "new_open_et": "2025-12-12T09:00:00-05:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 258.5,
+     "roll_close_ts": "2025-12-11T15:59:00-05:00",
+     "switch_open_spread_points": 260.75,
+     "switch_open_ts": "2025-12-12T09:00:00-05:00",
+     "overlap": {
+      "count": 840,
+      "mean": 255.7235,
+      "median": 255.5,
+      "stdev": 2.3335,
+      "min": 246.25,
+      "max": 265.5,
+      "p10": 253.25,
+      "p90": 259.0
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 255.7512,
+      "median": 255.75,
+      "stdev": 2.2171,
+      "min": 246.25,
+      "max": 265.5,
+      "p10": 253.5,
+      "p90": 258.25
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 255.6958,
+      "median": 255.25,
+      "stdev": 2.4468,
+      "min": 249.25,
+      "max": 264.0,
+      "p10": 253.0,
+      "p90": 259.75
+     },
+     "median_minus_applied": 84.5,
+     "boundary_minus_median": -84.5,
+     "boundary_minus_switch_open": -89.75,
+     "roll_close_minus_applied": 87.5,
+     "switch_open_minus_applied": 89.75
+    },
+    "NQ": {
+     "old_contract": "NQZ25",
+     "new_contract": "NQH26",
+     "applied_offset_points": 171.0,
+     "manifest_raw_spread_points": 171.5,
+     "boundary_recalc_points": 171.25,
+     "boundary_ts": {
+      "old_close_et": "2025-12-11T15:59:00-05:00",
+      "new_open_et": "2025-12-12T09:00:00-05:00"
+     },
+     "boundary_recalc_minus_manifest_raw": -0.25,
+     "boundary_recalc_minus_applied": 0.25,
+     "roll_close_spread_points": 259.75,
+     "roll_close_ts": "2025-12-11T15:59:00-05:00",
+     "switch_open_spread_points": 260.75,
+     "switch_open_ts": "2025-12-12T09:00:00-05:00",
+     "overlap": {
+      "count": 822,
+      "mean": 255.8932,
+      "median": 255.75,
+      "stdev": 3.3028,
+      "min": 242.25,
+      "max": 271.25,
+      "p10": 252.0,
+      "p90": 260.0
+     },
+     "overlap_roll": {
+      "count": 402,
+      "mean": 255.9254,
+      "median": 256.0,
+      "stdev": 3.3938,
+      "min": 242.25,
+      "max": 271.25,
+      "p10": 252.0,
+      "p90": 259.75
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 255.8625,
+      "median": 255.5,
+      "stdev": 3.2171,
+      "min": 245.5,
+      "max": 267.25,
+      "p10": 252.25,
+      "p90": 260.0
+     },
+     "median_minus_applied": 84.75,
+     "boundary_minus_median": -84.5,
+     "boundary_minus_switch_open": -89.5,
+     "roll_close_minus_applied": 88.75,
+     "switch_open_minus_applied": 89.75
+    },
+    "ES": {
+     "old_contract": "ESZ25",
+     "new_contract": "ESH26",
+     "applied_offset_points": 59.5,
+     "manifest_raw_spread_points": 59.5,
+     "boundary_recalc_points": 59.5,
+     "boundary_ts": {
+      "old_close_et": "2025-12-11T15:59:00-05:00",
+      "new_open_et": "2025-12-12T09:00:00-05:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 59.5,
+     "roll_close_ts": "2025-12-11T15:59:00-05:00",
+     "switch_open_spread_points": 59.75,
+     "switch_open_ts": "2025-12-12T09:00:00-05:00",
+     "overlap": {
+      "count": 840,
+      "mean": 59.1467,
+      "median": 59.25,
+      "stdev": 0.4776,
+      "min": 57.5,
+      "max": 61.0,
+      "p10": 58.5,
+      "p90": 59.75
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 58.8006,
+      "median": 58.75,
+      "stdev": 0.3217,
+      "min": 57.5,
+      "max": 59.75,
+      "p10": 58.5,
+      "p90": 59.25
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 59.4929,
+      "median": 59.5,
+      "stdev": 0.3362,
+      "min": 58.75,
+      "max": 61.0,
+      "p10": 59.0,
+      "p90": 60.0
+     },
+     "median_minus_applied": -0.25,
+     "boundary_minus_median": 0.25,
+     "boundary_minus_switch_open": -0.25,
+     "roll_close_minus_applied": 0.0,
+     "switch_open_minus_applied": 0.25
+    }
+   }
+  },
+  {
+   "sequence": 5,
+   "roll_date": "2026-03-12",
+   "switch_date": "2026-03-13",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQH26",
+     "new_contract": "MNQM26",
+     "applied_offset_points": 340.25,
+     "manifest_raw_spread_points": 340.25,
+     "boundary_recalc_points": 340.25,
+     "boundary_ts": {
+      "old_close_et": "2026-03-12T15:59:00-04:00",
+      "new_open_et": "2026-03-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 214.75,
+     "roll_close_ts": "2026-03-12T15:59:00-04:00",
+     "switch_open_spread_points": 215.25,
+     "switch_open_ts": "2026-03-13T09:00:00-04:00",
+     "overlap": {
+      "count": 834,
+      "mean": 212.3162,
+      "median": 212.25,
+      "stdev": 4.1423,
+      "min": 192.0,
+      "max": 228.75,
+      "p10": 207.575,
+      "p90": 217.25
+     },
+     "overlap_roll": {
+      "count": 414,
+      "mean": 213.9982,
+      "median": 213.75,
+      "stdev": 4.3279,
+      "min": 192.0,
+      "max": 228.75,
+      "p10": 209.25,
+      "p90": 219.25
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 210.6583,
+      "median": 210.75,
+      "stdev": 3.1781,
+      "min": 197.5,
+      "max": 219.5,
+      "p10": 206.75,
+      "p90": 214.25
+     },
+     "median_minus_applied": -128.0,
+     "boundary_minus_median": 128.0,
+     "boundary_minus_switch_open": 125.0,
+     "roll_close_minus_applied": -125.5,
+     "switch_open_minus_applied": -125.0
+    },
+    "NQ": {
+     "old_contract": "NQH26",
+     "new_contract": "NQM26",
+     "applied_offset_points": 340.25,
+     "manifest_raw_spread_points": 335.0,
+     "boundary_recalc_points": 335.0,
+     "boundary_ts": {
+      "old_close_et": "2026-03-12T15:59:00-04:00",
+      "new_open_et": "2026-03-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": -5.25,
+     "roll_close_spread_points": 215.25,
+     "roll_close_ts": "2026-03-12T15:59:00-04:00",
+     "switch_open_spread_points": 209.75,
+     "switch_open_ts": "2026-03-13T09:00:00-04:00",
+     "overlap": {
+      "count": 824,
+      "mean": 212.3774,
+      "median": 212.0,
+      "stdev": 4.1277,
+      "min": 195.75,
+      "max": 232.25,
+      "p10": 208.0,
+      "p90": 217.175
+     },
+     "overlap_roll": {
+      "count": 404,
+      "mean": 214.1516,
+      "median": 213.75,
+      "stdev": 4.7275,
+      "min": 195.75,
+      "max": 232.25,
+      "p10": 208.325,
+      "p90": 219.425
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 210.6708,
+      "median": 210.5,
+      "stdev": 2.4527,
+      "min": 200.25,
+      "max": 219.5,
+      "p10": 207.75,
+      "p90": 213.75
+     },
+     "median_minus_applied": -128.25,
+     "boundary_minus_median": 123.0,
+     "boundary_minus_switch_open": 125.25,
+     "roll_close_minus_applied": -125.0,
+     "switch_open_minus_applied": -130.5
+    },
+    "ES": {
+     "old_contract": "ESH26",
+     "new_contract": "ESM26",
+     "applied_offset_points": 83.5,
+     "manifest_raw_spread_points": 83.5,
+     "boundary_recalc_points": 83.25,
+     "boundary_ts": {
+      "old_close_et": "2026-03-12T15:59:00-04:00",
+      "new_open_et": "2026-03-13T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": -0.25,
+     "boundary_recalc_minus_applied": -0.25,
+     "roll_close_spread_points": 49.75,
+     "roll_close_ts": "2026-03-12T15:59:00-04:00",
+     "switch_open_spread_points": 49.5,
+     "switch_open_ts": "2026-03-13T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 49.8899,
+      "median": 49.75,
+      "stdev": 0.3781,
+      "min": 48.75,
+      "max": 51.0,
+      "p10": 49.5,
+      "p90": 50.5
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 50.1149,
+      "median": 50.0,
+      "stdev": 0.3399,
+      "min": 48.75,
+      "max": 51.0,
+      "p10": 49.75,
+      "p90": 50.5
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 49.6649,
+      "median": 49.75,
+      "stdev": 0.2632,
+      "min": 49.0,
+      "max": 50.5,
+      "p10": 49.25,
+      "p90": 50.0
+     },
+     "median_minus_applied": -33.75,
+     "boundary_minus_median": 33.5,
+     "boundary_minus_switch_open": 33.75,
+     "roll_close_minus_applied": -33.75,
+     "switch_open_minus_applied": -34.0
+    }
+   }
+  },
+  {
+   "sequence": 6,
+   "roll_date": "2026-06-10",
+   "switch_date": "2026-06-11",
+   "symbols": {
+    "MNQ": {
+     "old_contract": "MNQM26",
+     "new_contract": "MNQU26",
+     "applied_offset_points": 560.25,
+     "manifest_raw_spread_points": 560.25,
+     "boundary_recalc_points": 561.25,
+     "boundary_ts": {
+      "old_close_et": "2026-06-10T15:59:00-04:00",
+      "new_open_et": "2026-06-11T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 1.0,
+     "boundary_recalc_minus_applied": 1.0,
+     "roll_close_spread_points": 277.0,
+     "roll_close_ts": "2026-06-10T15:59:00-04:00",
+     "switch_open_spread_points": 277.0,
+     "switch_open_ts": "2026-06-11T09:00:00-04:00",
+     "overlap": {
+      "count": 837,
+      "mean": 279.8551,
+      "median": 279.75,
+      "stdev": 5.202,
+      "min": 260.25,
+      "max": 301.75,
+      "p10": 273.5,
+      "p90": 285.75
+     },
+     "overlap_roll": {
+      "count": 417,
+      "mean": 279.6918,
+      "median": 279.5,
+      "stdev": 5.7395,
+      "min": 260.25,
+      "max": 301.75,
+      "p10": 272.65,
+      "p90": 286.6
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 280.0173,
+      "median": 280.0,
+      "stdev": 4.6081,
+      "min": 263.75,
+      "max": 297.5,
+      "p10": 274.475,
+      "p90": 285.275
+     },
+     "median_minus_applied": -280.5,
+     "boundary_minus_median": 281.5,
+     "boundary_minus_switch_open": 284.25,
+     "roll_close_minus_applied": -283.25,
+     "switch_open_minus_applied": -283.25
+    },
+    "NQ": {
+     "old_contract": "NQM26",
+     "new_contract": "NQU26",
+     "applied_offset_points": 560.25,
+     "manifest_raw_spread_points": 562.5,
+     "boundary_recalc_points": 562.5,
+     "boundary_ts": {
+      "old_close_et": "2026-06-10T15:59:00-04:00",
+      "new_open_et": "2026-06-11T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 2.25,
+     "roll_close_spread_points": 278.75,
+     "roll_close_ts": "2026-06-10T15:59:00-04:00",
+     "switch_open_spread_points": 274.0,
+     "switch_open_ts": "2026-06-11T09:00:00-04:00",
+     "overlap": {
+      "count": 825,
+      "mean": 279.9058,
+      "median": 280.0,
+      "stdev": 7.7064,
+      "min": 244.5,
+      "max": 311.75,
+      "p10": 270.75,
+      "p90": 288.75
+     },
+     "overlap_roll": {
+      "count": 405,
+      "mean": 279.892,
+      "median": 280.0,
+      "stdev": 9.18,
+      "min": 244.5,
+      "max": 311.75,
+      "p10": 268.5,
+      "p90": 290.25
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 279.919,
+      "median": 280.0,
+      "stdev": 5.9612,
+      "min": 254.25,
+      "max": 297.5,
+      "p10": 272.25,
+      "p90": 287.25
+     },
+     "median_minus_applied": -280.25,
+     "boundary_minus_median": 282.5,
+     "boundary_minus_switch_open": 288.5,
+     "roll_close_minus_applied": -281.5,
+     "switch_open_minus_applied": -286.25
+    },
+    "ES": {
+     "old_contract": "ESM26",
+     "new_contract": "ESU26",
+     "applied_offset_points": 101.5,
+     "manifest_raw_spread_points": 101.5,
+     "boundary_recalc_points": 101.5,
+     "boundary_ts": {
+      "old_close_et": "2026-06-10T15:59:00-04:00",
+      "new_open_et": "2026-06-11T09:00:00-04:00"
+     },
+     "boundary_recalc_minus_manifest_raw": 0.0,
+     "boundary_recalc_minus_applied": 0.0,
+     "roll_close_spread_points": 60.0,
+     "roll_close_ts": "2026-06-10T15:59:00-04:00",
+     "switch_open_spread_points": 61.25,
+     "switch_open_ts": "2026-06-11T09:00:00-04:00",
+     "overlap": {
+      "count": 840,
+      "mean": 60.8914,
+      "median": 61.0,
+      "stdev": 0.6682,
+      "min": 58.0,
+      "max": 62.75,
+      "p10": 60.0,
+      "p90": 61.75
+     },
+     "overlap_roll": {
+      "count": 420,
+      "mean": 60.5929,
+      "median": 60.5,
+      "stdev": 0.6822,
+      "min": 58.0,
+      "max": 62.5,
+      "p10": 59.75,
+      "p90": 61.5
+     },
+     "overlap_switch": {
+      "count": 420,
+      "mean": 61.1899,
+      "median": 61.25,
+      "stdev": 0.5001,
+      "min": 59.5,
+      "max": 62.75,
+      "p10": 60.5,
+      "p90": 61.75
+     },
+     "median_minus_applied": -40.5,
+     "boundary_minus_median": 40.5,
+     "boundary_minus_switch_open": 40.25,
+     "roll_close_minus_applied": -41.5,
+     "switch_open_minus_applied": -40.25
+    }
+   }
+  }
+ ],
+ "summary": {
+  "rolls": 6,
+  "symbol_rolls": 18,
+  "overlap_observations": 15019,
+  "median_abs_delta_vs_applied": 84.625,
+  "max_abs_delta_vs_applied": 280.5,
+  "median_abs_boundary_minus_overlap": 84.5,
+  "max_abs_boundary_minus_overlap": 282.5,
+  "median_abs_overnight_gap": 89.625
+ }
+}

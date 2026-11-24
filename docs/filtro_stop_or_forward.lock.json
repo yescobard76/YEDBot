@@ -1,0 +1,350 @@
+{
+  "schema": "filtro-stop-or-forward-lock-v1",
+  "protocol": "docs/VALIDACION_FILTRO_STOP_OR.md",
+  "protocol_sha256": "1c69a254a40a69af83d5c13f247383d6243f029f335b4fca73abdf7508b4f3c9",
+  "created": "2026-11-22",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-FILTER-STOP-OR-025",
+  "title": "Validación forward del filtro stop/ORB 0,25 en la variante full",
+  "execution_gate": {
+    "can_execute": false,
+    "phase0_implementation_authorized": false,
+    "requires_new_execution_lock": true,
+    "reasons": [
+      "No existe captura prospective diaria; CSVFeed reproduce un CSV estático.",
+      "server/market/databento_fetch.py fija QUARTERS en H25-Z26; faltan Z26-Z29 para 39 contratos.",
+      "DATABENTO_API_KEY no está configurada.",
+      "No existe preflight ni runner de análisis one-shot para este lock."
+    ]
+  },
+  "hypothesis": "En una muestra forward independiente, las operaciones full con stop_ticks/orb_width_ticks >= 0,25 tienen mayor esperanza en R que las operaciones con ratio < 0,25, y eliminar el cohorte inferior mejora el R total y el drawdown sin reducir la actividad a un nivel inutilizable.",
+  "arms": {
+    "control": {
+      "id": "C",
+      "label": "full sin filtro",
+      "risk.min_stop_or_ratio": 0.0
+    },
+    "treatment": {
+      "id": "T",
+      "label": "full con filtro 0,25",
+      "risk.min_stop_or_ratio": 0.25
+    }
+  },
+  "only_change": "risk.min_stop_or_ratio",
+  "frozen": {
+    "base_lock": "docs/protocolo_backtest.lock.json",
+    "base_lock_sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+    "variant": "full",
+    "settings_overrides": {
+      "control": {
+        "risk": {
+          "min_stop_or_ratio": 0.0
+        }
+      },
+      "treatment": {
+        "risk": {
+          "min_stop_or_ratio": 0.25
+        }
+      }
+    },
+    "feed": {
+      "provider": "csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "capture_mode": "prospective_daily_append",
+      "live_enabled": false
+    },
+    "risk": {
+      "initial_capital": 25000.0,
+      "risk_per_trade_pct": 1.0,
+      "max_sl_ticks": 200,
+      "max_contracts": 5
+    },
+    "execution": {
+      "tick_size": 0.25,
+      "tick_value": 0.5,
+      "commission_per_contract_side": 0.62,
+      "slippage_ticks": 1,
+      "max_slippage_ticks": 4,
+      "fill_model": "next_open"
+    }
+  },
+  "sample": {
+    "kind": "prospective_capture_forward_replay",
+    "status": "pending",
+    "start": "2026-12-01",
+    "end": "2029-11-30",
+    "calendar_sessions": 754,
+    "roll_sessions": 12,
+    "evaluated_sessions": 742,
+    "blocks": [
+      {
+        "id": "F1",
+        "start": "2026-12-01",
+        "end": "2027-05-31",
+        "calendar_sessions": 124,
+        "roll_sessions": 2,
+        "evaluated_sessions": 122
+      },
+      {
+        "id": "F2",
+        "start": "2027-06-01",
+        "end": "2027-11-30",
+        "calendar_sessions": 127,
+        "roll_sessions": 2,
+        "evaluated_sessions": 125
+      },
+      {
+        "id": "F3",
+        "start": "2027-12-01",
+        "end": "2028-05-31",
+        "calendar_sessions": 125,
+        "roll_sessions": 2,
+        "evaluated_sessions": 123
+      },
+      {
+        "id": "F4",
+        "start": "2028-06-01",
+        "end": "2028-11-30",
+        "calendar_sessions": 127,
+        "roll_sessions": 2,
+        "evaluated_sessions": 125
+      },
+      {
+        "id": "F5",
+        "start": "2028-12-01",
+        "end": "2029-05-31",
+        "calendar_sessions": 124,
+        "roll_sessions": 2,
+        "evaluated_sessions": 122
+      },
+      {
+        "id": "F6",
+        "start": "2029-06-01",
+        "end": "2029-11-30",
+        "calendar_sessions": 127,
+        "roll_sessions": 2,
+        "evaluated_sessions": 125
+      }
+    ],
+    "burn_in": {
+      "start": "2026-11-23",
+      "end": "2026-11-30",
+      "excluded_from_analysis": true
+    },
+    "expected_counts": {
+      "baseline_trades": 78,
+      "accepted_trades": 29,
+      "rejected_trades": 49,
+      "basis": "tasas observadas en W1-W6: 38/362 baseline y 14/362 aceptadas"
+    },
+    "minimums": {
+      "evaluated_sessions_min": 720,
+      "max_missing_month_share_pct": 20.0,
+      "max_consecutive_missing_sessions": 5,
+      "baseline_trades_min": 60,
+      "accepted_trades_min": 24,
+      "rejected_trades_min": 30,
+      "blocks_with_minimum": 5,
+      "block_baseline_min": 6,
+      "block_accepted_min": 2,
+      "accepted_shorts_min": 5
+    },
+    "forbidden": [
+      {
+        "id": "W1-W6",
+        "start": "2025-01-10",
+        "end": "2026-06-30",
+        "reason": "Muestra usada para descubrir y elegir el filtro; in-sample."
+      },
+      {
+        "id": "H1",
+        "start": "2026-07-01",
+        "end": "2026-10-30",
+        "reason": "Holdout sellado por el protocolo v1.2; no se abre para este filtro."
+      },
+      {
+        "id": "EXTERNAL_2024",
+        "start": "2024-01-02",
+        "end": "2024-12-30",
+        "reason": "Reservado por H-CONT-SELECTIVA-2024; no es independiente para esta hipótesis."
+      },
+      {
+        "id": "PILOT_10",
+        "start": "2025-01-16",
+        "end": "2025-01-30",
+        "reason": "Solapa W1-W6; no es una muestra independiente."
+      },
+      {
+        "id": "BURN_IN",
+        "start": "2026-11-23",
+        "end": "2026-11-30",
+        "reason": "Solo plomería de captura; excluido del análisis."
+      }
+    ]
+  },
+  "data_capture": {
+    "provider": "databento",
+    "dataset": "GLBX.MDP3",
+    "schema": "ohlcv-1m",
+    "roots": ["MNQ", "NQ", "ES"],
+    "series_mode": "raw",
+    "timezone": "America/New_York",
+    "contracts_per_root": [
+      "Z26",
+      "H27",
+      "M27",
+      "U27",
+      "Z27",
+      "H28",
+      "M28",
+      "U28",
+      "Z28",
+      "H29",
+      "M29",
+      "U29",
+      "Z29"
+    ],
+    "contracts_total": 39,
+    "rolls_total": 36,
+    "roll_sessions_total": 12,
+    "roll_dates": [
+      "2026-12-10",
+      "2027-03-11",
+      "2027-06-09",
+      "2027-09-09",
+      "2027-12-09",
+      "2028-03-09",
+      "2028-06-08",
+      "2028-09-07",
+      "2028-12-07",
+      "2029-03-08",
+      "2029-06-07",
+      "2029-09-13"
+    ],
+    "capture_after_close_et": "16:05",
+    "same_day_only": true,
+    "allow_backfill": false,
+    "allow_synthetic": false,
+    "allow_adjusted_series": false,
+    "per_session_manifest": true,
+    "append_only": true
+  },
+  "analysis": {
+    "primary": {
+      "id": "E1",
+      "name": "selection_delta_r_accepted_vs_rejected",
+      "formula": "mean(r_multiple | ratio >= 0.25) - mean(r_multiple | ratio < 0.25)",
+      "unit": "trade",
+      "cluster": "session",
+      "effect_min_r": 0.25,
+      "accepted_mean_min_r": 0.2,
+      "direction": "greater_than_zero"
+    },
+    "portfolio": {
+      "id": "P1",
+      "name": "rejected_cohort_total_r_not_positive",
+      "formula": "sum(r_multiple | ratio < 0.25) <= 0",
+      "equivalent_to": "sum(r_multiple | ratio >= 0.25) >= sum(r_multiple | all baseline)"
+    },
+    "sample_minimum": {
+      "evaluated_sessions": 720,
+      "baseline_trades": 60,
+      "accepted_trades": 24,
+      "rejected_trades": 30,
+      "blocks_with_minimum": 5,
+      "block_baseline_min": 6,
+      "block_accepted_min": 2,
+      "accepted_shorts": 5
+    },
+    "bootstrap": {
+      "method": "session_cluster_percentile",
+      "resamples": 10000,
+      "seed": 20261122,
+      "confidence": 0.95,
+      "min_valid_resamples": 9500,
+      "p_value": "one_sided_h0_delta_le_zero"
+    },
+    "gates": {
+      "integrity": [
+        "I1_protocol_and_code_hashes_match",
+        "I2_all_sessions_inside_allowed_window",
+        "I3_dataset_39_contracts_36_rolls_12_roll_sessions",
+        "I4_prospective_capture_manifest_no_backfill",
+        "I5_arms_differ_only_in_min_stop_or_ratio",
+        "I6_ratio_valid_for_100pct_baseline_trades",
+        "I7_no_lookahead_in_ratio",
+        "I8_deterministic_replay_10pct_sessions",
+        "I9_one_shot_analysis_output_absent"
+      ],
+      "sample": {
+        "S1": ">=720/742 evaluated sessions; no month <80%; no gap >5 consecutive",
+        "S2": ">=60 baseline trades",
+        "S3": ">=24 accepted and >=30 rejected",
+        "S4": ">=5/6 blocks with baseline >=6 and accepted >=2",
+        "S5": ">=5 accepted shorts; otherwise inconclusive_short"
+      },
+      "efficacy": {
+        "E1": "delta_sel >= +0.25 R",
+        "E2": "session-cluster bootstrap 95% lower bound > 0",
+        "E3": "mean_r_accepted >= +0.20 R"
+      },
+      "portfolio": {
+        "P1": "sum_r_rejected <= 0",
+        "P2": "r_profit_factor_accepted >= 1.25",
+        "P3": "max_drawdown_r_accepted <= min(8 R, baseline R drawdown) and treatment USD drawdown <= min(2000, baseline USD drawdown)",
+        "P4": "sum_r_rejected <= 0 in >=5/6 blocks",
+        "P5": "drop_best_3_total_r > 0, drop_best_month_total_r > 0, top_trade_share_gross_r <= 50%",
+        "P6": "cost stress: mean_r_accepted > 0 and r_profit_factor_accepted >= 1.10",
+        "P7": "accepted trades in >=12/36 months; max consecutive zero months <=4",
+        "P8": "if >=5 accepted shorts: short mean R >=0 and short total R >=0; else inconclusive_short",
+        "P9": "treatment total R >= baseline total R and treatment USD drawdown <= baseline USD drawdown"
+      }
+    },
+    "decision": {
+      "pass": "all I, S, E and P gates pass",
+      "fail": "I and S pass and at least one E/P gate fails with clear negative evidence",
+      "inconclusive": "I or S fails; or E2 includes zero without clear negative evidence and other gates do not fail; or fewer than 5 accepted shorts",
+      "no_promotion_on_fail_or_inconclusive": true,
+      "pass_does_not_authorize_live": true
+    },
+    "no_interim_efficacy_look": true,
+    "no_parameter_search": true,
+    "no_placebo_timing": true,
+    "no_multiple_comparisons_correction": true
+  },
+  "official_result": {
+    "path": "reports/backtest/min_stop_or_ratio_protocol.json",
+    "sha256": "2b44758bc3bb10af431f4e2b946e49ae3921ac9156ca1d68e576a3c2f67e572a",
+    "role": "in_sample_motivation_not_validation"
+  },
+  "provenance": {
+    "algorithm": "sha256-files-v1",
+    "files": {
+      "reports/backtest/run_min_stop_or_ratio_protocol.py": "9144385e92476c56a6cd54efb439950760e5c428558f29b6a1710ed349c0afd0",
+      "server/backtest.py": "d138b45790d93d57e3242e479f71860b1bc552a1255545ac6625f65f151b11ac",
+      "server/config.py": "670958c0585c014b01e01163ef26ac78e8d346b8a12d24d65d560fc51a4b0063",
+      "server/execution.py": "05cbf7ae6c630a69128c2f0f34ed720f97e012c78c7a69bc1031d1a21ad5f50b",
+      "server/market/csv_data.py": "a21201eee6ee4446b161cbb36164893050c7fa26156629d4ed6c98d4cc61c731",
+      "server/market/feed.py": "fed2c2d5b33f25a434f21fb4b0c58a6fc1d6bd92d9ae9353713f563e7b6d3ffa",
+      "server/risk.py": "33b867f55d8570e1af084f44e90071218a47f09d10dfad37eb8d17fa4b16c544",
+      "server/stats.py": "83528d0386c7644db3185fffca5bdfe9e3fde908f6767f92013d04b234749a62",
+      "server/strategy/orb.py": "ad5ea0958946e692af6c07c5c1529c38a312fa86f01bd277295769a0cad62acb",
+      "server/strategy/strategy.py": "4150d01cdee8364d14bc34610bb9ac9e4536fbb9a4c6bf3eeb4a13a2177ea628"
+    },
+    "combined_sha256": "162b6cab86f55b820e9c074a6880ce4573deb2b17b998a904bb915e88ec4d036",
+    "combined_algorithm": "sha256 of sorted 'path:sha256' lines with trailing newline",
+    "final_code_provenance_required_at_execution": true
+  },
+  "one_shot": {
+    "analysis_output": "reports/backtest/filtro_stop_or_forward/analysis.json",
+    "must_not_exist_before_start": true,
+    "efficacy_analyses_allowed": 1,
+    "rerun_only_for_technical_failure_before_metrics": true,
+    "output_hash_required": true
+  },
+  "no_live_authorization": true,
+  "no_sample_substitution": true,
+  "holdout_access": false,
+  "notes": "Lock de diseño. No se ha leído ninguna barra nueva, no se ha ejecutado ningún backtest ni paper y el holdout sigue sellado. La ejecución requiere un lock de ejecución posterior y la fase 0 de captura/preflight."
+}

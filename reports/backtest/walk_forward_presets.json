@@ -1,0 +1,236 @@
+{
+  "schema": "preset-walk-forward-v1",
+  "source": "reports/backtest/presets_default_dev.json",
+  "holdout_executed": false,
+  "scope": "W1-W6 development blocks; no holdout",
+  "initial_capital": 25000.0,
+  "selection_rule": {
+    "type": "expanding walk-forward",
+    "train": "W1..Wt",
+    "test": "W(t+1)",
+    "folds": 5,
+    "min_train_trades": 5,
+    "score": "train_net / max(train_worst_block_dd, 1)",
+    "require_positive_train_net": true,
+    "fallback": "cash",
+    "tie_break": "higher train_net, lower train_worst_dd, preset name",
+    "test_used_for_selection": false
+  },
+  "folds": [
+    {
+      "fold": 1,
+      "train_windows": [
+        "W1"
+      ],
+      "test_window": "W2",
+      "selected": "setup_validity_240",
+      "selection": {
+        "preset": "setup_validity_240",
+        "train_trades": 13,
+        "train_net": 894.5,
+        "train_worst_dd": 1015.36,
+        "score": 0.880968326504885,
+        "train_pf": 1.6156
+      },
+      "test": {
+        "trades": 7,
+        "net_profit": 429.28,
+        "max_drawdown": 385.6,
+        "profit_factor": 1.89
+      },
+      "baseline": {
+        "trades": 4,
+        "net_profit": 268.4,
+        "max_drawdown": 378.88,
+        "profit_factor": 1.71
+      },
+      "oracle": {
+        "preset": "rr_2_5",
+        "net_profit": 700.9
+      },
+      "delta_vs_baseline": 160.88
+    },
+    {
+      "fold": 2,
+      "train_windows": [
+        "W1",
+        "W2"
+      ],
+      "test_window": "W3",
+      "selected": "rr_2_5",
+      "selection": {
+        "preset": "rr_2_5",
+        "train_trades": 12,
+        "train_net": 1209.22,
+        "train_worst_dd": 619.42,
+        "score": 1.9521810726163187,
+        "train_pf": 1.8987
+      },
+      "test": {
+        "trades": 9,
+        "net_profit": -318.46,
+        "max_drawdown": 1084.8,
+        "profit_factor": 0.76
+      },
+      "baseline": {
+        "trades": 9,
+        "net_profit": -110.46,
+        "max_drawdown": 1084.8,
+        "profit_factor": 0.92
+      },
+      "oracle": {
+        "preset": "smt_tolerance_16",
+        "net_profit": 533.88
+      },
+      "delta_vs_baseline": -208.0
+    },
+    {
+      "fold": 3,
+      "train_windows": [
+        "W1",
+        "W2",
+        "W3"
+      ],
+      "test_window": "W4",
+      "selected": "smt_window_120",
+      "selection": {
+        "preset": "smt_window_120",
+        "train_trades": 22,
+        "train_net": 1123.8,
+        "train_worst_dd": 619.42,
+        "score": 1.814277872848794,
+        "train_pf": 1.4063
+      },
+      "test": {
+        "trades": 4,
+        "net_profit": 2034.12,
+        "max_drawdown": 0.0,
+        "profit_factor": null
+      },
+      "baseline": {
+        "trades": 4,
+        "net_profit": 2034.12,
+        "max_drawdown": 0.0,
+        "profit_factor": null
+      },
+      "oracle": {
+        "preset": "recovery_off",
+        "net_profit": 2108.12
+      },
+      "delta_vs_baseline": 0.0
+    },
+    {
+      "fold": 4,
+      "train_windows": [
+        "W1",
+        "W2",
+        "W3",
+        "W4"
+      ],
+      "test_window": "W5",
+      "selected": "smt_window_120",
+      "selection": {
+        "preset": "smt_window_120",
+        "train_trades": 26,
+        "train_net": 3157.92,
+        "train_worst_dd": 619.42,
+        "score": 5.098188628071422,
+        "train_pf": 2.1417
+      },
+      "test": {
+        "trades": 5,
+        "net_profit": -1036.52,
+        "max_drawdown": 1036.52,
+        "profit_factor": 0.0
+      },
+      "baseline": {
+        "trades": 5,
+        "net_profit": -1036.52,
+        "max_drawdown": 1036.52,
+        "profit_factor": 0.0
+      },
+      "oracle": {
+        "preset": "entry_breakout_direct",
+        "net_profit": 0.0
+      },
+      "delta_vs_baseline": 0.0
+    },
+    {
+      "fold": 5,
+      "train_windows": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5"
+      ],
+      "test_window": "W6",
+      "selected": "smt_window_120",
+      "selection": {
+        "preset": "smt_window_120",
+        "train_trades": 31,
+        "train_net": 2121.4,
+        "train_worst_dd": 1036.52,
+        "score": 2.0466561185505343,
+        "train_pf": 1.5579
+      },
+      "test": {
+        "trades": 8,
+        "net_profit": -1115.42,
+        "max_drawdown": 1187.8,
+        "profit_factor": 0.22
+      },
+      "baseline": {
+        "trades": 8,
+        "net_profit": -858.92,
+        "max_drawdown": 931.3,
+        "profit_factor": 0.27
+      },
+      "oracle": {
+        "preset": "sl_depth_6",
+        "net_profit": 318.8
+      },
+      "delta_vs_baseline": -256.5
+    }
+  ],
+  "summary": {
+    "selected": {
+      "label": "selected",
+      "tests": 5,
+      "positive_tests": 2,
+      "trades": 33,
+      "net_profit": -7.0,
+      "profit_factor": 0.9984,
+      "worst_test_dd": 1187.8,
+      "boundary_dd": 2286.62,
+      "compounded_return_pct": -0.554,
+      "final_equity": 24861.42,
+      "delta_net_vs_baseline": -303.62,
+      "delta_compounded_pct_vs_baseline": -1.273
+    },
+    "baseline": {
+      "label": "baseline",
+      "tests": 5,
+      "positive_tests": 2,
+      "trades": 30,
+      "net_profit": 296.62,
+      "profit_factor": 1.0754,
+      "worst_test_dd": 1084.8,
+      "boundary_dd": 2023.76,
+      "compounded_return_pct": 0.719,
+      "final_equity": 25179.87
+    },
+    "oracle": {
+      "label": "oracle (hindsight)",
+      "tests": 5,
+      "positive_tests": 4,
+      "trades": 20,
+      "net_profit": 3661.7,
+      "profit_factor": 3.2376,
+      "worst_test_dd": 616.86,
+      "boundary_dd": 0.0,
+      "compounded_return_pct": 15.305,
+      "final_equity": 28826.22
+    }
+  }
+}

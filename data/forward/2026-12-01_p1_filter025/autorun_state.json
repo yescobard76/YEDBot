@@ -1,0 +1,13 @@
+{
+  "autorun_pid": 17864,
+  "panel": true,
+  "ports": {
+    "control": 8775,
+    "treatment": 8776
+  },
+  "processes": {},
+  "schema": "forward-autorun-state-v1",
+  "status": "stopped",
+  "updated_at": "2026-11-24T00:51:38Z",
+  "window_id": "2026-12-01_p1_filter025"
+}

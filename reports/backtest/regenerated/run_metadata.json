@@ -1,0 +1,131 @@
+{
+  "schema": "development-regenerated-v1",
+  "created_at": "2026-11-20T21:15:36-06:00",
+  "code_sha256": "dd9c882668c14a15c281f44b31cee4e474e8ce0d902a68cec656c62556482b37",
+  "code_files": 42,
+  "dataset_sha256": "1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a",
+  "settings_sha256": "09dc05923d81a1d61bead548d274fe6a9cecbf37f6e37473904c0603b1bdef99",
+  "protocol_sha256": "2419ec7e4d008e0007372b373c5e045428e7252fb62c4a43a6a7b6a63172d49f",
+  "lock_sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+  "holdout": {
+    "status": "sealed",
+    "inspected": false,
+    "before": {
+      "reports/backtest/holdout.json": null,
+      "reports/backtest/holdout.seal.json": null,
+      "reports/backtest/holdout.ledger.jsonl": null,
+      "reports/backtest/holdout.receipt.json": null
+    },
+    "after": {
+      "reports/backtest/holdout.json": null,
+      "reports/backtest/holdout.seal.json": null,
+      "reports/backtest/holdout.ledger.jsonl": null,
+      "reports/backtest/holdout.receipt.json": null
+    }
+  },
+  "tasks": [
+    {
+      "name": "W1",
+      "window": "W1",
+      "mode": "raw",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "sessions": 54
+    },
+    {
+      "name": "W2",
+      "window": "W2",
+      "mode": "raw",
+      "start": "2025-04-01",
+      "end": "2025-06-30",
+      "sessions": 61
+    },
+    {
+      "name": "W3",
+      "window": "W3",
+      "mode": "raw",
+      "start": "2025-07-01",
+      "end": "2025-09-30",
+      "sessions": 63
+    },
+    {
+      "name": "W4",
+      "window": "W4",
+      "mode": "raw",
+      "start": "2025-10-01",
+      "end": "2025-12-31",
+      "sessions": 63
+    },
+    {
+      "name": "W5",
+      "window": "W5",
+      "mode": "raw",
+      "start": "2026-01-01",
+      "end": "2026-03-31",
+      "sessions": 60
+    },
+    {
+      "name": "W6",
+      "window": "W6",
+      "mode": "raw",
+      "start": "2026-04-01",
+      "end": "2026-06-30",
+      "sessions": 61
+    },
+    {
+      "name": "W1_repeat",
+      "window": "W1",
+      "mode": "raw",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "sessions": 54
+    },
+    {
+      "name": "W1_adjusted",
+      "window": "W1",
+      "mode": "adjusted",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "sessions": 54
+    }
+  ],
+  "windows": [
+    {
+      "id": "W1",
+      "sessions": 54,
+      "first_et": "2025-01-10 09:00",
+      "last_et": "2025-03-31 15:59"
+    },
+    {
+      "id": "W2",
+      "sessions": 61,
+      "first_et": "2025-04-01 09:00",
+      "last_et": "2025-06-30 15:59"
+    },
+    {
+      "id": "W3",
+      "sessions": 63,
+      "first_et": "2025-07-01 09:00",
+      "last_et": "2025-09-30 15:59"
+    },
+    {
+      "id": "W4",
+      "sessions": 63,
+      "first_et": "2025-10-01 09:00",
+      "last_et": "2025-12-31 15:59"
+    },
+    {
+      "id": "W5",
+      "sessions": 60,
+      "first_et": "2026-01-02 09:00",
+      "last_et": "2026-03-31 15:59"
+    },
+    {
+      "id": "W6",
+      "sessions": 61,
+      "first_et": "2026-04-01 09:00",
+      "last_et": "2026-06-30 15:59"
+    }
+  ],
+  "elapsed_s": 178.7
+}

@@ -1,0 +1,230 @@
+{
+  "protocol": "docs/PROTOCOLO_BACKTEST.md",
+  "protocol_version": "1.2",
+  "frozen_at": "2026-11-20",
+  "protocol_sha256": "2419ec7e4d008e0007372b373c5e045428e7252fb62c4a43a6a7b6a63172d49f",
+  "status": "frozen-not-executed",
+  "instrument": "MNQ",
+  "reference_symbol": "NQ",
+  "comparison_symbol": "ES",
+  "timezone": "America/New_York",
+  "dataset": {
+    "provider": "csv",
+    "csv_path": "data/real/bars_mnq_nq_es_1m.csv",
+    "required_columns": [
+      "timestamp",
+      "symbol",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "contract",
+      "expiry"
+    ],
+    "series_mode": "raw",
+    "exclude_roll_sessions": true,
+    "expected_calendar_sessions": 454,
+    "expected_dev_calendar_sessions": 368,
+    "expected_holdout_calendar_sessions": 86,
+    "expected_sessions": 447,
+    "expected_dev_sessions": 362,
+    "expected_holdout_sessions": 85,
+    "expected_contracts": 24,
+    "expected_roll_events": 21,
+    "expected_roll_sessions": 7,
+    "file_sha256": null,
+    "dataset_id": null,
+    "series_id": null,
+    "expected_regular_bars": 420,
+    "expected_early_close_sessions": 3,
+    "expected_early_close_bars": {
+      "13:00": 240,
+      "13:15": 255
+    },
+    "expected_total_minutes_per_symbol": 190170,
+    "expected_total_minutes_all_symbols": 570510,
+    "max_flat_filled_bars": 570
+  },
+  "windows": [
+    {
+      "id": "W1",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "calendar_sessions": 55,
+      "sessions": 54
+    },
+    {
+      "id": "W2",
+      "start": "2025-04-01",
+      "end": "2025-06-30",
+      "calendar_sessions": 62,
+      "sessions": 61
+    },
+    {
+      "id": "W3",
+      "start": "2025-07-01",
+      "end": "2025-09-30",
+      "calendar_sessions": 64,
+      "sessions": 63
+    },
+    {
+      "id": "W4",
+      "start": "2025-10-01",
+      "end": "2025-12-31",
+      "calendar_sessions": 64,
+      "sessions": 63
+    },
+    {
+      "id": "W5",
+      "start": "2026-01-01",
+      "end": "2026-03-31",
+      "calendar_sessions": 61,
+      "sessions": 60
+    },
+    {
+      "id": "W6",
+      "start": "2026-04-01",
+      "end": "2026-06-30",
+      "calendar_sessions": 62,
+      "sessions": 61
+    }
+  ],
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "calendar_sessions": 86,
+    "sessions": 85
+  },
+  "parameter_ranges": {},
+  "acceptance": {
+    "dev_min_trades": 80,
+    "dev_min_trades_per_direction": 20,
+    "dev_min_profit_factor": 1.25,
+    "dev_min_expectancy_r": 0.1,
+    "dev_max_drawdown_pct": 8.0,
+    "dev_max_losing_streak": 8,
+    "dev_min_blocks_with_pf_above_1": 4,
+    "dev_block_min_trades": 15,
+    "dev_block_fail_profit_factor": 0.7,
+    "stress_min_profit_factor": 1.1,
+    "stress_commission_per_side": 1.24,
+    "stress_slippage_ticks": 2,
+    "max_top5_share_of_gross_profit_pct": 50.0,
+    "max_best_month_share_of_net_pct": 50.0,
+    "bootstrap_lower_bound_confidence": 0.8,
+    "short_min_profit_factor": 0.95,
+    "short_min_expectancy_r": -0.05,
+    "max_ambiguous_share_pct": 5.0,
+    "ambiguous_review_share_pct": 10.0,
+    "holdout_min_trades": 18,
+    "holdout_min_profit_factor": 1.0,
+    "holdout_min_expectancy_r": 0.0,
+    "holdout_max_drawdown_pct": 10.0,
+    "dev_max_drawdown_usd": 2000.0,
+    "holdout_max_drawdown_usd": 2500.0,
+    "max_flat_filled_share_pct": 0.1,
+    "drop_best_count": 5,
+    "holdout_inconclusive_min_trades": 12,
+    "paper_sessions": 20,
+    "holdout_inconclusive_max_trades": 17
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20250102,
+    "confidence_levels": [
+      0.025,
+      0.1,
+      0.9,
+      0.975
+    ]
+  },
+  "settings": {
+    "instrument": "MNQ",
+    "reference_symbol": "NQ",
+    "comparison_symbol": "ES",
+    "mode": "paper",
+    "orb": {
+      "start": "09:00",
+      "end": "10:00",
+      "timezone": "America/New_York",
+      "max_width_pct": 1.2
+    },
+    "smt": {
+      "enabled": true,
+      "pivot_depth": 5,
+      "window_minutes": 60,
+      "tolerance_ticks": 8,
+      "min_break_ticks": 2,
+      "validity_minutes": 120,
+      "detect_tf": "1m",
+      "require_recovery": true
+    },
+    "strategy": {
+      "name": "YED ORB+SMT",
+      "confirm_tf": "15m",
+      "require_close_breakout": true,
+      "breakout_buffer_ticks": 2,
+      "min_range_ticks": 10,
+      "setup_validity_minutes": 150,
+      "use_smt": true,
+      "allow_reentry_after_false_breakout": false,
+      "entry_reference": "or_mid",
+      "retest_tolerance_ticks": 12,
+      "require_recovery_close": true,
+      "entry_trigger": "close",
+      "sl_mode": "structural",
+      "sl_buffer_ticks": 4,
+      "atr_period": 14,
+      "atr_sl_mult": 1.2,
+      "tp_rr": 3.0,
+      "structural_depth": 3
+    },
+    "risk": {
+      "initial_capital": 25000.0,
+      "risk_per_trade_pct": 1.0,
+      "max_daily_loss_pct": 3.0,
+      "max_daily_profit_pct": 0.0,
+      "max_trades_per_day": 3,
+      "max_concurrent_positions": 1,
+      "max_contracts": 5,
+      "max_sl_ticks": 200,
+      "trade_window_start": "09:00",
+      "trade_window_end": "15:30",
+      "close_at_session_end": true,
+      "session_close_time": "15:55",
+      "cooldown_minutes": 5,
+      "no_trade_after_consecutive_losses": 0
+    },
+    "execution": {
+      "tick_size": 0.25,
+      "tick_value": 0.5,
+      "point_value": 2.0,
+      "slippage_ticks": 1,
+      "commission_per_contract_side": 0.62,
+      "fill_model": "next_open",
+      "simulate_partial_fills": false,
+      "partial_fill_ratio": 0.6,
+      "max_slippage_ticks": 4
+    },
+    "feed": {
+      "provider": "csv",
+      "csv_path": "data/real/bars_mnq_nq_es_1m.csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "replay_speed": 2.5,
+      "loop_sessions": true,
+      "start_date": "",
+      "latency_ms": 0
+    },
+    "live": {
+      "broker": "none",
+      "environment": "demo",
+      "account_ref": "",
+      "data_feed": "",
+      "live_enabled": false,
+      "live_confirmation": ""
+    }
+  }
+}

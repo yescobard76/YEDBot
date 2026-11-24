@@ -1,0 +1,152 @@
+{
+  "schema_version": "development-only",
+  "scope": "development",
+  "created_at": "2026-11-19T22:51:21-06:00",
+  "holdout": {
+    "status": "sealed",
+    "inspected": false
+  },
+  "protocol": {
+    "path": "docs/PROTOCOLO_BACKTEST.md",
+    "sha256": "2419ec7e4d008e0007372b373c5e045428e7252fb62c4a43a6a7b6a63172d49f",
+    "version": "1.2"
+  },
+  "lock": {
+    "path": "docs/protocolo_backtest.lock.json",
+    "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+    "config_sha256": "09dc05923d81a1d61bead548d274fe6a9cecbf37f6e37473904c0603b1bdef99"
+  },
+  "code": {
+    "sha256": "648858d576d40b5fdb41f33cf8af9e88efa61225b59ca49ef97cfbe766f39a60",
+    "roots": [
+      "server",
+      "tests"
+    ],
+    "files": 41
+  },
+  "dataset": {
+    "path": "data/real/bars_mnq_nq_es_1m.csv",
+    "file_sha256": "1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a",
+    "dataset_id": "f2e9a2c5dff56b79195dcc19cc79b2dd9b2245ebfde6e7956471967a31f3f2b3",
+    "series_id": "b844560f36b33c478c0e1e7caee18bb639488b0113d071d5369c640b865f07ff",
+    "series_mode": "raw",
+    "all_sessions": 368,
+    "evaluated_sessions": 362,
+    "rows": 462150,
+    "common_bars": 151530,
+    "all_common_bars": 154050,
+    "contracts": {
+      "ES": [
+        "ESH25",
+        "ESH26",
+        "ESM25",
+        "ESM26",
+        "ESU25",
+        "ESU26",
+        "ESZ25"
+      ],
+      "MNQ": [
+        "MNQH25",
+        "MNQH26",
+        "MNQM25",
+        "MNQM26",
+        "MNQU25",
+        "MNQU26",
+        "MNQZ25"
+      ],
+      "NQ": [
+        "NQH25",
+        "NQH26",
+        "NQM25",
+        "NQM26",
+        "NQU25",
+        "NQU26",
+        "NQZ25"
+      ]
+    },
+    "contract_expiries": {
+      "ESH25": "2025-03-21",
+      "ESH26": "2026-03-20",
+      "ESM25": "2025-06-20",
+      "ESM26": "2026-06-18",
+      "ESU25": "2025-09-19",
+      "ESU26": "2026-09-18",
+      "ESZ25": "2025-12-19",
+      "MNQH25": "2025-03-21",
+      "MNQH26": "2026-03-20",
+      "MNQM25": "2025-06-20",
+      "MNQM26": "2026-06-18",
+      "MNQU25": "2025-09-19",
+      "MNQU26": "2026-09-18",
+      "MNQZ25": "2025-12-19",
+      "NQH25": "2025-03-21",
+      "NQH26": "2026-03-20",
+      "NQM25": "2025-06-20",
+      "NQM26": "2026-06-18",
+      "NQU25": "2025-09-19",
+      "NQU26": "2026-09-18",
+      "NQZ25": "2025-12-19"
+    },
+    "roll_events": 6,
+    "roll_sessions": [
+      "2025-03-13",
+      "2025-06-12",
+      "2025-09-11",
+      "2025-12-11",
+      "2026-03-12",
+      "2026-06-10"
+    ],
+    "fills": 0,
+    "windows": [
+      {
+        "id": "W1",
+        "start": "2025-01-10",
+        "end": "2025-03-31",
+        "calendar_sessions": 55,
+        "evaluated_sessions": 54,
+        "expected_evaluated": 54
+      },
+      {
+        "id": "W2",
+        "start": "2025-04-01",
+        "end": "2025-06-30",
+        "calendar_sessions": 62,
+        "evaluated_sessions": 61,
+        "expected_evaluated": 61
+      },
+      {
+        "id": "W3",
+        "start": "2025-07-01",
+        "end": "2025-09-30",
+        "calendar_sessions": 64,
+        "evaluated_sessions": 63,
+        "expected_evaluated": 63
+      },
+      {
+        "id": "W4",
+        "start": "2025-10-01",
+        "end": "2025-12-31",
+        "calendar_sessions": 64,
+        "evaluated_sessions": 63,
+        "expected_evaluated": 63
+      },
+      {
+        "id": "W5",
+        "start": "2026-01-01",
+        "end": "2026-03-31",
+        "calendar_sessions": 61,
+        "evaluated_sessions": 60,
+        "expected_evaluated": 60
+      },
+      {
+        "id": "W6",
+        "start": "2026-04-01",
+        "end": "2026-06-30",
+        "calendar_sessions": 62,
+        "evaluated_sessions": 61,
+        "expected_evaluated": 61
+      }
+    ]
+  },
+  "note": "Manifiesto de desarrollo: el dataset_manifest.json oficial del protocolo exige 454 sesiones y 24 contratos, que solo existen al incorporar el holdout sellado. Este archivo acredita la procedencia de la fase de desarrollo."
+}

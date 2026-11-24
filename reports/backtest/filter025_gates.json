@@ -1,0 +1,781 @@
+{
+  "schema": "filter025-gates-v1",
+  "generated_at": "2026-11-24T02:58:37+00:00",
+  "scope": "historical_w1_w6_read_only",
+  "backtest_executed": false,
+  "holdout_read": false,
+  "config": "reports\\backtest\\filter025_gates.config.json",
+  "inputs": {
+    "reports\\backtest\\_manual_filter025_w1_w6.json": {
+      "sha256": "193a2bc1ab9885eb55ee988ca082cf51ed2975ca15f6c1421605d379c723aca7",
+      "trades": 46,
+      "accepted": 17,
+      "rejected": 29
+    },
+    "reports\\backtest\\p2_w1_w6_confirm.json": {
+      "sha256": "3b2d654a6298b181c0ad1161a038e7f8f95eaa70de26c211f2e3d2f82b9e9312",
+      "baseline_trades": 46
+    }
+  },
+  "aggregate": {
+    "accepted": {
+      "trades": 17,
+      "net": 4202.2,
+      "pf_usd": 4.249760262319423,
+      "sum_r": 18.85,
+      "mean_r": 1.1088,
+      "pf_r": 3.8955453149001538,
+      "dd_r": 5.04,
+      "dd_usd": 946.38,
+      "worst_loss_streak": 5,
+      "shorts": 8,
+      "longs": 9
+    },
+    "baseline": {
+      "trades": 46,
+      "net": 2471.78,
+      "pf_usd": 1.39339508530685,
+      "sum_r": 11.56,
+      "mean_r": 0.2513,
+      "pf_r": 1.4125624553890077,
+      "dd_r": 10.15,
+      "dd_usd": 2304.46,
+      "worst_loss_streak": 10,
+      "shorts": 20,
+      "longs": 26
+    },
+    "rejected": {
+      "trades": 29,
+      "net": -1730.42,
+      "pf_usd": 0.6532307840292418,
+      "sum_r": -7.29,
+      "mean_r": -0.2514,
+      "pf_r": 0.6610878661087866,
+      "dd_r": 12.24,
+      "dd_usd": 2828.74,
+      "worst_loss_streak": 13,
+      "shorts": 12,
+      "longs": 17
+    }
+  },
+  "quarterly": {
+    "blocks": [
+      {
+        "id": "W1",
+        "quarter": "2025-Q1",
+        "start": "2025-01-10",
+        "end": "2025-03-31",
+        "accepted": 4,
+        "baseline": 14,
+        "rejected": 10,
+        "accepted_net": 1622.84,
+        "accepted_r": 7.41,
+        "rejected_r": 2.42,
+        "accepted_pf": "inf",
+        "baseline_pf": 2.525641374062398,
+        "rejected_pf": 1.423048700945755,
+        "empty_accepted": false,
+        "empty_rejected": false
+      },
+      {
+        "id": "W2",
+        "quarter": "2025-Q2",
+        "start": "2025-04-01",
+        "end": "2025-06-30",
+        "accepted": 2,
+        "baseline": 5,
+        "rejected": 3,
+        "accepted_net": 554.8,
+        "accepted_r": 2.45,
+        "rejected_r": 0.65,
+        "accepted_pf": 6.999134948096885,
+        "baseline_pf": 2.2079230248816057,
+        "rejected_pf": 1.2000727868255847,
+        "empty_accepted": false,
+        "empty_rejected": false
+      },
+      {
+        "id": "W3",
+        "quarter": "2025-Q3",
+        "start": "2025-07-01",
+        "end": "2025-09-30",
+        "accepted": 8,
+        "baseline": 11,
+        "rejected": 3,
+        "accepted_net": 63.96,
+        "accepted_r": -0.02,
+        "rejected_r": -2.09,
+        "accepted_pf": 1.0532733633183409,
+        "baseline_pf": 0.7331292611659942,
+        "rejected_pf": 0.0,
+        "empty_accepted": false,
+        "empty_rejected": false
+      },
+      {
+        "id": "W4",
+        "quarter": "2025-Q4",
+        "start": "2025-10-01",
+        "end": "2025-12-31",
+        "accepted": 3,
+        "baseline": 3,
+        "rejected": 0,
+        "accepted_net": 1960.6,
+        "accepted_r": 9.01,
+        "rejected_r": 0,
+        "accepted_pf": "inf",
+        "baseline_pf": "inf",
+        "rejected_pf": null,
+        "empty_accepted": false,
+        "empty_rejected": true
+      },
+      {
+        "id": "W5",
+        "quarter": "2026-Q1",
+        "start": "2026-01-01",
+        "end": "2026-03-31",
+        "accepted": 0,
+        "baseline": 6,
+        "rejected": 6,
+        "accepted_net": 0,
+        "accepted_r": 0,
+        "rejected_r": -6.08,
+        "accepted_pf": null,
+        "baseline_pf": 0.0,
+        "rejected_pf": 0.0,
+        "empty_accepted": true,
+        "empty_rejected": false
+      },
+      {
+        "id": "W6",
+        "quarter": "2026-Q2",
+        "start": "2026-04-01",
+        "end": "2026-06-30",
+        "accepted": 0,
+        "baseline": 7,
+        "rejected": 7,
+        "accepted_net": 0,
+        "accepted_r": 0,
+        "rejected_r": -2.19,
+        "accepted_pf": null,
+        "baseline_pf": 0.6030911257827132,
+        "rejected_pf": 0.6030911257827132,
+        "empty_accepted": true,
+        "empty_rejected": false
+      }
+    ],
+    "active_quarters": 4,
+    "empty_blocks": [
+      "W5",
+      "W6"
+    ],
+    "positive_active": 3,
+    "positive_share": 0.75,
+    "worst_active_r": -0.02,
+    "top2_share_pct": 85.28,
+    "rejected_passing_quarters": 3,
+    "rejected_empty_blocks": [
+      "W4"
+    ],
+    "max_block_trades": 8,
+    "old_block_min_trades": 15,
+    "new_block_min_trades": 3,
+    "old_block_min_reachable": false
+  },
+  "bootstrap": {
+    "delta_sel": 1.3602,
+    "ci_lower": 0.3312,
+    "ci_upper": 2.3548,
+    "p_value": 0.006,
+    "valid_resamples": 10000,
+    "invalid_resamples": 0,
+    "seed": 20261123,
+    "resamples": 10000
+  },
+  "gates": [
+    {
+      "id": "I1_SCOPE",
+      "legacy_id": null,
+      "family": "I",
+      "title": "Alcance historico y holdout sellado",
+      "state": "PASS",
+      "reason": "Los 46 trades pertenecen a W1-W6; no se abrio ningun fichero del holdout.",
+      "threshold": "cero trades fuera de W1-W6 y cero lectura de holdout",
+      "values": {
+        "outside_scope": 0,
+        "holdout_dates": 0,
+        "holdout_read": false,
+        "scope_start": "2025-01-10",
+        "scope_end": "2026-06-30"
+      }
+    },
+    {
+      "id": "I2_PARTITION",
+      "legacy_id": null,
+      "family": "I",
+      "title": "Particion aceptados/rechazados",
+      "state": "PASS",
+      "reason": "Aceptados + rechazados = baseline; signal_id unicos y subconjunto verificado.",
+      "threshold": "17 + 29 = 46 y umbral 0,25 congelado",
+      "values": {
+        "accepted": 17,
+        "rejected": 29,
+        "baseline": 46,
+        "filter_threshold": 0.25
+      }
+    },
+    {
+      "id": "S0_TOTAL_SAMPLE",
+      "legacy_id": "G4",
+      "family": "S",
+      "title": "Muestra total y por direccion",
+      "state": "INCONCLUSO",
+      "reason": "17 trades y 9/8 largos/cortos: no alcanza 80 totales ni 20 por direccion. No se rebaja el minimo.",
+      "threshold": ">= 80 totales y >= 20/direccion",
+      "values": {
+        "trades": 17,
+        "longs": 9,
+        "shorts": 8
+      }
+    },
+    {
+      "id": "S2_BASELINE",
+      "legacy_id": null,
+      "family": "S",
+      "title": "Baseline forward",
+      "state": "INCONCLUSO",
+      "reason": "Baseline de 46 trades; el minimo forward es 60.",
+      "threshold": ">= 60 trades baseline",
+      "values": {
+        "baseline": 46
+      }
+    },
+    {
+      "id": "S3_COHORT",
+      "legacy_id": null,
+      "family": "S",
+      "title": "Tamaño de cohortes",
+      "state": "INCONCLUSO",
+      "reason": "17 aceptados y 29 rechazados; se exigen 24 y 30.",
+      "threshold": ">= 24 aceptados y >= 30 rechazados",
+      "values": {
+        "accepted": 17,
+        "rejected": 29
+      }
+    },
+    {
+      "id": "S4_BLOCK_SAMPLE",
+      "legacy_id": null,
+      "family": "S",
+      "title": "Muestra por bloque",
+      "state": "INCONCLUSO",
+      "reason": "Solo 2/6 bloques tienen baseline >= 6 y aceptadas >= 2; se exigen 5/6.",
+      "threshold": ">= 5/6 bloques con baseline >= 6 y aceptadas >= 2",
+      "values": {
+        "qualifying_blocks": 2,
+        "blocks": [
+          {
+            "id": "W1",
+            "baseline": 14,
+            "accepted": 4
+          },
+          {
+            "id": "W2",
+            "baseline": 5,
+            "accepted": 2
+          },
+          {
+            "id": "W3",
+            "baseline": 11,
+            "accepted": 8
+          },
+          {
+            "id": "W4",
+            "baseline": 3,
+            "accepted": 3
+          },
+          {
+            "id": "W5",
+            "baseline": 6,
+            "accepted": 0
+          },
+          {
+            "id": "W6",
+            "baseline": 7,
+            "accepted": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "S5_SHORT_PARTICIPATION",
+      "legacy_id": null,
+      "family": "S",
+      "title": "Participacion de cortos",
+      "state": "PASS",
+      "reason": "8 cortos aceptados; minimo de participacion 5.",
+      "threshold": ">= 5 cortos aceptados",
+      "values": {
+        "shorts": 8
+      }
+    },
+    {
+      "id": "E1_SELECTION",
+      "legacy_id": null,
+      "family": "E",
+      "title": "Diferencia de seleccion",
+      "state": "PASS",
+      "reason": "Delta aceptados-rechazados = 1.3602 R; umbral +0,25 R.",
+      "threshold": "delta_sel >= +0,25 R",
+      "values": {
+        "delta_sel": 1.3602,
+        "mean_accepted_r": 1.1088,
+        "mean_rejected_r": -0.2514
+      }
+    },
+    {
+      "id": "E2_BOOTSTRAP",
+      "legacy_id": "E2",
+      "family": "E",
+      "title": "Bootstrap por sesion con precondiciones",
+      "state": "INCONCLUSO",
+      "reason": "IC95% [0.3312, 2.3548] R, p=0.0060, 10000 replicas validas; muestra 17/29 (min 24/30) y cobertura 4/6 (min 5/6): el bootstrap no puede dar PASS.",
+      "threshold": "IC95% inferior > 0, >= 24 aceptados, >= 30 rechazados, >= 5/6 trimestres y >= 9.500 replicas",
+      "values": {
+        "delta_sel": 1.3602,
+        "ci_lower": 0.3312,
+        "ci_upper": 2.3548,
+        "p_value": 0.006,
+        "valid_resamples": 10000,
+        "invalid_resamples": 0,
+        "numeric_ci_lower_positive": true,
+        "sample_ok": false,
+        "coverage_ok": false,
+        "min_valid_resamples_ok": true
+      }
+    },
+    {
+      "id": "E3_MEAN_R",
+      "legacy_id": null,
+      "family": "E",
+      "title": "Media R aceptada",
+      "state": "PASS",
+      "reason": "Media R aceptada = 1.1088; umbral +0,20 R.",
+      "threshold": "mean_r_accepted >= +0,20 R",
+      "values": {
+        "mean_r_accepted": 1.1088
+      }
+    },
+    {
+      "id": "P1_REJECTED_R",
+      "legacy_id": null,
+      "family": "P",
+      "title": "R total del cohorte rechazado",
+      "state": "PASS",
+      "reason": "R total rechazado = -7.29; debe ser <= 0.",
+      "threshold": "sum_r_rejected <= 0",
+      "values": {
+        "sum_r_rejected": -7.29,
+        "net_rejected": -1730.42
+      }
+    },
+    {
+      "id": "P2_PF_R",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Profit factor en R",
+      "state": "PASS",
+      "reason": "PF-R aceptado = 3.8955; minimo 1,25.",
+      "threshold": "PF_R_accepted >= 1,25",
+      "values": {
+        "pf_r_accepted": 3.8955453149001538
+      }
+    },
+    {
+      "id": "P3_DRAWDOWN",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Drawdown",
+      "state": "PASS",
+      "reason": "DD-R 5.0400 vs limite 8.0000; DD-USD 946.38 vs limite 2000.00.",
+      "threshold": "DD_R <= min(8R, baseline) y DD_USD <= min(2.000, baseline)",
+      "values": {
+        "dd_r": 5.04,
+        "baseline_dd_r": 10.15,
+        "dd_usd": 946.38,
+        "baseline_dd_usd": 2304.46
+      }
+    },
+    {
+      "id": "Q1_QUARTER_COVERAGE",
+      "legacy_id": null,
+      "family": "Q",
+      "title": "Cobertura trimestral",
+      "state": "FALLA",
+      "reason": "4/6 trimestres con al menos un aceptado; se exigen 5/6. Bloques vacios: W5, W6. Un bloque vacio no cuenta como pase neutral.",
+      "threshold": ">= 5/6 trimestres con aceptados",
+      "values": {
+        "active_quarters": 4,
+        "empty_blocks": [
+          "W5",
+          "W6"
+        ],
+        "blocks": [
+          {
+            "id": "W1",
+            "quarter": "2025-Q1",
+            "accepted": 4,
+            "rejected": 10,
+            "accepted_net": 1622.84,
+            "accepted_r": 7.41
+          },
+          {
+            "id": "W2",
+            "quarter": "2025-Q2",
+            "accepted": 2,
+            "rejected": 3,
+            "accepted_net": 554.8,
+            "accepted_r": 2.45
+          },
+          {
+            "id": "W3",
+            "quarter": "2025-Q3",
+            "accepted": 8,
+            "rejected": 3,
+            "accepted_net": 63.96,
+            "accepted_r": -0.02
+          },
+          {
+            "id": "W4",
+            "quarter": "2025-Q4",
+            "accepted": 3,
+            "rejected": 0,
+            "accepted_net": 1960.6,
+            "accepted_r": 9.01
+          },
+          {
+            "id": "W5",
+            "quarter": "2026-Q1",
+            "accepted": 0,
+            "rejected": 6,
+            "accepted_net": 0,
+            "accepted_r": 0
+          },
+          {
+            "id": "W6",
+            "quarter": "2026-Q2",
+            "accepted": 0,
+            "rejected": 7,
+            "accepted_net": 0,
+            "accepted_r": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q2_QUARTER_CONSISTENCY",
+      "legacy_id": null,
+      "family": "Q",
+      "title": "Consistencia de trimestres activos",
+      "state": "PASS",
+      "reason": "3/4 trimestres activos con R>0 (75.00%); peor trimestre activo -0.0200 R; se exige 75% y ninguno < -0.5 R.",
+      "threshold": ">= 75% de trimestres activos con R>0 y ninguno < -0.5 R",
+      "values": {
+        "active_quarters": 4,
+        "positive_active": 3,
+        "positive_share": 0.75,
+        "worst_active_r": -0.02,
+        "quarterly_r": [
+          {
+            "id": "W1",
+            "quarter": "2025-Q1",
+            "r": 7.41
+          },
+          {
+            "id": "W2",
+            "quarter": "2025-Q2",
+            "r": 2.45
+          },
+          {
+            "id": "W3",
+            "quarter": "2025-Q3",
+            "r": -0.02
+          },
+          {
+            "id": "W4",
+            "quarter": "2025-Q4",
+            "r": 9.01
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q3_QUARTER_CONCENTRATION",
+      "legacy_id": null,
+      "family": "Q",
+      "title": "Concentracion trimestral",
+      "state": "FALLA",
+      "reason": "Los dos mejores trimestres concentran 85.28% del neto; limite 80.0%.",
+      "threshold": "top-2 trimestres <= 80.0% del neto",
+      "values": {
+        "top2_net": 3583.44,
+        "net": 4202.2,
+        "top2_share_pct": 85.28,
+        "quarters": [
+          {
+            "quarter": "2025-Q4",
+            "net": 1960.6
+          },
+          {
+            "quarter": "2025-Q1",
+            "net": 1622.84
+          },
+          {
+            "quarter": "2025-Q2",
+            "net": 554.8
+          },
+          {
+            "quarter": "2025-Q3",
+            "net": 63.96
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q4_REJECTED_CONSISTENCY",
+      "legacy_id": "P4",
+      "family": "Q",
+      "title": "Consistencia trimestral del cohorte rechazado",
+      "state": "FALLA",
+      "reason": "3/6 trimestres con R rechazado <=0; se exigen 5/6. Bloques sin rechazados se cuentan como fallo: W4.",
+      "threshold": ">= 5/6 trimestres con R rechazado <=0; vacios = fallo",
+      "values": {
+        "passing_quarters": 3,
+        "empty_rejected_blocks": [
+          "W4"
+        ],
+        "blocks": [
+          {
+            "id": "W1",
+            "quarter": "2025-Q1",
+            "rejected": 10,
+            "rejected_r": 2.42,
+            "pass": false
+          },
+          {
+            "id": "W2",
+            "quarter": "2025-Q2",
+            "rejected": 3,
+            "rejected_r": 0.65,
+            "pass": false
+          },
+          {
+            "id": "W3",
+            "quarter": "2025-Q3",
+            "rejected": 3,
+            "rejected_r": -2.09,
+            "pass": true
+          },
+          {
+            "id": "W4",
+            "quarter": "2025-Q4",
+            "rejected": 0,
+            "rejected_r": 0,
+            "pass": false
+          },
+          {
+            "id": "W5",
+            "quarter": "2026-Q1",
+            "rejected": 6,
+            "rejected_r": -6.08,
+            "pass": true
+          },
+          {
+            "id": "W6",
+            "quarter": "2026-Q2",
+            "rejected": 7,
+            "rejected_r": -2.19,
+            "pass": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "Q5_BLOCK_PF",
+      "legacy_id": null,
+      "family": "Q",
+      "title": "PF por bloque con umbral activo",
+      "state": "PASS",
+      "reason": "Umbral de bloque = max(3, ceil(17/6)) = 3 trades; 3 bloques evaluables, minimo PF 1.0533. El umbral antiguo de 15 trades no era alcanzable (max bloque 8).",
+      "threshold": "bloques con >= 3 aceptados y PF >= 0.7",
+      "values": {
+        "old_min_trades": 15,
+        "new_min_trades": 3,
+        "old_min_reachable": false,
+        "eligible_blocks": [
+          {
+            "id": "W1",
+            "accepted": 4,
+            "pf": "inf"
+          },
+          {
+            "id": "W3",
+            "accepted": 8,
+            "pf": 1.0532733633183409
+          },
+          {
+            "id": "W4",
+            "accepted": 3,
+            "pf": "inf"
+          }
+        ],
+        "bad_blocks": []
+      }
+    },
+    {
+      "id": "P5_ROBUSTNESS",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Outliers y concentracion de trades",
+      "state": "PASS",
+      "reason": "Drop-best-3 R=9.3500; drop-best-month R=14.5800; mejor trade=13.68% del bruto R.",
+      "threshold": "drop_best_3_R > 0, drop_best_month_R > 0 y top_trade_share <= 50%",
+      "values": {
+        "drop_best_3_r": 9.35,
+        "drop_best_month_r": 14.58,
+        "top_trade_share_gross_r_pct": 13.68,
+        "top5_share_gross_profit_pct": 61.23
+      }
+    },
+    {
+      "id": "P6_COST_STRESS",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Coste stress del filtro",
+      "state": "NO_EVALUABLE",
+      "reason": "No existe un artefacto de reprecio exacto para el filtro; stress_costs.json es del perfil original de 38 trades y no se usa. La estimacion uniforme es solo diagnostico.",
+      "threshold": "reprecio exacto con comision 1,24/lado y slippage 2",
+      "values": {
+        "artifact": null,
+        "approx_stress_net": 4101.4,
+        "approx_stress_pf": 4.0811,
+        "approx_stress_mean_r": 1.1233,
+        "gate_used": false
+      }
+    },
+    {
+      "id": "P7_MONTHLY_COVERAGE",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Cobertura mensual",
+      "state": "FALLA",
+      "reason": "10/18 meses con aceptados; racha maxima sin trades=6; se exige >= 6 meses y racha <= 4.",
+      "threshold": ">= 6 meses activos y racha cero <= 4",
+      "values": {
+        "active_months": 10,
+        "total_months": 18,
+        "max_zero_month_streak": 6,
+        "zero_months": [
+          "2025-03",
+          "2025-04",
+          "2026-01",
+          "2026-02",
+          "2026-03",
+          "2026-04",
+          "2026-05",
+          "2026-06"
+        ]
+      }
+    },
+    {
+      "id": "P8_SHORTS",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Cortos aceptados",
+      "state": "PASS",
+      "reason": "8 cortos; media R 1.2850; R total 10.2800.",
+      "threshold": ">= 5 cortos, media R >= 0 y R total >= 0",
+      "values": {
+        "shorts": 8,
+        "mean_r": 1.285,
+        "total_r": 10.28
+      }
+    },
+    {
+      "id": "P9_TREATMENT",
+      "legacy_id": null,
+      "family": "P",
+      "title": "Brazo de tratamiento vs baseline",
+      "state": "PASS",
+      "reason": "R tratamiento 18.8500 vs baseline 11.5600; DD tratamiento 946.38 vs baseline 2304.46.",
+      "threshold": "total_R_tratamiento >= baseline y DD_USD_tratamiento <= baseline",
+      "values": {
+        "total_r_treatment": 18.85,
+        "total_r_baseline": 11.56,
+        "dd_treatment": 946.38,
+        "dd_baseline": 2304.46
+      }
+    }
+  ],
+  "summary": {
+    "PASS": 13,
+    "FALLA": 4,
+    "INCONCLUSO": 5,
+    "NO_EVALUABLE": 1,
+    "global": "INCONCLUSO",
+    "inconclusive_or_missing": [
+      "S0_TOTAL_SAMPLE",
+      "S2_BASELINE",
+      "S3_COHORT",
+      "S4_BLOCK_SAMPLE",
+      "E2_BOOTSTRAP",
+      "P6_COST_STRESS"
+    ],
+    "failed": [
+      "Q1_QUARTER_COVERAGE",
+      "Q3_QUARTER_CONCENTRATION",
+      "Q4_REJECTED_CONSISTENCY",
+      "P7_MONTHLY_COVERAGE"
+    ]
+  },
+  "decision": {
+    "global": "INCONCLUSO",
+    "reason": "INCONCLUSO: falta muestra/cobertura/evaluacion en S0_TOTAL_SAMPLE, S2_BASELINE, S3_COHORT, S4_BLOCK_SAMPLE, E2_BOOTSTRAP, P6_COST_STRESS. Fallan: Q1_QUARTER_COVERAGE, Q3_QUARTER_CONCENTRATION, Q4_REJECTED_CONSISTENCY, P7_MONTHLY_COVERAGE. No se promociona.",
+    "promotion": "NO",
+    "holdout": "sealed"
+  },
+  "recalibration_demo": {
+    "old_G7": {
+      "state": "PASS",
+      "blocks_pf_above_1": 4,
+      "total_blocks": 6,
+      "empty_blocks": [
+        "W5",
+        "W6"
+      ],
+      "max_block_trades": 8,
+      "old_min_trades": 15,
+      "old_min_reachable": false,
+      "meaning": "Pasa 4/6 con dos bloques vacios; la clausula de >=15 trades era inerte."
+    },
+    "new_Q1_coverage": {
+      "state": "FALLA",
+      "active_quarters": 4,
+      "empty_blocks": [
+        "W5",
+        "W6"
+      ]
+    },
+    "new_Q3_concentration": {
+      "state": "FALLA",
+      "top2_share_pct": 85.28
+    },
+    "new_Q4_rejected_consistency": {
+      "state": "FALLA",
+      "passing_quarters": 3,
+      "empty_blocks": [
+        "W4"
+      ]
+    },
+    "old_trivial_gate_now_fails": true
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "schema": "filter025-gates-config-v1",
+  "description": "Gates historicos del filtro min_stop_or_ratio=0.25. Solo leen artefactos W1-W6 ya generados; no ejecutan backtests ni leen holdout.",
+  "filter_threshold": 0.25,
+  "inputs": {
+    "filter_artifact": "reports/backtest/_manual_filter025_w1_w6.json",
+    "baseline_artifact": "reports/backtest/p2_w1_w6_confirm.json",
+    "filter_variant": "filter025_max5",
+    "baseline_variant": "p2"
+  },
+  "sample": {
+    "min_total_trades": 80,
+    "min_per_direction": 20,
+    "min_baseline_trades": 60,
+    "min_accepted": 24,
+    "min_rejected": 30,
+    "min_blocks_with_sample": 5,
+    "block_min_trades": 6,
+    "block_min_accepted": 2,
+    "min_short_accepted": 5
+  },
+  "quarterly": {
+    "min_active_quarters": 5,
+    "min_positive_share": 0.75,
+    "min_active_for_consistency": 4,
+    "max_negative_active_quarter_r": 0.5,
+    "max_top2_net_share_pct": 80.0,
+    "min_rejected_negative_quarters": 5,
+    "min_block_pf_trades": 3,
+    "min_block_pf": 0.7
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261123,
+    "min_valid_resamples": 9500,
+    "confidence_pct": 95.0,
+    "min_accepted": 24,
+    "min_rejected": 30,
+    "min_active_quarters": 5
+  },
+  "monthly": {
+    "min_active_months": 6,
+    "max_zero_month_streak": 4
+  },
+  "cost_stress": {
+    "artifact": null,
+    "note": "No existe un stress_costs del filtro. No se usa el de 38 trades del perfil original; el gate queda NO_EVALUABLE hasta un reprecio exacto."
+  }
+}

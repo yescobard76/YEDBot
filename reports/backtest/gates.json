@@ -1,0 +1,480 @@
+{
+  "protocol_version": "1.2",
+  "scope": "development",
+  "holdout": "sealed",
+  "aggregate": {
+    "trades": 38,
+    "profit_factor": 1.1328,
+    "expectancy_r": 0.131053,
+    "net_profit": 661.44,
+    "gross_profit": 5641.66,
+    "gross_loss": 4980.22,
+    "max_drawdown": 1967.82,
+    "max_drawdown_pct": 7.141,
+    "worst_loss_streak": 10,
+    "long": 21,
+    "short": 17,
+    "days_traded": 38,
+    "total_r": 4.98,
+    "sharpe": 0.82,
+    "sortino": 1.58,
+    "by_direction": [
+      {
+        "key": "long",
+        "trades": 21,
+        "pnl": 335.35999999999973,
+        "wins": 7,
+        "losses": 14,
+        "label": "Larga",
+        "win_rate": 33.3
+      },
+      {
+        "key": "short",
+        "trades": 17,
+        "pnl": 326.0799999999997,
+        "wins": 5,
+        "losses": 12,
+        "label": "Corta",
+        "win_rate": 29.4
+      }
+    ]
+  },
+  "blocks": [
+    {
+      "id": "W1",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "sessions_expected": 54,
+      "sessions": 54,
+      "first_et": "2025-01-10 09:00",
+      "last_et": "2025-03-31 15:59",
+      "trades": 8,
+      "profit_factor": 1.3480841157163577,
+      "expectancy_r": 0.56,
+      "net_profit": 364.82,
+      "max_drawdown": 619.42,
+      "worst_loss_streak": 2,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 6,
+          "pnl": 793.4799999999999,
+          "wins": 4,
+          "losses": 2,
+          "label": "Larga",
+          "win_rate": 66.7
+        },
+        {
+          "key": "short",
+          "trades": 2,
+          "pnl": -428.65999999999997,
+          "wins": 0,
+          "losses": 2,
+          "label": "Corta",
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "id": "W2",
+      "start": "2025-04-01",
+      "end": "2025-06-30",
+      "sessions_expected": 61,
+      "sessions": 61,
+      "first_et": "2025-04-01 09:00",
+      "last_et": "2025-06-30 15:59",
+      "trades": 4,
+      "profit_factor": 1.7084037162162162,
+      "expectancy_r": 0.11,
+      "net_profit": 268.4,
+      "max_drawdown": 378.88,
+      "worst_loss_streak": 3,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 1,
+          "pnl": -81.48,
+          "wins": 0,
+          "losses": 1,
+          "label": "Larga",
+          "win_rate": 0.0
+        },
+        {
+          "key": "short",
+          "trades": 3,
+          "pnl": 349.88,
+          "wins": 1,
+          "losses": 2,
+          "label": "Corta",
+          "win_rate": 33.3
+        }
+      ]
+    },
+    {
+      "id": "W3",
+      "start": "2025-07-01",
+      "end": "2025-09-30",
+      "sessions_expected": 63,
+      "sessions": 63,
+      "first_et": "2025-07-01 09:00",
+      "last_et": "2025-09-30 15:59",
+      "trades": 9,
+      "profit_factor": 0.9175068333557378,
+      "expectancy_r": -0.13,
+      "net_profit": -110.46,
+      "max_drawdown": 1084.8,
+      "worst_loss_streak": 6,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 3,
+          "pnl": -643.4000000000001,
+          "wins": 0,
+          "losses": 3,
+          "label": "Larga",
+          "win_rate": 0.0
+        },
+        {
+          "key": "short",
+          "trades": 6,
+          "pnl": 532.9399999999998,
+          "wins": 2,
+          "losses": 4,
+          "label": "Corta",
+          "win_rate": 33.3
+        }
+      ]
+    },
+    {
+      "id": "W4",
+      "start": "2025-10-01",
+      "end": "2025-12-31",
+      "sessions_expected": 63,
+      "sessions": 63,
+      "first_et": "2025-10-01 09:00",
+      "last_et": "2025-12-31 15:59",
+      "trades": 4,
+      "profit_factor": "inf",
+      "expectancy_r": 2.36,
+      "net_profit": 2034.12,
+      "max_drawdown": 0.0,
+      "worst_loss_streak": 0,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 2,
+          "pnl": 1383.08,
+          "wins": 2,
+          "losses": 0,
+          "label": "Larga",
+          "win_rate": 100.0
+        },
+        {
+          "key": "short",
+          "trades": 2,
+          "pnl": 651.04,
+          "wins": 2,
+          "losses": 0,
+          "label": "Corta",
+          "win_rate": 100.0
+        }
+      ]
+    },
+    {
+      "id": "W5",
+      "start": "2026-01-01",
+      "end": "2026-03-31",
+      "sessions_expected": 60,
+      "sessions": 60,
+      "first_et": "2026-01-02 09:00",
+      "last_et": "2026-03-31 15:59",
+      "trades": 5,
+      "profit_factor": 0.0,
+      "expectancy_r": -1.01,
+      "net_profit": -1036.52,
+      "max_drawdown": 1036.52,
+      "worst_loss_streak": 5,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 5,
+          "pnl": -1036.52,
+          "wins": 0,
+          "losses": 5,
+          "label": "Larga",
+          "win_rate": 0.0
+        }
+      ]
+    },
+    {
+      "id": "W6",
+      "start": "2026-04-01",
+      "end": "2026-06-30",
+      "sessions_expected": 61,
+      "sessions": 61,
+      "first_et": "2026-04-01 09:00",
+      "last_et": "2026-06-30 15:59",
+      "trades": 8,
+      "profit_factor": 0.27069252453893966,
+      "expectancy_r": -0.4,
+      "net_profit": -858.92,
+      "max_drawdown": 931.3,
+      "worst_loss_streak": 5,
+      "by_direction": [
+        {
+          "key": "long",
+          "trades": 4,
+          "pnl": -79.79999999999997,
+          "wins": 1,
+          "losses": 3,
+          "label": "Larga",
+          "win_rate": 25.0
+        },
+        {
+          "key": "short",
+          "trades": 4,
+          "pnl": -779.12,
+          "wins": 0,
+          "losses": 4,
+          "label": "Corta",
+          "win_rate": 0.0
+        }
+      ]
+    }
+  ],
+  "bootstrap": {
+    "mean": 0.12934444736842107,
+    "p2_5": -0.3913157894736842,
+    "p10": -0.21850000000000003,
+    "p90": 0.4816052631578948,
+    "p97_5": 0.6758486842105255,
+    "n": 10000,
+    "seed": 20250102
+  },
+  "drop_best5_net": -2607.48,
+  "top5_share_gross_profit_pct": 57.94,
+  "best_month_share_net_pct": 134.0,
+  "gates": [
+    {
+      "id": "G1",
+      "pass": true,
+      "value": {
+        "sessions": 368,
+        "evaluated": 362,
+        "block_sessions": 362,
+        "intra_session_gaps": 0,
+        "fills": 0,
+        "contracts": 21,
+        "rolls": 6,
+        "series_mode": "raw"
+      },
+      "threshold": "368/368 calendario, 362 evaluadas, 362/362 sesiones en bloques; 0 huecos; rolls MNQ/NQ/ES",
+      "detail": "D1-D8 en desarrollo. Los 367 huecos del validador son cierres overnight, no minutos ausentes. El lock 24/21/7 aplica al dataset completo con holdout."
+    },
+    {
+      "id": "G2",
+      "pass": true,
+      "value": {
+        "trades": 8,
+        "runs": 2,
+        "code": "648858d576d4"
+      },
+      "threshold": "operaciones identicas",
+      "detail": "W1 ejecutado dos veces con el mismo codigo; 8 operaciones, mismo P&L y mismo selected_id."
+    },
+    {
+      "id": "G3",
+      "pass": true,
+      "value": {
+        "trades_raw": 8,
+        "trades_adjusted": 8,
+        "same_operations": true,
+        "operation_differences": 0,
+        "pnl_differences": 0,
+        "qty_differences": 0,
+        "cumulative_roll_offsets": {
+          "MNQ": 1725.25,
+          "NQ": 1722.75,
+          "ES": 396.5
+        },
+        "applied_cumulative_offsets": {
+          "MNQ": 1725.25,
+          "NQ": 1725.25,
+          "ES": 396.5
+        },
+        "basis_residual_cumulative": {
+          "MNQ": 0.0,
+          "NQ": -2.5,
+          "ES": 0.0
+        }
+      },
+      "threshold": "mismas operaciones en W1 con ambos modos",
+      "detail": "Pass: 8/8 operaciones identicas, mismo P&L y mismo PF. NQ/MNQ comparten el offset de MNQ; residuo acumulado NQ -2.50 pts. ES conserva su offset y el redondeo se ancla a la base raw."
+    },
+    {
+      "id": "G4",
+      "pass": false,
+      "value": {
+        "trades": 38,
+        "long": 21,
+        "short": 17
+      },
+      "threshold": ">= 80 operaciones y >= 20 por direccion",
+      "detail": "Muestra insuficiente: 38 operaciones, 21 largos y 17 cortos."
+    },
+    {
+      "id": "G5",
+      "pass": false,
+      "value": {
+        "profit_factor": 1.1328,
+        "expectancy_r": 0.1311
+      },
+      "threshold": ">= 1.25 PF y >= +0.10 R",
+      "detail": "PF 1.13; esperanza +0.13 R. No alcanza el umbral."
+    },
+    {
+      "id": "G6",
+      "pass": false,
+      "value": {
+        "max_drawdown_usd": 1967.82,
+        "worst_loss_streak": 10
+      },
+      "threshold": "<= 2000 USD y <= 8 perdidas seguidas",
+      "detail": "Drawdown 1967.82 USD; peor racha 10 (max 8)."
+    },
+    {
+      "id": "G7",
+      "pass": false,
+      "value": {
+        "blocks_pf_above_1": 3,
+        "blocks": [
+          {
+            "id": "W1",
+            "trades": 8,
+            "pf": 1.3480841157163577
+          },
+          {
+            "id": "W2",
+            "trades": 4,
+            "pf": 1.7084037162162162
+          },
+          {
+            "id": "W3",
+            "trades": 9,
+            "pf": 0.9175068333557378
+          },
+          {
+            "id": "W4",
+            "trades": 4,
+            "pf": "inf"
+          },
+          {
+            "id": "W5",
+            "trades": 5,
+            "pf": 0.0
+          },
+          {
+            "id": "W6",
+            "trades": 8,
+            "pf": 0.27069252453893966
+          }
+        ]
+      },
+      "threshold": ">= 4/6 bloques con PF>1 y ningun bloque >= 15 ops con PF<0.70",
+      "detail": "3/6 bloques con PF>1; ningun bloque grande por debajo del minimo."
+    },
+    {
+      "id": "G8",
+      "pass": false,
+      "value": {
+        "profit_factor": 1.07,
+        "commission_per_side": 1.24,
+        "slippage_ticks": 2,
+        "trades": 38
+      },
+      "threshold": ">= 1.1 PF con comision 1.24/lado y slippage 2 ticks",
+      "detail": "PF 1.07 con costes dobles sobre 38 operaciones. No alcanza el umbral."
+    },
+    {
+      "id": "G9",
+      "pass": false,
+      "value": {
+        "net_profit": 661.44,
+        "top5_pnl": 3268.92,
+        "net_drop_best5": -2607.48
+      },
+      "threshold": "> 0 tras quitar las 5 mejores",
+      "detail": "Neto 661.44; top-5 3268.92; tras quitarlas -2607.48."
+    },
+    {
+      "id": "G10",
+      "pass": false,
+      "value": {
+        "top5_share_gross_profit_pct": 57.94,
+        "best_month_share_net_pct": 134.0
+      },
+      "threshold": "<= 50.0% y <= 50.0%",
+      "detail": "Top-5 57.94% del bruto; mejor mes 134.00% del neto."
+    },
+    {
+      "id": "G11",
+      "pass": false,
+      "value": {
+        "mean": 0.12934444736842107,
+        "p2_5": -0.3913157894736842,
+        "p10": -0.21850000000000003,
+        "p90": 0.4816052631578948,
+        "p97_5": 0.6758486842105255,
+        "n": 10000,
+        "seed": 20250102
+      },
+      "threshold": "limite inferior del IC bootstrap al 80% > 0",
+      "detail": "Bootstrap 10000 remuestreos (semilla 20250102); p10 -0.22 R; IC95% [-0.39, +0.68]."
+    },
+    {
+      "id": "G12",
+      "pass": false,
+      "value": {
+        "trades": 17,
+        "pf": 1.1482,
+        "expectancy_r": 0.0329
+      },
+      "threshold": ">= 20 cortos, PF >= 0.95 y expR >= -0.05",
+      "detail": "17 cortos (min 20); PF 1.15; expR +0.03."
+    },
+    {
+      "id": "G13",
+      "pass": true,
+      "value": {
+        "ambiguous_trades": 0,
+        "share_pct": 0.0
+      },
+      "threshold": "<= 5.0%",
+      "detail": "0 operaciones ambiguas (0.00%)."
+    },
+    {
+      "id": "G14",
+      "pass": true,
+      "value": {
+        "incomplete": 0,
+        "duplicate_ids": 0,
+        "duplicate_signal_ids": 0
+      },
+      "threshold": "campos completos, sin duplicados ni huerfanas",
+      "detail": "Todas las operaciones tienen signal_id, contrato y expiry; sin duplicados."
+    }
+  ],
+  "failed": [
+    "G4",
+    "G5",
+    "G6",
+    "G7",
+    "G8",
+    "G9",
+    "G10",
+    "G11",
+    "G12"
+  ],
+  "pending": [],
+  "decision": "INCONCLUSO: G4 no alcanza la muestra minima (38 operaciones, 17 cortos). Fallan: G4, G5, G6, G7, G8, G9, G10, G11, G12. Holdout no ejecutado."
+}

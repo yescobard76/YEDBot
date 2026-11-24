@@ -1,0 +1,21 @@
+{
+  "arm": "control",
+  "base_config": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\profiles\\p2_freq\\config.json",
+  "code_algorithm": "sha256-tree-v1",
+  "code_files": 77,
+  "code_roots": [
+    "server",
+    "tests"
+  ],
+  "code_sha256": "36eb1135f22820b71d419a3a439ec165530a49957987d79a4a246f357f56b4d8",
+  "config_file_sha256": "cf54ab4ccfada0dab0a10ff7642d090c4f9f1a026d8f9659ceb499d9118d747d",
+  "config_path": "config.json",
+  "config_sha256": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+  "created_at": "2026-11-24T00:34:14Z",
+  "initial_capital": 25000.0,
+  "kind": "harness",
+  "note": "smoke test",
+  "port": 8775,
+  "schema": "forward-snapshot-v1",
+  "window_id": "HARNESS-SMOKE"
+}

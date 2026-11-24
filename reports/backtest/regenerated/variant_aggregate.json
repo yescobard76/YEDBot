@@ -1,0 +1,30 @@
+{
+  "orb": {
+    "trades": 3,
+    "profit_factor": 6.19,
+    "expectancy_r": 1.07,
+    "net_profit": 583.56,
+    "max_drawdown": 112.48
+  },
+  "orb_smt": {
+    "trades": 4,
+    "profit_factor": 2.28,
+    "expectancy_r": 0.7,
+    "net_profit": 390.84,
+    "max_drawdown": 305.2
+  },
+  "orb_retest": {
+    "trades": 49,
+    "profit_factor": 1.21,
+    "expectancy_r": 0.25,
+    "net_profit": 1347.44,
+    "max_drawdown": 2303.12
+  },
+  "full": {
+    "trades": 38,
+    "profit_factor": 1.13,
+    "expectancy_r": 0.13,
+    "net_profit": 661.44,
+    "max_drawdown": 1967.82
+  }
+}

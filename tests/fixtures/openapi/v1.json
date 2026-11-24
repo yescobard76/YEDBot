@@ -1,0 +1,5426 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "YEDTradingBot",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Api Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/status": {
+      "get": {
+        "summary": "Status",
+        "operationId": "status_api_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Snapshot"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config": {
+      "get": {
+        "summary": "Get Config",
+        "operationId": "get_config_api_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Get Config Api Config Get"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Put Config",
+        "operationId": "put_config_api_config_put",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Put Config Api Config Put"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/config/reset": {
+      "post": {
+        "summary": "Reset Config",
+        "operationId": "reset_config_api_config_reset_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Reset Config Api Config Reset Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bot/{action}": {
+      "post": {
+        "summary": "Bot Action",
+        "operationId": "bot_action_api_bot__action__post",
+        "parameters": [
+          {
+            "name": "action",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Action"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "title": "Response Bot Action Api Bot  Action  Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/position/close": {
+      "post": {
+        "summary": "Close Position",
+        "operationId": "close_position_api_position_close_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Close Position Api Position Close Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders/cancel": {
+      "post": {
+        "summary": "Cancel Orders",
+        "operationId": "cancel_orders_api_orders_cancel_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Cancel Orders Api Orders Cancel Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/emergency": {
+      "post": {
+        "summary": "Emergency",
+        "operationId": "emergency_api_emergency_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmergencyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Emergency Api Emergency Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Clear Emergency",
+        "operationId": "clear_emergency_api_emergency_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Clear Emergency Api Emergency Delete"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trades": {
+      "get": {
+        "summary": "List Trades",
+        "operationId": "list_trades_api_trades_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "30d",
+              "title": "Period"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Direction"
+            }
+          },
+          {
+            "name": "result",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Result"
+            }
+          },
+          {
+            "name": "signal_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Signal Type"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TradesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/trades/export.csv": {
+      "get": {
+        "summary": "Export Trades",
+        "operationId": "export_trades_api_trades_export_csv_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": "all",
+              "title": "Period"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Direction"
+            }
+          },
+          {
+            "name": "result",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Result"
+            }
+          },
+          {
+            "name": "signal_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Signal Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "summary": "Stats",
+        "operationId": "stats_api_stats_get",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Period"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stats"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/events": {
+      "get": {
+        "summary": "Events",
+        "operationId": "events_api_events_get",
+        "parameters": [
+          {
+            "name": "level",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Level"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 200,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/orders": {
+      "get": {
+        "summary": "Orders",
+        "operationId": "orders_api_orders_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrdersResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chart/history": {
+      "get": {
+        "summary": "Chart History",
+        "description": "Velas MNQ procesadas, incluidas las de sesiones anteriores.",
+        "operationId": "chart_history_api_chart_history_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 10000,
+              "minimum": 100,
+              "default": 3000,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChartHistoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backtest/run": {
+      "post": {
+        "summary": "Backtest",
+        "operationId": "backtest_api_backtest_run_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BacktestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/BacktestResult"
+                    },
+                    {
+                      "$ref": "#/components/schemas/BacktestVariantsResponse"
+                    }
+                  ],
+                  "title": "Response Backtest Api Backtest Run Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backtest/presets": {
+      "get": {
+        "summary": "Backtest Presets Catalog",
+        "description": "Catálogo y procedencia configurada, sin ejecutar la simulación.",
+        "operationId": "backtest_presets_catalog_api_backtest_presets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetCatalogResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Backtest Presets",
+        "operationId": "backtest_presets_api_backtest_presets_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PresetBacktestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresetComparisonResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/backtest/latest": {
+      "get": {
+        "summary": "Latest Backtest",
+        "operationId": "latest_backtest_api_backtest_latest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Latest Backtest Api Backtest Latest Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/datasets": {
+      "get": {
+        "summary": "Datasets",
+        "operationId": "datasets_api_datasets_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Datasets Api Datasets Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/data/validate": {
+      "post": {
+        "summary": "Validate Data",
+        "description": "Valida un CSV local sin aplicarlo ni arrancar el motor.",
+        "operationId": "validate_data_api_data_validate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CsvValidateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Validate Data Api Data Validate Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AmbiguousBar": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "open": {
+            "type": "number",
+            "title": "Open"
+          },
+          "high": {
+            "type": "number",
+            "title": "High"
+          },
+          "low": {
+            "type": "number",
+            "title": "Low"
+          },
+          "close": {
+            "type": "number",
+            "title": "Close"
+          },
+          "stop": {
+            "type": "number",
+            "title": "Stop"
+          },
+          "target": {
+            "type": "number",
+            "title": "Target"
+          },
+          "gap_stop": {
+            "type": "boolean",
+            "title": "Gap Stop"
+          },
+          "gap_target": {
+            "type": "boolean",
+            "title": "Gap Target"
+          },
+          "resolution": {
+            "type": "string",
+            "title": "Resolution"
+          },
+          "mfe_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mfe R"
+          },
+          "mae_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae R"
+          },
+          "open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Drawdown"
+          },
+          "trade_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trade Id"
+          },
+          "exit_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exit Price"
+          },
+          "pnl": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pnl"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ts",
+          "direction",
+          "open",
+          "high",
+          "low",
+          "close",
+          "stop",
+          "target",
+          "gap_stop",
+          "gap_target",
+          "resolution"
+        ],
+        "title": "AmbiguousBar"
+      },
+      "BacktestDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Date"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "trades": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Trades"
+          },
+          "equity": {
+            "type": "number",
+            "title": "Equity"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "date",
+          "pnl",
+          "trades",
+          "equity"
+        ],
+        "title": "BacktestDay",
+        "description": "Resultado de una sesión simulada."
+      },
+      "BacktestEquityPoint": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Ts"
+          },
+          "equity": {
+            "type": "number",
+            "title": "Equity"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ts",
+          "equity"
+        ],
+        "title": "BacktestEquityPoint",
+        "description": "Punto de la curva de equity de un backtest."
+      },
+      "BacktestMetrics": {
+        "properties": {
+          "trades": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Trades"
+          },
+          "wins": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Wins"
+          },
+          "losses": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Losses"
+          },
+          "breakeven": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Breakeven"
+          },
+          "win_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Win Rate"
+          },
+          "profit_factor": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profit Factor"
+          },
+          "expectancy": {
+            "type": "number",
+            "title": "Expectancy"
+          },
+          "net_profit": {
+            "type": "number",
+            "title": "Net Profit"
+          },
+          "gross_profit": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Gross Profit"
+          },
+          "gross_loss": {
+            "type": "number",
+            "maximum": 0.0,
+            "title": "Gross Loss"
+          },
+          "fees": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Fees"
+          },
+          "max_drawdown": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Max Drawdown"
+          },
+          "max_drawdown_pct": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Max Drawdown Pct"
+          },
+          "equity_trough": {
+            "type": "number",
+            "title": "Equity Trough"
+          },
+          "total_r": {
+            "type": "number",
+            "title": "Total R"
+          },
+          "avg_r": {
+            "type": "number",
+            "title": "Avg R"
+          },
+          "avg_stop_ticks": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Avg Stop Ticks"
+          },
+          "stop_losses": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stop Losses"
+          },
+          "take_profits": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Take Profits"
+          },
+          "session_closes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Session Closes"
+          },
+          "stop_loss_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Stop Loss Rate"
+          },
+          "take_profit_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Take Profit Rate"
+          },
+          "signals": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Signals"
+          },
+          "breakouts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Breakouts"
+          },
+          "retests": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Retests"
+          },
+          "stop_cap_sessions": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stop Cap Sessions"
+          },
+          "qty_zero_sessions": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Qty Zero Sessions"
+          },
+          "days_traded": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Days Traded"
+          },
+          "winning_days": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Winning Days"
+          },
+          "losing_days": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Losing Days"
+          },
+          "equity_curve": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestEquityPoint"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Equity Curve"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "trades",
+          "wins",
+          "losses",
+          "breakeven",
+          "win_rate",
+          "expectancy",
+          "net_profit",
+          "gross_profit",
+          "gross_loss",
+          "fees",
+          "max_drawdown",
+          "max_drawdown_pct",
+          "equity_trough",
+          "total_r",
+          "avg_r",
+          "avg_stop_ticks",
+          "stop_losses",
+          "take_profits",
+          "session_closes",
+          "stop_loss_rate",
+          "take_profit_rate",
+          "signals",
+          "breakouts",
+          "retests",
+          "stop_cap_sessions",
+          "qty_zero_sessions",
+          "days_traded",
+          "winning_days",
+          "losing_days",
+          "equity_curve"
+        ],
+        "title": "BacktestMetrics",
+        "description": "Métricas del backtest; los campos no modelados viajan como extra."
+      },
+      "BacktestRequest": {
+        "properties": {
+          "days": {
+            "type": "integer",
+            "maximum": 250.0,
+            "minimum": 3.0,
+            "title": "Days",
+            "default": 30
+          },
+          "overrides": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Overrides"
+          },
+          "compare": {
+            "type": "boolean",
+            "title": "Compare",
+            "default": false
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "persist": {
+            "type": "boolean",
+            "title": "Persist",
+            "default": true
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "BacktestRequest"
+      },
+      "BacktestResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "created_ts": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Created Ts"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Label"
+          },
+          "data_source": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "synthetic"
+            ],
+            "title": "Data Source"
+          },
+          "data_quality": {
+            "type": "string",
+            "enum": [
+              "historical",
+              "simulated"
+            ],
+            "title": "Data Quality"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "dataset": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "data_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/BacktestMetrics"
+          },
+          "diagnostics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Diagnostics"
+          },
+          "trades": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestTrade"
+            },
+            "type": "array",
+            "title": "Trades"
+          },
+          "equity": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestEquityPoint"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Equity"
+          },
+          "days_detail": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestDay"
+            },
+            "type": "array",
+            "title": "Days Detail"
+          },
+          "funnel": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Funnel"
+          },
+          "overrides": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Overrides"
+          },
+          "is_synthetic": {
+            "type": "boolean",
+            "title": "Is Synthetic"
+          },
+          "variant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Variant"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "created_ts",
+          "label",
+          "data_source",
+          "data_quality",
+          "config",
+          "metrics",
+          "trades",
+          "equity",
+          "days_detail",
+          "is_synthetic"
+        ],
+        "title": "BacktestResult",
+        "description": "Resultado completo de ``POST /backtest/run`` con invariantes cruzadas."
+      },
+      "BacktestTrade": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Id"
+          },
+          "symbol": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Symbol"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "qty": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Qty"
+          },
+          "entry_ts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Entry Ts"
+          },
+          "exit_ts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Exit Ts"
+          },
+          "entry_price": {
+            "type": "number",
+            "title": "Entry Price"
+          },
+          "exit_price": {
+            "type": "number",
+            "title": "Exit Price"
+          },
+          "stop": {
+            "type": "number",
+            "title": "Stop"
+          },
+          "target": {
+            "type": "number",
+            "title": "Target"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "gross_pnl": {
+            "type": "number",
+            "title": "Gross Pnl"
+          },
+          "fees": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Fees"
+          },
+          "r_multiple": {
+            "type": "number",
+            "title": "R Multiple"
+          },
+          "risk_amount": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Risk Amount"
+          },
+          "signal_type": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Signal Type"
+          },
+          "exit_reason": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Exit Reason"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Duration Sec"
+          },
+          "mode": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Mode"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "symbol",
+          "direction",
+          "qty",
+          "entry_ts",
+          "exit_ts",
+          "entry_price",
+          "exit_price",
+          "stop",
+          "target",
+          "pnl",
+          "gross_pnl",
+          "fees",
+          "r_multiple",
+          "risk_amount",
+          "signal_type",
+          "exit_reason",
+          "duration_sec",
+          "mode"
+        ],
+        "title": "BacktestTrade",
+        "description": "Operación cerrada de un backtest; conserva los campos extra del motor."
+      },
+      "BacktestVariant": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "variant": {
+            "type": "string",
+            "title": "Variant"
+          },
+          "created_ts": {
+            "type": "integer",
+            "title": "Created Ts"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "data_source": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "synthetic"
+            ],
+            "title": "Data Source"
+          },
+          "data_quality": {
+            "type": "string",
+            "title": "Data Quality"
+          },
+          "dataset": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "data_range": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data Range"
+          },
+          "is_synthetic": {
+            "type": "boolean",
+            "title": "Is Synthetic"
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config"
+          },
+          "metrics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Metrics"
+          },
+          "diagnostics": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Diagnostics"
+          },
+          "trades": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Trades"
+          },
+          "equity": {
+            "items": {
+              "$ref": "#/components/schemas/EquityPoint"
+            },
+            "type": "array",
+            "title": "Equity"
+          },
+          "days_detail": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Days Detail"
+          },
+          "funnel": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Funnel"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "variant",
+          "created_ts",
+          "label",
+          "data_source",
+          "data_quality",
+          "is_synthetic",
+          "config",
+          "metrics",
+          "diagnostics",
+          "trades",
+          "equity",
+          "days_detail",
+          "funnel"
+        ],
+        "title": "BacktestVariant"
+      },
+      "BacktestVariantsResponse": {
+        "properties": {
+          "variants": {
+            "items": {
+              "$ref": "#/components/schemas/BacktestVariant"
+            },
+            "type": "array",
+            "title": "Variants"
+          },
+          "data_source": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "synthetic"
+            ],
+            "title": "Data Source"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "variants",
+          "data_source"
+        ],
+        "title": "BacktestVariantsResponse"
+      },
+      "BreakoutInfo": {
+        "properties": {
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "level": {
+            "type": "number",
+            "title": "Level"
+          },
+          "close": {
+            "type": "number",
+            "title": "Close"
+          },
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "confirm_ts": {
+            "type": "integer",
+            "title": "Confirm Ts"
+          },
+          "timeframe": {
+            "type": "string",
+            "title": "Timeframe"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "failed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Failed"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "direction",
+          "level",
+          "close",
+          "ts",
+          "confirm_ts",
+          "timeframe",
+          "type"
+        ],
+        "title": "BreakoutInfo"
+      },
+      "ChartHistoryResponse": {
+        "properties": {
+          "bars": {
+            "items": {
+              "$ref": "#/components/schemas/OHLC"
+            },
+            "type": "array",
+            "title": "Bars"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "session": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "bars",
+          "count",
+          "session"
+        ],
+        "title": "ChartHistoryResponse"
+      },
+      "ChartPoint": {
+        "properties": {
+          "t": {
+            "type": "integer",
+            "title": "T"
+          },
+          "c": {
+            "type": "number",
+            "title": "C"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "t",
+          "c"
+        ],
+        "title": "ChartPoint"
+      },
+      "ConfigUpdate": {
+        "properties": {
+          "patch": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Patch"
+          },
+          "force": {
+            "type": "boolean",
+            "title": "Force",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "ConfigUpdate"
+      },
+      "CsvValidateRequest": {
+        "properties": {
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          },
+          "series_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series Mode"
+          },
+          "exclude_roll_sessions": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exclude Roll Sessions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "CsvValidateRequest"
+      },
+      "DailyBucket": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "pnl"
+        ],
+        "title": "DailyBucket"
+      },
+      "DatasetInfo": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "series_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series Id"
+          },
+          "selected_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Id"
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "schema_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema Version"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          },
+          "file_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Name"
+          },
+          "file_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Hash"
+          },
+          "row_count": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Row Count"
+          },
+          "common_bars": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Common Bars"
+          },
+          "contracts": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Contracts"
+          },
+          "contract_column": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contract Column"
+          },
+          "contracts_declared": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contracts Declared"
+          },
+          "expiry_column": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiry Column"
+          },
+          "contract_expiries": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Contract Expiries"
+          },
+          "series_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series Mode"
+          },
+          "contracts_by_session": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Contracts By Session"
+          },
+          "expiry_by_session": {
+            "additionalProperties": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Expiry By Session"
+          },
+          "rolls": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Rolls"
+          },
+          "roll_sessions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Roll Sessions"
+          },
+          "excluded_sessions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Excluded Sessions"
+          },
+          "all_sessions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "All Sessions"
+          },
+          "range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selected_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requested_start": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requested Start"
+          },
+          "selection": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selection"
+          },
+          "sessions": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetSessions"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aligned": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aligned"
+          },
+          "gaps": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gaps"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "generator": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generator"
+          },
+          "generator_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generator Version"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "kind"
+        ],
+        "title": "DatasetInfo"
+      },
+      "DatasetRange": {
+        "properties": {
+          "first_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Ts"
+          },
+          "last_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Ts"
+          },
+          "first_et": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Et"
+          },
+          "last_et": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Et"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "first_ts",
+          "last_ts",
+          "first_et",
+          "last_et"
+        ],
+        "title": "DatasetRange"
+      },
+      "DatasetSessions": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "available": {
+            "type": "integer",
+            "title": "Available"
+          },
+          "dates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Dates"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "count",
+          "available",
+          "dates"
+        ],
+        "title": "DatasetSessions"
+      },
+      "DirectionBucket": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "win_rate": {
+            "type": "number",
+            "title": "Win Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "trades",
+          "pnl",
+          "wins",
+          "win_rate"
+        ],
+        "title": "DirectionBucket"
+      },
+      "Distribution": {
+        "properties": {
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "losses": {
+            "type": "integer",
+            "title": "Losses"
+          },
+          "breakeven": {
+            "type": "integer",
+            "title": "Breakeven"
+          }
+        },
+        "type": "object",
+        "required": [
+          "wins",
+          "losses",
+          "breakeven"
+        ],
+        "title": "Distribution"
+      },
+      "EmergencyRequest": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "title": "Reason",
+            "default": "Intervención manual"
+          },
+          "close_positions": {
+            "type": "boolean",
+            "title": "Close Positions",
+            "default": false
+          }
+        },
+        "type": "object",
+        "title": "EmergencyRequest"
+      },
+      "EquityPoint": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "equity": {
+            "type": "number",
+            "title": "Equity"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ts",
+          "equity"
+        ],
+        "title": "EquityPoint"
+      },
+      "EventItem": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id"
+          },
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "ts",
+          "level",
+          "category",
+          "message"
+        ],
+        "title": "EventItem"
+      },
+      "EventsResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EventItem"
+            },
+            "type": "array",
+            "title": "Items"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "EventsResponse"
+      },
+      "FeedInfo": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "title": "Kind"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "quality": {
+            "type": "string",
+            "title": "Quality"
+          },
+          "connected": {
+            "type": "boolean",
+            "title": "Connected"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "simulated": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Simulated"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "series_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series Id"
+          },
+          "file_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Hash"
+          },
+          "schema_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schema Version"
+          },
+          "contracts": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contracts"
+          },
+          "contract_column": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contract Column"
+          },
+          "contracts_declared": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contracts Declared"
+          },
+          "expiry_column": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiry Column"
+          },
+          "contract_expiries": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contract Expiries"
+          },
+          "series_mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Series Mode"
+          },
+          "contracts_by_session": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contracts By Session"
+          },
+          "rolls": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rolls"
+          },
+          "roll_sessions": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roll Sessions"
+          },
+          "excluded_sessions": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Excluded Sessions"
+          },
+          "range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sessions": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sessions"
+          },
+          "all_sessions": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "All Sessions"
+          },
+          "bars": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bars"
+          },
+          "first_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Ts"
+          },
+          "last_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Ts"
+          },
+          "aligned": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aligned"
+          },
+          "session": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session"
+          },
+          "last_bar_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Bar Ts"
+          },
+          "last_update_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update Ms"
+          },
+          "stale": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stale"
+          },
+          "delayed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Delayed"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "kind",
+          "label",
+          "quality",
+          "connected",
+          "detail"
+        ],
+        "title": "FeedInfo"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HourBucket": {
+        "properties": {
+          "key": {
+            "type": "integer",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "win_rate": {
+            "type": "number",
+            "title": "Win Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "trades",
+          "pnl",
+          "wins",
+          "win_rate"
+        ],
+        "title": "HourBucket"
+      },
+      "Marker": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "price": {
+            "type": "number",
+            "title": "Price"
+          },
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "direction": {
+            "type": "string",
+            "title": "Direction"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "ts",
+          "price",
+          "type",
+          "direction",
+          "label"
+        ],
+        "title": "Marker"
+      },
+      "MonthlyBucket": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "win_rate": {
+            "type": "number",
+            "title": "Win Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "trades",
+          "pnl",
+          "wins",
+          "win_rate"
+        ],
+        "title": "MonthlyBucket"
+      },
+      "OHLC": {
+        "properties": {
+          "t": {
+            "type": "integer",
+            "title": "T"
+          },
+          "o": {
+            "type": "number",
+            "title": "O"
+          },
+          "h": {
+            "type": "number",
+            "title": "H"
+          },
+          "l": {
+            "type": "number",
+            "title": "L"
+          },
+          "c": {
+            "type": "number",
+            "title": "C"
+          },
+          "v": {
+            "type": "number",
+            "title": "V"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "t",
+          "o",
+          "h",
+          "l",
+          "c",
+          "v"
+        ],
+        "title": "OHLC"
+      },
+      "OpeningRange": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "start_ts": {
+            "type": "integer",
+            "title": "Start Ts"
+          },
+          "end_ts": {
+            "type": "integer",
+            "title": "End Ts"
+          },
+          "high": {
+            "type": "number",
+            "title": "High"
+          },
+          "low": {
+            "type": "number",
+            "title": "Low"
+          },
+          "mid": {
+            "type": "number",
+            "title": "Mid"
+          },
+          "width": {
+            "type": "number",
+            "title": "Width"
+          },
+          "width_pct": {
+            "type": "number",
+            "title": "Width Pct"
+          },
+          "bars": {
+            "type": "integer",
+            "title": "Bars"
+          },
+          "complete": {
+            "type": "boolean",
+            "title": "Complete"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "date",
+          "start_ts",
+          "end_ts",
+          "high",
+          "low",
+          "mid",
+          "width",
+          "width_pct",
+          "bars",
+          "complete"
+        ],
+        "title": "OpeningRange"
+      },
+      "Order": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "side": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell"
+            ],
+            "title": "Side"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "order_type": {
+            "type": "string",
+            "title": "Order Type"
+          },
+          "limit_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Limit Price"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "entry",
+              "stop",
+              "target"
+            ],
+            "title": "Role"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "created_ts": {
+            "type": "integer",
+            "title": "Created Ts"
+          },
+          "filled_ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filled Ts"
+          },
+          "filled_price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filled Price"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "symbol",
+          "side",
+          "qty",
+          "order_type",
+          "limit_price",
+          "role",
+          "status",
+          "created_ts",
+          "filled_ts",
+          "filled_price",
+          "reason"
+        ],
+        "title": "Order"
+      },
+      "OrdersResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Position"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "items",
+          "position"
+        ],
+        "title": "OrdersResponse"
+      },
+      "Phase": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "confirmed",
+              "rejected",
+              "expired",
+              "waiting"
+            ],
+            "title": "Status"
+          },
+          "detail": {
+            "type": "string",
+            "title": "Detail"
+          },
+          "ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ts"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "status",
+          "detail",
+          "ts"
+        ],
+        "title": "Phase"
+      },
+      "Position": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "entry_price": {
+            "type": "number",
+            "title": "Entry Price"
+          },
+          "entry_ts": {
+            "type": "integer",
+            "title": "Entry Ts"
+          },
+          "stop": {
+            "type": "number",
+            "title": "Stop"
+          },
+          "target": {
+            "type": "number",
+            "title": "Target"
+          },
+          "initial_stop": {
+            "type": "number",
+            "title": "Initial Stop"
+          },
+          "risk_amount": {
+            "type": "number",
+            "title": "Risk Amount"
+          },
+          "signal_id": {
+            "type": "string",
+            "title": "Signal Id"
+          },
+          "signal_type": {
+            "type": "string",
+            "title": "Signal Type"
+          },
+          "entry_reason": {
+            "type": "string",
+            "title": "Entry Reason"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "current_price": {
+            "type": "number",
+            "title": "Current Price"
+          },
+          "unrealized": {
+            "type": "number",
+            "title": "Unrealized"
+          },
+          "r_multiple": {
+            "type": "number",
+            "title": "R Multiple"
+          },
+          "mfe_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mfe R"
+          },
+          "mae_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae R"
+          },
+          "mfe_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mfe Usd"
+          },
+          "mae_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae Usd"
+          },
+          "open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Drawdown"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "symbol",
+          "direction",
+          "qty",
+          "entry_price",
+          "entry_ts",
+          "stop",
+          "target",
+          "initial_stop",
+          "risk_amount",
+          "signal_id",
+          "signal_type",
+          "entry_reason",
+          "mode",
+          "current_price",
+          "unrealized",
+          "r_multiple"
+        ],
+        "title": "Position"
+      },
+      "PresetBacktestRequest": {
+        "properties": {
+          "days": {
+            "type": "integer",
+            "maximum": 250.0,
+            "minimum": 3.0,
+            "title": "Days",
+            "default": 20
+          },
+          "presets": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Presets"
+          },
+          "overrides": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Overrides"
+          },
+          "start_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Date"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PresetBacktestRequest"
+      },
+      "PresetCatalogEntry": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "group": {
+            "type": "string",
+            "title": "Group"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "default": {
+            "type": "boolean",
+            "title": "Default"
+          },
+          "patch": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Patch"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "group",
+          "description",
+          "default",
+          "patch"
+        ],
+        "title": "PresetCatalogEntry"
+      },
+      "PresetCatalogResponse": {
+        "properties": {
+          "presets": {
+            "items": {
+              "$ref": "#/components/schemas/PresetCatalogEntry"
+            },
+            "type": "array",
+            "title": "Presets"
+          },
+          "default": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Default"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "sample": {
+            "$ref": "#/components/schemas/PresetCatalogSample"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "presets",
+          "default",
+          "count",
+          "total",
+          "sample",
+          "note"
+        ],
+        "title": "PresetCatalogResponse"
+      },
+      "PresetCatalogSample": {
+        "properties": {
+          "provider": {
+            "type": "string",
+            "title": "Provider"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "synthetic"
+            ],
+            "title": "Kind"
+          },
+          "path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Path"
+          },
+          "file_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File Name"
+          },
+          "series_mode": {
+            "type": "string",
+            "title": "Series Mode"
+          },
+          "exclude_roll_sessions": {
+            "type": "boolean",
+            "title": "Exclude Roll Sessions"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "provider",
+          "kind",
+          "path",
+          "file_name",
+          "series_mode",
+          "exclude_roll_sessions"
+        ],
+        "title": "PresetCatalogSample"
+      },
+      "PresetComparisonResponse": {
+        "properties": {
+          "created_ts": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Created Ts"
+          },
+          "data_source": {
+            "type": "string",
+            "enum": [
+              "csv",
+              "synthetic"
+            ],
+            "title": "Data Source"
+          },
+          "is_synthetic": {
+            "type": "boolean",
+            "title": "Is Synthetic"
+          },
+          "dataset": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DatasetInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "days_requested": {
+            "type": "integer",
+            "maximum": 250.0,
+            "minimum": 3.0,
+            "title": "Days Requested"
+          },
+          "sessions": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Sessions"
+          },
+          "overrides": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Overrides"
+          },
+          "base_config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Base Config"
+          },
+          "preset_keys": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Preset Keys"
+          },
+          "comparison": {
+            "items": {
+              "$ref": "#/components/schemas/PresetComparisonRow"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Comparison"
+          },
+          "default_presets": {
+            "type": "boolean",
+            "title": "Default Presets"
+          },
+          "sample": {
+            "$ref": "#/components/schemas/PresetSample"
+          },
+          "note": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Note"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "created_ts",
+          "data_source",
+          "is_synthetic",
+          "days_requested",
+          "sessions",
+          "overrides",
+          "base_config",
+          "preset_keys",
+          "comparison",
+          "default_presets",
+          "sample",
+          "note"
+        ],
+        "title": "PresetComparisonResponse",
+        "description": "Respuesta de ``POST /backtest/presets`` con invariantes cruzadas."
+      },
+      "PresetComparisonRow": {
+        "properties": {
+          "preset": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Preset"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Label"
+          },
+          "group": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Group"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Description"
+          },
+          "is_synthetic": {
+            "type": "boolean",
+            "title": "Is Synthetic"
+          },
+          "trades": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Trades"
+          },
+          "signals": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Signals"
+          },
+          "breakouts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Breakouts"
+          },
+          "retests": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Retests"
+          },
+          "days_traded": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Days Traded"
+          },
+          "win_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Win Rate"
+          },
+          "profit_factor": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profit Factor"
+          },
+          "expectancy": {
+            "type": "number",
+            "title": "Expectancy"
+          },
+          "net_profit": {
+            "type": "number",
+            "title": "Net Profit"
+          },
+          "max_drawdown": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Max Drawdown"
+          },
+          "max_drawdown_pct": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Max Drawdown Pct"
+          },
+          "avg_r": {
+            "type": "number",
+            "title": "Avg R"
+          },
+          "total_r": {
+            "type": "number",
+            "title": "Total R"
+          },
+          "sharpe": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sharpe"
+          },
+          "sortino": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortino"
+          },
+          "stop_losses": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stop Losses"
+          },
+          "take_profits": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Take Profits"
+          },
+          "session_closes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Session Closes"
+          },
+          "stop_loss_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Stop Loss Rate"
+          },
+          "take_profit_rate": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Take Profit Rate"
+          },
+          "avg_stop_ticks": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Avg Stop Ticks"
+          },
+          "stop_cap_sessions": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Stop Cap Sessions"
+          },
+          "qty_zero_sessions": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Qty Zero Sessions"
+          },
+          "final_equity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Final Equity"
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config"
+          },
+          "equity": {
+            "items": {
+              "$ref": "#/components/schemas/PresetEquityPoint"
+            },
+            "type": "array",
+            "title": "Equity"
+          },
+          "delta": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Delta"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "preset",
+          "label",
+          "group",
+          "description",
+          "is_synthetic",
+          "trades",
+          "signals",
+          "breakouts",
+          "retests",
+          "days_traded",
+          "win_rate",
+          "profit_factor",
+          "expectancy",
+          "net_profit",
+          "max_drawdown",
+          "max_drawdown_pct",
+          "avg_r",
+          "total_r",
+          "sharpe",
+          "sortino",
+          "stop_losses",
+          "take_profits",
+          "session_closes",
+          "stop_loss_rate",
+          "take_profit_rate",
+          "avg_stop_ticks",
+          "stop_cap_sessions",
+          "qty_zero_sessions",
+          "final_equity"
+        ],
+        "title": "PresetComparisonRow",
+        "description": "Métricas de un preset; las invariantes replican ``server.stats``."
+      },
+      "PresetEquityPoint": {
+        "properties": {
+          "ts": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Ts"
+          },
+          "equity": {
+            "type": "number",
+            "title": "Equity"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ts",
+          "equity"
+        ],
+        "title": "PresetEquityPoint",
+        "description": "Punto de la curva de equity de una fila de comparación."
+      },
+      "PresetSample": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "activity",
+              "no_trades",
+              "insufficient"
+            ],
+            "title": "Status"
+          },
+          "active_presets": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Active Presets"
+          },
+          "total_presets": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Presets"
+          },
+          "sessions": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sessions"
+          },
+          "days_requested": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Days Requested"
+          },
+          "min_sessions": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Min Sessions"
+          },
+          "detail": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Detail"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "active_presets",
+          "total_presets",
+          "sessions",
+          "days_requested",
+          "min_sessions",
+          "detail"
+        ],
+        "title": "PresetSample"
+      },
+      "Quote": {
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "last": {
+            "type": "number",
+            "title": "Last"
+          },
+          "change": {
+            "type": "number",
+            "title": "Change"
+          },
+          "change_pct": {
+            "type": "number",
+            "title": "Change Pct"
+          },
+          "ts": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ts"
+          },
+          "volume": {
+            "type": "number",
+            "title": "Volume"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "symbol",
+          "last",
+          "change",
+          "change_pct",
+          "ts",
+          "volume"
+        ],
+        "title": "Quote"
+      },
+      "RetestInfo": {
+        "properties": {
+          "level": {
+            "type": "number",
+            "title": "Level"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "touch_ts": {
+            "type": "integer",
+            "title": "Touch Ts"
+          },
+          "touch_price": {
+            "type": "number",
+            "title": "Touch Price"
+          },
+          "tolerance_ticks": {
+            "type": "integer",
+            "title": "Tolerance Ticks"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "level",
+          "name",
+          "touch_ts",
+          "touch_price",
+          "tolerance_ticks"
+        ],
+        "title": "RetestInfo"
+      },
+      "Signal": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "ts": {
+            "type": "integer",
+            "title": "Ts"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "entry_price": {
+            "type": "number",
+            "title": "Entry Price"
+          },
+          "stop": {
+            "type": "number",
+            "title": "Stop"
+          },
+          "target": {
+            "type": "number",
+            "title": "Target"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "risk_amount": {
+            "type": "number",
+            "title": "Risk Amount"
+          },
+          "signal_type": {
+            "type": "string",
+            "title": "Signal Type"
+          },
+          "entry_reason": {
+            "type": "string",
+            "title": "Entry Reason"
+          },
+          "reference_level": {
+            "type": "number",
+            "title": "Reference Level"
+          },
+          "breakout_level": {
+            "type": "number",
+            "title": "Breakout Level"
+          },
+          "smt_bias": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Smt Bias"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "ts",
+          "direction",
+          "entry_price",
+          "stop",
+          "target",
+          "qty",
+          "risk_amount",
+          "signal_type",
+          "entry_reason",
+          "reference_level",
+          "breakout_level",
+          "smt_bias"
+        ],
+        "title": "Signal"
+      },
+      "SignalBucket": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "win_rate": {
+            "type": "number",
+            "title": "Win Rate"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "trades",
+          "pnl",
+          "wins",
+          "win_rate"
+        ],
+        "title": "SignalBucket"
+      },
+      "SmtInfo": {
+        "properties": {
+          "bias": {
+            "type": "string",
+            "enum": [
+              "bullish",
+              "bearish"
+            ],
+            "title": "Bias"
+          },
+          "level": {
+            "type": "number",
+            "title": "Level"
+          },
+          "primary_prev": {
+            "type": "number",
+            "title": "Primary Prev"
+          },
+          "primary_last": {
+            "type": "number",
+            "title": "Primary Last"
+          },
+          "reference_prev": {
+            "type": "number",
+            "title": "Reference Prev"
+          },
+          "reference_last": {
+            "type": "number",
+            "title": "Reference Last"
+          },
+          "confirm_ts": {
+            "type": "integer",
+            "title": "Confirm Ts"
+          },
+          "expires_ts": {
+            "type": "integer",
+            "title": "Expires Ts"
+          },
+          "pivot_ts": {
+            "type": "integer",
+            "title": "Pivot Ts"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "bias",
+          "level",
+          "primary_prev",
+          "primary_last",
+          "reference_prev",
+          "reference_last",
+          "confirm_ts",
+          "expires_ts",
+          "pivot_ts"
+        ],
+        "title": "SmtInfo"
+      },
+      "Snapshot": {
+        "properties": {
+          "server_time": {
+            "type": "integer",
+            "title": "Server Time"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "instrument": {
+            "type": "string",
+            "title": "Instrument"
+          },
+          "reference_symbol": {
+            "type": "string",
+            "title": "Reference Symbol"
+          },
+          "comparison_symbol": {
+            "type": "string",
+            "title": "Comparison Symbol"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FeedInfo"
+          },
+          "session": {
+            "$ref": "#/components/schemas/SnapshotSession"
+          },
+          "quotes": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Quote"
+            },
+            "type": "object",
+            "title": "Quotes"
+          },
+          "opening_range": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OpeningRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "assessment": {
+            "$ref": "#/components/schemas/SnapshotAssessment"
+          },
+          "position": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Position"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "orders": {
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            },
+            "type": "array",
+            "title": "Orders"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/SnapshotRisk"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/Stats"
+          },
+          "day_stats": {
+            "$ref": "#/components/schemas/Stats"
+          },
+          "recent_trades": {
+            "items": {
+              "$ref": "#/components/schemas/Trade"
+            },
+            "type": "array",
+            "title": "Recent Trades"
+          },
+          "ambiguous_bars": {
+            "$ref": "#/components/schemas/SnapshotAmbiguous"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventItem"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "chart": {
+            "$ref": "#/components/schemas/SnapshotChart"
+          },
+          "config": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Config"
+          },
+          "settings": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Settings"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "server_time",
+          "status",
+          "mode",
+          "instrument",
+          "reference_symbol",
+          "comparison_symbol",
+          "data",
+          "session",
+          "quotes",
+          "opening_range",
+          "assessment",
+          "position",
+          "orders",
+          "risk",
+          "stats",
+          "day_stats",
+          "recent_trades",
+          "ambiguous_bars",
+          "events",
+          "chart",
+          "config",
+          "settings"
+        ],
+        "title": "Snapshot"
+      },
+      "SnapshotAmbiguous": {
+        "properties": {
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "recent": {
+            "items": {
+              "$ref": "#/components/schemas/AmbiguousBar"
+            },
+            "type": "array",
+            "title": "Recent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "recent"
+        ],
+        "title": "SnapshotAmbiguous"
+      },
+      "SnapshotAssessment": {
+        "properties": {
+          "phases": {
+            "items": {
+              "$ref": "#/components/schemas/Phase"
+            },
+            "type": "array",
+            "title": "Phases"
+          },
+          "breakout": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BreakoutInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "smt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SmtInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "retest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RetestInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reject": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reject"
+          },
+          "signal": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Signal"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reference_level": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Level"
+          },
+          "atr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Atr"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phases",
+          "breakout",
+          "smt",
+          "retest",
+          "reject",
+          "signal",
+          "reference_level",
+          "atr"
+        ],
+        "title": "SnapshotAssessment"
+      },
+      "SnapshotChart": {
+        "properties": {
+          "bars": {
+            "items": {
+              "$ref": "#/components/schemas/OHLC"
+            },
+            "type": "array",
+            "title": "Bars"
+          },
+          "nq": {
+            "items": {
+              "$ref": "#/components/schemas/ChartPoint"
+            },
+            "type": "array",
+            "title": "Nq"
+          },
+          "es": {
+            "items": {
+              "$ref": "#/components/schemas/ChartPoint"
+            },
+            "type": "array",
+            "title": "Es"
+          },
+          "markers": {
+            "items": {
+              "$ref": "#/components/schemas/Marker"
+            },
+            "type": "array",
+            "title": "Markers"
+          },
+          "smt": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SmtInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "bars",
+          "nq",
+          "es",
+          "markers",
+          "smt"
+        ],
+        "title": "SnapshotChart"
+      },
+      "SnapshotRisk": {
+        "properties": {
+          "equity": {
+            "type": "number",
+            "title": "Equity"
+          },
+          "day_start_equity": {
+            "type": "number",
+            "title": "Day Start Equity"
+          },
+          "daily_pnl": {
+            "type": "number",
+            "title": "Daily Pnl"
+          },
+          "daily_pnl_pct": {
+            "type": "number",
+            "title": "Daily Pnl Pct"
+          },
+          "cum_pnl": {
+            "type": "number",
+            "title": "Cum Pnl"
+          },
+          "risk_per_trade_pct": {
+            "type": "number",
+            "title": "Risk Per Trade Pct"
+          },
+          "risk_open_pct": {
+            "type": "number",
+            "title": "Risk Open Pct"
+          },
+          "risk_open_amount": {
+            "type": "number",
+            "title": "Risk Open Amount"
+          },
+          "trades_today": {
+            "type": "integer",
+            "title": "Trades Today"
+          },
+          "max_trades_per_day": {
+            "type": "integer",
+            "title": "Max Trades Per Day"
+          },
+          "daily_loss_limit": {
+            "type": "number",
+            "title": "Daily Loss Limit"
+          },
+          "daily_profit_limit": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Daily Profit Limit"
+          },
+          "max_daily_loss_pct": {
+            "type": "number",
+            "title": "Max Daily Loss Pct"
+          },
+          "max_drawdown_pct": {
+            "type": "number",
+            "title": "Max Drawdown Pct"
+          },
+          "open_drawdown": {
+            "type": "number",
+            "title": "Open Drawdown"
+          },
+          "open_drawdown_pct": {
+            "type": "number",
+            "title": "Open Drawdown Pct"
+          },
+          "max_open_drawdown": {
+            "type": "number",
+            "title": "Max Open Drawdown"
+          },
+          "emergency": {
+            "type": "boolean",
+            "title": "Emergency"
+          },
+          "emergency_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Emergency Reason"
+          },
+          "blocked_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Blocked Reason"
+          },
+          "initial_capital": {
+            "type": "number",
+            "title": "Initial Capital"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "equity",
+          "day_start_equity",
+          "daily_pnl",
+          "daily_pnl_pct",
+          "cum_pnl",
+          "risk_per_trade_pct",
+          "risk_open_pct",
+          "risk_open_amount",
+          "trades_today",
+          "max_trades_per_day",
+          "daily_loss_limit",
+          "daily_profit_limit",
+          "max_daily_loss_pct",
+          "max_drawdown_pct",
+          "open_drawdown",
+          "open_drawdown_pct",
+          "max_open_drawdown",
+          "emergency",
+          "emergency_reason",
+          "blocked_reason",
+          "initial_capital"
+        ],
+        "title": "SnapshotRisk"
+      },
+      "SnapshotSession": {
+        "properties": {
+          "date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "or_start": {
+            "type": "string",
+            "title": "Or Start"
+          },
+          "or_end": {
+            "type": "string",
+            "title": "Or End"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone"
+          },
+          "trade_window_start": {
+            "type": "string",
+            "title": "Trade Window Start"
+          },
+          "trade_window_end": {
+            "type": "string",
+            "title": "Trade Window End"
+          },
+          "close_time": {
+            "type": "string",
+            "title": "Close Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "or_start",
+          "or_end",
+          "timezone",
+          "trade_window_start",
+          "trade_window_end",
+          "close_time"
+        ],
+        "title": "SnapshotSession"
+      },
+      "Stats": {
+        "properties": {
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          },
+          "losses": {
+            "type": "integer",
+            "title": "Losses"
+          },
+          "breakeven": {
+            "type": "integer",
+            "title": "Breakeven"
+          },
+          "win_rate": {
+            "type": "number",
+            "title": "Win Rate"
+          },
+          "profit_factor": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Profit Factor"
+          },
+          "expectancy": {
+            "type": "number",
+            "title": "Expectancy"
+          },
+          "net_profit": {
+            "type": "number",
+            "title": "Net Profit"
+          },
+          "gross_profit": {
+            "type": "number",
+            "title": "Gross Profit"
+          },
+          "gross_loss": {
+            "type": "number",
+            "title": "Gross Loss"
+          },
+          "fees": {
+            "type": "number",
+            "title": "Fees"
+          },
+          "avg_win": {
+            "type": "number",
+            "title": "Avg Win"
+          },
+          "avg_loss": {
+            "type": "number",
+            "title": "Avg Loss"
+          },
+          "avg_trade": {
+            "type": "number",
+            "title": "Avg Trade"
+          },
+          "avg_r": {
+            "type": "number",
+            "title": "Avg R"
+          },
+          "avg_mfe_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Mfe R"
+          },
+          "avg_mae_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Mae R"
+          },
+          "avg_open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Open Drawdown"
+          },
+          "max_open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Open Drawdown"
+          },
+          "max_open_drawdown_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Open Drawdown Pct"
+          },
+          "open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Drawdown"
+          },
+          "open_drawdown_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Drawdown Pct"
+          },
+          "avg_mfe": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Mfe"
+          },
+          "avg_mae": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Mae"
+          },
+          "total_r": {
+            "type": "number",
+            "title": "Total R"
+          },
+          "avg_win_r": {
+            "type": "number",
+            "title": "Avg Win R"
+          },
+          "avg_loss_r": {
+            "type": "number",
+            "title": "Avg Loss R"
+          },
+          "best_trade": {
+            "type": "number",
+            "title": "Best Trade"
+          },
+          "worst_trade": {
+            "type": "number",
+            "title": "Worst Trade"
+          },
+          "max_drawdown": {
+            "type": "number",
+            "title": "Max Drawdown"
+          },
+          "max_drawdown_pct": {
+            "type": "number",
+            "title": "Max Drawdown Pct"
+          },
+          "sharpe": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sharpe"
+          },
+          "sortino": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sortino"
+          },
+          "best_win_streak": {
+            "type": "integer",
+            "title": "Best Win Streak"
+          },
+          "worst_loss_streak": {
+            "type": "integer",
+            "title": "Worst Loss Streak"
+          },
+          "avg_duration_sec": {
+            "type": "integer",
+            "title": "Avg Duration Sec"
+          },
+          "equity_curve": {
+            "items": {
+              "$ref": "#/components/schemas/EquityPoint"
+            },
+            "type": "array",
+            "title": "Equity Curve"
+          },
+          "daily": {
+            "items": {
+              "$ref": "#/components/schemas/DailyBucket"
+            },
+            "type": "array",
+            "title": "Daily"
+          },
+          "monthly": {
+            "items": {
+              "$ref": "#/components/schemas/MonthlyBucket"
+            },
+            "type": "array",
+            "title": "Monthly"
+          },
+          "by_hour": {
+            "items": {
+              "$ref": "#/components/schemas/HourBucket"
+            },
+            "type": "array",
+            "title": "By Hour"
+          },
+          "by_direction": {
+            "items": {
+              "$ref": "#/components/schemas/DirectionBucket"
+            },
+            "type": "array",
+            "title": "By Direction"
+          },
+          "by_signal": {
+            "items": {
+              "$ref": "#/components/schemas/SignalBucket"
+            },
+            "type": "array",
+            "title": "By Signal"
+          },
+          "by_weekday": {
+            "items": {
+              "$ref": "#/components/schemas/WeekdayBucket"
+            },
+            "type": "array",
+            "title": "By Weekday"
+          },
+          "distribution": {
+            "$ref": "#/components/schemas/Distribution"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "trades",
+          "wins",
+          "losses",
+          "breakeven",
+          "win_rate",
+          "profit_factor",
+          "expectancy",
+          "net_profit",
+          "gross_profit",
+          "gross_loss",
+          "fees",
+          "avg_win",
+          "avg_loss",
+          "avg_trade",
+          "avg_r",
+          "total_r",
+          "avg_win_r",
+          "avg_loss_r",
+          "best_trade",
+          "worst_trade",
+          "max_drawdown",
+          "max_drawdown_pct",
+          "sharpe",
+          "sortino",
+          "best_win_streak",
+          "worst_loss_streak",
+          "avg_duration_sec",
+          "equity_curve",
+          "daily",
+          "monthly",
+          "by_hour",
+          "by_direction",
+          "by_signal",
+          "by_weekday",
+          "distribution"
+        ],
+        "title": "Stats"
+      },
+      "Trade": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "symbol": {
+            "type": "string",
+            "title": "Symbol"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "long",
+              "short"
+            ],
+            "title": "Direction"
+          },
+          "qty": {
+            "type": "integer",
+            "title": "Qty"
+          },
+          "entry_ts": {
+            "type": "integer",
+            "title": "Entry Ts"
+          },
+          "entry_price": {
+            "type": "number",
+            "title": "Entry Price"
+          },
+          "exit_ts": {
+            "type": "integer",
+            "title": "Exit Ts"
+          },
+          "exit_price": {
+            "type": "number",
+            "title": "Exit Price"
+          },
+          "stop": {
+            "type": "number",
+            "title": "Stop"
+          },
+          "target": {
+            "type": "number",
+            "title": "Target"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "gross_pnl": {
+            "type": "number",
+            "title": "Gross Pnl"
+          },
+          "fees": {
+            "type": "number",
+            "title": "Fees"
+          },
+          "r_multiple": {
+            "type": "number",
+            "title": "R Multiple"
+          },
+          "risk_amount": {
+            "type": "number",
+            "title": "Risk Amount"
+          },
+          "signal_type": {
+            "type": "string",
+            "title": "Signal Type"
+          },
+          "entry_reason": {
+            "type": "string",
+            "title": "Entry Reason"
+          },
+          "exit_reason": {
+            "type": "string",
+            "title": "Exit Reason"
+          },
+          "duration_sec": {
+            "type": "integer",
+            "title": "Duration Sec"
+          },
+          "mfe_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mfe R"
+          },
+          "mae_r": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae R"
+          },
+          "mfe_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mfe Usd"
+          },
+          "mae_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mae Usd"
+          },
+          "open_drawdown": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Open Drawdown"
+          },
+          "contract": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contract"
+          },
+          "expiry": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiry"
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Meta"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "id",
+          "mode",
+          "symbol",
+          "direction",
+          "qty",
+          "entry_ts",
+          "entry_price",
+          "exit_ts",
+          "exit_price",
+          "stop",
+          "target",
+          "pnl",
+          "gross_pnl",
+          "fees",
+          "r_multiple",
+          "risk_amount",
+          "signal_type",
+          "entry_reason",
+          "exit_reason",
+          "duration_sec"
+        ],
+        "title": "Trade"
+      },
+      "TradesResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Trade"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset"
+        ],
+        "title": "TradesResponse"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WeekdayBucket": {
+        "properties": {
+          "key": {
+            "type": "integer",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "trades": {
+            "type": "integer",
+            "title": "Trades"
+          },
+          "pnl": {
+            "type": "number",
+            "title": "Pnl"
+          },
+          "wins": {
+            "type": "integer",
+            "title": "Wins"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "trades",
+          "pnl",
+          "wins"
+        ],
+        "title": "WeekdayBucket"
+      }
+    }
+  }
+}

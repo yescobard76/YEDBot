@@ -1,0 +1,1194 @@
+{
+  "schema": "preset-block-bootstrap-v1",
+  "source": "reports/backtest/equity_continuous_dev.json",
+  "holdout_executed": false,
+  "sessions": 362,
+  "initial_capital": 25000.0,
+  "method": {
+    "type": "moving-block bootstrap (circular)",
+    "unit": "session",
+    "block_length": 20,
+    "block_length_rule": "ceil(sqrt(sessions))",
+    "resamples": 10000,
+    "seed": 20250102,
+    "paired": true,
+    "confidence": 0.95,
+    "estimate_family_size": 33,
+    "estimate_ci_method": "Bonferroni percentile"
+  },
+  "results": {
+    "baseline": {
+      "trades": 38,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 661.44,
+          "ci95": {
+            "low": -3554.5495,
+            "high": 5284.3825
+          },
+          "ci95_simultaneous": {
+            "low": -5918.687,
+            "high": 7847.4595
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.1328,
+          "ci95": {
+            "low": 0.408,
+            "high": 2.3679
+          },
+          "ci95_simultaneous": {
+            "low": 0.1351,
+            "high": 3.6508
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 1967.82,
+          "ci95": {
+            "low": 827.276,
+            "high": 4360.7145
+          },
+          "ci95_simultaneous": {
+            "low": 522.5885,
+            "high": 6107.523
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "entry_breakout_direct": {
+      "trades": 4,
+      "active_blocks": [
+        "W3",
+        "W4"
+      ],
+      "metrics": {
+        "net": {
+          "point": 390.84,
+          "ci95": {
+            "low": -773.08,
+            "high": 1803.08
+          },
+          "ci95_simultaneous": {
+            "low": -1461.324,
+            "high": 2910.12
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 2.2806,
+          "ci95": {
+            "low": 0.0,
+            "high": "inf"
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": "inf"
+          },
+          "defined": 9639,
+          "undefined": 361,
+          "inf": 3076
+        },
+        "dd": {
+          "point": 305.2,
+          "ci95": {
+            "low": 0.0,
+            "high": 915.6
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": 1526.0
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "entry_or_level": {
+      "trades": 4,
+      "active_blocks": [
+        "W3"
+      ],
+      "metrics": {
+        "net": {
+          "point": 482.34,
+          "ci95": {
+            "low": -147.66,
+            "high": 1491.2
+          },
+          "ci95_simultaneous": {
+            "low": -312.44,
+            "high": 2357.6315
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 3.3194,
+          "ci95": {
+            "low": 0.0,
+            "high": "inf"
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": "inf"
+          },
+          "defined": 9374,
+          "undefined": 626,
+          "inf": 581
+        },
+        "dd": {
+          "point": 207.96,
+          "ci95": {
+            "low": 0.0,
+            "high": 311.44
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": 416.92
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "entry_retrace_382": {
+      "trades": 31,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": -28.76,
+          "ci95": {
+            "low": -3672.516,
+            "high": 3977.066
+          },
+          "ci95_simultaneous": {
+            "low": -5650.3595,
+            "high": 6362.2065
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 0.9932,
+          "ci95": {
+            "low": 0.3121,
+            "high": 2.2894
+          },
+          "ci95_simultaneous": {
+            "low": 0.0735,
+            "high": 3.7025
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 2053.1,
+          "ci95": {
+            "low": 718.647,
+            "high": 4250.4265
+          },
+          "ci95_simultaneous": {
+            "low": 444.18,
+            "high": 5840.7
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "smt_window_120": {
+      "trades": 39,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 1005.98,
+          "ci95": {
+            "low": -3382.444,
+            "high": 5594.537
+          },
+          "ci95_simultaneous": {
+            "low": -5657.797,
+            "high": 8068.8555
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.1921,
+          "ci95": {
+            "low": 0.4788,
+            "high": 2.4429
+          },
+          "ci95_simultaneous": {
+            "low": 0.1978,
+            "high": 3.7204
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 2224.32,
+          "ci95": {
+            "low": 791.06,
+            "high": 4381.9295
+          },
+          "ci95_simultaneous": {
+            "low": 467.94,
+            "high": 6215.6895
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "smt_tolerance_16": {
+      "trades": 48,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 1245.4,
+          "ci95": {
+            "low": -3265.524,
+            "high": 6091.26
+          },
+          "ci95_simultaneous": {
+            "low": -5717.457,
+            "high": 8867.204
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.2018,
+          "ci95": {
+            "low": 0.5497,
+            "high": 2.2296
+          },
+          "ci95_simultaneous": {
+            "low": 0.2807,
+            "high": 3.11
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 2185.12,
+          "ci95": {
+            "low": 898.58,
+            "high": 4349.8475
+          },
+          "ci95_simultaneous": {
+            "low": 619.42,
+            "high": 6298.292
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "setup_validity_240": {
+      "trades": 51,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 1695.96,
+          "ci95": {
+            "low": -3073.5355,
+            "high": 6873.486
+          },
+          "ci95_simultaneous": {
+            "low": -5852.894,
+            "high": 9652.382
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.2833,
+          "ci95": {
+            "low": 0.5752,
+            "high": 2.5219
+          },
+          "ci95_simultaneous": {
+            "low": 0.2531,
+            "high": 3.6765
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 1583.44,
+          "ci95": {
+            "low": 870.985,
+            "high": 4375.2525
+          },
+          "ci95_simultaneous": {
+            "low": 626.291,
+            "high": 6345.577
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "sl_depth_6": {
+      "trades": 15,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 1454.4,
+          "ci95": {
+            "low": -1395.216,
+            "high": 4417.644
+          },
+          "ci95_simultaneous": {
+            "low": -2919.9005,
+            "high": 6325.452
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.9125,
+          "ci95": {
+            "low": 0.4227,
+            "high": 9.4134
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": "inf"
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 50
+        },
+        "dd": {
+          "point": 1285.1,
+          "ci95": {
+            "low": 264.96,
+            "high": 2147.0115
+          },
+          "ci95_simultaneous": {
+            "low": 0.0,
+            "high": 3182.018
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "sl_buffer_12": {
+      "trades": 37,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 84.9,
+          "ci95": {
+            "low": -3927.7555,
+            "high": 4491.9405
+          },
+          "ci95_simultaneous": {
+            "low": -6220.0005,
+            "high": 6966.1465
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.0165,
+          "ci95": {
+            "low": 0.3671,
+            "high": 2.1354
+          },
+          "ci95_simultaneous": {
+            "low": 0.1303,
+            "high": 3.1548
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 2005.08,
+          "ci95": {
+            "low": 858.309,
+            "high": 4633.8435
+          },
+          "ci95_simultaneous": {
+            "low": 525.4095,
+            "high": 6351.371
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "recovery_off": {
+      "trades": 41,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 468.62,
+          "ci95": {
+            "low": -3764.2105,
+            "high": 5117.98
+          },
+          "ci95_simultaneous": {
+            "low": -5998.3155,
+            "high": 7862.881
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.0874,
+          "ci95": {
+            "low": 0.389,
+            "high": 2.1875
+          },
+          "ci95_simultaneous": {
+            "low": 0.117,
+            "high": 3.37
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 2105.64,
+          "ci95": {
+            "low": 925.3575,
+            "high": 4564.213
+          },
+          "ci95_simultaneous": {
+            "low": 623.7615,
+            "high": 6420.9265
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    },
+    "rr_2_5": {
+      "trades": 38,
+      "active_blocks": [
+        "W1",
+        "W2",
+        "W3",
+        "W4",
+        "W5",
+        "W6"
+      ],
+      "metrics": {
+        "net": {
+          "point": 742.94,
+          "ci95": {
+            "low": -3185.824,
+            "high": 4828.99
+          },
+          "ci95_simultaneous": {
+            "low": -5360.478,
+            "high": 7230.135
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "pf": {
+          "point": 1.1517,
+          "ci95": {
+            "low": 0.4769,
+            "high": 2.3271
+          },
+          "ci95_simultaneous": {
+            "low": 0.195,
+            "high": 3.5119
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        },
+        "dd": {
+          "point": 1967.82,
+          "ci95": {
+            "low": 752.3,
+            "high": 3987.2655
+          },
+          "ci95_simultaneous": {
+            "low": 467.7105,
+            "high": 5642.756
+          },
+          "defined": 10000,
+          "undefined": 0,
+          "inf": 0
+        }
+      }
+    }
+  },
+  "comparisons": {
+    "family_size": 30,
+    "method": "Holm-Bonferroni",
+    "alpha": 0.05,
+    "tests": [
+      {
+        "preset": "entry_breakout_direct",
+        "metric": "net",
+        "point_diff": -270.6,
+        "ci95": {
+          "low": -4968.237,
+          "high": 4153.886
+        },
+        "ci95_simultaneous": {
+          "low": -7761.2941,
+          "high": 6651.6419
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9483051694830517,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_breakout_direct",
+        "metric": "pf",
+        "point_diff": 1.1478,
+        "ci95": {
+          "low": -1.7071,
+          "high": 5.5215
+        },
+        "ci95_simultaneous": {
+          "low": -2.8712,
+          "high": 14.6822
+        },
+        "n_defined": 6563,
+        "n_undefined": 3437,
+        "p_raw": 0.9125533211456429,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_breakout_direct",
+        "metric": "dd",
+        "point_diff": -1662.62,
+        "ci95": {
+          "low": -4157.4835,
+          "high": -397.3675
+        },
+        "ci95_simultaneous": {
+          "low": -5932.5601,
+          "high": 155.9835
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.0065993400659934,
+        "p_holm": 0.191381,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_or_level",
+        "metric": "net",
+        "point_diff": -179.1,
+        "ci95": {
+          "low": -4751.4005,
+          "high": 4078.0235
+        },
+        "ci95_simultaneous": {
+          "low": -7373.6034,
+          "high": 6417.9753
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9715028497150285,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_or_level",
+        "metric": "pf",
+        "point_diff": 2.1866,
+        "ci95": {
+          "low": -1.1434,
+          "high": 8.9754
+        },
+        "ci95_simultaneous": {
+          "low": -2.3424,
+          "high": 14.6066
+        },
+        "n_defined": 8793,
+        "n_undefined": 1207,
+        "p_raw": 0.30725494655446894,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_or_level",
+        "metric": "dd",
+        "point_diff": -1759.86,
+        "ci95": {
+          "low": -4207.9975,
+          "high": -696.818
+        },
+        "ci95_simultaneous": {
+          "low": -5919.7106,
+          "high": -369.3236
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.00019998000199980003,
+        "p_holm": 0.005999,
+        "significant": true,
+        "favorable": true
+      },
+      {
+        "preset": "entry_retrace_382",
+        "metric": "net",
+        "point_diff": -690.2,
+        "ci95": {
+          "low": -5877.895,
+          "high": 4379.1385
+        },
+        "ci95_simultaneous": {
+          "low": -8977.0024,
+          "high": 7234.5195
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.8109189081091891,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_retrace_382",
+        "metric": "pf",
+        "point_diff": -0.1396,
+        "ci95": {
+          "low": -1.3271,
+          "high": 1.1574
+        },
+        "ci95_simultaneous": {
+          "low": -2.2588,
+          "high": 2.4693
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.8063193680631937,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "entry_retrace_382",
+        "metric": "dd",
+        "point_diff": 85.28,
+        "ci95": {
+          "low": -2404.184,
+          "high": 2356.875
+        },
+        "ci95_simultaneous": {
+          "low": -4184.7762,
+          "high": 4264.6691
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9047095290470953,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_window_120",
+        "metric": "net",
+        "point_diff": 344.54,
+        "ci95": {
+          "low": -769.5,
+          "high": 1803.12
+        },
+        "ci95_simultaneous": {
+          "low": -1282.5,
+          "high": 3005.2
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.7817218278172183,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_window_120",
+        "metric": "pf",
+        "point_diff": 0.0593,
+        "ci95": {
+          "low": -0.1615,
+          "high": 0.3631
+        },
+        "ci95_simultaneous": {
+          "low": -0.3808,
+          "high": 0.6167
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.8207179282071793,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_window_120",
+        "metric": "dd",
+        "point_diff": 256.5,
+        "ci95": {
+          "low": -1018.3685,
+          "high": 586.02
+        },
+        "ci95_simultaneous": {
+          "low": -2016.7329,
+          "high": 1026.0
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 1.0,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_tolerance_16",
+        "metric": "net",
+        "point_diff": 583.96,
+        "ci95": {
+          "low": -1469.182,
+          "high": 2779.2335
+        },
+        "ci95_simultaneous": {
+          "low": -2495.0902,
+          "high": 4161.1107
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.6105389461053895,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_tolerance_16",
+        "metric": "pf",
+        "point_diff": 0.069,
+        "ci95": {
+          "low": -0.4616,
+          "high": 0.4657
+        },
+        "ci95_simultaneous": {
+          "low": -1.0641,
+          "high": 0.7802
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.7497250274972502,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "smt_tolerance_16",
+        "metric": "dd",
+        "point_diff": 217.3,
+        "ci95": {
+          "low": -1292.024,
+          "high": 1172.1675
+        },
+        "ci95_simultaneous": {
+          "low": -2436.1375,
+          "high": 2162.6848
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9159084091590841,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "setup_validity_240",
+        "metric": "net",
+        "point_diff": 1034.52,
+        "ci95": {
+          "low": -683.3735,
+          "high": 3130.6325
+        },
+        "ci95_simultaneous": {
+          "low": -1499.0882,
+          "high": 4864.8948
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.2765723427657234,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "setup_validity_240",
+        "metric": "pf",
+        "point_diff": 0.1505,
+        "ci95": {
+          "low": -0.192,
+          "high": 0.569
+        },
+        "ci95_simultaneous": {
+          "low": -0.5046,
+          "high": 1.1312
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.40075992400759924,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "setup_validity_240",
+        "metric": "dd",
+        "point_diff": -384.38,
+        "ci95": {
+          "low": -1036.7235,
+          "high": 897.86
+        },
+        "ci95_simultaneous": {
+          "low": -2005.9428,
+          "high": 1594.1005
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.8635136486351365,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_depth_6",
+        "metric": "net",
+        "point_diff": 792.96,
+        "ci95": {
+          "low": -2318.224,
+          "high": 3761.8375
+        },
+        "ci95_simultaneous": {
+          "low": -4156.5574,
+          "high": 5381.4987
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.5991400859914009,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_depth_6",
+        "metric": "pf",
+        "point_diff": 0.7797,
+        "ci95": {
+          "low": -0.3911,
+          "high": 6.9494
+        },
+        "ci95_simultaneous": {
+          "low": -1.0782,
+          "high": 25.9494
+        },
+        "n_defined": 9950,
+        "n_undefined": 50,
+        "p_raw": 0.26811375741131543,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_depth_6",
+        "metric": "dd",
+        "point_diff": -682.72,
+        "ci95": {
+          "low": -3191.187,
+          "high": 37.6315
+        },
+        "ci95_simultaneous": {
+          "low": -4631.2218,
+          "high": 914.1439
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.0663933606639336,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_buffer_12",
+        "metric": "net",
+        "point_diff": -576.54,
+        "ci95": {
+          "low": -1566.606,
+          "high": 5.746
+        },
+        "ci95_simultaneous": {
+          "low": -2478.5975,
+          "high": 128.2267
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.0565943405659434,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_buffer_12",
+        "metric": "pf",
+        "point_diff": -0.1163,
+        "ci95": {
+          "low": -0.3826,
+          "high": 0.0012
+        },
+        "ci95_simultaneous": {
+          "low": -0.6697,
+          "high": 0.0295
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.0603939606039396,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "sl_buffer_12",
+        "metric": "dd",
+        "point_diff": 37.26,
+        "ci95": {
+          "low": -9.74,
+          "high": 664.3125
+        },
+        "ci95_simultaneous": {
+          "low": -64.3888,
+          "high": 1227.6024
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.0973902609739026,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "recovery_off",
+        "metric": "net",
+        "point_diff": -192.82,
+        "ci95": {
+          "low": -1420.9105,
+          "high": 982.884
+        },
+        "ci95_simultaneous": {
+          "low": -2257.3673,
+          "high": 1650.8381
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.7671232876712328,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "recovery_off",
+        "metric": "pf",
+        "point_diff": -0.0454,
+        "ci95": {
+          "low": -0.4116,
+          "high": 0.2261
+        },
+        "ci95_simultaneous": {
+          "low": -0.9118,
+          "high": 0.6205
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.7055294470552945,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "recovery_off",
+        "metric": "dd",
+        "point_diff": 137.82,
+        "ci95": {
+          "low": -637.612,
+          "high": 1047.956
+        },
+        "ci95_simultaneous": {
+          "low": -1315.086,
+          "high": 1770.6974
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.6819318068193181,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "rr_2_5",
+        "metric": "net",
+        "point_diff": 81.5,
+        "ci95": {
+          "low": -1153.5,
+          "high": 1648.0125
+        },
+        "ci95_simultaneous": {
+          "low": -1641.8463,
+          "high": 2588.535
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9603039696030397,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "rr_2_5",
+        "metric": "pf",
+        "point_diff": 0.0188,
+        "ci95": {
+          "low": -0.2596,
+          "high": 0.3679
+        },
+        "ci95_simultaneous": {
+          "low": -0.4255,
+          "high": 0.7112
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9419058094190581,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      },
+      {
+        "preset": "rr_2_5",
+        "metric": "dd",
+        "point_diff": 0.0,
+        "ci95": {
+          "low": -1072.7215,
+          "high": 286.01
+        },
+        "ci95_simultaneous": {
+          "low": -1872.5778,
+          "high": 551.0184
+        },
+        "n_defined": 10000,
+        "n_undefined": 0,
+        "p_raw": 0.9843015698430156,
+        "p_holm": 1.0,
+        "significant": false,
+        "favorable": null
+      }
+    ],
+    "significant": 1
+  }
+}

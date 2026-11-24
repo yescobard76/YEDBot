@@ -1,0 +1,18 @@
+{
+  "arm": "control",
+  "artifacts": {},
+  "closed_at": "2026-11-24T00:52:27Z",
+  "code_sha256": "6e23d4c67042951bb64a8593588f7b89a74e6058bad9ec157cb27540817d268d",
+  "config_file_sha256": "ac776446967ec85d7e05bc3fee3ea2f6b560c8e2594a4dca908cff80448abc63",
+  "integrity_problems": [
+    "config_file_sha256 distinto: esperado ac776446967ec85d7e05bc3fee3ea2f6b560c8e2594a4dca908cff80448abc63, actual a302454439dece9b1017512fac69d9259ea541c89f0e13fc74665e489e20d376"
+  ],
+  "note": "",
+  "prev_session_sha256": "a2e36fa0da682b15264a61ba92c9cfc079a40e1be41ad4ca2bf82d33e838f953",
+  "reason": "integridad T0",
+  "schema": "forward-session-v1",
+  "session": "2026-11-25",
+  "session_sha256": "5da8a619cf2f1e4081ea773a3d4bdfaca1fe2fd4fafdfa871796bdd4bef373d4",
+  "valid": false,
+  "window_id": "HARNESS-20261123-185202-15100"
+}

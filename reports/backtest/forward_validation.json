@@ -1,0 +1,220 @@
+{
+  "schema": "forward-validation-v1",
+  "generated_at": "2026-11-24T02:15:00+00:00",
+  "generated_by": "reports/backtest/build_forward_validation.py",
+  "status": "insufficient_data",
+  "decision": {
+    "kind": "keep_current",
+    "label": "Mantener manual 8765",
+    "adopted_candidate": null,
+    "live_config_updated": false,
+    "current_profile": "data/config.json",
+    "current_profile_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "summary": "No hay muestra forward independiente para P2 ni para P2+BE. El holdout sigue sellado y la ventana forward empieza después de la fecha de esta evaluación. Se mantiene la configuración manual viva.",
+    "reasons": [
+      "El dataset de desarrollo termina el 2026-06-30; no contiene la ventana H1 ni barras posteriores.",
+      "El holdout H1 2026-07-01→2026-10-30 está sellado y no se ejecutó; usarlo violaría el protocolo v1.2.",
+      "No existe un protocolo forward pre-registrado para P2 ni para P2+BE. El lock forward existente prueba el filtro stop/ORB 0,25, una hipótesis distinta.",
+      "Las únicas métricas disponibles de P2 y P2+BE son in-sample sobre W1-W6 y no sirven para promover.",
+      "P2+BE usa FullManagementExecution de un script de investigación, no el motor de producción.",
+      "La instancia 8766 (P1 5/200/210/24) es una referencia separada y no se modificó."
+    ]
+  },
+  "development": {
+    "window": "W1-W6",
+    "start": "2025-01-10",
+    "end": "2026-06-30",
+    "sessions": 362,
+    "status": "in_sample",
+    "role": "context_only_not_validation",
+    "source": "reports/backtest/_manual_w1_w6_analysis.log; p2_w1_w6_confirm.json; p2_be_1r_experiment.json",
+    "note": "Métricas de desarrollo. Se muestran para comparar, no para decidir."
+  },
+  "forward": {
+    "status": "insufficient_data",
+    "evaluated": false,
+    "attempts": 0,
+    "available_sessions": 0,
+    "available_bars": 0,
+    "dataset_last_session": "2026-06-30",
+    "dataset_last_bar_et": "2026-06-30T15:59:00-04:00",
+    "earliest_preregistered_window": {
+      "start": "2026-12-01",
+      "end": "2029-11-30",
+      "source": "docs/p2_filtro_stop_or_forward.lock.json",
+      "hypothesis": "H-P2-FILTER-STOP-OR-025",
+      "applicable_to_candidates": false
+    },
+    "candidate_forward_protocol": null,
+    "summary": "0 sesiones forward disponibles. El dataset termina el 2026-06-30; la primera ventana forward pre-registrada empieza el 2026-12-01 y pertenece a otra hipótesis.",
+    "reasons": [
+      "No hay csv forward en reports/backtest/p2_filtro_stop_or_forward/.",
+      "La ventana forward pre-registrada no cubre P2 ni P2+BE.",
+      "No se ejecutó ninguna simulación nueva sobre datos de validación."
+    ]
+  },
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "sessions": 85,
+    "status": "sealed_not_executed",
+    "executed": false,
+    "used_for_decision": false,
+    "lock_path": "docs/protocolo_backtest.lock.json",
+    "lock_sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+    "protocol_status": "frozen-not-executed"
+  },
+  "protocols": {
+    "protocol_v1_2": {
+      "path": "docs/PROTOCOLO_BACKTEST.md",
+      "lock": "docs/protocolo_backtest.lock.json",
+      "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+      "walk_forward": "W1-W6; development only",
+      "holdout": "H1; sealed"
+    },
+    "p2_filter_forward": {
+      "path": "docs/P2_FILTRO_STOP_OR_FORWARD.md",
+      "lock": "docs/p2_filtro_stop_or_forward.lock.json",
+      "sha256": "d1a2c87b1a855d2040347dbc513711302fd3a4d667ffeb24ca4ae4861719fb01",
+      "status": "pre_registered_not_executed",
+      "can_execute": false,
+      "hypothesis_id": "H-P2-FILTER-STOP-OR-025",
+      "applicable_to_candidates": false
+    }
+  },
+  "candidates": [
+    {
+      "id": "baseline_manual",
+      "label": "Manual 8765 · 10 contratos · SL 300 · 210/24",
+      "short_label": "Manual 8765",
+      "role": "baseline",
+      "profile": "data/config.json",
+      "profile_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "implementation": "server.backtest (perfil manual)",
+      "dev_metrics": {
+        "ops": 72,
+        "net_usd": 2022.94,
+        "profit_factor": 1.22,
+        "expectancy_usd": 28.1,
+        "max_drawdown_usd": 2891.66,
+        "max_drawdown_pct": 9.79,
+        "expectancy_r": 0.18,
+        "total_r": 13.19
+      },
+      "forward_metrics": null,
+      "forward_status": "reference",
+      "forward_note": "La base manual viva no se cambia sin una validación forward independiente."
+    },
+    {
+      "id": "p2",
+      "label": "P2 · 10 contratos · SL 200 · 210/24",
+      "short_label": "P2",
+      "role": "candidate",
+      "profile": "profiles/p2_freq/config.json",
+      "profile_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+      "implementation": "server.backtest (perfil P2)",
+      "dev_metrics": {
+        "ops": 46,
+        "net_usd": 2471.78,
+        "profit_factor": 1.39,
+        "max_drawdown_usd": 2304.46,
+        "max_drawdown_pct": 7.841,
+        "expectancy_usd": 53.73,
+        "expectancy_r": 0.25,
+        "total_r": 11.56
+      },
+      "forward_metrics": null,
+      "forward_status": "insufficient_data",
+      "forward_note": "Sin muestra forward: no se puede aprobar ni rechazar por rendimiento."
+    },
+    {
+      "id": "p2_be_1r",
+      "label": "P2 + break-even 1R",
+      "short_label": "P2 + BE 1R",
+      "role": "candidate",
+      "profile": null,
+      "profile_sha256": null,
+      "implementation": "reports/backtest/run_partial_exit_1r_full.py::FullManagementExecution (experimental, no producción)",
+      "production_available": false,
+      "dev_metrics": {
+        "ops": 46,
+        "net_usd": 2036.52,
+        "profit_factor": 1.48,
+        "max_drawdown_usd": 1794.46,
+        "max_drawdown_pct": 6.309,
+        "expectancy_usd": 44.27,
+        "expectancy_r": 0.22,
+        "total_r": 9.99
+      },
+      "forward_metrics": null,
+      "forward_status": "insufficient_data",
+      "forward_note": "Además de faltar forward, la gestión BE vive en un motor experimental."
+    }
+  ],
+  "integrity": {
+    "protocol_v1_2_lock": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+    "p2_filter_forward_lock": "d1a2c87b1a855d2040347dbc513711302fd3a4d667ffeb24ca4ae4861719fb01",
+    "dataset_development": "1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a",
+    "data_config_manual": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "profiles_backtest_real": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f",
+    "profiles_p2_freq": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+    "profiles_live_8765": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "p2_confirm_source": "3b2d654a6298b181c0ad1161a038e7f8f95eaa70de26c211f2e3d2f82b9e9312",
+    "p2_be_experiment": "eebefb261c4663992a65dbbe7687cb204184e89481d68ccd4dc85940d29c13c0",
+    "baseline_log": "ce7be427502cb9a8e065d9b6e18edb445c885ab10b8e8c5c18aadc1c4069d744",
+    "dataset": {
+      "path": "data\\real\\bars_mnq_nq_es_1m.csv",
+      "rows": 462150,
+      "first_bar_et": "2025-01-10T09:00:00-05:00",
+      "last_bar_et": "2026-06-30T15:59:00-04:00",
+      "last_session": "2026-06-30"
+    },
+    "forward_csv_exists": false,
+    "holdout_bars_read": false,
+    "forward_bars_read": false,
+    "config_changed": false
+  },
+  "manual_8765": {
+    "config_path": "data/config.json",
+    "config_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "profile_copy": "profiles/live_8765/config.json",
+    "data_dir": "profiles/live_8765/",
+    "settings": {
+      "max_contracts": 10,
+      "max_sl_ticks": 300,
+      "setup_validity_minutes": 210,
+      "retest_tolerance_ticks": 24
+    },
+    "role": "current_live_instance",
+    "note": "8765 se levantó con una copia de data/config.json y SQLite propio; data/config.json permanece intacto."
+  },
+  "other_instances": [
+    {
+      "port": 8766,
+      "role": "preexisting_reference_not_modified",
+      "profile": "profiles/backtest_real/config.json",
+      "profile_sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f",
+      "settings": {
+        "max_contracts": 5,
+        "max_sl_ticks": 200,
+        "setup_validity_minutes": 210,
+        "retest_tolerance_ticks": 24
+      }
+    }
+  ],
+  "historical_reference": {
+    "label": "Original 5/200/150/12",
+    "role": "historical_context_not_current_baseline",
+    "dev_metrics": {
+      "ops": 38,
+      "net_usd": 661.44,
+      "profit_factor": 1.13,
+      "expectancy_usd": 17.41,
+      "max_drawdown_usd": 1967.82,
+      "max_drawdown_pct": 7.14,
+      "expectancy_r": 0.13,
+      "total_r": 4.98
+    }
+  }
+}

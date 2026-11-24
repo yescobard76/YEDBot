@@ -1,0 +1,6 @@
+fold,train_windows,test_window,selected,train_trades,train_net,train_worst_dd,train_score,test_trades,test_net,test_dd,test_pf,baseline_net,baseline_dd,baseline_pf,delta_vs_baseline,oracle,oracle_net
+1,W1,W2,setup_validity_240,13,894.5,1015.36,0.881,7,429.28,385.6,1.89,268.4,378.88,1.71,160.88,rr_2_5,700.9
+2,W1|W2,W3,rr_2_5,12,1209.22,619.42,1.9522,9,-318.46,1084.8,0.76,-110.46,1084.8,0.92,-208.0,smt_tolerance_16,533.88
+3,W1|W2|W3,W4,smt_window_120,22,1123.8,619.42,1.8143,4,2034.12,0.0,,2034.12,0.0,,0.0,recovery_off,2108.12
+4,W1|W2|W3|W4,W5,smt_window_120,26,3157.92,619.42,5.0982,5,-1036.52,1036.52,0.0,-1036.52,1036.52,0.0,0.0,entry_breakout_direct,0.0
+5,W1|W2|W3|W4|W5,W6,smt_window_120,31,2121.4,1036.52,2.0467,8,-1115.42,1187.8,0.22,-858.92,931.3,0.27,-256.5,sl_depth_6,318.8

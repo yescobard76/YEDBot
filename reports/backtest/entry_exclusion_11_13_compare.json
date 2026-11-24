@@ -1,0 +1,398 @@
+{
+  "schema": "entry-exclusion-compare-v1",
+  "generated_at": "2026-11-22T03:18:04.985375+00:00",
+  "dataset": {
+    "source": "csv",
+    "path": "data/real/bars_mnq_nq_es_1m.csv",
+    "file_hash": "1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a",
+    "dataset_id": "f2e9a2c5dff56b79195dcc19cc79b2dd9b2245ebfde6e7956471967a31f3f2b3",
+    "series_id": "b844560f36b33c478c0e1e7caee18bb639488b0113d071d5369c640b865f07ff",
+    "holdout_start": "2026-07-01",
+    "holdout_used": false,
+    "development_sessions": 362,
+    "development_range": {
+      "first": "2025-01-10",
+      "last": "2026-06-30"
+    }
+  },
+  "config": {
+    "base": "docs/protocolo_backtest.lock.json",
+    "setup_validity_minutes": 240,
+    "retest_tolerance_ticks": 12,
+    "max_sl_ticks": 300,
+    "entry_exclusion": {
+      "off": null,
+      "on": {
+        "start": "11:00",
+        "end": "13:00",
+        "end_inclusive": false
+      }
+    }
+  },
+  "windows": {
+    "W1": {
+      "id": "W1",
+      "start": "2025-01-10",
+      "end": "2025-03-31",
+      "calendar_sessions": 55,
+      "sessions": 54
+    },
+    "W2": {
+      "id": "W2",
+      "start": "2025-04-01",
+      "end": "2025-06-30",
+      "calendar_sessions": 62,
+      "sessions": 61
+    },
+    "W3": {
+      "id": "W3",
+      "start": "2025-07-01",
+      "end": "2025-09-30",
+      "calendar_sessions": 64,
+      "sessions": 63
+    },
+    "W4": {
+      "id": "W4",
+      "start": "2025-10-01",
+      "end": "2025-12-31",
+      "calendar_sessions": 64,
+      "sessions": 63
+    },
+    "W5": {
+      "id": "W5",
+      "start": "2026-01-01",
+      "end": "2026-03-31",
+      "calendar_sessions": 61,
+      "sessions": 60
+    },
+    "W6": {
+      "id": "W6",
+      "start": "2026-04-01",
+      "end": "2026-06-30",
+      "calendar_sessions": 62,
+      "sessions": 61
+    }
+  },
+  "results": {
+    "off": {
+      "total": {
+        "trades": 74,
+        "wins": 25,
+        "losses": 49,
+        "win_rate": 33.78,
+        "profit_factor": 1.1,
+        "net_profit": 846.56,
+        "expectancy": 11.44,
+        "avg_r": 0.17,
+        "max_drawdown": 2251.88,
+        "max_drawdown_pct": 8.31,
+        "stop_losses": 46,
+        "stop_loss_rate": 62.16
+      },
+      "by_window": {
+        "W1": {
+          "trades": 18,
+          "wins": 8,
+          "losses": 10,
+          "win_rate": 44.44,
+          "profit_factor": 1.47,
+          "net_profit": 975.58,
+          "expectancy": 54.2,
+          "avg_r": 0.59,
+          "max_drawdown": 1237.62,
+          "max_drawdown_pct": 4.849,
+          "stop_losses": 10,
+          "stop_loss_rate": 55.56
+        },
+        "W2": {
+          "trades": 9,
+          "wins": 2,
+          "losses": 7,
+          "win_rate": 22.22,
+          "profit_factor": 1.07,
+          "net_profit": 62.56,
+          "expectancy": 6.95,
+          "avg_r": -0.01,
+          "max_drawdown": 752.32,
+          "max_drawdown_pct": 3.009,
+          "stop_losses": 6,
+          "stop_loss_rate": 66.67
+        },
+        "W3": {
+          "trades": 18,
+          "wins": 5,
+          "losses": 13,
+          "win_rate": 27.78,
+          "profit_factor": 0.76,
+          "net_profit": -606.22,
+          "expectancy": -33.68,
+          "avg_r": -0.08,
+          "max_drawdown": 2251.88,
+          "max_drawdown_pct": 8.641,
+          "stop_losses": 12,
+          "stop_loss_rate": 66.67
+        },
+        "W4": {
+          "trades": 12,
+          "wins": 8,
+          "losses": 4,
+          "win_rate": 66.67,
+          "profit_factor": 4.98,
+          "net_profit": 2417.48,
+          "expectancy": 201.46,
+          "avg_r": 1.01,
+          "max_drawdown": 229.48,
+          "max_drawdown_pct": 0.858,
+          "stop_losses": 4,
+          "stop_loss_rate": 33.33
+        },
+        "W5": {
+          "trades": 5,
+          "wins": 0,
+          "losses": 5,
+          "win_rate": 0.0,
+          "profit_factor": 0.0,
+          "net_profit": -1036.52,
+          "expectancy": -207.3,
+          "avg_r": -1.01,
+          "max_drawdown": 1036.52,
+          "max_drawdown_pct": 4.146,
+          "stop_losses": 5,
+          "stop_loss_rate": 100.0
+        },
+        "W6": {
+          "trades": 12,
+          "wins": 2,
+          "losses": 10,
+          "win_rate": 16.67,
+          "profit_factor": 0.45,
+          "net_profit": -966.32,
+          "expectancy": -80.53,
+          "avg_r": -0.27,
+          "max_drawdown": 1038.7,
+          "max_drawdown_pct": 4.155,
+          "stop_losses": 9,
+          "stop_loss_rate": 75.0
+        }
+      },
+      "ex_w4": {
+        "trades": 62,
+        "wins": 17,
+        "losses": 45,
+        "win_rate": 27.42,
+        "profit_factor": 0.81,
+        "net_profit": -1570.92,
+        "expectancy": -25.34,
+        "avg_r": 0.01,
+        "max_drawdown": 3741.54,
+        "max_drawdown_pct": 13.807,
+        "stop_losses": 42,
+        "stop_loss_rate": 67.74
+      },
+      "entries_in_exclusion": 42
+    },
+    "on": {
+      "total": {
+        "trades": 32,
+        "wins": 13,
+        "losses": 19,
+        "win_rate": 40.62,
+        "profit_factor": 1.56,
+        "net_profit": 1755.48,
+        "expectancy": 54.86,
+        "avg_r": 0.46,
+        "max_drawdown": 849.06,
+        "max_drawdown_pct": 3.291,
+        "stop_losses": 17,
+        "stop_loss_rate": 53.12
+      },
+      "by_window": {
+        "W1": {
+          "trades": 7,
+          "wins": 3,
+          "losses": 4,
+          "win_rate": 42.86,
+          "profit_factor": 1.39,
+          "net_profit": 343.74,
+          "expectancy": 49.11,
+          "avg_r": 0.51,
+          "max_drawdown": 459.18,
+          "max_drawdown_pct": 1.837,
+          "stop_losses": 4,
+          "stop_loss_rate": 57.14
+        },
+        "W2": {
+          "trades": 7,
+          "wins": 2,
+          "losses": 5,
+          "win_rate": 28.57,
+          "profit_factor": 1.65,
+          "net_profit": 359.96,
+          "expectancy": 51.42,
+          "avg_r": 0.27,
+          "max_drawdown": 454.92,
+          "max_drawdown_pct": 1.82,
+          "stop_losses": 4,
+          "stop_loss_rate": 57.14
+        },
+        "W3": {
+          "trades": 5,
+          "wins": 1,
+          "losses": 4,
+          "win_rate": 20.0,
+          "profit_factor": 0.5,
+          "net_profit": -376.56,
+          "expectancy": -75.31,
+          "avg_r": -0.06,
+          "max_drawdown": 752.86,
+          "max_drawdown_pct": 3.011,
+          "stop_losses": 3,
+          "stop_loss_rate": 60.0
+        },
+        "W4": {
+          "trades": 7,
+          "wins": 5,
+          "losses": 2,
+          "win_rate": 71.43,
+          "profit_factor": 4.23,
+          "net_profit": 1226.12,
+          "expectancy": 175.16,
+          "avg_r": 1.09,
+          "max_drawdown": 229.48,
+          "max_drawdown_pct": 0.888,
+          "stop_losses": 2,
+          "stop_loss_rate": 28.57
+        },
+        "W5": {
+          "trades": 0,
+          "wins": 0,
+          "losses": 0,
+          "win_rate": 0.0,
+          "profit_factor": null,
+          "net_profit": 0,
+          "expectancy": 0.0,
+          "avg_r": 0.0,
+          "max_drawdown": 0.0,
+          "max_drawdown_pct": 0.0,
+          "stop_losses": 0,
+          "stop_loss_rate": 0.0
+        },
+        "W6": {
+          "trades": 6,
+          "wins": 2,
+          "losses": 4,
+          "win_rate": 33.33,
+          "profit_factor": 1.35,
+          "net_profit": 202.22,
+          "expectancy": 33.7,
+          "avg_r": 0.3,
+          "max_drawdown": 282.94,
+          "max_drawdown_pct": 1.114,
+          "stop_losses": 4,
+          "stop_loss_rate": 66.67
+        }
+      },
+      "ex_w4": {
+        "trades": 25,
+        "wins": 8,
+        "losses": 17,
+        "win_rate": 32.0,
+        "profit_factor": 1.19,
+        "net_profit": 529.36,
+        "expectancy": 21.17,
+        "avg_r": 0.28,
+        "max_drawdown": 849.06,
+        "max_drawdown_pct": 3.291,
+        "stop_losses": 15,
+        "stop_loss_rate": 60.0
+      },
+      "entries_in_exclusion": 0
+    }
+  },
+  "comparison": {
+    "delta_total": {
+      "trades": -42.0,
+      "net_profit": 908.92,
+      "profit_factor": 0.46,
+      "max_drawdown": -1402.82,
+      "max_drawdown_pct": -5.02,
+      "stop_losses": -29.0,
+      "stop_loss_rate": -9.04,
+      "win_rate": 6.84
+    },
+    "delta_by_window": {
+      "W1": {
+        "trades": -11.0,
+        "net_profit": -631.84,
+        "profit_factor": -0.08,
+        "max_drawdown": -778.44,
+        "max_drawdown_pct": -3.01,
+        "stop_losses": -6.0,
+        "stop_loss_rate": 1.58,
+        "win_rate": -1.58
+      },
+      "W2": {
+        "trades": -2.0,
+        "net_profit": 297.4,
+        "profit_factor": 0.58,
+        "max_drawdown": -297.4,
+        "max_drawdown_pct": -1.19,
+        "stop_losses": -2.0,
+        "stop_loss_rate": -9.53,
+        "win_rate": 6.35
+      },
+      "W3": {
+        "trades": -13.0,
+        "net_profit": 229.66,
+        "profit_factor": -0.26,
+        "max_drawdown": -1499.02,
+        "max_drawdown_pct": -5.63,
+        "stop_losses": -9.0,
+        "stop_loss_rate": -6.67,
+        "win_rate": -7.78
+      },
+      "W4": {
+        "trades": -5.0,
+        "net_profit": -1191.36,
+        "profit_factor": -0.75,
+        "max_drawdown": 0.0,
+        "max_drawdown_pct": 0.03,
+        "stop_losses": -2.0,
+        "stop_loss_rate": -4.76,
+        "win_rate": 4.76
+      },
+      "W5": {
+        "trades": -5.0,
+        "net_profit": 1036.52,
+        "profit_factor": null,
+        "max_drawdown": -1036.52,
+        "max_drawdown_pct": -4.15,
+        "stop_losses": -5.0,
+        "stop_loss_rate": -100.0,
+        "win_rate": 0.0
+      },
+      "W6": {
+        "trades": -6.0,
+        "net_profit": 1168.54,
+        "profit_factor": 0.9,
+        "max_drawdown": -755.76,
+        "max_drawdown_pct": -3.04,
+        "stop_losses": -5.0,
+        "stop_loss_rate": -8.33,
+        "win_rate": 16.66
+      }
+    },
+    "delta_ex_w4": {
+      "trades": -37.0,
+      "net_profit": 2100.28,
+      "profit_factor": 0.38,
+      "max_drawdown": -2892.48,
+      "max_drawdown_pct": -10.52,
+      "stop_losses": -27.0,
+      "stop_loss_rate": -7.74,
+      "win_rate": 4.58
+    },
+    "baseline_entries_in_exclusion": 42,
+    "filtered_entries_in_exclusion": 0
+  }
+}

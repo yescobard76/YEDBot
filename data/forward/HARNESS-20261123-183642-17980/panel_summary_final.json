@@ -1,0 +1,213 @@
+{
+  "window": {
+    "arms": {
+      "control": {
+        "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+        "config_file_sha256": "f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef",
+        "port": 8775,
+        "profile_dir": "arms/control/profile"
+      },
+      "treatment": {
+        "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+        "config_file_sha256": "b96d913edf39e708bcf087046a70492acd8ed1d91eabd859287e60fb2cd119e0",
+        "port": 8776,
+        "profile_dir": "arms/treatment/profile"
+      }
+    },
+    "created_at": "2026-11-24T00:36:44Z",
+    "holdout_used": false,
+    "kind": "harness",
+    "note": "Prueba hostil de arnés; sin feed, cero trades. No es desempeño.",
+    "schema": "forward-window-v1",
+    "sessions_target": 378,
+    "start_date": "2026-12-01",
+    "window_id": "HARNESS-20261123-183642-17980"
+  },
+  "window_id": "HARNESS-20261123-183642-17980",
+  "status": "NO_VALIDA",
+  "arms": {
+    "control": {
+      "arm": "control",
+      "status": "NO_VALIDA",
+      "chain_ok": true,
+      "chain_problems": [],
+      "hash_ok": false,
+      "hash_problems": [],
+      "config_ok": false,
+      "config_file_sha256_current": "021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+      "sessions_sealed": 2,
+      "sessions_valid": 1,
+      "last_session": "2026-11-24",
+      "signals_total": 0,
+      "trades_total": 0,
+      "net_pnl": 0.0,
+      "equity": 25000.0,
+      "max_drawdown": 0.0,
+      "config_file_sha256": "f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef",
+      "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+      "events": 16,
+      "last_event": {
+        "event": "INTEGRITY_FAIL",
+        "seq": 16,
+        "ts": "2026-11-24T00:37:31Z"
+      },
+      "violations": [
+        {
+          "seq": 5,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "PUT",
+            "path": "/api/config",
+            "query": ""
+          }
+        },
+        {
+          "seq": 6,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/bot/start",
+            "query": ""
+          }
+        },
+        {
+          "seq": 7,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/position/close",
+            "query": ""
+          }
+        },
+        {
+          "seq": 8,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/orders/cancel",
+            "query": ""
+          }
+        },
+        {
+          "seq": 9,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/emergency",
+            "query": ""
+          }
+        },
+        {
+          "seq": 10,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "DELETE",
+            "path": "/api/emergency",
+            "query": ""
+          }
+        },
+        {
+          "seq": 11,
+          "ts": "2026-11-24T00:36:57Z",
+          "detail": {
+            "client": "127.0.0.1",
+            "method": "POST",
+            "path": "/api/stats/reset",
+            "query": ""
+          }
+        }
+      ],
+      "integrity_failures": [
+        {
+          "seq": 13,
+          "ts": "2026-11-24T00:37:07Z",
+          "detail": {
+            "problems": [
+              "config_file_sha256 distinto: esperado f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef, actual d59d4abdc7ad8a79f2631717cc0c97bb01ca0bfcb54416e07d75f55ad5dcb40e"
+            ],
+            "session": "2026-11-25",
+            "session_file": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-183642-17980\\arms\\control\\sessions\\2026-11-25.json",
+            "stage": "session_close"
+          }
+        },
+        {
+          "seq": 15,
+          "ts": "2026-11-24T00:37:29Z",
+          "detail": {
+            "config_path": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-183642-17980\\arms\\control\\profile\\config.json",
+            "defaults_used": false,
+            "problems": [
+              "config_file_sha256 distinto: esperado f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef, actual d59d4abdc7ad8a79f2631717cc0c97bb01ca0bfcb54416e07d75f55ad5dcb40e"
+            ],
+            "renamed_broken": false,
+            "stage": "startup"
+          }
+        },
+        {
+          "seq": 16,
+          "ts": "2026-11-24T00:37:31Z",
+          "detail": {
+            "config_path": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-183642-17980\\arms\\control\\profile\\config.json",
+            "defaults_used": false,
+            "problems": [
+              "config_file_sha256 distinto: esperado f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef, actual 021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96",
+              "JSON inválido: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)"
+            ],
+            "renamed_broken": false,
+            "stage": "startup"
+          }
+        }
+      ],
+      "supervisor": {
+        "events": 5,
+        "restarts": 1,
+        "last_event": "ARM_SPAWN"
+      }
+    },
+    "treatment": {
+      "arm": "treatment",
+      "status": "NO_VALIDA",
+      "chain_ok": false,
+      "chain_problems": [
+        "seq 3 en la posición 4",
+        "prev_sha256 roto en seq 3",
+        "seq 4 en la posición 5"
+      ],
+      "hash_ok": false,
+      "hash_problems": [],
+      "config_ok": true,
+      "config_file_sha256_current": "b96d913edf39e708bcf087046a70492acd8ed1d91eabd859287e60fb2cd119e0",
+      "sessions_sealed": 1,
+      "sessions_valid": 1,
+      "last_session": "2026-11-24",
+      "signals_total": 0,
+      "trades_total": 0,
+      "net_pnl": 0.0,
+      "equity": 25000.0,
+      "max_drawdown": 0.0,
+      "config_file_sha256": "b96d913edf39e708bcf087046a70492acd8ed1d91eabd859287e60fb2cd119e0",
+      "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+      "events": 5,
+      "last_event": {
+        "event": "ARM_EXITED",
+        "seq": 4,
+        "ts": "2026-11-24T00:37:31Z"
+      },
+      "violations": [],
+      "integrity_failures": [],
+      "supervisor": {
+        "events": 4,
+        "restarts": 0,
+        "last_event": "SUPERVISOR_STOP"
+      }
+    }
+  },
+  "generated_at": "2026-11-24T00:37:32Z",
+  "read_only": true
+}

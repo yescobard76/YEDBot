@@ -1,0 +1,258 @@
+{
+  "protocol": "experimento_stop_atr",
+  "payload_sha256": "227af811a4450e1fce598053f777af457c242de63f2ed554bee1c6470ad42bbc",
+  "experiment": {
+    "id": "E-ATR-1",
+    "version": "1.4",
+    "created": "2026-11-21",
+    "status": "pre_registered_not_executed",
+    "title": "Stop normalizado por ATR con sizing al 1 %, tope compartido de 200 ticks y objetivo 3R",
+    "design": "single_treatment_vs_control",
+    "only_change": "strategy.sl_mode",
+    "hypothesis": "Un stop normalizado por ATR(14) de 15m, evaluado dentro del mismo tope de 200 ticks que el control, con sizing que mantiene el riesgo planificado en el 1 % del equity, un gate de riesgo efectivo al fill tolerante al slippage máximo y objetivo 3R, mejora la esperanza en R frente al stop estructural sin degradar el perfil de riesgo."
+  },
+  "execution_gate": {
+    "can_execute": false,
+    "external_sample_required": true,
+    "requires_new_execution_lock": true,
+    "execution_lock_requirements": {
+      "code_provenance": "exact_copy_and_recompute",
+      "pre_registration_binding": "payload_sha256_and_code_sha256",
+      "on_mismatch": "reject_execution"
+    },
+    "reason": "Falta una muestra externa nueva; el lock de ejecución debe verificar el code_provenance."
+  },
+  "code_provenance": {
+    "algorithm": "sha256-files-v1",
+    "scope": [
+      "server/strategy/indicators.py",
+      "server/strategy/strategy.py"
+    ],
+    "entrypoints": [
+      "ORBStrategy.evaluate",
+      "ORBStrategy._stop",
+      "atr",
+      "true_range",
+      "aggregate"
+    ],
+    "files": {
+      "server/strategy/indicators.py": "549dfa0d2afe39d09d6196b50902cf42092f942e728631b55e062ccc8e06826a",
+      "server/strategy/strategy.py": "4150d01cdee8364d14bc34610bb9ac9e4536fbb9a4c6bf3eeb4a13a2177ea628"
+    },
+    "combined_sha256": "db00b24de78fc51117430fe2b6df75066ed745ab6e9aa21eff0edf28bd31f0d9"
+  },
+  "arms": {
+    "control": {
+      "id": "C",
+      "label": "Stop estructural actual",
+      "overrides": {}
+    },
+    "treatment": {
+      "id": "T",
+      "label": "Stop ATR 14/1.2",
+      "overrides": {
+        "strategy": {
+          "sl_mode": "atr"
+        }
+      }
+    }
+  },
+  "frozen": {
+    "instrument": "MNQ",
+    "reference_symbol": "NQ",
+    "comparison_symbol": "ES",
+    "control_basis": {
+      "source": "docs/protocolo_backtest.lock.json",
+      "variant": "full",
+      "entry_reference": "or_mid",
+      "use_smt": true,
+      "setup_validity_minutes": 150,
+      "retest_tolerance_ticks": 12
+    },
+    "orb": {
+      "start": "09:00",
+      "end": "10:00",
+      "timezone": "America/New_York",
+      "max_width_pct": 1.2
+    },
+    "smt": {
+      "enabled": true,
+      "pivot_depth": 5,
+      "window_minutes": 60,
+      "tolerance_ticks": 8,
+      "min_break_ticks": 2,
+      "validity_minutes": 120,
+      "detect_tf": "1m",
+      "require_recovery": true
+    },
+    "strategy": {
+      "confirm_tf": "15m",
+      "require_close_breakout": true,
+      "breakout_buffer_ticks": 2,
+      "min_range_ticks": 10,
+      "setup_validity_minutes": 150,
+      "use_smt": true,
+      "allow_reentry_after_false_breakout": false,
+      "entry_reference": "or_mid",
+      "retest_tolerance_ticks": 12,
+      "require_recovery_close": true,
+      "entry_trigger": "close",
+      "sl_buffer_ticks": 4,
+      "atr_period": 14,
+      "atr_sl_mult": 1.2,
+      "tp_rr": 3.0,
+      "structural_depth": 3
+    },
+    "risk": {
+      "initial_capital": 25000.0,
+      "risk_per_trade_pct": 1.0,
+      "max_daily_loss_pct": 3.0,
+      "max_daily_profit_pct": 0.0,
+      "max_trades_per_day": 3,
+      "max_concurrent_positions": 1,
+      "max_contracts": 5,
+      "max_sl_ticks": 200,
+      "trade_window_start": "09:00",
+      "trade_window_end": "15:30",
+      "close_at_session_end": true,
+      "session_close_time": "15:55",
+      "cooldown_minutes": 5,
+      "no_trade_after_consecutive_losses": 0
+    },
+    "execution": {
+      "tick_size": 0.25,
+      "tick_value": 0.5,
+      "point_value": 2.0,
+      "slippage_ticks": 1,
+      "max_slippage_ticks": 4,
+      "commission_per_contract_side": 0.62,
+      "fill_model": "next_open",
+      "simulate_partial_fills": false,
+      "partial_fill_ratio": 0.6
+    },
+    "feed": {
+      "provider": "csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true
+    }
+  },
+  "rule": {
+    "atr": {
+      "timeframe": "15m",
+      "period": 14,
+      "smoothing": "Wilder",
+      "causal_window": "barras de 15m cerradas con ts + 60 <= entry_ts",
+      "multiplier": 1.2
+    },
+    "stop": {
+      "long": "entry - 1.2 * ATR14_15m",
+      "short": "entry + 1.2 * ATR14_15m",
+      "minimum_distance": "max(8 * tick, 0.25 * ATR14_15m)",
+      "missing_or_zero_atr": "reject_no_stop",
+      "rounding": "precio de señal a 2 decimales; stop_ticks = abs(entry - stop) / tick",
+      "max_sl_ticks": 200,
+      "max_sl_ticks_policy": "both_arms_before_sizing_reject_stop_cap"
+    },
+    "sizing": {
+      "risk_per_trade_pct": 1.0,
+      "risk_basis": "planned_at_signal",
+      "qty": "floor(equity * 0.01 / (stop_ticks * tick_value)), limitado a 5",
+      "if_qty_lt_1": "no_trade",
+      "effective_fill_risk_gate": {
+        "budget": "equity_actual * risk_per_trade_pct / 100",
+        "tolerance": "qty_filled * max_slippage_ticks * tick_value",
+        "pass_if": "actual_fill_risk <= budget + tolerance",
+        "on_exceed": "integrity_failure",
+        "target_3r_unchanged": true
+      }
+    },
+    "target": {
+      "tp_rr": 3.0,
+      "formula": "entry +/- 3.0 * abs(entry - stop)",
+      "no_trailing": true,
+      "no_break_even": true
+    }
+  },
+  "sample": {
+    "kind": "external_new",
+    "status": "pending",
+    "start": null,
+    "end": null,
+    "source": null,
+    "contract_suffixes": [],
+    "series_mode": "raw",
+    "exclude_roll_sessions": true,
+    "minimum_sessions": 60,
+    "full_contract_universe": true,
+    "no_synthetic": true,
+    "must_not_be_used_in_design": true,
+    "must_be_locked_before_observation": true,
+    "not_allowed": [
+      "W1-W6 2025-01-10..2026-06-30",
+      "holdout 2026-07-01..2026-10-30",
+      "muestra ya usada o reservada por otro pre-registro"
+    ]
+  },
+  "analysis": {
+    "primary": {
+      "id": "P1",
+      "name": "paired_delta_r_common_entries",
+      "effect": "R_treatment - R_control",
+      "unit": "trade",
+      "cluster": "session",
+      "bootstrap_resamples": 10000,
+      "seed": 20261121,
+      "confidence": 0.95,
+      "positive_if": "ci_low_gt_0"
+    },
+    "sample_minimum": {
+      "common_entries": 20,
+      "trades_per_arm": 20,
+      "sessions": 60
+    },
+    "secondary": [
+      "total_r",
+      "expectancy_r",
+      "profit_factor",
+      "max_drawdown",
+      "stop_cap_rate",
+      "qty_zero_rate",
+      "qty_cap_rate",
+      "average_stop_ticks",
+      "planned_risk_pct",
+      "actual_fill_risk_pct",
+      "effective_fill_risk_gate_violations",
+      "take_profit_3r_rate",
+      "long_short_breakdown"
+    ],
+    "guardrails": {
+      "profit_factor_treatment_not_below_control": true,
+      "max_drawdown_increase_max_usd": 500.0,
+      "max_drawdown_max_usd": 2500.0,
+      "cost_stress": {
+        "commission_per_contract_side": 1.24,
+        "slippage_ticks": 2,
+        "profit_factor_min": 1.1
+      }
+    },
+    "integrity": {
+      "atr_positive_on_all_signals": true,
+      "stop_distance_matches_atr_rule": true,
+      "target_equals_3r": true,
+      "planned_risk_at_most_1pct": true,
+      "max_sl_ticks_checked_before_sizing": true,
+      "effective_fill_risk_gate": true,
+      "code_provenance_verified": true,
+      "no_lookahead": true,
+      "same_entry_rule_as_control": true
+    }
+  },
+  "decision": {
+    "candidate": "primary_ci_low_gt_0_and_all_guardrails_and_integrity",
+    "rejected": "primary_ci_high_lt_0_or_guardrail_failure_or_integrity_failure",
+    "inconclusive": "sample_minimum_not_met_or_ci_includes_zero_without_clear_negative",
+    "no_paper_live": true,
+    "no_parameter_search": true,
+    "no_sample_substitution": true
+  }
+}

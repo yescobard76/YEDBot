@@ -1,0 +1,37 @@
+{
+  "arm": "control",
+  "artifacts": {
+    "equity_sha256": "326b891dc982974a36cf811872fc1420632c3d6d2e2c0cc88d7d10507212abbc",
+    "signals_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trades_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "closed_at": "2026-11-24T00:36:59Z",
+  "code_sha256": "6b17a27ea13399dca1d85c277f54cfb856073f39b6b5db7b6a7c31064ee32b61",
+  "config_file_sha256": "f19e77c6d8eccbe85cde0ccb766f6316c46f06947a0cf2b2d362d4cee3f269ef",
+  "cumulative": {
+    "equity": 25000.0,
+    "expected_equity": 25000.0,
+    "max_drawdown": 0.0,
+    "net_pnl": 0,
+    "peak": 25000.0,
+    "trades": 0
+  },
+  "note": "",
+  "prev_session_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "reason": "",
+  "schema": "forward-session-v1",
+  "session": "2026-11-24",
+  "session_sha256": "f3b178549c2fdb6fb64d302533b9c3108fbac150087c85cc2e80bdefed317dea",
+  "signals": {
+    "count": 0
+  },
+  "trades": {
+    "count": 0,
+    "losses": 0,
+    "net_pnl": 0,
+    "profit_factor": null,
+    "wins": 0
+  },
+  "valid": true,
+  "window_id": "HARNESS-20261123-183642-17980"
+}

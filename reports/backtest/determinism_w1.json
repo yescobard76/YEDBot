@@ -1,0 +1,10 @@
+{
+  "runs": [
+    "W1.json",
+    "W1_repeat.json"
+  ],
+  "trades": 8,
+  "identical": true,
+  "trades_sha256": "60e21ef6bbe90d70c320a2ea8e35c2002d6c22fbbbbfb9874066b8b3b1cb4d75",
+  "deterministic_sha256": "713fca2b2832015c869057ea98afddc8267be62c8bad952606f216a6646fd164"
+}

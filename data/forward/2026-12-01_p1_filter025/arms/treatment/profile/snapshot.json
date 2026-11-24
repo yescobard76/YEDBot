@@ -1,0 +1,21 @@
+{
+  "arm": "treatment",
+  "base_config": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\profiles\\p2_freq\\config.json",
+  "code_algorithm": "sha256-tree-v1",
+  "code_files": 78,
+  "code_roots": [
+    "server",
+    "tests"
+  ],
+  "code_sha256": "6e23d4c67042951bb64a8593588f7b89a74e6058bad9ec157cb27540817d268d",
+  "config_file_sha256": "9bdde4dbc58d980419399e10c07b851765a66102cb52c0c4af727bfb0cecb27c",
+  "config_path": "config.json",
+  "config_sha256": "061f87b8548ab53229e50455e1004bd189c5ef356521d3cf99e084f63b80e32c",
+  "created_at": "2026-11-24T00:48:53Z",
+  "initial_capital": 25000.0,
+  "kind": "forward",
+  "note": "Ventana forward P1; arranque automático registrado",
+  "port": 8776,
+  "schema": "forward-snapshot-v1",
+  "window_id": "2026-12-01_p1_filter025"
+}

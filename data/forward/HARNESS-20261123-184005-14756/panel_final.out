@@ -1,0 +1,6 @@
+INFO:     Started server process [17668]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8778 (Press CTRL+C to quit)
+INFO:     127.0.0.1:63816 - "GET /api/forward/windows/HARNESS-20261123-184005-14756 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63817 - "GET / HTTP/1.1" 200 OK

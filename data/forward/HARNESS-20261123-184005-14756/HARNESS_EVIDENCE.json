@@ -1,0 +1,305 @@
+{
+  "window_id": "HARNESS-20261123-184005-14756",
+  "generated_at": "2026-11-23T18:40:42",
+  "read_only_panel": true,
+  "external_anchor": "excluded_by_scope",
+  "before": {
+    "8765_listening": false,
+    "8766_health": [
+      200,
+      {
+        "status": "ok",
+        "version": "1.0.0",
+        "time": 1795480806007
+      }
+    ],
+    "files": {
+      "data/config.json": {
+        "exists": true,
+        "size": 2381,
+        "mtime_ns": 1795401410479925700,
+        "sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f"
+      },
+      "profiles/p2_freq/config.json": {
+        "exists": true,
+        "size": 2383,
+        "mtime_ns": 1795409635180073000,
+        "sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb"
+      },
+      "profiles/backtest_real/config.json": {
+        "exists": true,
+        "size": 2380,
+        "mtime_ns": 1795409984467699000,
+        "sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f"
+      },
+      "docs/protocolo_backtest.lock.json": {
+        "exists": true,
+        "size": 6211,
+        "mtime_ns": 1795142122866538400,
+        "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c"
+      },
+      "data/yedbot.db": {
+        "exists": true,
+        "size": 225280,
+        "mtime_ns": 1795409402150900600,
+        "sha256": null
+      },
+      "reports/backtest/preset_card_8766.db": {
+        "exists": true,
+        "size": 270336,
+        "mtime_ns": 1795446816695271700,
+        "sha256": null
+      }
+    }
+  },
+  "after": {
+    "8765_listening": false,
+    "8766_health": [
+      200,
+      {
+        "status": "ok",
+        "version": "1.0.0",
+        "time": 1795480842050
+      }
+    ],
+    "files": {
+      "data/config.json": {
+        "exists": true,
+        "size": 2381,
+        "mtime_ns": 1795401410479925700,
+        "sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f"
+      },
+      "profiles/p2_freq/config.json": {
+        "exists": true,
+        "size": 2383,
+        "mtime_ns": 1795409635180073000,
+        "sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb"
+      },
+      "profiles/backtest_real/config.json": {
+        "exists": true,
+        "size": 2380,
+        "mtime_ns": 1795409984467699000,
+        "sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f"
+      },
+      "docs/protocolo_backtest.lock.json": {
+        "exists": true,
+        "size": 6211,
+        "mtime_ns": 1795142122866538400,
+        "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c"
+      },
+      "data/yedbot.db": {
+        "exists": true,
+        "size": 225280,
+        "mtime_ns": 1795409402150900600,
+        "sha256": null
+      },
+      "reports/backtest/preset_card_8766.db": {
+        "exists": true,
+        "size": 270336,
+        "mtime_ns": 1795446816695271700,
+        "sha256": null
+      }
+    }
+  },
+  "t0": {
+    "control": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+    "treatment": "7a5835b6a1f20054848f0161fe7a91d29921a82d8e2c535f23d610874ace56a0"
+  },
+  "checks": [
+    {
+      "name": "ventana T0 creada",
+      "ok": true,
+      "detail": "HARNESS-20261123-184005-14756"
+    },
+    {
+      "name": "brazo control arranca en 8775",
+      "ok": true,
+      "detail": "health 200"
+    },
+    {
+      "name": "brazo treatment arranca en 8776",
+      "ok": true,
+      "detail": "health 200"
+    },
+    {
+      "name": "los brazos responden con la ventana de esta prueba",
+      "ok": true,
+      "detail": {
+        "control": "HARNESS-20261123-184005-14756",
+        "treatment": "HARNESS-20261123-184005-14756"
+      }
+    },
+    {
+      "name": "perfil y DB aislados (control)",
+      "ok": true,
+      "detail": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-184005-14756\\arms\\control\\profile\\yedbot.db"
+    },
+    {
+      "name": "perfil y DB aislados (treatment)",
+      "ok": true,
+      "detail": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-184005-14756\\arms\\treatment\\profile\\yedbot.db"
+    },
+    {
+      "name": "el 8765 no se arranca ni se toca",
+      "ok": true,
+      "detail": "8765 sin listener antes y después"
+    },
+    {
+      "name": "recuperación tras caída registrada",
+      "ok": true,
+      "detail": "pid 17536 terminado; ARM_RESTART=1"
+    },
+    {
+      "name": "rutas mutantes bloqueadas (403)",
+      "ok": true,
+      "detail": [
+        {
+          "method": "PUT",
+          "path": "/api/config",
+          "status": 403
+        },
+        {
+          "method": "POST",
+          "path": "/api/bot/start",
+          "status": 403
+        },
+        {
+          "method": "POST",
+          "path": "/api/position/close",
+          "status": 403
+        },
+        {
+          "method": "POST",
+          "path": "/api/orders/cancel",
+          "status": 403
+        },
+        {
+          "method": "POST",
+          "path": "/api/emergency",
+          "status": 403
+        },
+        {
+          "method": "DELETE",
+          "path": "/api/emergency",
+          "status": 403
+        },
+        {
+          "method": "POST",
+          "path": "/api/stats/reset",
+          "status": 403
+        }
+      ]
+    },
+    {
+      "name": "violación marca NO_VÁLIDA en el ledger",
+      "ok": true,
+      "detail": "status=NO_VALIDA chain_ok=True"
+    },
+    {
+      "name": "sesión sellada con export e hashes",
+      "ok": true,
+      "detail": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-184005-14756\\arms\\control\\sessions\\2026-11-24.json"
+    },
+    {
+      "name": "segundo brazo sellado de forma independiente",
+      "ok": true,
+      "detail": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\HARNESS-20261123-184005-14756\\arms\\treatment\\sessions\\2026-11-24.json"
+    },
+    {
+      "name": "panel lee artefactos y muestra sesiones/equity/DD/hashes",
+      "ok": true,
+      "detail": {
+        "sessions": 1,
+        "trades": 0,
+        "equity": 25000.0,
+        "dd": 0.0,
+        "chain_ok": true,
+        "hash_ok": true
+      }
+    },
+    {
+      "name": "panel sin escritura (POST=405)",
+      "ok": true,
+      "detail": [
+        405,
+        {
+          "detail": "panel de solo lectura: método no permitido"
+        }
+      ]
+    },
+    {
+      "name": "panel HTML servido en solo lectura",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "edición manual del config detectada como hash distinto",
+      "ok": true,
+      "detail": {
+        "t0": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+        "editado": "da99ad295d3e4fa1a6858f632bf7babce2bec7a61007d7aedcd79796ffefa944"
+      }
+    },
+    {
+      "name": "cierre de sesión con config editado queda NO VÁLIDO",
+      "ok": true,
+      "detail": [
+        "config_file_sha256 distinto: esperado 2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055, actual da99ad295d3e4fa1a6858f632bf7babce2bec7a61007d7aedcd79796ffefa944"
+      ]
+    },
+    {
+      "name": "loader estricto rechaza hash desalineado (exit 3)",
+      "ok": true,
+      "detail": {
+        "rc": 3,
+        "broken": []
+      }
+    },
+    {
+      "name": "loader estricto rechaza JSON corrupto sin usar defaults",
+      "ok": true,
+      "detail": {
+        "rc": 3,
+        "stderr": [
+          "FORWARD_INTEGRITY_FAIL: el brazo no arranca",
+          "  - config_file_sha256 distinto: esperado 2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055, actual 021fb596db81e6d02bf3d2586ee3981fe519f275c0ac9ca76bbcf2ebb4097d96"
+        ]
+      }
+    },
+    {
+      "name": "único control legítimo: parar deja la ventana etiquetada",
+      "ok": true,
+      "detail": {
+        "stop": [
+          200,
+          {
+            "ok": true,
+            "stopped": true,
+            "window_status": "DETENIDA"
+          }
+        ],
+        "last": "ARM_EXITED"
+      }
+    },
+    {
+      "name": "panel final: control NO_VÁLIDA y treatment DETENIDA",
+      "ok": true,
+      "detail": {
+        "window": "NO_VALIDA",
+        "control": "NO_VALIDA",
+        "treatment": "DETENIDA",
+        "integrity_failures": 3,
+        "sessions": 2
+      }
+    },
+    {
+      "name": "8765/8766 configs, DB y lock intactos",
+      "ok": true,
+      "detail": {
+        "files_unchanged": true,
+        "8766_ok": true
+      }
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,24 @@
+{
+  "arms": {
+    "control": {
+      "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+      "config_file_sha256": "2603865fcd652e544dfd52e188a6e3be163af24c23e73ab294763f2772120055",
+      "port": 8775,
+      "profile_dir": "arms/control/profile"
+    },
+    "treatment": {
+      "code_sha256": "8fce8590135c9d55a275b1b5804cf99be4b5992d4a02c69553942c94ac191f08",
+      "config_file_sha256": "7a5835b6a1f20054848f0161fe7a91d29921a82d8e2c535f23d610874ace56a0",
+      "port": 8776,
+      "profile_dir": "arms/treatment/profile"
+    }
+  },
+  "created_at": "2026-11-24T00:40:07Z",
+  "holdout_used": false,
+  "kind": "harness",
+  "note": "Prueba hostil de arnés; sin feed, cero trades. No es desempeño.",
+  "schema": "forward-window-v1",
+  "sessions_target": 378,
+  "start_date": "2026-12-01",
+  "window_id": "HARNESS-20261123-184005-14756"
+}

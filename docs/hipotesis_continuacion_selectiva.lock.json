@@ -1,0 +1,91 @@
+{
+  "protocol": "continuacion_selectiva_externa",
+  "version": "1.1",
+  "created": "2026-11-21",
+  "revision_note": "Revisión previa a ejecución: C2 simplificado, universo de contratos 2024 y control explícito; la regla no cambia.",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-CONT-SELECTIVA-2024",
+  "control": {
+    "settings_source": "docs/protocolo_backtest.lock.json",
+    "variant": "full",
+    "entry_reference": "or_mid",
+    "use_smt": true,
+    "setup_validity_minutes": 150,
+    "retest_tolerance_ticks": 12,
+    "max_sl_ticks": 200
+  },
+  "rule": {
+    "entry_window_et": [
+      "10:30",
+      "13:00"
+    ],
+    "breakout_age_minutes": {
+      "min": 45,
+      "max": 90
+    },
+    "extension": {
+      "metric": "ATR14_15m",
+      "min": 0.75
+    },
+    "require_smt_aligned_confirmed_recovered": true,
+    "require_three_closed_trend_bars": true,
+    "require_no_retest_before_signal": true,
+    "stop_cap_ticks": 80,
+    "tp_rr": 3.0,
+    "entry_fill": "next_1m_open_after_closed_15m_signal",
+    "one_continuation_per_breakout": true
+  },
+  "validation": {
+    "dataset_id": "external_2024",
+    "source": "Databento GLBX.MDP3",
+    "symbols": [
+      "MNQ",
+      "NQ",
+      "ES"
+    ],
+    "start": "2024-01-02",
+    "end": "2024-12-30",
+    "timezone": "America/New_York",
+    "series_mode": "raw",
+    "exclude_roll_sessions": true,
+    "contract_suffixes": [
+      "H24",
+      "M24",
+      "U24",
+      "Z24",
+      "H25"
+    ],
+    "expected_calendar_sessions": 251,
+    "expected_roll_sessions": 4,
+    "expected_evaluated_sessions": 247,
+    "not_allowed": [
+      "W1-W6 2025-01-10..2026-06-30",
+      "holdout 2026-07-01..2026-10-30"
+    ]
+  },
+  "gates": {
+    "min_continuation_trades": 20,
+    "continuation_profit_factor_min": 1.25,
+    "continuation_expectancy_r_min": 0.1,
+    "portfolio_profit_factor_not_below_control": true,
+    "portfolio_net_greater_than_control": true,
+    "portfolio_max_drawdown_increase_max_usd": 500.0,
+    "portfolio_max_drawdown_max_usd": 2500.0,
+    "positive_quarters_min": 3,
+    "cost_stress": {
+      "commission_per_contract_side": 1.24,
+      "slippage_ticks": 2,
+      "profit_factor_min": 1.1
+    },
+    "baseline_repeat_identical": true,
+    "signal_before_fill": true
+  },
+  "decision": {
+    "all_gates": "candidate_for_paper_not_live",
+    "any_gate": "rejected",
+    "low_sample": "inconclusive_no_promotion",
+    "no_parameter_search": true,
+    "no_substitution_of_validation_sample": true
+  },
+  "payload_sha256": "73e84071f0a62a10f90f5812a164760d26eb65caf55c3c962990c10fb50dba47"
+}

@@ -1,0 +1,352 @@
+{
+  "window_id": "2026-12-01_p1_filter025",
+  "task": "YEDBot-Forward-Autorun",
+  "generated_at": "2026-11-23T18:51:50",
+  "before": {
+    "time": "2026-11-23T18:51:13",
+    "8765_listening": false,
+    "8766": {
+      "health": [
+        200,
+        {
+          "status": "ok",
+          "version": "1.0.0",
+          "time": 1795481473532
+        }
+      ],
+      "pid": 5204,
+      "task": {
+        "TaskName": "YEDBot-8766",
+        "State": "Running",
+        "Execute": "cmd.exe",
+        "Arguments": "/c \"C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\logs\\start_8766_task.cmd\"",
+        "WorkingDirectory": null,
+        "NextRunTime": null,
+        "LastRunTime": "2026-11-22T21:43:37.0000000-06:00",
+        "LastTaskResult": 267009
+      }
+    },
+    "task": {
+      "TaskName": "YEDBot-Forward-Autorun",
+      "State": "Ready",
+      "Execute": "C:\\Users\\yesco\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "Arguments": "-m server.forward.autorun --window-id 2026-12-01_p1_filter025 --ports 8775,8776 --panel",
+      "WorkingDirectory": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot",
+      "NextRunTime": "2026-11-24T08:00:00.0000000-06:00",
+      "LastRunTime": "2026-11-23T18:50:12.0000000-06:00",
+      "LastTaskResult": 0
+    },
+    "files": {
+      "data/config.json": {
+        "exists": true,
+        "size": 2381,
+        "mtime_ns": 1795401410479925700,
+        "sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f"
+      },
+      "profiles/backtest_real/config.json": {
+        "exists": true,
+        "size": 2380,
+        "mtime_ns": 1795409984467699000,
+        "sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f"
+      },
+      "profiles/p2_freq/config.json": {
+        "exists": true,
+        "size": 2383,
+        "mtime_ns": 1795409635180073000,
+        "sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb"
+      },
+      "docs/protocolo_backtest.lock.json": {
+        "exists": true,
+        "size": 6211,
+        "mtime_ns": 1795142122866538400,
+        "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c"
+      }
+    },
+    "db_8765": {
+      "": {
+        "exists": true,
+        "size": 225280,
+        "mtime_ns": 1795409402150900600,
+        "sha256": "f02eca5702c00d05fc7e076fe9685efe6e016e5a9197ee644f8061fd7816b473"
+      },
+      "-wal": {
+        "exists": true,
+        "size": 4128272,
+        "mtime_ns": 1795409464133015600,
+        "sha256": "ccaa330572536f5e53ca95ceb54834e551a9742f7a470173f7dedaee4318907f"
+      },
+      "-shm": {
+        "exists": true,
+        "size": 32768,
+        "mtime_ns": 1795396123230692300,
+        "sha256": "e60ee7f9ac351d536729215f7ae82e14daa5c641d6afd3dd6f5345abcb2a05ab"
+      }
+    },
+    "db_8766": {
+      "": {
+        "exists": true,
+        "size": 270336,
+        "mtime_ns": 1795446816695271700,
+        "sha256": "d0619ec0b2e380b4adae9257007977ee1a805173d088cd4bb147394d426ee38c"
+      },
+      "-wal": {
+        "exists": true,
+        "size": 4128272,
+        "mtime_ns": 1795446824827176200,
+        "sha256": "3ad4ca68c6a082bcd75f5750a081ed3dfc9fcb2a47bf7407b8b61b174cd863d2"
+      },
+      "-shm": {
+        "exists": true,
+        "size": 32768,
+        "mtime_ns": 1795405421504182600,
+        "sha256": "5a092507b89ea4a016a9abdd53368b5585c59464a90942971708843a487d6c35"
+      }
+    }
+  },
+  "after": {
+    "time": "2026-11-23T18:51:45",
+    "8765_listening": false,
+    "8766": {
+      "health": [
+        200,
+        {
+          "status": "ok",
+          "version": "1.0.0",
+          "time": 1795481506223
+        }
+      ],
+      "pid": 5204,
+      "task": {
+        "TaskName": "YEDBot-8766",
+        "State": "Running",
+        "Execute": "cmd.exe",
+        "Arguments": "/c \"C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\logs\\start_8766_task.cmd\"",
+        "WorkingDirectory": null,
+        "NextRunTime": null,
+        "LastRunTime": "2026-11-22T21:43:37.0000000-06:00",
+        "LastTaskResult": 267009
+      }
+    },
+    "task": {
+      "TaskName": "YEDBot-Forward-Autorun",
+      "State": "Ready",
+      "Execute": "C:\\Users\\yesco\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+      "Arguments": "-m server.forward.autorun --window-id 2026-12-01_p1_filter025 --ports 8775,8776 --panel",
+      "WorkingDirectory": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot",
+      "NextRunTime": "2026-11-24T08:00:00.0000000-06:00",
+      "LastRunTime": "2026-11-23T18:51:18.0000000-06:00",
+      "LastTaskResult": 0
+    },
+    "files": {
+      "data/config.json": {
+        "exists": true,
+        "size": 2381,
+        "mtime_ns": 1795401410479925700,
+        "sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f"
+      },
+      "profiles/backtest_real/config.json": {
+        "exists": true,
+        "size": 2380,
+        "mtime_ns": 1795409984467699000,
+        "sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f"
+      },
+      "profiles/p2_freq/config.json": {
+        "exists": true,
+        "size": 2383,
+        "mtime_ns": 1795409635180073000,
+        "sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb"
+      },
+      "docs/protocolo_backtest.lock.json": {
+        "exists": true,
+        "size": 6211,
+        "mtime_ns": 1795142122866538400,
+        "sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c"
+      }
+    },
+    "db_8765": {
+      "": {
+        "exists": true,
+        "size": 225280,
+        "mtime_ns": 1795409402150900600,
+        "sha256": "f02eca5702c00d05fc7e076fe9685efe6e016e5a9197ee644f8061fd7816b473"
+      },
+      "-wal": {
+        "exists": true,
+        "size": 4128272,
+        "mtime_ns": 1795409464133015600,
+        "sha256": "ccaa330572536f5e53ca95ceb54834e551a9742f7a470173f7dedaee4318907f"
+      },
+      "-shm": {
+        "exists": true,
+        "size": 32768,
+        "mtime_ns": 1795396123230692300,
+        "sha256": "e60ee7f9ac351d536729215f7ae82e14daa5c641d6afd3dd6f5345abcb2a05ab"
+      }
+    },
+    "db_8766": {
+      "": {
+        "exists": true,
+        "size": 270336,
+        "mtime_ns": 1795446816695271700,
+        "sha256": "d0619ec0b2e380b4adae9257007977ee1a805173d088cd4bb147394d426ee38c"
+      },
+      "-wal": {
+        "exists": true,
+        "size": 4128272,
+        "mtime_ns": 1795446824827176200,
+        "sha256": "3ad4ca68c6a082bcd75f5750a081ed3dfc9fcb2a47bf7407b8b61b174cd863d2"
+      },
+      "-shm": {
+        "exists": true,
+        "size": 32768,
+        "mtime_ns": 1795405421504182600,
+        "sha256": "5a092507b89ea4a016a9abdd53368b5585c59464a90942971708843a487d6c35"
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "la tarea existe y está lista",
+      "ok": true,
+      "detail": {
+        "state": "Ready"
+      }
+    },
+    {
+      "name": "próximo disparo definido",
+      "ok": true,
+      "detail": "2026-11-24T08:00:00.0000000-06:00"
+    },
+    {
+      "name": "acción acotada al forward (8775/8776, sin 8765/8766)",
+      "ok": true,
+      "detail": "-m server.forward.autorun --window-id 2026-12-01_p1_filter025 --ports 8775,8776 --panel"
+    },
+    {
+      "name": "working directory correcto",
+      "ok": true,
+      "detail": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot"
+    },
+    {
+      "name": "disparo manual aceptado por el Programador",
+      "ok": true,
+      "detail": "Start-ScheduledTask ok"
+    },
+    {
+      "name": "brazo control con health 200 por la tarea",
+      "ok": true,
+      "detail": 8775
+    },
+    {
+      "name": "brazo treatment con health 200 por la tarea",
+      "ok": true,
+      "detail": 8776
+    },
+    {
+      "name": "ambos brazos usan la ventana y perfiles forward",
+      "ok": true,
+      "detail": {
+        "control": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\2026-12-01_p1_filter025\\arms\\control\\profile\\yedbot.db",
+        "treatment": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot\\data\\forward\\2026-12-01_p1_filter025\\arms\\treatment\\profile\\yedbot.db"
+      }
+    },
+    {
+      "name": "config y código coinciden con el snapshot T0",
+      "ok": true,
+      "detail": {
+        "control": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+        "treatment": "9bdde4dbc58d980419399e10c07b851765a66102cb52c0c4af727bfb0cecb27c"
+      }
+    },
+    {
+      "name": "DB paper vacía en data/forward (0 trades, 0 equity)",
+      "ok": true,
+      "detail": {
+        "control": {
+          "trades": 0,
+          "equity": 0
+        },
+        "treatment": {
+          "trades": 0,
+          "equity": 0
+        }
+      }
+    },
+    {
+      "name": "la tarea figura en ejecución tras el disparo",
+      "ok": true,
+      "detail": {
+        "state": "Running",
+        "last_result": 267009,
+        "last_run": "2026-11-23T18:51:18.0000000-06:00"
+      }
+    },
+    {
+      "name": "matar el brazo produce ARM_EXIT -> ARM_RESTART -> ARM_SPAWN",
+      "ok": true,
+      "detail": {
+        "pid": 16596,
+        "events": [
+          "SUPERVISOR_STOP",
+          "SUPERVISOR_START",
+          "ARM_SPAWN",
+          "ARM_EXIT",
+          "ARM_RESTART",
+          "ARM_SPAWN"
+        ]
+      }
+    },
+    {
+      "name": "el brazo vuelve a health 200 tras el reinicio",
+      "ok": true,
+      "detail": 8775
+    },
+    {
+      "name": "parada ordenada del autorun",
+      "ok": true,
+      "detail": "stop ok"
+    },
+    {
+      "name": "no quedan puertos forward escuchando",
+      "ok": true,
+      "detail": "8775/8776/8778"
+    },
+    {
+      "name": "hashes de config, DB y lock del 8765/8766 idénticos",
+      "ok": true,
+      "detail": {
+        "configs": true,
+        "db_8765": true,
+        "db_8766": true
+      }
+    },
+    {
+      "name": "el 8766 no se reinició",
+      "ok": true,
+      "detail": {
+        "pid_before": 5204,
+        "pid_after": 5204,
+        "task_last_run_before": "2026-11-22T21:43:37.0000000-06:00",
+        "task_last_run_after": "2026-11-22T21:43:37.0000000-06:00"
+      }
+    },
+    {
+      "name": "el 8765 sigue sin arrancar",
+      "ok": true,
+      "detail": {
+        "before": false,
+        "after": false
+      }
+    },
+    {
+      "name": "la tarea queda registrada y lista tras la prueba",
+      "ok": true,
+      "detail": {
+        "state": "Ready",
+        "next": "2026-11-24T08:00:00.0000000-06:00",
+        "last": "2026-11-23T18:51:18.0000000-06:00"
+      }
+    }
+  ],
+  "ok": true
+}
