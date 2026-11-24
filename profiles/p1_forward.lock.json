@@ -1,0 +1,69 @@
+{
+  "schema": "p1-forward-frozen-v1",
+  "created_at": "2026-11-24T03:10:36Z",
+  "title": "Perfiles forward congelados P1: control y filtro min_stop_or_ratio=0,25",
+  "profile_family": "P1",
+  "p1_definition": {
+    "description": "P2 con max_contracts=5; conserva max_sl_ticks=200 y la frecuencia 210/24.",
+    "base_profile": "profiles/p2_freq/config.json",
+    "base_config_file_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+    "base_config_sha256": "54656561bf692731d71013c6655155a566c9b4b49fe53a88d61bf20814310f4f",
+    "risk.max_contracts": 5,
+    "risk.max_sl_ticks": 200,
+    "strategy.setup_validity_minutes": 210,
+    "strategy.retest_tolerance_ticks": 24
+  },
+  "forward_feed": {
+    "window_id": "2026-12-01_p1_filter025",
+    "provider": "csv",
+    "csv_path": "data/forward/2026-12-01_p1_filter025/bars_forward.csv",
+    "series_mode": "raw",
+    "exclude_roll_sessions": true,
+    "loop_sessions": false,
+    "live_enabled": false
+  },
+  "only_difference": "risk.min_stop_or_ratio",
+  "differences": [
+    {
+      "path": "risk.min_stop_or_ratio",
+      "control": 0.0,
+      "treatment": 0.25
+    }
+  ],
+  "arms": {
+    "control": {
+      "arm": "control",
+      "profile_id": "P1-CONTROL",
+      "path": "profiles/p1_forward_control/config.json",
+      "config_file_sha256": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+      "config_sha256": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+      "min_stop_or_ratio": 0.0
+    },
+    "filter025": {
+      "arm": "treatment",
+      "profile_id": "P1-FILTER025",
+      "path": "profiles/p1_forward_filter025/config.json",
+      "config_file_sha256": "9bdde4dbc58d980419399e10c07b851765a66102cb52c0c4af727bfb0cecb27c",
+      "config_sha256": "061f87b8548ab53229e50455e1004bd189c5ef356521d3cf99e084f63b80e32c",
+      "min_stop_or_ratio": 0.25
+    }
+  },
+  "source_operational_window": {
+    "window_id": "2026-12-01_p1_filter025",
+    "control_config_file_sha256": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+    "treatment_config_file_sha256": "9bdde4dbc58d980419399e10c07b851765a66102cb52c0c4af727bfb0cecb27c",
+    "note": "Solo lectura; los perfiles operativos y sus DB no se modificaron."
+  },
+  "holdout_used": false,
+  "guards": {
+    "existing_configs_modified": false,
+    "database_accessed": false,
+    "holdout_accessed": false,
+    "backtests_run": false
+  },
+  "verification": {
+    "script": "scripts/verify_p1_forward_profiles.py",
+    "command": "python scripts/verify_p1_forward_profiles.py",
+    "expected_result": "PASS"
+  }
+}
