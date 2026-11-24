@@ -1,0 +1,247 @@
+{
+  "artifacts": {
+    "reports/backtest/FILTER025_PROFITABILITY.md": "2393b3d843b3937bc1cae59487424fc1dc7b71b7b383e72f0b32ee1fd21aece7",
+    "reports/backtest/_manual_filter025_w1_w6.json": "193a2bc1ab9885eb55ee988ca082cf51ed2975ca15f6c1421605d379c723aca7",
+    "reports/backtest/_manual_w1_w6_analysis.log": "ce7be427502cb9a8e065d9b6e18edb445c885ab10b8e8c5c18aadc1c4069d744",
+    "reports/backtest/filter025_gates.json": "66cf5ce0dabf1ab0b646a6809f8adee4c991d1f5e4f7211f79cdea0e07f6ee5b",
+    "reports/backtest/forward_validation.json": "fb0825e44c01e15ffaacc2133a9517cd81605a014c2979557f1ff562840227dc",
+    "reports/backtest/p2_w1_w6_confirm.json": "3b2d654a6298b181c0ad1161a038e7f8f95eaa70de26c211f2e3d2f82b9e9312"
+  },
+  "captured_at": "2026-11-24T03:20:02Z",
+  "comparisons": {
+    "live_vs_original": {
+      "feed.replay_speed": [
+        8.0,
+        4.5
+      ],
+      "risk.max_contracts": [
+        10,
+        5
+      ],
+      "risk.max_sl_ticks": [
+        300,
+        200
+      ],
+      "strategy.retest_tolerance_ticks": [
+        24,
+        12
+      ],
+      "strategy.setup_validity_minutes": [
+        210,
+        150
+      ]
+    },
+    "live_vs_p1_control": {
+      "feed.csv_path": [
+        "data/bars.csv",
+        "data/forward/2026-12-01_p1_filter025/bars_forward.csv"
+      ],
+      "feed.loop_sessions": [
+        true,
+        false
+      ],
+      "feed.replay_speed": [
+        8.0,
+        1.0
+      ],
+      "feed.series_mode": [
+        "adjusted",
+        "raw"
+      ],
+      "risk.max_contracts": [
+        10,
+        5
+      ],
+      "risk.max_sl_ticks": [
+        300,
+        200
+      ]
+    },
+    "live_vs_p1_filter025": {
+      "feed.csv_path": [
+        "data/bars.csv",
+        "data/forward/2026-12-01_p1_filter025/bars_forward.csv"
+      ],
+      "feed.loop_sessions": [
+        true,
+        false
+      ],
+      "feed.replay_speed": [
+        8.0,
+        1.0
+      ],
+      "feed.series_mode": [
+        "adjusted",
+        "raw"
+      ],
+      "risk.max_contracts": [
+        10,
+        5
+      ],
+      "risk.max_sl_ticks": [
+        300,
+        200
+      ],
+      "risk.min_stop_or_ratio": [
+        0.0,
+        0.25
+      ]
+    },
+    "p1_control_vs_filter025": {
+      "risk.min_stop_or_ratio": [
+        0.0,
+        0.25
+      ]
+    }
+  },
+  "config_source": {
+    "api_settings_equal_file": true,
+    "config_sha256": "d3cff10d7842af4ab29c571c1fb8554841dfc128b9454df55eb53933286dcd10",
+    "data_config_equal": true,
+    "data_config_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "db_path": "profiles/live_8765/yedbot.db",
+    "file_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "path": "profiles/live_8765/config.json",
+    "reason": "YED_PROFILE_DIR apunta a profiles/live_8765; server.config deriva CONFIG_PATH=PROFILE_DIR/config.json."
+  },
+  "constraints": {
+    "backtests_run": false,
+    "configs_modified": false,
+    "db_written": false,
+    "holdout_accessed": false,
+    "read_only_analysis": true
+  },
+  "engine_status": "stopped",
+  "forward": {
+    "available_sessions": 0,
+    "bars_forward_csv": "data/forward/2026-12-01_p1_filter025/bars_forward.csv",
+    "bars_forward_csv_exists": false,
+    "dataset_last_session": "2026-06-30",
+    "holdout": {
+      "end": "2026-10-30",
+      "executed": false,
+      "id": "H1",
+      "lock_path": "docs/protocolo_backtest.lock.json",
+      "lock_sha256": "55d89872804ea091c31291cad04d4bdc49d4558aa8e60455ff7d6d1e179f353c",
+      "protocol_status": "frozen-not-executed",
+      "sessions": 85,
+      "start": "2026-07-01",
+      "status": "sealed_not_executed",
+      "used_for_decision": false
+    },
+    "last_validation_status": "insufficient_data",
+    "status": "pending"
+  },
+  "hashes": {
+    "original_canonical_config_sha256": "87b8b9f18dbce9e4739112cf734850fe75de7e82e7548425d246027d2234e708",
+    "original_file_sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f",
+    "p1_control_config_sha256": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+    "p1_control_file_sha256": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+    "p1_filter_config_sha256": "061f87b8548ab53229e50455e1004bd189c5ef356521d3cf99e084f63b80e32c",
+    "p1_filter_file_sha256": "9bdde4dbc58d980419399e10c07b851765a66102cb52c0c4af727bfb0cecb27c"
+  },
+  "listener": "127.0.0.1:8765",
+  "mode": "paper",
+  "port": 8765,
+  "process": {
+    "command_line": "python.exe -u run.py",
+    "executable": "C:\\Users\\yesco\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "launcher_command_line": "YED_PORT=8765 YED_PROFILE_DIR=\"$PWD/profiles/live_8765\" YED_OPEN=0 python -u run.py",
+    "name": "python.exe",
+    "pid": 15108,
+    "project_root": "C:\\Users\\yesco\\Freebuff\\projects\\YEDBot"
+  },
+  "schema": "manual-8765-live-snapshot-v1",
+  "settings": {
+    "comparison_symbol": "ES",
+    "execution": {
+      "commission_per_contract_side": 0.62,
+      "fill_model": "next_open",
+      "max_slippage_ticks": 4,
+      "partial_fill_ratio": 0.6,
+      "point_value": 2.0,
+      "simulate_partial_fills": false,
+      "slippage_ticks": 1,
+      "tick_size": 0.25,
+      "tick_value": 0.5
+    },
+    "feed": {
+      "csv_path": "data/bars.csv",
+      "exclude_roll_sessions": true,
+      "latency_ms": 0,
+      "loop_sessions": true,
+      "provider": "csv",
+      "replay_speed": 8.0,
+      "series_mode": "adjusted",
+      "start_date": ""
+    },
+    "instrument": "MNQ",
+    "live": {
+      "account_ref": "",
+      "broker": "none",
+      "data_feed": "",
+      "environment": "demo",
+      "live_confirmation": "",
+      "live_enabled": false
+    },
+    "mode": "paper",
+    "orb": {
+      "end": "10:00",
+      "max_width_pct": 1.2,
+      "start": "09:00",
+      "timezone": "America/New_York"
+    },
+    "reference_symbol": "NQ",
+    "risk": {
+      "close_at_session_end": true,
+      "cooldown_minutes": 5,
+      "entry_exclusion_end": "",
+      "entry_exclusion_start": "",
+      "initial_capital": 25000.0,
+      "max_concurrent_positions": 1,
+      "max_contracts": 10,
+      "max_daily_loss_pct": 3.0,
+      "max_daily_profit_pct": 0.0,
+      "max_sl_ticks": 300,
+      "max_trades_per_day": 3,
+      "min_stop_or_ratio": 0.0,
+      "no_trade_after_consecutive_losses": 0,
+      "risk_per_trade_pct": 1.0,
+      "session_close_time": "15:55",
+      "trade_window_end": "15:30",
+      "trade_window_start": "09:00"
+    },
+    "smt": {
+      "detect_tf": "1m",
+      "enabled": true,
+      "min_break_ticks": 2,
+      "pivot_depth": 5,
+      "require_recovery": true,
+      "tolerance_ticks": 8,
+      "validity_minutes": 120,
+      "window_minutes": 60
+    },
+    "strategy": {
+      "allow_reentry_after_false_breakout": false,
+      "atr_period": 14,
+      "atr_sl_mult": 1.2,
+      "breakout_buffer_ticks": 2,
+      "confirm_tf": "15m",
+      "entry_reference": "or_mid",
+      "entry_trigger": "close",
+      "min_range_ticks": 10,
+      "name": "YED ORB+SMT",
+      "or_retracement_pct": 0.382,
+      "require_close_breakout": true,
+      "require_recovery_close": true,
+      "retest_depth": 1.0,
+      "retest_tolerance_ticks": 24,
+      "setup_validity_minutes": 210,
+      "sl_buffer_ticks": 4,
+      "sl_mode": "structural",
+      "structural_depth": 3,
+      "tp_rr": 3.0,
+      "use_smt": true
+    }
+  }
+}
