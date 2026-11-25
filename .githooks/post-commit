@@ -1,0 +1,76 @@
+#!/bin/sh
+# Auto-push commits that already exist on main. This hook never stages,
+# commits, amends or reads data files. It only invokes git push.
+#
+# Disable for one commit with: GIT_AUTO_PUSH=0 git commit ...
+# Log: .git/auto-push.log
+# This hook is intentionally limited to main; commits on other branches are
+# not pushed to origin/main.
+
+set -u
+
+# Escape hatch for an intentional local-only commit.
+if [ "${GIT_AUTO_PUSH:-1}" = "0" ]; then
+    exit 0
+fi
+
+# Resolve paths from Git, not from the caller's current directory.
+repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || exit 0
+cd "$repo_root" || exit 0
+
+# Only main is allowed to advance origin/main automatically.
+branch=$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)
+if [ "$branch" != "main" ]; then
+    exit 0
+fi
+
+# Never push an unborn HEAD.
+git rev-parse --verify --quiet HEAD >/dev/null 2>&1 || exit 0
+
+log_file=$(git rev-parse --git-path auto-push.log 2>/dev/null) || exit 0
+lock_dir=$(git rev-parse --git-path auto-push.lock 2>/dev/null) || exit 0
+
+# Avoid two commits racing to push at the same time. If a stale lock exists,
+# the next commit will log a failure rather than silently removing it.
+if ! mkdir "$lock_dir" 2>/dev/null; then
+    printf '%s [%s] auto-push skipped: lock exists\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$(git rev-parse --short HEAD 2>/dev/null || echo unknown)" \
+        >> "$log_file" 2>/dev/null || true
+    exit 0
+fi
+trap 'rmdir "$lock_dir" 2>/dev/null || true' EXIT HUP INT TERM
+
+# Reuse the repository's SSH command (key, IdentitiesOnly, known_hosts), but
+# force non-interactive operation so no credential or host-key window appears.
+ssh_cmd=$(git config --get core.sshCommand 2>/dev/null || true)
+if [ -n "$ssh_cmd" ]; then
+    ssh_cmd="$ssh_cmd -o BatchMode=yes -o ConnectTimeout=15"
+else
+    ssh_cmd="ssh -o BatchMode=yes -o ConnectTimeout=15"
+fi
+
+output=$(
+    GIT_SSH_COMMAND="$ssh_cmd" \
+    GIT_TERMINAL_PROMPT=0 \
+    GCM_INTERACTIVE=Never \
+    git push --porcelain origin HEAD:refs/heads/main 2>&1
+)
+status=$?
+
+{
+    printf '%s [%s] push status=%s\n' \
+        "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+        "$(git rev-parse --short HEAD 2>/dev/null || echo unknown)" \
+        "$status"
+    printf '%s\n' "$output"
+} >> "$log_file" 2>/dev/null || true
+
+if [ "$status" -eq 0 ]; then
+    printf '%s\n' "[auto-push] pushed $(git rev-parse --short HEAD 2>/dev/null || echo HEAD) to origin/main"
+else
+    printf '%s\n' "[auto-push] push failed; commit remains local. See .git/auto-push.log" >&2
+fi
+
+# A post-commit hook cannot undo the commit. Do not turn a network failure into
+# a failed commit; leave the commit intact and report it in the log.
+exit 0

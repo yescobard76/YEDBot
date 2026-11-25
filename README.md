@@ -303,6 +303,18 @@ slippage en target, tope `max_slippage_ticks`, MFE/MAE, drawdown abierto, genera
 completa, backtest, contrato del snapshot, validación CSV, calendario de vencimientos, contrato
 activo, series raw/ajustadas y exclusión de sesiones de roll.
 
+### Auto-push de commits
+
+El hook está versionado en `.githooks/post-commit`, pero cada clon debe activarlo:
+
+```bash
+git config --local core.hooksPath .githooks
+```
+
+Solo empuja commits de `main` a `origin/main`; si falla, deja el commit local y lo
+registra en `.git/auto-push.log`. Instrucciones completas y desactivación temporal en
+[`docs/GIT_AUTO_PUSH.md`](docs/GIT_AUTO_PUSH.md).
+
 ## 8. Seguridad
 
 - Sin credenciales en el código ni en la configuración de la app; `.env` está ignorado.
