@@ -30,6 +30,8 @@
 | `data/bars.csv` | Dataset de las corridas (solo identidad) | `1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a` |
 | `profiles/live_8765/config.json` | Configuración de referencia | `9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f` |
 
+**Nota sobre `bars.csv`:** el hash de la tabla es el del fichero de trabajo (38.312.629 B). El blob de HEAD es `a495884f31d858c7a14e4187101c00d7dfe5ccb7cba1524dca5645ab67456a96` (37.850.478 B), porque el fichero versionado no es byte a byte el mismo. `bars.csv` **no se usa para el remuestreo**: solo se cita como identidad del dataset de las corridas. Los tres artefactos que sí se usan (`progreso.json`, `_delta_calendar.json`, `resultados.jsonl`) coinciden byte a byte con sus blobs de HEAD.
+
 Comprobaciones hechas por el script antes de calcular:
 
 - 25 variantes, con los mismos ids en `progreso.json` y `resultados.jsonl`.
@@ -198,18 +200,41 @@ Por eso el número efectivo de hipótesis independientes es menor que 25. El RC 
 
 ---
 
-## 5. Conclusión
+## 5. Lectura de los resultados
 
-1. **Ningún candidato merece H1.** La mejor variante nominal (`excl_1200_1400`) no es significativa ni antes (p individual 0,2838) ni después de corregir (RC p 0,547), y su RDD no es distinguible de cero.
-2. **La manual sigue siendo la referencia**, pero su neto es frágil: sin sus 3 mejores trades es negativo. Eso no la convierte en mala, pero sí obliga a no presentarla como una ventaja robusta.
-3. **No cambiar el 8765, no abrir H1 y no añadir más variantes in-sample.** Con 25 pruebas ya no hay señal; ampliar la búsqueda sobre la misma muestra solo aumenta el data snooping.
-4. Si se quiere seguir, el cuello de botella es **muestra independiente** (forward o H1 con un protocolo pre-registrado y one-shot), no otra vuelta sobre W1–W6. La exclusión 12:00–14:00 es la hipótesis con mejor soporte descriptivo, pero **no ha pasado la puerta** y no se promociona.
+1. **El mejor candidato nominal no pasa.** `excl_1200_1400` no es significativo ni antes (p individual 0,2838) ni después de corregir (RC p 0,547), y su RDD no es distinguible de cero.
+2. **La manual sigue siendo la referencia, pero su neto es frágil:** sin sus 3 mejores trades pierde **196,98 USD**. No es una ventaja robusta, aunque siga siendo la base operativa.
+3. **El problema no es solo comparar con la manual:** el RC absoluto contra cero da **p = 0,2244**. Tampoco se puede afirmar que alguna de las 25 tenga un edge positivo con esta muestra.
+4. **Lectura operativa:** no hay base para cambiar el 8765 ni para abrir H1. Con 25 pruebas ya no hay señal; ampliar la búsqueda sobre W1–W6 solo aumenta el data snooping.
 
 ---
 
-## 6. Integridad y reproducción
+## 6. Mejoras de estrategia priorizadas por rentabilidad
 
-### 6.1 Lo que no se tocó
+**Regla:** esta lista reutiliza las 25 variantes ya medidas. **No se prueba ningún parámetro nuevo, no se añade ninguna variante y no se vuelve a barrer W1–W6.** El orden es por **Δ neto nominal observado**; no es una promesa de rentabilidad futura ni una recomendación de aplicar nada al 8765.
+
+| # | Mejora ya medida | Δ neto vs manual | Neto s/top-3 | RDD [IC 95 %] | Ops | Lectura |
+|---:|---|---:|---:|---|---:|---|
+| 1 | `excl_1200_1400` (exclusión 12:00–14:00) | **+1.478,00** | 1.289,28 | 1,9076 [−0,43; 10,00] | 46 | Mayor neto y mayor neto sin top-3; 4/6 ventanas con delta positivo (W3–W6), pero W1/W2 negativas. Falla RC y RDD. |
+| 2 | `excl_1130_1230` (exclusión 11:30–12:30) | +1.317,96 | 1.179,42 | 2,6532 [−0,38; 9,89] | 48 | Mejor DD (1.259,18) y buen RDD; el delta se concentra en W5/W6. Falla RC y RDD. |
+| 3 | `excl_1130_1330` (exclusión 11:30–13:30) | +1.180,88 | 1.105,14 | 2,3274 [−0,35; 12,74] | 36 | Buen neto con 36 ops, pero W1 pierde 1.045,82. Falla RC y RDD. |
+| 4 | `excl_1100_1300` (exclusión 11:00–13:00) | +477,24 | 532,70 | 4,9814 [−0,53; 12,42] | 26 | RDD puntual más alto, pero 26 ops y un IC enorme; no es una base fiable. Falla RC y RDD. |
+| 5 | `sl_200` (M-SL200, `max_sl_ticks 300→200`) | +448,84 | 251,86 | 1,0726 [−0,78; 7,71] | 46 | Reduce el DD 587,20, pero sigue en 2.304,46 (> PM5). Ya tiene lock forward; falla RC y RDD. |
+
+No se incluye en la lista `excl_1130_1330+sl_200` (+782,58) porque tiene solo **17 operaciones** y su IC del RDD llega a 20,72; no es una base creíble para priorizar. Tampoco se propone combinarla con otra.
+
+**Qué significa esta lista:**
+
+- **Ninguna se adopta en el 8765.** Ninguna justifica H1. Son las cinco hipótesis con mejor impacto nominal que ya están medidas; la puerta estadística las rechaza a todas.
+- **Si se decidiera llevar una a un forward pre-registrado** (muestra nueva, no H1), el orden de estudio sería **1 → 2 → 3**. La #1 es la más defendible por neto y por menor dependencia del top-3; la #2 es la mejor por drawdown; la #4 no tiene muestra suficiente; la #5 ya está en un lock forward y su DD sigue incumpliendo PM5.
+- **No se propone combinar #1 con #2, ni cambiar TP, ORB, SMT o sizing.** No hay evidencia y aumentaría el multiple testing.
+- **No hay “mejora con impacto esperado demostrado”.** La tabla ordena el impacto **observado**; la conclusión estadística es que no se puede distinguir de cero.
+
+---
+
+## 7. Integridad, reproducción y limitaciones
+
+### 7.1 Lo que no se tocó
 
 | Comprobación | Resultado |
 |---|---|
@@ -221,17 +246,22 @@ Por eso el número efectivo de hipótesis independientes es menor que 25. El RC 
 | Holdout | No leído ni ejecutado; el calendario termina en `2026-06-30` y el script aborta si ve una sesión ≥ `2026-07-01` |
 | Backtests | Ninguno; solo se remuestrearon operaciones ya registradas |
 
-### 6.2 Reproducción
+### 7.2 Reproducción verificada
 
 ```bash
 PYTHONIOENCODING=utf-8 python research/reality_check_25.py
 ```
 
-- 10.000 remuestras, semilla 20250102; runtime ~24 s.
-- Salidas: `reports/autoloop/reality_check_25.json` (completo) y `reports/autoloop/reality_check_25.csv` (tabla plana).
-- El script verifica netos, DD, número de operaciones, calendario y hash de configuración antes de calcular; si algo no cuadra, aborta.
+Ejecución del **2026-11-25** sobre los artefactos del commit `34a0c8e`:
 
-### 6.3 Limitaciones
+- **In-place:** 24,1 s; el JSON regenerado tiene **0 diferencias** con el publicado y el CSV es **idéntico**; `git status` de las salidas queda limpio.
+- **Árbol limpio** (`git archive HEAD` en `logs/_rc_repro/head_tree`): 23,9 s; los valores numéricos y el CSV son idénticos. La única diferencia es `sources.bars.sha256`: el blob de HEAD es `a495884f…` y el fichero de trabajo `1cc455e9…`. `bars.csv` no interviene en el remuestreo.
+- Los tres artefactos que sí intervienen (`progreso.json`, `_delta_calendar.json`, `resultados.jsonl`) coinciden byte a byte con sus blobs de HEAD.
+- **Matiz de fin de línea:** el hash del calendario se calculó sobre el `config.json` del working tree; el blob de Git tiene LF y el fichero de trabajo CRLF, por lo que el árbol limpio necesita copiar los bytes de config del working tree para pasar la comprobación. No afecta a ningún número del análisis.
+
+El script verifica netos, DD, número de operaciones, calendario y hash de configuración antes de calcular; si algo no cuadra, aborta. 10.000 remuestras, semilla 20250102.
+
+### 7.3 Limitaciones
 
 - **In-sample:** las 25 variantes se propusieron y midieron sobre W1–W6. El RC corrige la selección entre 25, pero no convierte la muestra en independiente.
 - **Búsqueda adaptativa:** el universo real de hipótesis probadas es mayor que 25 (autoloop, combinaciones, presets previos). El p de 0,547 es, si acaso, **optimista**; la conclusión de no promover es robusta.
@@ -242,4 +272,16 @@ PYTHONIOENCODING=utf-8 python research/reality_check_25.py
 
 ---
 
-**Resumen de una línea:** con N=25, RC p=0,547; ningún RDD positivo excluye el cero; el mejor candidato no pasa; **H1 no se gasta**.
+## 8. Cierre: conclusión sobre H1 y prioridades
+
+**H1 no se gasta.** 0/25 variantes pasan la puerta; el Reality Check N=25 da **p = 0,547**, ningún IC positivo del RDD excluye el cero y el mejor candidato nominal tampoco pasa. Abrir el holdout con esta evidencia destruiría la única muestra ciega sin una hipótesis seleccionada. Se mantiene `sealed_not_executed`.
+
+**Prioridades por impacto nominal en neto** (detalle y límites en §6):
+
+1. `excl_1200_1400` — +1.478,00; neto sin top-3 1.289,28; falla RC/RDD.
+2. `excl_1130_1230` — +1.317,96; mejor DD; falla RC/RDD.
+3. `excl_1130_1330` — +1.180,88; 36 ops; falla RC/RDD.
+4. `excl_1100_1300` — +477,24; RDD puntual alto pero solo 26 ops; falla RC/RDD.
+5. `sl_200` — +448,84; DD 2.304,46; ya tiene lock forward; falla RC/RDD.
+
+**Ninguna mejora se adopta y H1 sigue sellado.**
