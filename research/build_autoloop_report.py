@@ -1,12 +1,12 @@
 """Genera reports/autoloop/resumen.md y resumen.json a partir de los resultados.
 
-Fuentes:
-- reports/backtest/live_vs_original_mission.json (viva vs original, W1-W6)
-- reports/autoloop/resultados.jsonl (ranking del bucle)
-- reports/autoloop/verificacion_top.json y verificacion_excl.json
-  (re-ejecuciones independientes de las ganadoras)
+Fuentes de la comparación:
+- reports/autoloop/resultados.jsonl (fila live manual_base)
+- reports/autoloop/resultados_original.jsonl (fila original)
 
-No modifica configuración, DB ni el 8765. Solo escribe en reports/autoloop/.
+La misión aporta atribución y significancia de contexto; no alimenta la tabla
+comparativa. No modifica configuración, DB ni el 8765. Solo escribe en
+reports/autoloop/.
 """
 
 from __future__ import annotations
@@ -48,18 +48,6 @@ RISK = {
                                 "mejores rupturas.",
     "strategy.sl_buffer_ticks": "Stops más anchos: menos qty al 1 % de riesgo y más "
                                 "tolerancia al ruido.",
-}
-
-PARAM_LABEL = {
-    "risk.max_sl_ticks": "Tope de stop (ticks)",
-    "strategy.tp_rr": "Objetivo (R)",
-    "strategy.retest_tolerance_ticks": "Tolerancia de retesteo (ticks)",
-    "strategy.setup_validity_minutes": "Validez del setup (min)",
-    "risk.max_contracts": "Contratos máximos",
-    "risk.entry_exclusion_start": "Exclusión de entradas",
-    "risk.max_daily_loss_pct": "Pérdida diaria máxima (%)",
-    "strategy.min_range_ticks": "Rango mínimo (ticks)",
-    "strategy.sl_buffer_ticks": "Buffer de stop (ticks)",
 }
 
 
@@ -262,7 +250,6 @@ def row_stat(row: dict, name: str):
         "avg_r": ("avg_r",),
         "win_rate": ("win_rate",),
         "expectancy": ("expectancy",),
-        "worst_streak": ("worst_loss_streak", "worst_streak"),
     }
     for key in aliases[name]:
         if row.get(key) is not None:
@@ -338,7 +325,6 @@ def main() -> int:
             "reports/autoloop/run_original_reference.py"
         )
     original_row, original_path = original_pairs[0]
-    original_in_jsonl = True
     live_source = f"{(OUT / 'resultados.jsonl').relative_to(ROOT).as_posix()}#manual_base"
     original_source = (
         f"{original_path.relative_to(ROOT).as_posix()}#{original_row.get('id')}"
@@ -415,7 +401,6 @@ def main() -> int:
         key=lambda r: float(r.get("rdd") or 0), reverse=True,
     )
     robust_ext = [r for r in results if is_robust_row(r)]
-    excl_ext = robust_ext  # alias histórico del informe
     cost_ext = [r for r in results if is_cost_row(r)]
     robust_ok = [
         r for r in robust_ext
@@ -734,7 +719,6 @@ def main() -> int:
         "| # | Variante | Ops | Neto USD | PF | DD USD | RDD | Δ neto vs base | Cambio |",
         "|---:|---|---:|---:|---:|---:|---:|---:|---|",
     ]
-    base_net = float(base.get("net") or 0) if base else 0.0
     for i, row in enumerate(ranked, 1):
         delta = float(row.get("net") or 0) - base_net
         lines.append(
@@ -742,7 +726,7 @@ def main() -> int:
             f"{n(row.get('pf'))} | {n(row.get('dd'))} | {n(row.get('rdd'), 3)} | "
             f"{signed(delta)} | {describe_patch(row.get('patch') or {})} |"
         )
-    if excl_ext:
+    if robust_ext:
         lines += [
             "",
             "## 2b. Robustez de la exclusión horaria (fase 3)",
@@ -754,7 +738,7 @@ def main() -> int:
             "| Variante | Ops | Neto | PF | DD | RDD | Δ neto vs base |",
             "|---|---:|---:|---:|---:|---:|---:|",
         ]
-        for row in excl_ext:
+        for row in robust_ext:
             delta = float(row.get("net") or 0) - base_net
             lines.append(
                 f"| {row['id']} | {row.get('trades')} | {n(row.get('net'))} | "
@@ -763,7 +747,7 @@ def main() -> int:
             )
         lines += [
             "",
-            f"**{len(robust_ok)} de {len(excl_ext)}** ventanas vecinas mejoran "
+            f"**{len(robust_ok)} de {len(robust_ext)}** ventanas vecinas mejoran "
             "neto y DD frente a la base. "
             + ("La familia de exclusión es robusta al encuadre; el candidato "
                "sigue en pie."
@@ -784,14 +768,14 @@ def main() -> int:
                 "",
             ]
         best_ext = max(
-            excl_ext, key=lambda r: float(r.get("rdd") or 0), default=None
+            robust_ext, key=lambda r: float(r.get("rdd") or 0), default=None
         )
         if best_ext and candidate and best_ext["id"] != candidate["id"]:
             lines += [
                 f"La mejor de la extensión es `{best_ext['id']}` "
                 f"({best_ext.get('trades')} ops, RDD {n(best_ext.get('rdd'), 3)}). "
                 f"No se re-selecciona como candidato: elegir el máximo de "
-                f"{len(excl_ext)} ventanas después de ver el resultado es doble "
+                f"{len(robust_ext)} ventanas después de ver el resultado es doble "
                 "in-sample. Vale como confirmación de familia, no como nueva "
                 "promesa.",
                 "",
@@ -803,7 +787,7 @@ def main() -> int:
             round(float(r.get("dd") or 0), 2),
             round(float(r.get("pf") or 0), 2),
         )
-        for r in excl_ext
+        for r in robust_ext
     }
     if cost_ext:
         lines += [
@@ -1370,7 +1354,6 @@ def main() -> int:
         "live_vs_original": {
             "live_source": live_source,
             "original_source": original_source,
-            "original_in_jsonl": original_in_jsonl,
             "live_config": live_label,
             "original_config": original_label,
             "config_hashes": {

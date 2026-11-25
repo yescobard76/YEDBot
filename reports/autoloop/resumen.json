@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T01:41:54+00:00",
+  "generated_at": "2026-11-25T01:46:43+00:00",
   "scope": {
     "windows": [
       "W1",
@@ -21,7 +21,6 @@
   "live_vs_original": {
     "live_source": "reports/autoloop/resultados.jsonl#manual_base",
     "original_source": "reports/autoloop/resultados_original.jsonl#original_5_200_150_12",
-    "original_in_jsonl": true,
     "live_config": "10/300/210/24",
     "original_config": "5/200/150/12",
     "config_hashes": {

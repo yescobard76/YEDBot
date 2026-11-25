@@ -1,6 +1,6 @@
 # Informe consolidado — config viva del 8765 vs original, y mejoras
 
-**Generado:** 2026-11-25T01:41:54+00:00  
+**Generado:** 2026-11-25T01:46:43+00:00  
 **Alcance:** W1, W2, W3, W4, W5, W6 · 362 sesiones · `2025-01-10 09:00` → `2026-06-30 15:59` · CSV `adjusted` · capital inicial 25.000 USD.  
 **Naturaleza:** backtest in-sample reproducible. Holdout no leído. Ningún cambio aplicado al 8765.
 

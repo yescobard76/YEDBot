@@ -51,7 +51,9 @@ from server.stats import compute_stats  # noqa: E402
 
 INITIAL_CAPITAL = 25_000.0
 MIN_FREE_RAM_MB = 900
-SLEEP_BETWEEN = 3
+# El informe consolidado es propiedad de research/build_autoloop_report.py.
+# El bucle solo escribe su ranking en este archivo distinto.
+BUCLE_SUMMARY = "resumen_bucle.md"
 
 
 # --------------------------------------------------------------------------
@@ -348,7 +350,7 @@ def write_summary() -> None:
               "- RDD = neto / drawdown máximo; premia retorno por unidad de dolor.",
               "- Es una muestra única y elegida in-sample: sirve para priorizar, "
               "no para promocionar.", ""]
-    (OUT / "resumen_bucle.md").write_text("\n".join(lines), encoding="utf-8")
+    (OUT / BUCLE_SUMMARY).write_text("\n".join(lines), encoding="utf-8")
 
 
 def main() -> int:

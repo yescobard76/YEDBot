@@ -96,6 +96,9 @@ def main() -> int:
 
     stats = compute_stats(trades, CAPITAL)
     loop_row = load_result(args.id)
+    if loop_row is None:
+        print(f"ERROR: {args.id} no está en resultados.jsonl; no hay referencia")
+        return 2
     payload = {
         "id": args.id,
         "patch": item.get("patch") or {},
@@ -111,26 +114,22 @@ def main() -> int:
         "windows": per_window,
         "seconds": round(time.perf_counter() - started, 1),
     }
-    if loop_row:
-        payload["loop"] = {
-            "trades": loop_row.get("trades"),
-            "net": loop_row.get("net"),
-            "pf": loop_row.get("pf"),
-            "dd": loop_row.get("dd"),
-            "rdd": loop_row.get("rdd"),
-        }
-        payload["match"] = {
-            "trades": payload["trades"] == loop_row.get("trades"),
-            "net": abs(float(payload["net"]) - float(loop_row.get("net") or 0)) < 0.01,
-            "pf": abs(float(payload["pf"] or 0) - float(loop_row.get("pf") or 0)) < 0.01,
-            "dd": abs(float(payload["dd"]) - float(loop_row.get("dd") or 0)) < 0.01,
-        }
-        payload["delta_net"] = round(
-            float(payload["net"]) - float(loop_row.get("net") or 0), 2
-        )
-    else:
-        payload["loop"] = None
-        payload["match"] = None
+    payload["loop"] = {
+        "trades": loop_row.get("trades"),
+        "net": loop_row.get("net"),
+        "pf": loop_row.get("pf"),
+        "dd": loop_row.get("dd"),
+        "rdd": loop_row.get("rdd"),
+    }
+    payload["match"] = {
+        "trades": payload["trades"] == loop_row.get("trades"),
+        "net": abs(float(payload["net"]) - float(loop_row.get("net") or 0)) < 0.01,
+        "pf": abs(float(payload["pf"] or 0) - float(loop_row.get("pf") or 0)) < 0.01,
+        "dd": abs(float(payload["dd"]) - float(loop_row.get("dd") or 0)) < 0.01,
+    }
+    payload["delta_net"] = round(
+        float(payload["net"]) - float(loop_row.get("net") or 0), 2
+    )
 
     (OUT / "verificacion.json").write_text(
         json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -138,7 +137,7 @@ def main() -> int:
     print(json.dumps({k: payload[k] for k in
                       ("id", "trades", "net", "pf", "dd", "rdd", "match")},
                      ensure_ascii=False))
-    return 0 if (payload["match"] is None or all(payload["match"].values())) else 1
+    return 0 if all(payload["match"].values()) else 1
 
 
 if __name__ == "__main__":
