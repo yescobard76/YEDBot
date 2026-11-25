@@ -1,0 +1,482 @@
+{
+  "generated_at": "2026-11-25T00:42:49+00:00",
+  "run_dir": "reports/autoloop/repro_concentracion_20261125T004249Z",
+  "seconds": 745.5,
+  "scope": "W1-W6, 362 sesiones, 2025-01-10..2026-06-30, capital 25000",
+  "config_hashes": {
+    "live": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+    "original": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f"
+  },
+  "candidate_patch": {
+    "risk": {
+      "entry_exclusion_start": "11:30",
+      "entry_exclusion_end": "13:30"
+    }
+  },
+  "headers": {
+    "candidate": {
+      "trades": 36,
+      "net": 3203.82,
+      "pf": 1.9,
+      "dd": 1376.54,
+      "rdd": 2.3274,
+      "win_rate": 47.22,
+      "avg_r": 0.47,
+      "expectancy": 88.99,
+      "fees": 132.68,
+      "published": {
+        "trades": 36,
+        "net": 3203.82,
+        "pf": 1.9,
+        "dd": 1376.54,
+        "rdd": 2.3274
+      },
+      "match": {
+        "trades": true,
+        "net": true,
+        "pf": true,
+        "dd": true,
+        "rdd": true
+      },
+      "all_match": true
+    },
+    "base": {
+      "trades": 72,
+      "net": 2022.94,
+      "pf": 1.22,
+      "dd": 2891.66,
+      "rdd": 0.6996,
+      "win_rate": 36.11,
+      "avg_r": 0.18,
+      "expectancy": 28.1,
+      "fees": 333.56,
+      "published": {
+        "trades": 72,
+        "net": 2022.94,
+        "pf": 1.22,
+        "dd": 2891.66,
+        "rdd": 0.6996
+      },
+      "match": {
+        "trades": true,
+        "net": true,
+        "pf": true,
+        "dd": true,
+        "rdd": true
+      },
+      "all_match": true
+    },
+    "original": {
+      "trades": 38,
+      "net": 661.44,
+      "pf": 1.13,
+      "dd": 1967.82,
+      "rdd": 0.3361,
+      "win_rate": 31.58,
+      "avg_r": 0.13,
+      "expectancy": 17.41,
+      "fees": 178.56,
+      "published": {
+        "trades": 38,
+        "net": 661.44,
+        "pf": 1.13,
+        "dd": 1967.82,
+        "rdd": 0.3361
+      },
+      "match": {
+        "trades": true,
+        "net": true,
+        "pf": true,
+        "dd": true,
+        "rdd": true
+      },
+      "all_match": true
+    }
+  },
+  "concentration": {
+    "candidate": {
+      "name": "candidate",
+      "ops": 36,
+      "net": 3203.82,
+      "expectancy_usd": 88.99,
+      "avg_r": 0.47,
+      "win_rate": 47.22,
+      "wins": 17,
+      "losses": 19,
+      "breakeven": 0,
+      "top5_net": 3350.56,
+      "top5_share_pct": 104.58,
+      "net_ex_top5": -146.74,
+      "best_month": "2025-06",
+      "best_month_net": 1091.66,
+      "best_month_share_pct": 34.07,
+      "worst_month": "2025-07",
+      "worst_month_net": -703.14,
+      "best_instrument": "MNQ",
+      "best_instrument_net": 3203.82,
+      "best_instrument_share_pct": 100.0,
+      "max_losing_streak": 7,
+      "max_dd": 1376.54,
+      "max_dd_stats": 1376.54,
+      "max_dd_peak_date": "2025-06-25",
+      "max_dd_trough_date": "2025-09-29",
+      "max_dd_recovered": true,
+      "max_dd_duration_days": 182.0,
+      "max_dd_trough_days": 95.9,
+      "monthly": {
+        "2025-01": 888.84,
+        "2025-02": 542.16,
+        "2025-03": 258.52,
+        "2025-05": -141.24,
+        "2025-06": 1091.66,
+        "2025-07": -703.14,
+        "2025-08": -257.44,
+        "2025-09": -415.96,
+        "2025-10": 578.28,
+        "2025-11": 464.04,
+        "2025-12": 970.6,
+        "2026-04": -472.38,
+        "2026-05": 637.6,
+        "2026-06": -237.72
+      },
+      "monthly_trades": {
+        "2025-01": 4,
+        "2025-02": 4,
+        "2025-03": 1,
+        "2025-05": 1,
+        "2025-06": 4,
+        "2025-07": 5,
+        "2025-08": 2,
+        "2025-09": 2,
+        "2025-10": 2,
+        "2025-11": 2,
+        "2025-12": 4,
+        "2026-04": 3,
+        "2026-05": 1,
+        "2026-06": 1
+      },
+      "instruments": {
+        "MNQ": 3203.82
+      },
+      "instrument_trades": {
+        "MNQ": 36
+      },
+      "first_trade": "2025-01-13",
+      "last_trade": "2026-06-17",
+      "fees": 132.68
+    },
+    "base": {
+      "name": "base",
+      "ops": 72,
+      "net": 2022.94,
+      "expectancy_usd": 28.1,
+      "avg_r": 0.18,
+      "win_rate": 36.11,
+      "wins": 26,
+      "losses": 46,
+      "breakeven": 0,
+      "top5_net": 3604.34,
+      "top5_share_pct": 178.17,
+      "net_ex_top5": -1581.4,
+      "best_month": "2025-10",
+      "best_month_net": 1120.32,
+      "best_month_share_pct": 55.38,
+      "worst_month": "2025-09",
+      "worst_month_net": -1287.24,
+      "best_instrument": "MNQ",
+      "best_instrument_net": 2022.94,
+      "best_instrument_share_pct": 100.0,
+      "max_losing_streak": 13,
+      "max_dd": 2891.66,
+      "max_dd_stats": 2891.66,
+      "max_dd_peak_date": "2025-12-26",
+      "max_dd_trough_date": "2026-05-19",
+      "max_dd_recovered": false,
+      "max_dd_duration_days": 172.9,
+      "max_dd_trough_days": 143.8,
+      "monthly": {
+        "2025-01": 732.22,
+        "2025-02": 908.04,
+        "2025-03": 1095.08,
+        "2025-05": -673.36,
+        "2025-06": 1091.66,
+        "2025-07": 281.2,
+        "2025-08": -82.18,
+        "2025-09": -1287.24,
+        "2025-10": 1120.32,
+        "2025-11": 464.04,
+        "2025-12": 877.12,
+        "2026-01": -782.28,
+        "2026-02": -231.2,
+        "2026-03": -483.66,
+        "2026-04": -935.08,
+        "2026-05": 165.98,
+        "2026-06": -237.72
+      },
+      "monthly_trades": {
+        "2025-01": 7,
+        "2025-02": 6,
+        "2025-03": 6,
+        "2025-05": 4,
+        "2025-06": 4,
+        "2025-07": 8,
+        "2025-08": 3,
+        "2025-09": 6,
+        "2025-10": 5,
+        "2025-11": 2,
+        "2025-12": 5,
+        "2026-01": 3,
+        "2026-02": 1,
+        "2026-03": 2,
+        "2026-04": 5,
+        "2026-05": 4,
+        "2026-06": 1
+      },
+      "instruments": {
+        "MNQ": 2022.94
+      },
+      "instrument_trades": {
+        "MNQ": 72
+      },
+      "first_trade": "2025-01-13",
+      "last_trade": "2026-06-17",
+      "fees": 333.56
+    },
+    "original": {
+      "name": "original",
+      "ops": 38,
+      "net": 661.44,
+      "expectancy_usd": 17.41,
+      "avg_r": 0.13,
+      "win_rate": 31.58,
+      "wins": 12,
+      "losses": 26,
+      "breakeven": 0,
+      "top5_net": 3268.92,
+      "top5_share_pct": 494.21,
+      "net_ex_top5": -2607.48,
+      "best_month": "2025-12",
+      "best_month_net": 886.32,
+      "best_month_share_pct": 134.0,
+      "worst_month": "2025-01",
+      "worst_month_net": -619.42,
+      "best_instrument": "MNQ",
+      "best_instrument_net": 661.44,
+      "best_instrument_share_pct": 100.0,
+      "max_losing_streak": 10,
+      "max_dd": 1967.82,
+      "max_dd_stats": 1967.82,
+      "max_dd_peak_date": "2025-12-26",
+      "max_dd_trough_date": "2026-05-19",
+      "max_dd_recovered": false,
+      "max_dd_duration_days": 172.9,
+      "max_dd_trough_days": 143.8,
+      "monthly": {
+        "2025-01": -619.42,
+        "2025-02": 455.3,
+        "2025-03": 528.94,
+        "2025-05": -378.88,
+        "2025-06": 647.28,
+        "2025-07": 855.12,
+        "2025-08": -348.72,
+        "2025-09": -616.86,
+        "2025-10": 533.52,
+        "2025-11": 614.28,
+        "2025-12": 886.32,
+        "2026-01": -362.4,
+        "2026-02": -231.2,
+        "2026-03": -442.92,
+        "2026-04": -433.64,
+        "2026-05": -187.56,
+        "2026-06": -237.72
+      },
+      "monthly_trades": {
+        "2025-01": 2,
+        "2025-02": 2,
+        "2025-03": 4,
+        "2025-05": 3,
+        "2025-06": 1,
+        "2025-07": 4,
+        "2025-08": 1,
+        "2025-09": 4,
+        "2025-10": 1,
+        "2025-11": 1,
+        "2025-12": 2,
+        "2026-01": 2,
+        "2026-02": 1,
+        "2026-03": 2,
+        "2026-04": 3,
+        "2026-05": 4,
+        "2026-06": 1
+      },
+      "instruments": {
+        "MNQ": 661.44
+      },
+      "instrument_trades": {
+        "MNQ": 38
+      },
+      "first_trade": "2025-01-15",
+      "last_trade": "2026-06-17",
+      "fees": 178.56
+    }
+  },
+  "windows": [
+    {
+      "window": "W1",
+      "sessions": 54,
+      "variants": {
+        "candidate": {
+          "trades": 9,
+          "net": 1689.52,
+          "pf": 3.64,
+          "dd": 420.68
+        },
+        "base": {
+          "trades": 19,
+          "net": 2735.34,
+          "pf": 2.42,
+          "dd": 901.04
+        },
+        "original": {
+          "trades": 8,
+          "net": 364.82,
+          "pf": 1.35,
+          "dd": 619.42
+        }
+      }
+    },
+    {
+      "window": "W2",
+      "sessions": 61,
+      "variants": {
+        "candidate": {
+          "trades": 5,
+          "net": 950.42,
+          "pf": 3.59,
+          "dd": 366.72
+        },
+        "base": {
+          "trades": 8,
+          "net": 418.3,
+          "pf": 1.47,
+          "dd": 898.84
+        },
+        "original": {
+          "trades": 4,
+          "net": 268.4,
+          "pf": 1.71,
+          "dd": 378.88
+        }
+      }
+    },
+    {
+      "window": "W3",
+      "sessions": 63,
+      "variants": {
+        "candidate": {
+          "trades": 9,
+          "net": -1376.54,
+          "pf": 0.06,
+          "dd": 1376.54
+        },
+        "base": {
+          "trades": 17,
+          "net": -1088.22,
+          "pf": 0.58,
+          "dd": 2184.32
+        },
+        "original": {
+          "trades": 9,
+          "net": -110.46,
+          "pf": 0.92,
+          "dd": 1084.8
+        }
+      }
+    },
+    {
+      "window": "W4",
+      "sessions": 63,
+      "variants": {
+        "candidate": {
+          "trades": 8,
+          "net": 2012.92,
+          "pf": 6.3,
+          "dd": 229.48
+        },
+        "base": {
+          "trades": 12,
+          "net": 2461.48,
+          "pf": 5.05,
+          "dd": 229.48
+        },
+        "original": {
+          "trades": 4,
+          "net": 2034.12,
+          "pf": null,
+          "dd": 0.0
+        }
+      }
+    },
+    {
+      "window": "W5",
+      "sessions": 60,
+      "variants": {
+        "candidate": {
+          "trades": 0,
+          "net": 0,
+          "pf": null,
+          "dd": 0.0
+        },
+        "base": {
+          "trades": 6,
+          "net": -1497.14,
+          "pf": 0.0,
+          "dd": 1497.14
+        },
+        "original": {
+          "trades": 5,
+          "net": -1036.52,
+          "pf": 0.0,
+          "dd": 1036.52
+        }
+      }
+    },
+    {
+      "window": "W6",
+      "sessions": 61,
+      "variants": {
+        "candidate": {
+          "trades": 5,
+          "net": -72.5,
+          "pf": 0.9,
+          "dd": 472.38
+        },
+        "base": {
+          "trades": 10,
+          "net": -1006.82,
+          "pf": 0.39,
+          "dd": 1394.52
+        },
+        "original": {
+          "trades": 8,
+          "net": -858.92,
+          "pf": 0.27,
+          "dd": 931.3
+        }
+      }
+    }
+  ],
+  "checks": {
+    "all_match": true,
+    "monthly_sum_match": {
+      "candidate": true,
+      "base": true,
+      "original": true
+    },
+    "dd_match_stats": {
+      "candidate": true,
+      "base": true,
+      "original": true
+    }
+  }
+}

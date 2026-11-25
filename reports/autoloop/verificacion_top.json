@@ -1,0 +1,77 @@
+{
+  "id": "excl_1130_1330+sl_200",
+  "patch": {
+    "risk": {
+      "entry_exclusion_start": "11:30",
+      "entry_exclusion_end": "13:30",
+      "max_sl_ticks": 200
+    }
+  },
+  "trades": 17,
+  "net": 2805.52,
+  "pf": 2.74,
+  "dd": 813.86,
+  "dd_pct": 2.979,
+  "avg_r": 0.73,
+  "win_rate": 47.06,
+  "rdd": 3.4472,
+  "windows": {
+    "W1": {
+      "sessions": 54,
+      "trades": 4,
+      "net": 1143.44,
+      "pf": 5.84,
+      "dd": 236.2
+    },
+    "W2": {
+      "sessions": 61,
+      "trades": 2,
+      "net": 1174.88,
+      "pf": null,
+      "dd": 0.0
+    },
+    "W3": {
+      "sessions": 63,
+      "trades": 5,
+      "net": -813.86,
+      "pf": 0.0,
+      "dd": 813.86
+    },
+    "W4": {
+      "sessions": 63,
+      "trades": 2,
+      "net": 1229.32,
+      "pf": null,
+      "dd": 0.0
+    },
+    "W5": {
+      "sessions": 60,
+      "trades": 0,
+      "net": 0,
+      "pf": null,
+      "dd": 0.0
+    },
+    "W6": {
+      "sessions": 61,
+      "trades": 4,
+      "net": 71.74,
+      "pf": 1.13,
+      "dd": 328.14
+    }
+  },
+  "seconds": 496.6,
+  "loop": {
+    "trades": 17,
+    "net": 2805.52,
+    "pf": 2.74,
+    "dd": 813.86,
+    "rdd": 3.4472
+  },
+  "match": {
+    "trades": true,
+    "net": true,
+    "pf": true,
+    "dd": true
+  },
+  "delta_net": 0.0
+}
