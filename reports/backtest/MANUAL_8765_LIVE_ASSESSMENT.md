@@ -23,11 +23,12 @@ Lectura realizada el 2026-11-24:
 | Lanzador | `YED_PORT=8765 YED_PROFILE_DIR="$PWD/profiles/live_8765" YED_OPEN=0 python -u run.py` |
 | Configuración activa | `profiles/live_8765/config.json` |
 | DB del perfil | `profiles/live_8765/yedbot.db` |
-| Estado del motor | `stopped` (el servidor HTTP responde; el motor no está operando) |
+| Estado del motor en la captura | `stopped` (el servidor HTTP respondía; el motor no estaba operando) |
+| Estado actual (2026-11-24T06:26Z) | `running` en paper (PID 15108), 45 trades en la instantánea; ver `live_8765_decision_check.json` y `docs/MANUAL_8765_DECISION_MEMO.md` |
 | Modo | `paper` |
 | Feed | CSV histórico `data/bars.csv`, serie ajustada, 151.530 velas 1m |
 
-La ruta se deduce directamente del entorno: `YED_PROFILE_DIR` apunta a `profiles/live_8765`; `server/config.py` define `CONFIG_PATH = PROFILE_DIR / "config.json"` y `DB_PATH = CONFIG_PATH.parent / "yedbot.db"`. La API `GET /api/config` devuelve exactamente los mismos `settings` que ese archivo. **No hay discrepancia entre la configuración viva y un archivo del repo.**
+La ruta se deduce del lanzador registrado en la captura (`YED_PROFILE_DIR="$PWD/profiles/live_8765"`); el `CommandLine` del PID actual no expone esa variable. `server/config.py` define `CONFIG_PATH = PROFILE_DIR / "config.json"` y `DB_PATH = CONFIG_PATH.parent / "yedbot.db"`. La API `GET /api/config` devuelve exactamente los mismos `settings` que ese archivo. **No hay discrepancia entre la configuración viva y un archivo del repo.** El memo de cierre deja explícita la limitación de que el entorno actual no es visible desde el PID.
 
 `data/config.json` tiene el mismo contenido y hash que `profiles/live_8765/config.json`, pero el proceso vivo está usando explícitamente la copia de `profiles/live_8765` por el `YED_PROFILE_DIR` del lanzador. La copia es la que debe considerarse configuración activa.
 

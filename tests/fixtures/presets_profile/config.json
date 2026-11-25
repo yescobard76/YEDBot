@@ -1,0 +1,92 @@
+{
+  "instrument": "MNQ",
+  "reference_symbol": "NQ",
+  "comparison_symbol": "ES",
+  "mode": "paper",
+  "orb": {
+    "start": "09:00",
+    "end": "10:00",
+    "timezone": "America/New_York",
+    "max_width_pct": 1.2
+  },
+  "smt": {
+    "enabled": true,
+    "pivot_depth": 5,
+    "window_minutes": 60,
+    "tolerance_ticks": 8,
+    "min_break_ticks": 2,
+    "validity_minutes": 120,
+    "detect_tf": "1m",
+    "require_recovery": true
+  },
+  "strategy": {
+    "name": "Preset fixture",
+    "confirm_tf": "15m",
+    "require_close_breakout": true,
+    "breakout_buffer_ticks": 2,
+    "min_range_ticks": 10,
+    "setup_validity_minutes": 180,
+    "use_smt": true,
+    "allow_reentry_after_false_breakout": false,
+    "entry_reference": "or_mid",
+    "or_retracement_pct": 0.382,
+    "retest_depth": 1.0,
+    "retest_tolerance_ticks": 18,
+    "require_recovery_close": true,
+    "entry_trigger": "close",
+    "sl_mode": "structural",
+    "sl_buffer_ticks": 4,
+    "atr_period": 14,
+    "atr_sl_mult": 1.2,
+    "tp_rr": 2.0,
+    "structural_depth": 3
+  },
+  "risk": {
+    "initial_capital": 12345.0,
+    "risk_per_trade_pct": 0.75,
+    "max_daily_loss_pct": 3.0,
+    "max_daily_profit_pct": 0.0,
+    "max_trades_per_day": 3,
+    "max_concurrent_positions": 1,
+    "max_contracts": 2,
+    "max_sl_ticks": 120,
+    "min_stop_or_ratio": 0.0,
+    "trade_window_start": "09:00",
+    "trade_window_end": "15:30",
+    "entry_exclusion_start": "",
+    "entry_exclusion_end": "",
+    "close_at_session_end": true,
+    "session_close_time": "15:55",
+    "cooldown_minutes": 5,
+    "no_trade_after_consecutive_losses": 0
+  },
+  "execution": {
+    "tick_size": 0.25,
+    "tick_value": 0.5,
+    "point_value": 2.0,
+    "slippage_ticks": 2,
+    "commission_per_contract_side": 0.5,
+    "fill_model": "next_open",
+    "simulate_partial_fills": false,
+    "partial_fill_ratio": 0.6,
+    "max_slippage_ticks": 4
+  },
+  "feed": {
+    "provider": "csv",
+    "csv_path": "tests/fixtures/bars_mnq_nq_es_1m_3sessions.csv",
+    "series_mode": "raw",
+    "exclude_roll_sessions": false,
+    "replay_speed": 7.0,
+    "loop_sessions": false,
+    "start_date": "",
+    "latency_ms": 0
+  },
+  "live": {
+    "broker": "none",
+    "environment": "demo",
+    "account_ref": "",
+    "data_feed": "",
+    "live_enabled": false,
+    "live_confirmation": ""
+  }
+}

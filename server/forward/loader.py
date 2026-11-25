@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
-from .identity import file_sha256, verify_snapshot
+from .identity import SNAPSHOT_SCHEMA, config_file_path, file_sha256, verify_snapshot
 
 
 class ForwardIntegrityError(RuntimeError):
@@ -29,11 +29,22 @@ def load_strict(
     check_code: bool = True,
 ) -> Any:
     profile = Path(profile)
-    problems = verify_snapshot(profile, snapshot, check_code=check_code)
+    problems: list[str] = []
+    if snapshot.get("schema") != SNAPSHOT_SCHEMA:
+        problems.append(
+            f"snapshot schema inválido: {snapshot.get('schema')!r}; "
+            f"se esperaba {SNAPSHOT_SCHEMA!r}"
+        )
+    problems.extend(verify_snapshot(profile, snapshot, check_code=check_code))
 
-    config_path = profile / str(snapshot.get("config_path") or "config.json")
+    try:
+        config_path = config_file_path(profile, snapshot)
+    except ValueError as exc:
+        problems.append(str(exc))
+        config_path = None
+
     payload: Any = None
-    if config_path.exists():
+    if config_path is not None and config_path.exists():
         raw = config_path.read_bytes()
         try:
             payload = json.loads(raw)
@@ -42,6 +53,7 @@ def load_strict(
 
     if payload is not None:
         from server.config import Settings
+        from server.experiments import config_sha256
 
         try:
             settings = Settings.model_validate(payload)
@@ -53,6 +65,13 @@ def load_strict(
                 problems.append(f"mode debe ser paper, no {settings.mode!r}")
             if settings.live.live_enabled:
                 problems.append("live.live_enabled debe ser false en forward")
+            expected_config_sha = str(snapshot.get("config_sha256") or "")
+            actual_config_sha = config_sha256(settings)
+            if actual_config_sha != expected_config_sha:
+                problems.append(
+                    "config_sha256 distinto: "
+                    f"esperado {expected_config_sha or '(vacío)'}, actual {actual_config_sha}"
+                )
             if problems:
                 raise ForwardIntegrityError(problems)
             return settings
@@ -63,5 +82,8 @@ def load_strict(
 
 
 def config_hash(profile: Path, snapshot: Mapping[str, Any]) -> str:
-    path = Path(profile) / str(snapshot.get("config_path") or "config.json")
+    try:
+        path = config_file_path(profile, snapshot)
+    except ValueError:
+        return ""
     return file_sha256(path) if path.exists() else ""

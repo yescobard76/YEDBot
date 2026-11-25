@@ -15,9 +15,17 @@ from typing import Any
 
 import uvicorn
 
-from .identity import GENESIS, now_utc
-from .ledger import LedgerError, canonical_bytes, derive_status, read_records, verify_chain
-from .paths import FORWARD_ROOT, PANEL_PORT, arm_dir, window_dir
+from .capture import verify_capture
+from .identity import GENESIS, SNAPSHOT_SCHEMA, now_utc
+from .ledger import (
+    LedgerError,
+    canonical_bytes,
+    derive_status,
+    has_incomplete_tail,
+    read_records,
+    verify_chain,
+)
+from .paths import FORWARD_ROOT, PANEL_PORT, validate_arm, validate_window_id
 
 READ_ONLY = True
 
@@ -49,27 +57,103 @@ def _safe_json(path: Path) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
-def _arm_summary(window_id: str, arm: str, initial: float) -> dict[str, Any]:
-    base = arm_dir(window_id, arm)
-    snapshot = _safe_json(base / "profile" / "snapshot.json") or {}
-    chain_problems: list[str] = []
+def _window_path(root: Path, window_id: str) -> Path:
+    return Path(root) / validate_window_id(window_id)
+
+
+def _arm_path(root: Path, window_id: str, arm: str) -> Path:
+    return _window_path(root, window_id) / "arms" / validate_arm(arm)
+
+
+def _capture_summary(root: Path) -> dict[str, Any]:
+    """Resume el manifiesto de captura sin abrir la DB ni escribir nada."""
+    manifest_path = root / "capture" / "manifest.json"
+    if not manifest_path.exists():
+        return {"present": False, "ok": None, "status": None, "errors": []}
     try:
-        records = read_records(base / "ledger.jsonl")
+        report = verify_capture(window_id=root.name, root=root.parent)
+        manifest = report.get("manifest") or {}
+        streams = manifest.get("streams") or {}
+        return {
+            "present": True,
+            "ok": bool(report.get("ok")),
+            "status": manifest.get("status"),
+            "errors": list(report.get("errors") or []),
+            "manifest_sha256": manifest.get("manifest_sha256"),
+            "sessions": manifest.get("sessions") or {},
+            "streams": {
+                key: {
+                    "rows": value.get("rows"),
+                    "sha256": value.get("sha256"),
+                }
+                for key, value in streams.items()
+                if isinstance(value, dict)
+            },
+        }
+    except Exception as exc:  # noqa: BLE001
+        return {
+            "present": True,
+            "ok": False,
+            "status": None,
+            "errors": [str(exc)],
+        }
+
+
+def _arm_summary(
+    root: Path,
+    window_id: str,
+    arm: str,
+    initial: float,
+    snapshot: dict[str, Any],
+) -> dict[str, Any]:
+    base = _arm_path(root, window_id, arm)
+    snapshot_ok = (
+        snapshot.get("schema") == SNAPSHOT_SCHEMA
+        and snapshot.get("window_id") == window_id
+        and snapshot.get("arm") == arm
+        and bool(snapshot.get("config_file_sha256"))
+        and bool(snapshot.get("code_sha256"))
+    )
+    chain_problems: list[str] = []
+    ledger_file = base / "ledger.jsonl"
+    try:
+        records = read_records(ledger_file)
         chain_problems = verify_chain(records)
+        if has_incomplete_tail(ledger_file):
+            chain_problems.append("ledger.jsonl: cola incompleta no sellada")
     except LedgerError as exc:
         records = []
         chain_problems = [str(exc)]
 
     sessions: list[dict[str, Any]] = []
     hash_problems: list[str] = []
+    session_chain_problems: list[str] = []
     folder = base / "sessions"
+    previous_session = GENESIS
     for path in sorted(folder.glob("*.json")) if folder.exists() else []:
         record = _safe_json(path)
         if record is None:
             hash_problems.append(f"{path.name}: JSON inválido")
+            session_chain_problems.append(
+                f"{path.name}: JSON inválido; cadena de sesiones no verificable"
+            )
+            previous_session = ""
             continue
+        session_mismatch = record.get("session") != path.stem
+        if session_mismatch:
+            hash_problems.append(f"{path.name}: fecha de sesión no coincide")
+            session_chain_problems.append(
+                f"{path.name}: sesión ausente o no coincide; cadena de sesiones no verificable"
+            )
         if record.get("session_sha256") != _session_hash(record):
             hash_problems.append(f"{path.name}: session_sha256 no coincide")
+        if record.get("prev_session_sha256") != previous_session:
+            session_chain_problems.append(
+                f"{path.name}: prev_session_sha256 no enlaza con la sesión anterior"
+            )
+        previous_session = (
+            "" if session_mismatch else str(record.get("session_sha256") or "")
+        )
         if record.get("valid"):
             for key, name in (
                 ("trades_sha256", "trades.jsonl"),
@@ -82,7 +166,6 @@ def _arm_summary(window_id: str, arm: str, initial: float) -> dict[str, Any]:
                 elif record.get("artifacts", {}).get(key) != _file_sha256(artifact):
                     hash_problems.append(f"{path.stem}/{name}: sha256 no coincide")
         sessions.append(record)
-
     valid_sessions = [item for item in sessions if item.get("valid")]
     last = valid_sessions[-1] if valid_sessions else None
     trades_total = sum(int(item.get("trades", {}).get("count") or 0) for item in valid_sessions)
@@ -98,9 +181,12 @@ def _arm_summary(window_id: str, arm: str, initial: float) -> dict[str, Any]:
 
     super_records: list[dict[str, Any]] = []
     super_problems: list[str] = []
+    supervisor_file = base / "supervisor.jsonl"
     try:
-        super_records = read_records(base / "supervisor.jsonl")
+        super_records = read_records(supervisor_file)
         super_problems = verify_chain(super_records)
+        if has_incomplete_tail(supervisor_file):
+            super_problems.append("supervisor.jsonl: cola incompleta no sellada")
     except LedgerError as exc:
         super_problems = [str(exc)]
 
@@ -117,20 +203,37 @@ def _arm_summary(window_id: str, arm: str, initial: float) -> dict[str, Any]:
     restarts = [
         item for item in super_records if item.get("event") == "ARM_RESTART"
     ]
-    status = derive_status(records)
-    if chain_problems:
-        status = "NO_VALIDA"
     config_path = base / "profile" / "config.json"
     current_config = _file_sha256(config_path) if config_path.exists() else None
-    config_ok = current_config == snapshot.get("config_file_sha256")
+    config_ok = bool(snapshot_ok) and current_config == snapshot.get("config_file_sha256")
+
+    status = derive_status(records)
+    if (
+        chain_problems
+        or super_problems
+        or hash_problems
+        or session_chain_problems
+        or not snapshot_ok
+        or not config_ok
+    ):
+        status = "NO_VALIDA"
 
     return {
         "arm": arm,
         "status": status,
         "chain_ok": not chain_problems and not super_problems,
         "chain_problems": chain_problems + super_problems,
-        "hash_ok": not hash_problems and not chain_problems and config_ok,
+        "session_chain_ok": not session_chain_problems,
+        "session_chain_problems": session_chain_problems,
+        "hash_ok": (
+            not hash_problems
+            and not session_chain_problems
+            and not chain_problems
+            and config_ok
+            and snapshot_ok
+        ),
         "hash_problems": hash_problems,
+        "snapshot_ok": snapshot_ok,
         "config_ok": config_ok,
         "config_file_sha256_current": current_config,
         "sessions_sealed": len(sessions),
@@ -161,18 +264,51 @@ def _arm_summary(window_id: str, arm: str, initial: float) -> dict[str, Any]:
 
 
 def summarize_window(root: Path) -> dict[str, Any]:
+    root = Path(root)
     window = _safe_json(root / "window.json")
-    if window is None:
-        return {"window_id": root.name, "status": "NO_VALIDA", "error": "window.json inválido"}
+    if not isinstance(window, dict):
+        return {
+            "window_id": root.name,
+            "status": "NO_VALIDA",
+            "error": "window.json inválido",
+            "window_problems": ["window.json inválido"],
+            "arms": {},
+            "capture": _capture_summary(root),
+        }
+    window_problems: list[str] = []
+    declared_window_id = window.get("window_id")
+    if declared_window_id != root.name:
+        window_problems.append(
+            "window.json: window_id "
+            f"{declared_window_id!r} no coincide con el directorio {root.name!r}"
+        )
+    capture = _capture_summary(root)
     arms: dict[str, Any] = {}
-    for arm in (window.get("arms") or {}):
+    raw_arms = window.get("arms")
+    if not isinstance(raw_arms, dict):
+        window_problems.append("window.json: 'arms' ausente o inválido")
+        raw_arms = {}
+    for raw_arm in raw_arms:
+        try:
+            arm = validate_arm(raw_arm)
+        except ValueError as exc:
+            window_problems.append(f"brazo inválido {raw_arm!r}: {exc}")
+            continue
+        snapshot = _safe_json(
+            _arm_path(root.parent, root.name, arm) / "profile" / "snapshot.json"
+        ) or {}
+        if not isinstance(snapshot, dict):
+            snapshot = {}
         initial = 25000.0
-        snapshot = _safe_json(arm_dir(root.name, arm) / "profile" / "snapshot.json")
-        if snapshot and snapshot.get("initial_capital"):
+        if snapshot.get("initial_capital"):
             initial = float(snapshot["initial_capital"])
-        arms[arm] = _arm_summary(root.name, arm, initial)
+        arms[arm] = _arm_summary(root.parent, root.name, arm, initial, snapshot)
     statuses = [item["status"] for item in arms.values()]
-    if "NO_VALIDA" in statuses:
+    if window_problems:
+        status = "NO_VALIDA"
+    elif capture.get("present") and not capture.get("ok"):
+        status = "NO_VALIDA"
+    elif "NO_VALIDA" in statuses:
         status = "NO_VALIDA"
     elif "DETENIDA" in statuses:
         status = "DETENIDA"
@@ -181,10 +317,12 @@ def summarize_window(root: Path) -> dict[str, Any]:
     else:
         status = "INICIADA"
     return {
-        "window": window,
-        "window_id": window.get("window_id"),
+        "window": {**window, "window_id": root.name},
+        "window_id": root.name,
+        "window_problems": window_problems,
         "status": status,
         "arms": arms,
+        "capture": capture,
         "generated_at": now_utc(),
         "read_only": READ_ONLY,
     }
@@ -224,6 +362,10 @@ def _html(summaries: list[dict[str, Any]]) -> str:
                 "</tr>"
             )
         events = []
+        for problem in summary.get("window_problems") or []:
+            events.append(
+                f"<li><b>window</b> {html.escape(str(problem))}</li>"
+            )
         for arm, info in (summary.get("arms") or {}).items():
             for violation in info["violations"]:
                 events.append(
@@ -235,13 +377,29 @@ def _html(summaries: list[dict[str, Any]]) -> str:
                     f"<li><b>{html.escape(arm)}</b> INTEGRITY_FAIL seq {failure['seq']} "
                     f"· {html.escape(json.dumps(failure['detail'], ensure_ascii=False))}</li>"
                 )
+        capture = summary.get("capture") or {}
+        if not capture.get("present"):
+            capture_label = "AUSENTE"
+        elif capture.get("ok"):
+            capture_label = f"OK ({capture.get('status')})"
+        else:
+            capture_label = "ROTA"
+        capture_errors = capture.get("errors") or []
         blocks.append(
-            f"<section><h2>{html.escape(str(window.get('window_id')))} "
+            f"<section><h2>{html.escape(str(summary.get('window_id')))} "
             f"<span class='bad'>{html.escape(summary['status'])}</span></h2>"
             f"<p class='meta'>kind={html.escape(str(window.get('kind')))} · "
             f"inicio={html.escape(str(window.get('start_date')))} · "
+            f"captura={html.escape(capture_label)} · "
             f"{html.escape(str(window.get('note') or ''))}</p>"
-            "<table><thead><tr><th>Brazo</th><th>Estado</th><th>Sesiones</th>"
+            + (
+                "<p class='events'>"
+                + html.escape("; ".join(str(item) for item in capture_errors[:5]))
+                + "</p>"
+                if capture_errors
+                else ""
+            )
+            + "<table><thead><tr><th>Brazo</th><th>Estado</th><th>Sesiones</th>"
             "<th>Señales</th><th>Trades</th><th>Neto</th><th>Equity</th><th>DD</th>"
             "<th>Cadena</th><th>Hashes</th><th>Violaciones</th><th>Integridad</th>"
             "</tr></thead><tbody>"
@@ -273,7 +431,7 @@ def _html(summaries: list[dict[str, Any]]) -> str:
 
 def build_app(root: Path = FORWARD_ROOT):
     from fastapi import FastAPI, Request
-    from fastapi.responses import HTMLResponse, JSONResponse
+    from fastapi.responses import HTMLResponse, JSONResponse, Response
 
     app = FastAPI(
         title="YED forward panel (read-only)",
@@ -285,7 +443,7 @@ def build_app(root: Path = FORWARD_ROOT):
 
     @app.middleware("http")
     async def read_only(request: Request, call_next):
-        if request.method not in ("GET", "HEAD", "OPTIONS"):
+        if request.method not in ("GET", "HEAD"):
             return JSONResponse(
                 status_code=405,
                 content={"detail": "panel de solo lectura: método no permitido"},
@@ -296,16 +454,37 @@ def build_app(root: Path = FORWARD_ROOT):
     def summary() -> dict[str, Any]:
         return {"read_only": READ_ONLY, "windows": summarize_all(root)}
 
+    @app.head("/api/forward/summary")
+    def summary_head() -> Response:
+        return Response(status_code=200, media_type="application/json")
+
     @app.get("/api/forward/windows/{window_id}")
     def one(window_id: str) -> Any:
-        path = window_dir(window_id)
+        try:
+            path = _window_path(root, window_id)
+        except ValueError as exc:
+            return JSONResponse(status_code=400, content={"detail": str(exc)})
         if not (path / "window.json").exists():
             return JSONResponse(status_code=404, content={"detail": "ventana no encontrada"})
         return summarize_window(path)
 
+    @app.head("/api/forward/windows/{window_id}")
+    def one_head(window_id: str) -> Response:
+        try:
+            path = _window_path(root, window_id)
+        except ValueError:
+            return Response(status_code=400, media_type="application/json")
+        if not (path / "window.json").exists():
+            return Response(status_code=404, media_type="application/json")
+        return Response(status_code=200, media_type="application/json")
+
     @app.get("/", response_class=HTMLResponse)
     def index() -> str:
         return _html(summarize_all(root))
+
+    @app.head("/")
+    def index_head() -> Response:
+        return Response(status_code=200, media_type="text/html")
 
     return app
 
@@ -314,8 +493,9 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Panel forward de solo lectura.")
     parser.add_argument("--port", type=int, default=PANEL_PORT)
     parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--root", type=Path, default=FORWARD_ROOT)
     args = parser.parse_args(argv)
-    uvicorn.run(build_app(), host=args.host, port=args.port, log_level="info")
+    uvicorn.run(build_app(args.root), host=args.host, port=args.port, log_level="info")
     return 0
 
 

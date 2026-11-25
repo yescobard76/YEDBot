@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import { useApp } from './store';
+import { BASIC_PAGES, useUIMode } from './mode';
 import { Icon } from './icons';
 import Dashboard from './pages/Dashboard';
+import InicioBasico from './pages/InicioBasico';
+import OperacionesBasico from './pages/OperacionesBasico';
+import HistorialBasico from './pages/HistorialBasico';
 import ChartPage from './pages/ChartPage';
 import TradesPage from './pages/TradesPage';
 import HistoryPage from './pages/HistoryPage';
@@ -24,16 +28,31 @@ const PAGES: Record<PageKey, React.ComponentType> = {
   consola: ConsolePage,
 };
 
+// En modo Básico estas tres páginas tienen una versión simplificada propia.
+const BASIC_PAGES_UI: Partial<Record<PageKey, React.ComponentType>> = {
+  inicio: InicioBasico,
+  operaciones: OperacionesBasico,
+  historial: HistorialBasico,
+};
+
 export default function App() {
   const [page, setPage] = useState<PageKey>('inicio');
   const { snap, toast, dismissToast } = useApp();
+  const { mode } = useUIMode();
+
+  // Al pasar a Básico, si la página actual es solo de avanzado, volvemos al inicio.
+  useEffect(() => {
+    if (mode === 'basico' && !(BASIC_PAGES as readonly string[]).includes(page)) {
+      setPage('inicio');
+    }
+  }, [mode, page]);
 
   if (!snap) return <Loading />;
-  const Page = PAGES[page];
+  const Page = mode === 'basico' ? BASIC_PAGES_UI[page] ?? InicioBasico : PAGES[page];
   const emergency = snap.risk.emergency;
 
   return (
-    <div className="app">
+    <div className={`app mode-${mode}`}>
       <Sidebar page={page} onNavigate={setPage} />
       <div className="main">
         <TopBar />

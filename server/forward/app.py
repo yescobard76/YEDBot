@@ -18,6 +18,7 @@ import uvicorn
 
 from .identity import file_sha256
 from .ledger import Ledger, derive_status, read_records, verify_chain
+from .loader import load_strict
 from .paths import arm_dir, heartbeat_path, profile_dir
 
 ALLOWED_MUTATION = "/api/forward/stop"
@@ -53,6 +54,11 @@ def build_app(
     snapshot: dict[str, Any],
     ledger: Ledger,
 ):
+    # Defensa en profundidad: aunque ``arm.main`` ya verificó antes de
+    # importar la app, no se construye el servidor si el config o el código
+    # cambiaron entre ese arranque y la creación de la aplicación.
+    load_strict(profile_dir(window_id, arm), snapshot)
+
     from fastapi import FastAPI, Request
     from fastapi.responses import JSONResponse
     from server.api import router

@@ -348,12 +348,12 @@ def main() -> int:
 
         close_control = subprocess.run(
             [PYTHON, "-m", "server.forward.session", "--window-id", window_id,
-             "--arm", "control", "--date", "2026-11-24"],
+             "--arm", "control", "--date", "2026-12-01"],
             cwd=PROJECT, env=CLEAN_ENV, capture_output=True, text=True, timeout=120,
         )
         close_treatment = subprocess.run(
             [PYTHON, "-m", "server.forward.session", "--window-id", window_id,
-             "--arm", "treatment", "--date", "2026-11-24"],
+             "--arm", "treatment", "--date", "2026-12-01"],
             cwd=PROJECT, env=CLEAN_ENV, capture_output=True, text=True, timeout=120,
         )
         control_session = json.loads(close_control.stdout)
@@ -428,7 +428,7 @@ def main() -> int:
 
         hostile_close = subprocess.run(
             [PYTHON, "-m", "server.forward.session", "--window-id", window_id,
-             "--arm", "control", "--date", "2026-11-25"],
+             "--arm", "control", "--date", "2026-12-03"],
             cwd=PROJECT, env=CLEAN_ENV, capture_output=True, text=True, timeout=120,
         )
         hostile = json.loads(hostile_close.stdout)

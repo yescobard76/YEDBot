@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import type { ForwardValidationReport } from '../types';
+import type { ForwardValidationMetrics, ForwardValidationReport } from '../types';
 import ValidationCard from './ValidationCard';
 
-function report(): ForwardValidationReport {
-      const dev = {
+function metrics(overrides: Partial<ForwardValidationMetrics> = {}): ForwardValidationMetrics {
+  return {
     ops: 72,
     net_usd: 2022.94,
     profit_factor: 1.22,
@@ -14,7 +14,12 @@ function report(): ForwardValidationReport {
     expectancy_usd: 28.1,
     expectancy_r: 0.18,
     total_r: 13.19,
+    ...overrides,
   };
+}
+
+function report(): ForwardValidationReport {
+  const dev = metrics();
   return {
     schema: 'forward-validation-v1',
     generated_at: '2026-11-24T00:00:00+00:00',
@@ -62,6 +67,25 @@ function report(): ForwardValidationReport {
       lock_path: 'docs/protocolo_backtest.lock.json',
       lock_sha256: 'b'.repeat(64),
     },
+    manual_8765: {
+      contract_limit: {
+        value: 10,
+        status: 'configured',
+        source: 'data/config.json#risk.max_contracts',
+        note: 'Leído de la configuración efectiva.',
+      },
+    },
+    historical_reference: {
+      label: 'Original 5/200/150/12',
+      role: 'historical_context_not_current_baseline',
+      dev_metrics: metrics({
+        ops: 38,
+        net_usd: 661.44,
+        profit_factor: 1.13,
+        max_drawdown_usd: 1967.82,
+        expectancy_r: 0.13,
+      }),
+    },
     candidates: [
       {
         id: 'baseline_manual',
@@ -84,7 +108,7 @@ function report(): ForwardValidationReport {
         profile: 'profiles/p2_freq/config.json',
         profile_sha256: 'd'.repeat(64),
         implementation: 'server.backtest',
-        dev_metrics: { ...dev, net_usd: 2471.78, profit_factor: 1.39 },
+        dev_metrics: metrics({ net_usd: 2471.78, profit_factor: 1.39 }),
         forward_metrics: null,
         forward_status: 'insufficient_data',
         forward_note: 'sin forward',
@@ -98,7 +122,7 @@ function report(): ForwardValidationReport {
         profile_sha256: null,
         implementation: 'experimental',
         production_available: false,
-        dev_metrics: { ...dev, net_usd: 2036.52, profit_factor: 1.48 },
+        dev_metrics: metrics({ net_usd: 2036.52, profit_factor: 1.48 }),
         forward_metrics: null,
         forward_status: 'insufficient_data',
         forward_note: 'sin forward',
@@ -116,6 +140,12 @@ describe('ValidationCard', () => {
     expect(screen.getByText('Forward insuficiente')).toBeTruthy();
     expect(screen.getByText(/Mantener manual 8765/)).toBeTruthy();
     expect(screen.getByText(/No se modificó la configuración viva/)).toBeTruthy();
+    expect(screen.getByText(/Métricas históricas in-sample/)).toBeTruthy();
+    expect(screen.getByTestId('historical-contract-limit')).toHaveTextContent(
+      'Límite histórico: 10 contratos máx. · data/config.json#risk.max_contracts',
+    );
+    expect(screen.getByText(/Original 5\/200\/150\/12/)).toBeTruthy();
+    expect(screen.getByText('Ops hist.')).toBeTruthy();
     expect(screen.getByText('Manual 8765')).toBeTruthy();
     expect(screen.getByText('P2')).toBeTruthy();
     expect(screen.getByText('P2 + BE 1R')).toBeTruthy();

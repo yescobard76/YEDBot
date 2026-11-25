@@ -1,0 +1,516 @@
+{
+  "schema": "p2-vs-manual-8765-forward-lock-v1",
+  "protocol": "docs/P2_VS_MANUAL_8765_FORWARD.md",
+  "protocol_sha256": "deda95124963d6a810e698356882b7c24138b7ce7b2f63509962bd505f8ff627",
+  "version": "1.0",
+  "created": "2026-11-24",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-P2-VS-MANUAL-8765-FORWARD",
+  "title": "Pre-registro forward de P2 10/200/210/24 frente al manual vivo 8765 10/300/210/24",
+  "relation_to_existing_plans": {
+    "separate_hypothesis": true,
+    "modifies_existing_documents_or_locks": false,
+    "current_forward_priority": "docs/FORWARD_ORIGINAL_VS_P1.md",
+    "current_priority_changed_by_this_lock": false,
+    "shared_sample_allowed": false,
+    "overlaps_with": [
+      "docs/P2_BE_1R_FORWARD.md"
+    ],
+    "overlap_note": "P2_BE_1R_FORWARD ya contiene esta comparacion M/C como H1. Este es un pre-registro enfocado, no una segunda confirmacion independiente. Solo uno de los dos puede ejecutarse sobre la misma ventana.",
+    "supersedes_existing_plan": false
+  },
+  "arms": {
+    "M": {
+      "id": "M",
+      "label": "Manual 8765",
+      "role": "live_benchmark",
+      "config_path": "data/config.json",
+      "profile_copy": "profiles/live_8765/config.json",
+      "config_sha256": "d3cff10d7842af4ab29c571c1fb8554841dfc128b9454df55eb53933286dcd10",
+      "config_file_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "profile_copy_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "read_only": true,
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 300,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    },
+    "C": {
+      "id": "C",
+      "label": "P2 sin filtro",
+      "role": "candidate_p2",
+      "config_path": "profiles/p2_freq/config.json",
+      "config_sha256": "54656561bf692731d71013c6655155a566c9b4b49fe53a88d61bf20814310f4f",
+      "config_file_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 200,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    }
+  },
+  "only_differences": {
+    "M_to_C": [
+      "risk.max_sl_ticks: 300 -> 200"
+    ],
+    "not_changed": [
+      "risk.max_contracts = 10 en M y C",
+      "risk.min_stop_or_ratio = 0.0 en M y C; el filtro 0.25 no se activa",
+      "strategy.setup_validity_minutes = 210",
+      "strategy.retest_tolerance_ticks = 24",
+      "strategy.tp_rr = 3.0",
+      "risk.risk_per_trade_pct = 1.0",
+      "risk.max_trades_per_day = 3",
+      "risk.max_concurrent_positions = 1",
+      "feed/timestamps/contratos/rolls identicos",
+      "live.live_enabled = false"
+    ]
+  },
+  "entry_relationship": {
+    "M_vs_C": "No pareado: max_sl_ticks=200 rechaza senales con stop >200 que M acepta. La comparacion primaria es de cartera; el subconjunto comun es descriptivo.",
+    "common_subset_required": true,
+    "common_subset_note": "El cohorte M con stop >200 se reporta con su P&L y R; no se usa para aprobar ni para justificar la promocion."
+  },
+  "historical_motivation": {
+    "in_sample": true,
+    "validation": false,
+    "window": "W1-W6 2025-01-10 -> 2026-06-30",
+    "manual_M": {
+      "trades": 72,
+      "net_profit_usd": 2022.94,
+      "profit_factor": 1.22,
+      "max_drawdown_usd": 2891.66,
+      "expectancy_r": 0.18,
+      "rdd_usd": 0.6996
+    },
+    "p2_C": {
+      "trades": 46,
+      "net_profit_usd": 2471.78,
+      "profit_factor": 1.39,
+      "max_drawdown_usd": 2304.46,
+      "expectancy_r": 0.25,
+      "rdd_usd": 1.0726
+    },
+    "delta_C_minus_M": {
+      "trades": -26,
+      "net_profit_usd": 448.84,
+      "profit_factor": 0.17,
+      "max_drawdown_usd": -587.2,
+      "expectancy_r": 0.07,
+      "rdd_usd": 0.373
+    },
+    "not_a_threshold": true,
+    "sources": [
+      "reports/backtest/p2_w1_w6_confirm.json",
+      "reports/backtest/_manual_w1_w6_analysis.log",
+      "reports/backtest/FILTER025_PROFITABILITY.md"
+    ],
+    "replay_45_note": "El replay de 45 trades del 8765 (snapshot 2026-11-24T06:26:30Z, +2720.04, PF 1.46, DD 2366.76) es runtime paper y no se usa como muestra ni validacion."
+  },
+  "sample": {
+    "window": {
+      "id": "F1-F6",
+      "start": "2026-12-01",
+      "end": "2029-11-30",
+      "calendar_sessions": 754,
+      "roll_sessions_excluded": 12,
+      "evaluated_sessions": 742,
+      "blocks": [
+        {
+          "id": "F1",
+          "start": "2026-12-01",
+          "end": "2027-05-31",
+          "calendar_sessions": 124,
+          "roll_sessions": 2,
+          "evaluated_sessions": 122
+        },
+        {
+          "id": "F2",
+          "start": "2027-06-01",
+          "end": "2027-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        },
+        {
+          "id": "F3",
+          "start": "2027-12-01",
+          "end": "2028-05-31",
+          "calendar_sessions": 125,
+          "roll_sessions": 2,
+          "evaluated_sessions": 123
+        },
+        {
+          "id": "F4",
+          "start": "2028-06-01",
+          "end": "2028-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        },
+        {
+          "id": "F5",
+          "start": "2028-12-01",
+          "end": "2029-05-31",
+          "calendar_sessions": 124,
+          "roll_sessions": 2,
+          "evaluated_sessions": 122
+        },
+        {
+          "id": "F6",
+          "start": "2029-06-01",
+          "end": "2029-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        }
+      ]
+    },
+    "burn_in": {
+      "start": "2026-11-23",
+      "end": "2026-11-30",
+      "excluded": true
+    },
+    "roll_sessions": [
+      "2026-12-10",
+      "2027-03-11",
+      "2027-06-09",
+      "2027-09-09",
+      "2027-12-09",
+      "2028-03-09",
+      "2028-06-08",
+      "2028-09-07",
+      "2028-12-07",
+      "2029-03-08",
+      "2029-06-07",
+      "2029-09-13"
+    ],
+    "forbidden": [
+      {
+        "id": "W1-W6",
+        "start": "2025-01-10",
+        "end": "2026-06-30",
+        "reason": "in-sample; solo motivacion"
+      },
+      {
+        "id": "H1",
+        "start": "2026-07-01",
+        "end": "2026-10-30",
+        "reason": "holdout sellado"
+      },
+      {
+        "id": "2024",
+        "start": "2024-01-02",
+        "end": "2024-12-30",
+        "reason": "reservado por otra hipotesis"
+      },
+      {
+        "id": "burn_in",
+        "start": "2026-11-23",
+        "end": "2026-11-30",
+        "reason": "solo plomeria"
+      }
+    ],
+    "shared_window_with": [
+      "docs/P2_BE_1R_FORWARD.md",
+      "docs/FORWARD_ORIGINAL_VS_P1.md"
+    ],
+    "independent_confirmation": false,
+    "independence_note": "La ventana ya esta pre-registrada por otros planes. Solo uno puede ejecutarse. Si P2+BE u otro forward usa esta muestra, este estudio no es independiente.",
+    "expected_counts": {
+      "manual_M": 148,
+      "p2_C": 94,
+      "common_pairs_max": 94,
+      "note": "Conteos esperados con tasas W1-W6; no son una promesa."
+    },
+    "minimums": [
+      {
+        "id": "P2M-S1",
+        "condition": ">=720 de 742 sesiones evaluadas; ningun mes <80%; ningun hueco >5 sesiones",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "P2M-S2",
+        "condition": ">=60 operaciones cerradas por brazo (M y C)",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "P2M-S3",
+        "condition": ">=5/6 bloques con >=6 operaciones cerradas por brazo",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "P2M-S4",
+        "condition": ">=5 cortos por brazo",
+        "failure": "INCONCLUSO_SHORT"
+      },
+      {
+        "id": "P2M-S5",
+        "condition": ">=60 pares M/C y >=95% de las operaciones de C con pareja en M",
+        "failure": "INCONCLUSO"
+      }
+    ]
+  },
+  "capture": {
+    "provider": "Databento",
+    "dataset": "GLBX.MDP3",
+    "schema": "ohlcv-1m",
+    "symbols": [
+      "MNQ",
+      "NQ",
+      "ES"
+    ],
+    "contracts": [
+      "Z26",
+      "H27",
+      "M27",
+      "U27",
+      "Z27",
+      "H28",
+      "M28",
+      "U28",
+      "Z28",
+      "H29",
+      "M29",
+      "U29",
+      "Z29"
+    ],
+    "contract_count": 39,
+    "roll_count": 36,
+    "roll_rule": "12 rolls por raiz; el saliente sigue activo en la sesion de roll y el entrante empieza la siguiente; la sesion de roll se excluye",
+    "series_mode": "raw",
+    "timezone": "America/New_York",
+    "session": "RTH 09:00-15:59 ET; cierre anticipado oficial 12:59/13:14",
+    "prospective": true,
+    "one_session_per_file": true,
+    "append_only": true,
+    "backfill": false,
+    "synthetic_bars": false,
+    "single_forward_csv": true,
+    "feed": {
+      "provider": "csv",
+      "csv_path": "reports/backtest/p2_vs_manual_8765_forward/bars_forward.csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "loop_sessions": false,
+      "replay_speed": 1.0
+    }
+  },
+  "statistics": {
+    "primary_endpoint": "delta_net_usd = net_profit_usd(C) - net_profit_usd(M)",
+    "risk_endpoint": "dd_ratio = max_drawdown_usd(C) / max_drawdown_usd(M)",
+    "risk_adjusted_endpoint": "rdd_usd = net_profit_usd / max_drawdown_usd",
+    "bootstrap": {
+      "unit": "session",
+      "resamples": 10000,
+      "seed": 20261124,
+      "confidence": 0.95,
+      "one_sided": true,
+      "null": "delta_net_usd <= 0",
+      "min_valid_replicates": 9500
+    },
+    "drawdown_rule": "comparacion determinista de la curva de P&L cerrado; si DD_M == 0, INCONCLUSO",
+    "interim_efficacy": false,
+    "one_shot": true,
+    "multiplicity": "sin subgrupos confirmatorios; bloques y direccion son descriptivos",
+    "no_historical_thresholds": true
+  },
+  "gates": {
+    "integrity": [
+      {
+        "id": "P2M-I1",
+        "condition": "hash del protocolo, lock, perfiles M/C y codigo verificados",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I2",
+        "condition": "todas las sesiones dentro de 2026-12-01 -> 2029-11-30; cero W1-W6, H1, 2024 o burn-in",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I3",
+        "condition": "39 contratos, 36 rolls, 12 rolls excluidos, 3 simbolos alineados, ORB completo, cero huecos injustificados",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I4",
+        "condition": "captura prospective con manifiesto por sesion, captured_at_et del mismo dia, sin backfill, sin datos sinteticos, SHA-256 por archivo",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I5",
+        "condition": "mismo feed, timestamps, 10 contratos, 210/24 y filtro 0.00; unico diff risk.max_sl_ticks",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I6",
+        "condition": "min_stop_or_ratio=0.00 en ambos; no se aplica el filtro 0.25",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I7",
+        "condition": "sin lookahead en entradas, stops y salidas",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I8",
+        "condition": "replay del 10% de sesiones dos veces produce los mismos signal_id y operaciones",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I9",
+        "condition": "analysis.json no existe antes; una sola analisis de eficacia",
+        "failure": "abort"
+      },
+      {
+        "id": "P2M-I10",
+        "condition": "holdout_bars_read=false y cero sesiones H1",
+        "failure": "abort"
+      }
+    ],
+    "efficacy": [
+      {
+        "id": "P2M-E1",
+        "condition": "delta_net_usd > 0 y limite inferior del IC95% por sesion > 0",
+        "failure": "FAIL; INCONCLUSO si el IC incluye 0"
+      },
+      {
+        "id": "P2M-E2",
+        "condition": "dd_ratio <= 0.90 y DD_C <= DD_M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "P2M-E3",
+        "condition": "PF_C >= 1.25 y PF_C >= PF_M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "P2M-E4",
+        "condition": "expectancy_R_C >= +0.10 y >= expectancy_R_M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "P2M-E5",
+        "condition": "RDD_USD_C >= 1.05 * RDD_USD_M",
+        "failure": "FAIL"
+      }
+    ],
+    "costs_robustness": [
+      {
+        "id": "P2M-C1",
+        "condition": "reprecio exacto con comision 1.24 USD/lado y slippage 2 ticks; net_C > 0 y PF_C >= 1.10",
+        "failure": "FAIL"
+      },
+      {
+        "id": "P2M-C2",
+        "condition": "drop_best_3_net_C > 0",
+        "failure": "FAIL"
+      },
+      {
+        "id": "P2M-C3",
+        "condition": "top_trade_share_gross_C <= 50%",
+        "failure": "FAIL"
+      }
+    ]
+  },
+  "decision": {
+    "PASS": "pasan P2M-I, P2M-S, P2M-E y P2M-C; P2 es candidato a un protocolo nuevo de preparacion operativa, no a LIVE",
+    "FAIL": "pasan I y S pero falla E o C con evidencia clara; se mantiene M",
+    "INCONCLUSO": "fallan I o S; o E1 incluye cero sin fallo claro; o faltan muestras; se mantiene M",
+    "KILL": "se cumple K1-K3",
+    "keep_manual_if_not_pass": true,
+    "pass_authorizes_live": false,
+    "pass_changes_live_config": false
+  },
+  "kill": [
+    {
+      "id": "K1",
+      "condition": "falla P2M-I, se lee el holdout o la captura no es prospective",
+      "effect": "abortar; no hay resultado"
+    },
+    {
+      "id": "K2",
+      "condition": "net_C < 0.70 * net_M o DD_C > 1.25 * DD_M",
+      "effect": "KILL de P2"
+    },
+    {
+      "id": "K3",
+      "condition": "net_C <= 0, PF_C < 1.00 o expectancy_R_C < 0",
+      "effect": "KILL de P2"
+    }
+  ],
+  "stopping": {
+    "STOP-T1": "falla cualquier P2M-I, hay sesion prohibida o se lee el holdout -> abortar",
+    "STOP-T2": "cambia el hash del protocolo, lock o perfil M/C antes de ejecutar -> abortar y exigir lock nuevo",
+    "STOP-T3": "un mes completo tiene <80% de sesiones o >5 sesiones consecutivas perdidas -> detener e INCONCLUSO",
+    "STOP-F1": "2029-11-30 con muestra sellada o 742 sesiones -> una unica analisis final",
+    "STOP-F2": "fallan P2M-S1-S5 -> INCONCLUSO; no hay analisis de eficacia",
+    "STOP-F3": "se cumple K2-K3 -> KILL",
+    "no_interim_efficacy": true
+  },
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "status": "sealed_not_executed",
+    "executed": false,
+    "used_for_decision": false,
+    "bars_read": false
+  },
+  "execution_gate": {
+    "can_execute": false,
+    "phase0_implementation_authorized": false,
+    "requires_new_execution_lock": true,
+    "reasons": [
+      "No existe captura prospective ni CSV forward sellado para este plan.",
+      "server/market/databento_fetch.py no cubre de forma parametrizada el universo Z26-Z29 para este forward.",
+      "DATABENTO_API_KEY no esta configurada.",
+      "No existe preflight ni runner one-shot para este lock.",
+      "No existe el directorio de salida ni un lock de ejecucion.",
+      "La ventana se solapa con P2_BE_1R_FORWARD; solo uno de los dos puede ejecutarse."
+    ]
+  },
+  "phase0_requirements": [
+    "Captura prospective con manifiesto, SHA-256 y append-only.",
+    "Universo Z26-Z29: 39 contratos y 36 rolls.",
+    "DATABENTO_API_KEY fuera del repositorio.",
+    "Preflight, runner one-shot y lock de ejecucion.",
+    "Resolver el solapamiento con P2_BE_1R_FORWARD; no ejecutar ambos.",
+    "Tests de plomeria con fixtures sinteticos; sin W1-W6 ni holdout."
+  ],
+  "artifacts": {
+    "protocol": "docs/P2_VS_MANUAL_8765_FORWARD.md",
+    "lock": "docs/p2_vs_manual_8765_forward.lock.json",
+    "future_output_dir": "reports/backtest/p2_vs_manual_8765_forward/",
+    "future_analysis_json": "reports/backtest/p2_vs_manual_8765_forward/analysis.json",
+    "future_analysis_md": "reports/backtest/p2_vs_manual_8765_forward/ANALISIS.md",
+    "created_now": [
+      "docs/P2_VS_MANUAL_8765_FORWARD.md",
+      "docs/p2_vs_manual_8765_forward.lock.json"
+    ]
+  },
+  "notes": [
+    "El benchmark es el manual vivo 10/300/210/24, no la configuracion original 5/200/150/12.",
+    "P2 rechaza senales con stop >200; por eso M/C no es un contraste pareado.",
+    "El filtro 0.25 no se activa en ningun brazo.",
+    "El forward no ejecuta ni lee el holdout.",
+    "El +448.84 y el -587.20 son motivacion in-sample, no umbrales forward."
+  ]
+}

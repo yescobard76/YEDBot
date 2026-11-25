@@ -183,6 +183,30 @@ class ForwardValidationHoldout(BaseModel):
     lock_sha256: str
 
 
+class ForwardValidationContractLimit(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    value: int | None
+    status: str
+    source: str
+    config_sha256: str | None = None
+    note: str | None = None
+
+
+class ForwardValidationManual(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    contract_limit: ForwardValidationContractLimit | None = None
+
+
+class ForwardValidationHistoricalReference(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    label: str
+    role: str | None = None
+    dev_metrics: ForwardValidationMetrics
+
+
 class ForwardValidationReport(BaseModel):
     model_config = ConfigDict(extra="allow", populate_by_name=True)
 
@@ -193,6 +217,8 @@ class ForwardValidationReport(BaseModel):
     development: ForwardValidationDevelopment
     forward: ForwardValidationForward
     holdout: ForwardValidationHoldout
+    manual_8765: ForwardValidationManual | None = None
+    historical_reference: ForwardValidationHistoricalReference | None = None
     candidates: list[ForwardValidationCandidate] = Field(min_length=1)
     integrity: dict[str, Any]
 

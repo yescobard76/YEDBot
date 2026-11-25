@@ -27,6 +27,14 @@ logs_server.txt
 .env.local
 .DS_Store
 
+# Credenciales de transporte: viven fuera del repositorio
+.ssh/
+**/.ssh/
+*.pem
+*.key
+*.ppk
+rclone.conf
+
 # Estado local, adjuntos y artefactos binarios que no deben versionarse
 .cloud-attachments/
 .freebuff/
@@ -36,3 +44,6 @@ logs/
 *.db-wal
 *.db-shm
 data/backups/
+
+# Binarios locales de túnel (cloudflared)
+tools/

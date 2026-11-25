@@ -1,0 +1,593 @@
+{
+  "schema": "sl200-10c-vs-p1-forward-lock-v1",
+  "protocol": "docs/PRE_REGISTRO_SL200_10C_VS_P1.md",
+  "protocol_sha256": "48fc799ba9e594a8ddf619ec44c755a86f6e727d35a72c11a9fa8df94a9d88c4",
+  "version": "1.0",
+  "created": "2026-11-24",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-SL200-10C-VS-P1-FORWARD",
+  "title": "Pre-registro forward de bajar max_sl_ticks 300 -> 200 con 10 contratos, frente al manual 8765 y frente a P1",
+  "relation_to_existing_plans": {
+    "separate_hypothesis": false,
+    "modifies_existing_documents_or_locks": false,
+    "current_forward_priority": "docs/FORWARD_ORIGINAL_VS_P1.md",
+    "current_priority_changed_by_this_lock": false,
+    "shared_sample_allowed": false,
+    "overlaps_with": [
+      "docs/P2_VS_MANUAL_8765_FORWARD.md",
+      "docs/P2_BE_1R_FORWARD.md",
+      "docs/FORWARD_ORIGINAL_VS_P1.md"
+    ],
+    "overlap_note": "Comparte control M, tratamiento T y ventana con P2_VS_MANUAL_8765_FORWARD. Anade P1 para separar stop y sizing. No es una confirmacion independiente; solo uno de los planes puede ejecutarse sobre la ventana. Si se ejecuta este, el P2 vs manual se cancela para esta muestra. No se editan documentos ni locks existentes.",
+    "supersedes_existing_plan": false,
+    "supersedes_execution_only": "docs/P2_VS_MANUAL_8765_FORWARD.md"
+  },
+  "arms": {
+    "M": {
+      "id": "M",
+      "label": "Manual 8765",
+      "role": "control_live_benchmark",
+      "config_path": "profiles/live_8765/config.json",
+      "config_copy_path": "data/config.json",
+      "config_sha256": "d3cff10d7842af4ab29c571c1fb8554841dfc128b9454df55eb53933286dcd10",
+      "config_file_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "config_copy_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "read_only": true,
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 300,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    },
+    "T": {
+      "id": "T",
+      "label": "SL 200 con 10 contratos",
+      "role": "treatment",
+      "config_path": "profiles/p2_freq/config.json",
+      "config_sha256": "54656561bf692731d71013c6655155a566c9b4b49fe53a88d61bf20814310f4f",
+      "config_file_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+      "read_only": true,
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 200,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    },
+    "P1": {
+      "id": "P1",
+      "label": "P1 sin filtro",
+      "role": "reference_p1",
+      "config_path": "profiles/p1_forward_control/config.json",
+      "config_sha256": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+      "config_file_sha256": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+      "read_only": true,
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 5,
+        "risk.max_sl_ticks": 200,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    }
+  },
+  "only_differences": {
+    "M_to_T": [
+      "risk.max_sl_ticks: 300 -> 200"
+    ],
+    "T_to_P1": [
+      "risk.max_contracts: 10 -> 5"
+    ],
+    "not_changed": [
+      "strategy.setup_validity_minutes = 210 en M, T y P1",
+      "strategy.retest_tolerance_ticks = 24 en M, T y P1",
+      "risk.min_stop_or_ratio = 0.0 en M, T y P1; el filtro 0.25 no se activa",
+      "risk.risk_per_trade_pct = 1.0",
+      "risk.max_trades_per_day = 3",
+      "risk.max_concurrent_positions = 1",
+      "strategy.tp_rr = 3.0",
+      "feed/timestamps/contratos/rolls identicos para los tres brazos",
+      "mode = paper y live.live_enabled = false",
+      "broker = none"
+    ]
+  },
+  "entry_relationship": {
+    "M_vs_T": "No pareado: max_sl_ticks=200 rechaza senales con stop >200 que M acepta. La comparacion primaria es de cartera; el subconjunto comun es descriptivo.",
+    "T_vs_P1": "Pareado por construccion: mismo SL 200, misma frecuencia y mismo filtro; solo cambia el sizing 10 vs 5. Se espera ~100% de senales comunes. Un pairing <99% indica que el sizing o la secuencia de equity alteraron las operaciones.",
+    "M_vs_P1": "Descriptivo: cambia stop y sizing. No se usa para aprobar el stop.",
+    "common_subset_required": true,
+    "common_subset_note": "El cohorte M con stop >200 se reporta con su P&L y R; no se usa para aprobar ni para justificar la promocion."
+  },
+  "historical_motivation": {
+    "in_sample": true,
+    "validation": false,
+    "window": "W1-W6 2025-01-10 -> 2026-06-30",
+    "manual_M": {
+      "trades": 72,
+      "net_profit_usd": 2022.94,
+      "profit_factor": 1.22,
+      "max_drawdown_usd": 2891.66,
+      "expectancy_r": 0.18,
+      "rdd_usd": 0.6996
+    },
+    "sl200_T": {
+      "trades": 46,
+      "net_profit_usd": 2471.78,
+      "profit_factor": 1.39,
+      "max_drawdown_usd": 2304.46,
+      "expectancy_r": 0.25,
+      "rdd_usd": 1.0726
+    },
+    "p1": {
+      "trades": 46,
+      "net_profit_usd": 1992.26,
+      "profit_factor": 1.37,
+      "max_drawdown_usd": 1947.82,
+      "expectancy_r": 0.25,
+      "rdd_usd": 1.0228
+    },
+    "delta_T_minus_M": {
+      "trades": -26,
+      "net_profit_usd": 448.84,
+      "profit_factor": 0.17,
+      "max_drawdown_usd": -587.2,
+      "expectancy_r": 0.07,
+      "rdd_usd": 0.373
+    },
+    "delta_T_minus_P1": {
+      "trades": 0,
+      "net_profit_usd": 479.52,
+      "profit_factor": 0.02,
+      "max_drawdown_usd": 356.64,
+      "expectancy_r": 0.0,
+      "rdd_usd": 0.0498
+    },
+    "delta_P1_minus_M": {
+      "trades": -26,
+      "net_profit_usd": -30.68,
+      "profit_factor": 0.15,
+      "max_drawdown_usd": -943.84,
+      "expectancy_r": 0.07,
+      "rdd_usd": 0.3232
+    },
+    "not_a_threshold": true,
+    "sources": [
+      "reports/backtest/p2_w1_w6_confirm.json",
+      "reports/backtest/_manual_w1_w6_analysis.log",
+      "reports/backtest/MANUAL_8765_LIVE_VS_ORIGINAL.md",
+      "reports/backtest/FILTER025_PROFITABILITY.md"
+    ],
+    "live_6_trade_note": "La muestra viva de 6 trades de enero de 2025 es demasiado pequena y contradice el signo historico del stop; no se usa para el veredicto. El replay parcial del 8765 es runtime paper y tampoco se usa."
+  },
+  "sample": {
+    "window": {
+      "id": "F1-F6",
+      "start": "2026-12-01",
+      "end": "2029-11-30",
+      "calendar_sessions": 754,
+      "roll_sessions_excluded": 12,
+      "evaluated_sessions": 742,
+      "blocks": [
+        {
+          "id": "F1",
+          "start": "2026-12-01",
+          "end": "2027-05-31",
+          "calendar_sessions": 124,
+          "roll_sessions": 2,
+          "evaluated_sessions": 122
+        },
+        {
+          "id": "F2",
+          "start": "2027-06-01",
+          "end": "2027-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        },
+        {
+          "id": "F3",
+          "start": "2027-12-01",
+          "end": "2028-05-31",
+          "calendar_sessions": 125,
+          "roll_sessions": 2,
+          "evaluated_sessions": 123
+        },
+        {
+          "id": "F4",
+          "start": "2028-06-01",
+          "end": "2028-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        },
+        {
+          "id": "F5",
+          "start": "2028-12-01",
+          "end": "2029-05-31",
+          "calendar_sessions": 124,
+          "roll_sessions": 2,
+          "evaluated_sessions": 122
+        },
+        {
+          "id": "F6",
+          "start": "2029-06-01",
+          "end": "2029-11-30",
+          "calendar_sessions": 127,
+          "roll_sessions": 2,
+          "evaluated_sessions": 125
+        }
+      ]
+    },
+    "burn_in": {
+      "start": "2026-11-23",
+      "end": "2026-11-30",
+      "excluded": true
+    },
+    "roll_sessions": [
+      "2026-12-10",
+      "2027-03-11",
+      "2027-06-09",
+      "2027-09-09",
+      "2027-12-09",
+      "2028-03-09",
+      "2028-06-08",
+      "2028-09-07",
+      "2028-12-07",
+      "2029-03-08",
+      "2029-06-07",
+      "2029-09-13"
+    ],
+    "forbidden": [
+      {
+        "id": "W1-W6",
+        "start": "2025-01-10",
+        "end": "2026-06-30",
+        "reason": "in-sample; solo motivacion"
+      },
+      {
+        "id": "H1",
+        "start": "2026-07-01",
+        "end": "2026-10-30",
+        "reason": "holdout sellado"
+      },
+      {
+        "id": "2024",
+        "start": "2024-01-02",
+        "end": "2024-12-30",
+        "reason": "reservado por otra hipotesis"
+      },
+      {
+        "id": "burn_in",
+        "start": "2026-11-23",
+        "end": "2026-11-30",
+        "reason": "solo plomeria"
+      }
+    ],
+    "shared_window_with": [
+      "docs/P2_VS_MANUAL_8765_FORWARD.md",
+      "docs/P2_BE_1R_FORWARD.md",
+      "docs/FORWARD_ORIGINAL_VS_P1.md"
+    ],
+    "independent_confirmation": false,
+    "independence_note": "La ventana ya esta pre-registrada por otros planes. Solo uno puede ejecutarse. Si otro forward usa esta muestra, este estudio no es independiente.",
+    "expected_counts": {
+      "manual_M": 148,
+      "sl200_T": 94,
+      "p1": 94,
+      "common_pairs_M_T_max": 94,
+      "common_pairs_T_P1": 94,
+      "note": "Conteos esperados con tasas W1-W6; no son una promesa."
+    },
+    "minimums": [
+      {
+        "id": "S1",
+        "condition": ">=720 de 742 sesiones evaluadas; ningun mes <80%; ningun hueco >5 sesiones",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "S2",
+        "condition": ">=80 operaciones cerradas en M; >=60 en T; >=60 en P1",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "S3",
+        "condition": ">=5/6 bloques con >=6 operaciones cerradas por brazo",
+        "failure": "INCONCLUSO"
+      },
+      {
+        "id": "S4",
+        "condition": ">=8 cortos por brazo",
+        "failure": "INCONCLUSO_SHORT"
+      },
+      {
+        "id": "S5",
+        "condition": ">=60 pares M/T y >=95% de T con pareja en M; >=99% de T con pareja en P1",
+        "failure": "INCONCLUSO"
+      }
+    ]
+  },
+  "capture": {
+    "provider": "Databento",
+    "dataset": "GLBX.MDP3",
+    "schema": "ohlcv-1m",
+    "symbols": [
+      "MNQ",
+      "NQ",
+      "ES"
+    ],
+    "contracts": [
+      "Z26",
+      "H27",
+      "M27",
+      "U27",
+      "Z27",
+      "H28",
+      "M28",
+      "U28",
+      "Z28",
+      "H29",
+      "M29",
+      "U29",
+      "Z29"
+    ],
+    "contract_count": 39,
+    "roll_count": 36,
+    "roll_rule": "12 rolls por raiz; el saliente sigue activo en la sesion de roll y el entrante empieza la siguiente; la sesion de roll se excluye",
+    "series_mode": "raw",
+    "timezone": "America/New_York",
+    "session": "RTH 09:00-15:59 ET; cierre anticipado oficial 12:59/13:14",
+    "prospective": true,
+    "one_session_per_file": true,
+    "append_only": true,
+    "backfill": false,
+    "synthetic_bars": false,
+    "single_forward_csv": true,
+    "feed": {
+      "provider": "csv",
+      "csv_path": "reports/backtest/sl200_10c_vs_p1_forward/bars_forward.csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "loop_sessions": false,
+      "replay_speed": 1.0
+    }
+  },
+  "statistics": {
+    "primary_endpoint": "delta_net_usd = net_profit_usd(T) - net_profit_usd(M)",
+    "risk_endpoint": "dd_ratio = max_drawdown_usd(T) / max_drawdown_usd(M)",
+    "risk_adjusted_endpoint": "rdd_usd = net_profit_usd / max_drawdown_usd",
+    "p1_comparison": {
+      "delta_expectancy_r_tolerance": 0.05,
+      "delta_profit_factor_tolerance": 0.10,
+      "delta_total_r_tolerance": 2.0,
+      "dd_ratio_max": 1.30,
+      "rdd_rule": "RDD_USD(T) >= RDD_USD(P1)",
+      "net_superiority_test": false,
+      "note": "T vs P1 no es un test de superioridad de neto: 10 vs 5 contratos escala el neto mecanicamente. Se exige equivalencia del edge en R y RDD no inferior."
+    },
+    "bootstrap": {
+      "unit": "session",
+      "resamples": 10000,
+      "seed": 20261124,
+      "confidence": 0.95,
+      "one_sided": true,
+      "null": "delta_net_usd <= 0",
+      "min_valid_replicates": 9500
+    },
+    "drawdown_rule": "comparacion determinista de la curva de P&L cerrado; si DD_M == 0, INCONCLUSO",
+    "why_not_total_r": "M y T no tienen el mismo numero de operaciones; total_R puede bajar aunque el neto suba. Con el mismo sizing, el efecto economico es el neto USD. Entre T y P1, que comparten seleccion, la unidad comparable es R.",
+    "interim_efficacy": false,
+    "one_shot": true,
+    "multiplicity": "E1 primario; E2-E5 co-gates de decision; no hay subgrupos confirmatorios; bloques y direccion son descriptivos",
+    "no_historical_thresholds": true
+  },
+  "gates": {
+    "integrity": [
+      {
+        "id": "G0",
+        "condition": "hash del protocolo, lock, perfiles M/T/P1, codigo y ventana verificados; 8765 con PID 15108 y hash 9bf4 sin cambios",
+        "failure": "abort"
+      },
+      {
+        "id": "G1",
+        "condition": "todas las sesiones dentro de 2026-12-01 -> 2029-11-30; cero W1-W6, H1, 2024 o burn-in",
+        "failure": "abort"
+      },
+      {
+        "id": "G2",
+        "condition": "39 contratos, 36 rolls, 12 rolls excluidos, 3 simbolos alineados, ORB completo, cero huecos injustificados; un unico SHA-256 de feed para los tres brazos",
+        "failure": "abort"
+      },
+      {
+        "id": "G3",
+        "condition": "captura prospective con manifiesto por sesion, captured_at_et del mismo dia, sin backfill, sin datos sinteticos, SHA-256 por archivo; 742/742 sesiones selladas",
+        "failure": "abort; 720-741 -> INCONCLUSO"
+      },
+      {
+        "id": "G7",
+        "condition": "replay del 10% de sesiones (75) dos veces produce los mismos signal_id, trade_id, qty y fills; 20 sesiones auditadas: T y P1 con las mismas senales; M/T solo difieren en el cohorte stop >200",
+        "failure": "abort"
+      },
+      {
+        "id": "G9",
+        "condition": "analysis.json no existe antes; una sola analisis de eficacia; codigo y plan de analisis sellados antes de desbloquear",
+        "failure": "abort"
+      }
+    ],
+    "sample": [
+      {
+        "id": "G4",
+        "condition": "S1-S5 de la seccion sample.minimums",
+        "failure": "INCONCLUSO"
+      }
+    ],
+    "efficacy": [
+      {
+        "id": "G5/E1",
+        "condition": "delta_net_usd > 0 y limite inferior del IC95% por sesion > 0",
+        "failure": "FAIL; INCONCLUSO si el IC incluye 0"
+      }
+    ],
+    "risk_and_p1": [
+      {
+        "id": "G6/E2",
+        "condition": "dd_ratio <= 0.90 y DD_T <= DD_M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "G6/E3",
+        "condition": "PF_T >= 1.25 y PF_T >= PF_M; expectancy_R_T >= +0.10 y >= M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "G6/E4",
+        "condition": "RDD_USD_T >= 1.05 * RDD_USD_M",
+        "failure": "FAIL"
+      },
+      {
+        "id": "G6/E5",
+        "condition": "|delta_expectancy_R| <= 0.05; |delta_PF| <= 0.10; |delta_total_R| <= 2.0 R; DD_T <= 1.30 * DD_P1; RDD_T >= RDD_P1",
+        "failure": "FAIL de la comparacion con P1"
+      }
+    ],
+    "costs_robustness": [
+      {
+        "id": "G8/C1",
+        "condition": "reprecio exacto con comision 1.24 USD/lado y slippage 2 ticks; net_T > 0, PF_T >= 1.10 y delta_net(T-M) >= 0 despues de costes",
+        "failure": "FAIL"
+      },
+      {
+        "id": "G8/C2",
+        "condition": "drop_best_3_net_T > 0",
+        "failure": "FAIL"
+      },
+      {
+        "id": "G8/C3",
+        "condition": "top_trade_share_gross_T <= 50%; mejor mes <= 50% del neto",
+        "failure": "FAIL"
+      }
+    ]
+  },
+  "decision": {
+    "PASS": "pasan G0-G9 y E1-E5; T es candidato a un protocolo nuevo de preparacion operativa, no a LIVE",
+    "FAIL": "pasan integridad y muestra pero E1-E5 fallan con evidencia clara; se mantiene M",
+    "INCONCLUSO": "fallan G0-G4 o G7/G9; o E1 incluye cero sin fallo claro; o faltan muestras; o DD_M == 0; se mantiene M",
+    "ANULA": "se lee el holdout, la captura no es prospective, hay backfill/sintetico, cambia el codigo/perfil o hay mas de un analisis; no hay resultado",
+    "keep_manual_if_not_pass": true,
+    "pass_authorizes_live": false,
+    "pass_changes_live_config": false
+  },
+  "kill": [
+    {
+      "id": "K1",
+      "condition": "falla G0-G3/G7/G9, se lee el holdout o la captura no es prospective",
+      "effect": "abortar; no hay resultado"
+    },
+    {
+      "id": "K2",
+      "condition": "net_T < 0.70 * net_M o DD_T > 1.25 * DD_M",
+      "effect": "KILL de T"
+    },
+    {
+      "id": "K3",
+      "condition": "net_T <= 0, PF_T < 1.00 o expectancy_R_T < 0",
+      "effect": "KILL de T"
+    },
+    {
+      "id": "K4",
+      "condition": "E5a-E5c fuera de tolerancia; el sizing cambio las operaciones",
+      "effect": "KILL de la comparacion T vs P1; T no se adopta como version escalada de P1"
+    }
+  ],
+  "stopping": {
+    "before_start": [
+      "Falla G0-G2, suite no verde, lock ausente o can_execute=false, feed ausente, perfiles con diff no permitido, puertos ocupados, 8765 con PID/hash distinto o ventana ya existente -> STOP; no crear ventana, no capturar, no replay."
+    ],
+    "during_capture": [
+      "Manifiesto invalido, cadena de hash rota, duplicado/faltante >0.1%, roll no marcado, gap >5 sesiones, cobertura mensual <80%, cambio de codigo/config/snapshot, 8765 cambia, retraso >2 sesiones, backfill/sintetico -> STOP/ANULA; marcar NO_VALIDA; no reparar editando."
+    ],
+    "during_replay": [
+      "verify_snapshot no vacio, SHA del feed distinto, error de motor, no determinismo, pairing T/P1 <99%, diferencia M/T no explicable, holdout, >0.5% barras ambiguas -> ANULA; no emitir decision."
+    ],
+    "after_analysis": [
+      "IC incluye 0, muestra insuficiente, E1-E5 fallan, o se intenta ampliar la ventana/reejecutar/mirar subgrupos para rescatar el resultado -> INCONCLUSO/FAIL; no se convierte en PASS con mas miradas."
+    ],
+    "no_interim_efficacy": true
+  },
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "status": "sealed_not_executed",
+    "executed": false,
+    "used_for_decision": false,
+    "bars_read": false
+  },
+  "execution_gate": {
+    "can_execute": false,
+    "phase0_implementation_authorized": false,
+    "requires_new_execution_lock": true,
+    "reasons": [
+      "El arnes forward solo conoce dos brazos (control/treatment); no hay brazo p1 ni puerto 8777.",
+      "init_window fija max_contracts=5, max_sl_ticks=200 y el ratio 0.0/0.25 por nombre de brazo; no hay overrides explicitos por brazo para contratos, SL, frecuencia y ratio.",
+      "window.json no escribe end_date; la ventana de 742 debe fijar 2029-11-30 para no repetir la ventana hibrida de 378.",
+      "No existe captura prospective ni CSV forward sellado para este plan.",
+      "DATABENTO_API_KEY no esta configurada.",
+      "No existe preflight ni runner one-shot para este lock.",
+      "No existe el directorio de salida ni un lock de ejecucion.",
+      "La ventana se solapa con P2_VS_MANUAL_8765_FORWARD, P2_BE_1R_FORWARD y FORWARD_ORIGINAL_VS_P1; solo uno puede ejecutarse."
+    ]
+  },
+  "phase0_requirements": [
+    "Arnes de tres brazos: anadir p1 (puerto 8777), overrides por brazo y end_date=2029-11-30.",
+    "Test del diff exacto: M->T solo max_sl_ticks; T->P1 solo max_contracts; hashes canonicos esperados.",
+    "Captura prospective con manifiesto, SHA-256 y append-only.",
+    "Universo Z26-Z29: 39 contratos y 36 rolls.",
+    "DATABENTO_API_KEY fuera del repositorio.",
+    "Preflight, runner one-shot y lock de ejecucion.",
+    "Resolver el solapamiento: solo uno de los planes puede usar la ventana.",
+    "Tests de plomeria con fixtures sinteticos; sin W1-W6 ni holdout."
+  ],
+  "artifacts": {
+    "protocol": "docs/PRE_REGISTRO_SL200_10C_VS_P1.md",
+    "lock": "docs/pre_registro_sl200_10c_vs_p1.lock.json",
+    "future_output_dir": "reports/backtest/sl200_10c_vs_p1_forward/",
+    "future_analysis_json": "reports/backtest/sl200_10c_vs_p1_forward/analysis.json",
+    "future_analysis_md": "reports/backtest/sl200_10c_vs_p1_forward/ANALISIS.md",
+    "created_now": [
+      "docs/PRE_REGISTRO_SL200_10C_VS_P1.md",
+      "docs/pre_registro_sl200_10c_vs_p1.lock.json"
+    ]
+  },
+  "notes": [
+    "El control es el manual vivo 10/300/210/24, no la configuracion original 5/200/150/12.",
+    "T es el perfil P2 10/200/210/24; P1 es 5/200/210/24. T vs P1 mide sizing/edge, no superioridad de neto.",
+    "M y T no son pareados: T rechaza senales con stop >200 que M acepta.",
+    "El filtro 0.25 no se activa en ningun brazo.",
+    "El forward no ejecuta ni lee el holdout.",
+    "El +448.84 y el -587.20 son motivacion in-sample, no umbrales forward.",
+    "La muestra viva de 6 trades contradice el signo historico del stop y no se usa.",
+    "La frecuencia original->P1 (+1330.82) no se usa porque la original 5/200/150/12 no es brazo de este plan.",
+    "No se modifica ninguna configuracion, perfil, DB ni el 8765."
+  ]
+}

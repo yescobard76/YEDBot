@@ -1,20 +1,49 @@
 import React from 'react';
-import type { ForwardValidationCandidate, ForwardValidationReport } from '../types';
+import type {
+  ForwardValidationCandidate,
+  ForwardValidationReport,
+  ForwardValidationStatus,
+} from '../types';
 import { Card, Empty, Pill } from './ui';
-import { money, moneySigned, num } from '../utils';
+import { contractLimitText, money, moneySigned, num } from '../utils';
 
-function statusLabel(candidate: ForwardValidationCandidate): string {
-  if (candidate.forward_status === 'reference') return 'Referencia';
-  if (candidate.forward_status === 'validated') return 'Validado';
-  if (candidate.forward_status === 'rejected') return 'Rechazado';
-  return 'Sin validar';
+const STATUS_META: Record<
+  ForwardValidationStatus,
+  { label: string; tone: 'muted' | 'success' | 'danger' | 'warn' }
+> = {
+  reference: { label: 'Referencia', tone: 'muted' },
+  validated: { label: 'Validado', tone: 'success' },
+  rejected: { label: 'Rechazado', tone: 'danger' },
+  insufficient_data: { label: 'Sin validar', tone: 'warn' },
+};
+
+const FORWARD_STATUS_META: Record<
+  string,
+  { label: string; tone: 'muted' | 'success' | 'danger' | 'warn' }
+> = {
+  validated: { label: 'Forward disponible', tone: 'success' },
+  rejected: { label: 'Forward rechazado', tone: 'danger' },
+  insufficient_data: { label: 'Forward insuficiente', tone: 'warn' },
+};
+
+function statusMeta(candidate: ForwardValidationCandidate) {
+  return STATUS_META[candidate.forward_status] ?? { label: 'Sin validar', tone: 'warn' as const };
 }
 
-function statusTone(candidate: ForwardValidationCandidate): 'muted' | 'success' | 'danger' | 'warn' {
-  if (candidate.forward_status === 'reference') return 'muted';
-  if (candidate.forward_status === 'validated') return 'success';
-  if (candidate.forward_status === 'rejected') return 'danger';
-  return 'warn';
+function MetaNote({
+  label,
+  testId,
+  children,
+}: {
+  label: string;
+  testId?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="muted" data-testid={testId} style={{ fontSize: 10.5, marginBottom: 8 }}>
+      <strong>{label}:</strong> {children}
+    </div>
+  );
 }
 
 function forwardCell(candidate: ForwardValidationCandidate) {
@@ -60,16 +89,18 @@ export default function ValidationCard({
   const decision = report.decision;
   const forward = report.forward;
   const holdout = report.holdout;
-  const insufficient = forward.status !== 'validated';
+  const forwardMeta = FORWARD_STATUS_META[forward.status] ?? {
+    label: 'Forward sin estado',
+    tone: 'warn' as const,
+  };
+  const historicalReference = report.historical_reference;
+  const contractLimit = report.manual_8765?.contract_limit;
+  const contractLabel = contractLimitText(contractLimit?.value);
   return (
     <Card
       title="Validación fuera de muestra"
-      sub="Desarrollo (in-sample) frente a forward independiente"
-      actions={
-        <Pill tone={insufficient ? 'warn' : 'success'}>
-          {insufficient ? 'Forward insuficiente' : 'Forward disponible'}
-        </Pill>
-      }
+      sub="Métricas históricas in-sample (contexto) frente a forward independiente"
+      actions={<Pill tone={forwardMeta.tone}>{forwardMeta.label}</Pill>}
       className="validation-card"
     >
       <div className="validation-meta">
@@ -78,6 +109,24 @@ export default function ValidationCard({
           {forward.available_sessions} sesiones forward · último dato {forward.dataset_last_session}
         </span>
       </div>
+
+      {contractLimit && (
+        <MetaNote label="Límite histórico" testId="historical-contract-limit">
+          {contractLabel ?? 'no registrado'} ·{' '}
+          {contractLimit.status === 'configured'
+            ? contractLimit.source
+            : `${contractLimit.status}: ${contractLimit.source}`}
+        </MetaNote>
+      )}
+
+      {historicalReference && (
+        <MetaNote label="Referencia histórica">
+          {historicalReference.label} · {historicalReference.dev_metrics.ops} ops ·{' '}
+          {moneySigned(historicalReference.dev_metrics.net_usd)} · PF{' '}
+          {num(historicalReference.dev_metrics.profit_factor)} · DD{' '}
+          {money(historicalReference.dev_metrics.max_drawdown_usd)}
+        </MetaNote>
+      )}
 
       <div className={`validation-banner ${decision.kind === 'keep_current' ? 'keep' : 'adopt'}`}>
         <strong>Decisión: {decision.label}.</strong>{' '}
@@ -92,44 +141,47 @@ export default function ValidationCard({
           <thead>
             <tr>
               <th>Candidato</th>
-              <th className="right">Ops dev</th>
-              <th className="right">Neto dev</th>
-              <th className="right">PF dev</th>
-              <th className="right">DD dev</th>
-              <th className="right">R medio dev</th>
+              <th className="right">Ops hist.</th>
+              <th className="right">Neto hist.</th>
+              <th className="right">PF hist.</th>
+              <th className="right">DD hist.</th>
+              <th className="right">R medio hist.</th>
               <th>Forward</th>
               <th>Estado</th>
             </tr>
           </thead>
           <tbody>
-            {report.candidates.map((candidate) => (
-              <tr key={candidate.id}>
-                <td>
-                  <div className="strong">{candidate.short_label || candidate.label}</div>
-                  <div className="muted" style={{ fontSize: 9.5, marginTop: 2 }}>
-                    {candidate.role === 'baseline' ? 'Línea base' : 'Candidato'} ·{' '}
-                    {candidate.production_available === false ? 'experimental' : 'backtest'}
-                  </div>
-                </td>
-                <td className="right mono">{candidate.dev_metrics.ops}</td>
-                <td className={`right mono ${candidate.dev_metrics.net_usd >= 0 ? 'pos' : 'neg'}`}>
-                  {moneySigned(candidate.dev_metrics.net_usd)}
-                </td>
-                <td className="right mono">{num(candidate.dev_metrics.profit_factor)}</td>
-                <td className="right mono">{money(candidate.dev_metrics.max_drawdown_usd)}</td>
-                <td className="right mono">{num(candidate.dev_metrics.expectancy_r)}</td>
-                <td>{forwardCell(candidate)}</td>
-                <td>
-                  <Pill tone={statusTone(candidate)}>{statusLabel(candidate)}</Pill>
-                </td>
-              </tr>
-            ))}
+            {report.candidates.map((candidate) => {
+              const status = statusMeta(candidate);
+              return (
+                <tr key={candidate.id}>
+                  <td>
+                    <div className="strong">{candidate.short_label || candidate.label}</div>
+                    <div className="muted" style={{ fontSize: 9.5, marginTop: 2 }}>
+                      {candidate.role === 'baseline' ? 'Línea base' : 'Candidato'} ·{' '}
+                      {candidate.production_available === false ? 'experimental' : 'backtest'}
+                    </div>
+                  </td>
+                  <td className="right mono">{candidate.dev_metrics.ops}</td>
+                  <td className={`right mono ${candidate.dev_metrics.net_usd >= 0 ? 'pos' : 'neg'}`}>
+                    {moneySigned(candidate.dev_metrics.net_usd)}
+                  </td>
+                  <td className="right mono">{num(candidate.dev_metrics.profit_factor)}</td>
+                  <td className="right mono">{money(candidate.dev_metrics.max_drawdown_usd)}</td>
+                  <td className="right mono">{num(candidate.dev_metrics.expectancy_r)}</td>
+                  <td>{forwardCell(candidate)}</td>
+                  <td>
+                    <Pill tone={status.tone}>{status.label}</Pill>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
       <div className="validation-note">
-        <strong>Desarrollo:</strong> {report.development.window}, {report.development.sessions} sesiones,{' '}
+        <strong>Histórico in-sample:</strong> {report.development.window}, {report.development.sessions} sesiones,{' '}
         {report.development.status === 'in_sample' ? 'in-sample' : report.development.status}.{' '}
         {forward.summary}{' '}
         {forward.attempts === 0 && 'No se ejecutó ningún backtest de validación.'}

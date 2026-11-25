@@ -52,6 +52,21 @@ def record_sha256(record: dict[str, Any]) -> str:
     return hashlib.sha256(canonical_bytes(payload)).hexdigest()
 
 
+def has_incomplete_tail(path: Path) -> bool:
+    """Indica si el archivo termina a mitad de una línea.
+
+    ``read_records`` ignora esa cola para no fallar durante un append en
+    curso, pero el panel y un verificador estricto deben poder distinguirla de
+    una cadena completa.
+    """
+    path = Path(path)
+    if not path.exists() or path.stat().st_size == 0:
+        return False
+    with path.open("rb") as handle:
+        handle.seek(-1, os.SEEK_END)
+        return handle.read(1) != b"\n"
+
+
 def read_records(path: Path) -> list[dict[str, Any]]:
     """Lee el ledger ignorando una última línea incompleta (append en curso)."""
     path = Path(path)
@@ -181,6 +196,17 @@ class Ledger:
         ts: str | None = None,
     ) -> dict[str, Any]:
         with self._lock, _FileLock(lock_path(self.path)):
+            # Una cola sin salto de línea es un append interrumpido. No se
+            # repara ni se concatena: hacerlo convertiría dos registros en una
+            # línea inválida y rompería la cadena de forma silenciosa.
+            if self.path.exists() and self.path.stat().st_size:
+                with self.path.open("rb") as handle:
+                    handle.seek(-1, os.SEEK_END)
+                    if handle.read(1) != b"\n":
+                        raise LedgerError(
+                            f"ledger con cola incompleta en {self.path}; "
+                            "se rechaza el append para no corromper la cadena"
+                        )
             records = read_records(self.path)
             problems = verify_chain(records)
             if problems:

@@ -520,3 +520,366 @@ a { color: var(--blue); text-decoration: none; }
   .form-grid, .form-grid.cols-3 { grid-template-columns: minmax(0, 1fr); }
   .event-message { max-width: 320px; }
 }
+
+/* ======================================================================
+   UI 2.0 · refinado visual del HUD, tarjetas y modo Básico
+   ====================================================================== */
+
+:root {
+  --bg: #04070b;
+  --panel: #0b1219;
+  --panel-2: #0e1720;
+  --line: #1b2836;
+  --line-soft: #141f2a;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.45);
+  --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+::selection { background: rgba(63, 140, 255, 0.32); }
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid rgba(63, 140, 255, 0.7);
+  outline-offset: 2px;
+}
+
+.app { grid-template-columns: 84px minmax(0, 1fr); }
+
+/* --- barra lateral ------------------------------------------------------ */
+.sidebar {
+  padding: 16px 9px 12px;
+  background:
+    radial-gradient(120px 200px at 50% 0%, rgba(63, 140, 255, 0.09), transparent 70%),
+    linear-gradient(180deg, #070c12, #05080d);
+}
+.brand { padding-bottom: 16px; margin-bottom: 10px; }
+.brand-mark {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  background: linear-gradient(150deg, #16466a, #0a1f2f 70%);
+  border-color: #24587c;
+  box-shadow: inset 0 0 22px rgba(92, 199, 255, 0.18), 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.nav { gap: 3px; }
+.nav-item { padding: 10px 2px 9px; border-radius: 11px; }
+.nav-item:hover { background: rgba(255, 255, 255, 0.035); transform: translateY(-1px); }
+.nav-item.active { box-shadow: inset 3px 0 0 var(--blue), 0 6px 18px rgba(63, 140, 255, 0.14); }
+
+.sidebar-mode {
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  padding: 9px 0 8px; border-top: 1px solid var(--line-soft); margin-top: 4px;
+}
+.sidebar-mode-label { font-size: 7.5px; letter-spacing: 1.3px; text-transform: uppercase; color: var(--text-3); }
+.mode-switch { display: inline-flex; gap: 2px; padding: 2px; border: 1px solid var(--line); background: #080f16; border-radius: 9px; }
+.mode-switch button {
+  border: 0; background: transparent; color: var(--text-3);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.2px;
+  padding: 5px 9px; border-radius: 7px; cursor: pointer; white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.mode-switch button:hover { color: var(--text-2); background: rgba(255, 255, 255, 0.04); }
+.mode-switch button.active { color: #dcebff; background: linear-gradient(180deg, #1d3049, #16283c); box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset; }
+.mode-switch.vertical { flex-direction: column; width: 100%; padding: 3px; gap: 2px; }
+.mode-switch.vertical button { width: 100%; padding: 5px 2px; font-size: 8.5px; letter-spacing: 0.1px; }
+
+/* --- cabecera HUD ------------------------------------------------------- */
+.topbar {
+  min-height: 84px;
+  padding: 0 18px;
+  background: linear-gradient(180deg, rgba(11, 18, 26, 0.96), rgba(7, 12, 18, 0.98));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.025) inset, 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+.topbar::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(63, 140, 255, 0.45), rgba(24, 195, 126, 0.35), transparent);
+}
+.topbar { position: relative; }
+.tb-section { padding: 12px 18px; gap: 5px; }
+.tb-label { font-size: 8.5px; letter-spacing: 1.15px; }
+.tb-value { font-size: 21px; font-weight: 680; letter-spacing: -0.4px; }
+.tb-status-text { font-size: 12.5px; letter-spacing: 0.35px; }
+.tb-controls { margin-top: 3px; gap: 5px; }
+.quote-block { min-width: 104px; padding: 0 16px; }
+.quote-price { font-size: 18px; font-weight: 680; }
+.tb-clock-time { font-size: 22px; font-weight: 700; }
+
+/* --- contenido ---------------------------------------------------------- */
+.content {
+  padding: 18px 20px 30px;
+  max-width: 1720px;
+  width: 100%;
+  margin: 0 auto;
+}
+.page-head { margin-bottom: 16px; align-items: flex-end; }
+.page-title { font-size: 19px; font-weight: 720; letter-spacing: -0.35px; }
+.page-sub { font-size: 11.5px; color: var(--text-3); }
+
+/* --- tarjetas ----------------------------------------------------------- */
+.card {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(18, 27, 38, 0.92), rgba(9, 15, 22, 0.96));
+  box-shadow: var(--shadow-soft);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.card:hover { border-color: #22344a; }
+.card-head { padding: 12px 16px; min-height: 46px; }
+.card-title { font-size: 12.5px; letter-spacing: 0.15px; }
+.card-body { padding: 15px 16px; }
+.card-body.tight { padding: 0; }
+
+.metric { padding: 14px 16px; gap: 5px; }
+.metric-label { font-size: 9px; letter-spacing: 1px; }
+.metric-value { font-size: 21px; font-weight: 700; letter-spacing: -0.45px; }
+.metric-value.lg { font-size: 26px; }
+.metric-sub { font-size: 10.5px; }
+
+.grid { gap: 14px; }
+.dash, .dash-main, .dash-side, .dash-bottom { gap: 14px; }
+.section-title { letter-spacing: 1.1px; }
+
+/* --- botones ------------------------------------------------------------ */
+.btn { border-radius: 9px; padding: 8px 12px; font-size: 11.5px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset; }
+.btn:active:not(:disabled) { transform: translateY(1px); }
+.btn.primary { box-shadow: 0 6px 18px rgba(47, 127, 240, 0.28), 0 1px 0 rgba(255, 255, 255, 0.14) inset; }
+.btn.icon { width: 30px; height: 30px; padding: 6px; }
+
+/* --- tablas ------------------------------------------------------------- */
+.table th { padding: 10px 12px; background: rgba(10, 16, 23, 0.96); backdrop-filter: blur(4px); }
+.table td { padding: 10px 12px; }
+.table tbody tr { transition: background 0.12s ease; }
+
+.empty { padding: 30px 16px; }
+.banner { padding: 11px 13px; border-radius: 10px; }
+
+/* ======================================================================
+   Modo Básico
+   ====================================================================== */
+.basic { display: flex; flex-direction: column; gap: 14px; max-width: 1200px; margin: 0 auto; padding-bottom: 6px; }
+
+.basic-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.basic-kicker {
+  display: inline-block; margin-bottom: 6px;
+  font-size: 9px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+  color: #7fb6ff;
+}
+.basic-head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.basic-hero {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+  padding: 22px 24px;
+  border-radius: 18px;
+  border: 1px solid #1e3a2f;
+  background:
+    radial-gradient(420px 160px at 0% 0%, rgba(24, 195, 126, 0.16), transparent 70%),
+    linear-gradient(135deg, rgba(15, 32, 27, 0.9), rgba(9, 15, 22, 0.96));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+}
+.basic-hero.warn {
+  border-color: #3b3020;
+  background: radial-gradient(420px 160px at 0% 0%, rgba(243, 168, 59, 0.15), transparent 70%), linear-gradient(135deg, rgba(32, 26, 16, 0.9), rgba(9, 15, 22, 0.96));
+}
+.basic-hero.muted {
+  border-color: #21303f;
+  background: radial-gradient(420px 160px at 0% 0%, rgba(63, 140, 255, 0.12), transparent 70%), linear-gradient(135deg, rgba(16, 26, 37, 0.92), rgba(9, 15, 22, 0.96));
+}
+.basic-hero-main { display: flex; align-items: flex-start; gap: 14px; min-width: 280px; flex: 1; }
+.basic-hero-main h2 { margin: 0 0 6px; font-size: 21px; font-weight: 750; letter-spacing: -0.4px; }
+.basic-hero-main p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--text-2); max-width: 640px; }
+.basic-hero-dot {
+  width: 13px; height: 13px; border-radius: 50%; flex: none; margin-top: 7px;
+  background: #33465b; box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.04);
+}
+.basic-hero-dot.on { background: var(--green); box-shadow: 0 0 0 5px rgba(24, 195, 126, 0.14), 0 0 16px rgba(24, 195, 126, 0.7); animation: pulse 2s infinite; }
+.basic-hero-tags { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.basic-metrics .card { background: linear-gradient(180deg, rgba(20, 30, 42, 0.9), rgba(9, 15, 22, 0.96)); }
+.basic-metrics .metric-value.lg { font-size: 27px; }
+
+.basic-position-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.basic-position-grid > div { display: flex; flex-direction: column; gap: 4px; }
+.basic-position-grid strong { font-size: 15px; font-weight: 700; }
+.basic-position-grid .mono { font-family: var(--mono); font-size: 14px; }
+
+.basic-columns { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+.basic-table th { font-size: 8.5px; }
+.basic-table td { padding-top: 9px; padding-bottom: 9px; }
+.basic-r { display: inline-block; margin-left: 7px; font-size: 9.5px; color: var(--text-3); }
+.basic-note {
+  display: flex; gap: 9px; align-items: flex-start;
+  margin-top: 12px; padding-top: 11px; border-top: 1px solid var(--line-soft);
+  font-size: 10.5px; line-height: 1.5; color: var(--text-3);
+}
+.basic-note svg { flex: none; margin-top: 1px; color: var(--blue); }
+
+.basic-explain .card-body { padding: 18px 20px; }
+.basic-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.basic-steps li { display: flex; gap: 12px; align-items: flex-start; }
+.basic-step {
+  width: 26px; height: 26px; flex: none; display: grid; place-items: center;
+  border-radius: 9px; background: rgba(63, 140, 255, 0.13); border: 1px solid rgba(63, 140, 255, 0.3);
+  color: #9cc4ff; font-size: 11px; font-weight: 800;
+}
+.basic-steps strong { display: block; font-size: 12px; margin-bottom: 3px; }
+.basic-steps p { margin: 0; font-size: 11px; line-height: 1.5; color: var(--text-3); }
+
+.basic-cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+  margin-top: 18px; padding: 14px 16px; border-radius: 12px;
+  border: 1px solid rgba(63, 140, 255, 0.22);
+  background: linear-gradient(90deg, rgba(63, 140, 255, 0.1), rgba(63, 140, 255, 0.02));
+}
+.basic-cta strong { display: block; font-size: 12px; margin-bottom: 2px; }
+.basic-cta span { font-size: 10.5px; color: var(--text-3); }
+
+.basic-foot { margin: 2px 0 0; text-align: center; font-size: 10px; color: var(--text-3); }
+
+/* --- responsive --------------------------------------------------------- */
+@media (max-width: 1280px) {
+  .basic-position-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .basic-steps { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 1100px) {
+  .basic-columns { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .app { grid-template-columns: 64px minmax(0, 1fr); }
+  .sidebar { padding: 10px 5px; }
+  .sidebar-mode { display: none; }
+  .topbar { min-height: 72px; padding: 0 10px; }
+  .tb-section { padding: 9px 11px; }
+  .content { padding: 12px; }
+  .basic-hero { padding: 18px; }
+  .basic-hero-main h2 { font-size: 18px; }
+  .basic-metrics .metric-value.lg { font-size: 23px; }
+}
+@media (max-width: 640px) {
+  .basic-position-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .basic-head-actions { width: 100%; }
+  .basic-head-actions .btn { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ======================================================================
+   Cierre del modo Básico: filas simples, historial por mes y móvil
+   ====================================================================== */
+
+/* --- filas de operación en lenguaje llano ------------------------------- */
+.trade-list { display: flex; flex-direction: column; }
+.trade-row {
+  display: grid;
+  grid-template-columns: 76px 74px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 11.5px;
+}
+.trade-row:last-child { border-bottom: 0; }
+.trade-row:hover { background: rgba(255, 255, 255, 0.015); }
+.trade-row-date { font-family: var(--mono); font-size: 10.5px; color: var(--text-3); text-transform: capitalize; }
+.trade-row-exit { color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.trade-row-pnl { display: flex; align-items: baseline; justify-content: flex-end; gap: 6px; }
+.trade-row-pnl strong { font-size: 12.5px; font-weight: 700; }
+.trade-row-pnl small { font-size: 9.5px; color: var(--text-3); }
+
+.history-months { display: flex; flex-direction: column; }
+.history-month + .history-month { border-top: 1px solid var(--line); }
+.history-month header {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 9px 14px;
+  background: rgba(255, 255, 255, 0.018);
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase;
+  color: var(--text-2);
+}
+.history-month header small { color: var(--text-3); font-weight: 500; text-transform: none; letter-spacing: 0; }
+
+.basic-more { padding: 12px 14px; display: flex; justify-content: center; border-top: 1px solid var(--line-soft); }
+.basic-empty {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 30px 18px; text-align: center; color: var(--text-3); font-size: 11.5px;
+}
+.basic-empty strong { color: var(--text-2); font-size: 12px; font-weight: 600; }
+.basic-summary-line { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-2); padding: 0 2px; }
+
+/* --- móvil: filas en dos líneas ----------------------------------------- */
+@media (max-width: 560px) {
+  .trade-row {
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas: "date dir pnl" "exit exit exit";
+    row-gap: 5px;
+    padding: 10px 12px;
+  }
+  .trade-row-date { grid-area: date; }
+  .trade-row .pill { grid-area: dir; justify-self: start; }
+  .trade-row-exit { grid-area: exit; white-space: normal; overflow: visible; }
+  .trade-row-pnl { grid-area: pnl; justify-self: end; }
+}
+
+/* --- selector visible y HUD en dos filas por debajo de tablet ----------- */
+@media (max-width: 900px) {
+  .sidebar-mode { display: flex; padding: 7px 0 6px; }
+  .sidebar-mode-label { display: none; }
+  .mode-switch.vertical button { font-size: 7.5px; padding: 4px 1px; }
+
+  .topbar {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+  .tb-state { flex: 1 1 58%; border-right: 1px solid var(--line-soft); }
+  .tb-clock { flex: 0 1 auto; margin-left: auto !important; border-right: 0; }
+  .tb-pnl { flex: 1 1 52%; border-top: 1px solid var(--line-soft); }
+  .tb-quotes { flex: 1 1 48%; border-top: 1px solid var(--line-soft); justify-content: flex-end; }
+  .tb-or, .tb-dd, .tb-feed { display: none; }
+  .tb-quotes .quote-block:nth-child(n + 2) { display: none; }
+}
+
+/* El hero no puede imponer un ancho mínimo en pantallas estrechas:
+   el contenedor lo recortaba y cortaba el texto. */
+@media (max-width: 560px) {
+  .basic-hero { padding: 16px; align-items: flex-start; }
+  .basic-hero-main { min-width: 0; flex: 1 1 100%; }
+  .basic-hero-main h2 { font-size: 17px; overflow-wrap: anywhere; }
+  .basic-hero-main p { overflow-wrap: anywhere; }
+  .basic-hero-tags { width: 100%; }
+}
+
+/* Wrap determinista del HUD: fila 1 estado+reloj, fila 2 P&L+precio.
+   Sin esto, flex-wrap metía el reloj en una tercera fila. */
+@media (max-width: 900px) {
+  .tb-state { flex: 1 1 60%; order: 1; min-width: 0; }
+  .tb-clock { flex: 0 1 auto; order: 2; }
+  .tb-quotes { flex: 1 1 50%; order: 3; min-width: 0; }
+  .tb-pnl { flex: 1 1 50%; order: 4; min-width: 0; }
+}
+
+/* El ancho mínimo del bloque de estado vive aquí, no inline:
+   así el breakpoint móvil puede anularlo y el HUD cabe en dos filas. */
+.tb-state { min-width: 210px; }
+@media (max-width: 900px) {
+  .tb-state { min-width: 0; }
+}
+
+/* HUD compacto a 375 px: evita que "BOT DETENIDO" y la píldora de modo
+   se partan en dos líneas dentro del bloque de estado. */
+@media (max-width: 480px) {
+  .tb-status { gap: 5px; }
+  .tb-status-text { font-size: 10px; letter-spacing: 0; white-space: nowrap; }
+  .tb-state .pill { font-size: 7.5px; padding: 2px 4px; letter-spacing: 0.2px; }
+  .tb-controls .btn.icon { width: 26px; height: 26px; }
+  .tb-controls { gap: 3px; }
+}

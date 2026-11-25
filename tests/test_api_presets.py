@@ -1,8 +1,11 @@
 """Contrato HTTP de presets: catálogo, errores y CSV real recortado.
 
-El contrato de comparación usa un extracto de tres sesiones del CSV real
-(``tests/fixtures/bars_mnq_nq_es_1m_3sessions.csv``): mismas barras y columnas
-del dataset de desarrollo, sin pagar el parseo de las 462k filas completas.
+El cliente usa un perfil fixture independiente
+(``tests/fixtures/presets_profile/config.json``) y un feed propio
+(``tests/fixtures/bars_mnq_nq_es_1m_3sessions.csv``). Las expectativas de
+procedencia, configuración y métricas son constantes del fixture: no se
+derivan del mismo objeto ``Settings`` que recibe la API, para que ignorar la
+configuración no pase inadvertido.
 """
 
 from __future__ import annotations
@@ -22,16 +25,40 @@ from server.config import Settings
 from server.db import Store
 
 ROOT = Path(__file__).resolve().parents[1]
-PROFILE = ROOT / "profiles" / "backtest_real" / "config.json"
-# Extracto real de 2025-12-24, 2025-12-26 y 2025-12-29, generado desde
-# data/real/bars_mnq_nq_es_1m.csv (mismas columnas y contratos).
-CSV_FIXTURE = ROOT / "tests" / "fixtures" / "bars_mnq_nq_es_1m_3sessions.csv"
+# Perfil independiente: no se carga el perfil de producción ni se deriva la
+# expectativa del objeto de settings que recibe la API.
+FIXTURE_PROFILE = ROOT / "tests" / "fixtures" / "presets_profile" / "config.json"
+CSV_FIXTURE_REL = "tests/fixtures/bars_mnq_nq_es_1m_3sessions.csv"
+CSV_FIXTURE = ROOT / CSV_FIXTURE_REL
 EXPECTED_NOTE = (
     "Comparación exploratoria sobre el mismo dataset. Los presets no se "
     "aplican a la configuración activa ni al holdout."
 )
 WINDOW = {"days": 3, "start_date": "2025-12-24"}
-PROFILE_BYTES = PROFILE.read_bytes()
+EXPECTED_FEED = {
+    "provider": "csv",
+    "kind": "csv",
+    "path": CSV_FIXTURE_REL,
+    "file_name": CSV_FIXTURE.name,
+    "series_mode": "raw",
+    "exclude_roll_sessions": False,
+}
+EXPECTED_BASELINE = {
+    "trades": 1,
+    "signals": 1,
+    "win_rate": 100.0,
+    "profit_factor": None,
+    "expectancy": 101.0,
+    "net_profit": 101.0,
+    "max_drawdown": 0.0,
+    "max_drawdown_pct": 0.0,
+    "avg_r": 1.92,
+    "total_r": 1.92,
+    "stop_losses": 0,
+    "take_profits": 1,
+    "final_equity": 12446.0,
+}
+FIXTURE_PROFILE_BYTES = FIXTURE_PROFILE.read_bytes()
 
 
 def _app(settings: Settings) -> FastAPI:
@@ -43,27 +70,22 @@ def _app(settings: Settings) -> FastAPI:
 
 @pytest.fixture(scope="module")
 def profile_settings() -> Settings:
-    return Settings.model_validate_json(PROFILE.read_text(encoding="utf-8"))
+    """Settings del fixture, independientes del perfil real."""
+    return Settings.model_validate_json(
+        FIXTURE_PROFILE.read_text(encoding="utf-8")
+    )
 
 
 @pytest.fixture(scope="module")
 def client(profile_settings):
-    """Perfil real sin ejecutar backtests: catálogo y errores de petición."""
+    """Cliente del fixture: catálogo y errores de petición."""
     with TestClient(_app(profile_settings)) as instance:
         yield instance
 
 
 @pytest.fixture(scope="module")
-def csv_settings(profile_settings) -> Settings:
-    """Mismo perfil, apuntando al extracto real de tres sesiones."""
-    settings = profile_settings.model_copy(deep=True)
-    settings.feed.csv_path = str(CSV_FIXTURE)
-    return settings
-
-
-@pytest.fixture(scope="module")
-def payload(csv_settings):
-    with TestClient(_app(csv_settings)) as instance:
+def payload(profile_settings):
+    with TestClient(_app(profile_settings)) as instance:
         response = instance.post("/api/backtest/presets", json=WINDOW)
     assert response.status_code == 200, response.text
     return response.json()
@@ -95,13 +117,36 @@ def test_presets_contract_uses_three_sessions_of_real_csv(payload):
     assert payload["dataset"]["selected_range"]["last_et"].startswith("2025-12-29")
     assert payload["note"] == EXPECTED_NOTE
 
+    base = payload["base_config"]
+    assert base["risk"]["initial_capital"] == 12345.0
+    assert base["risk"]["max_contracts"] == 2
+    assert base["risk"]["max_sl_ticks"] == 120
+    assert base["strategy"]["setup_validity_minutes"] == 180
+    assert base["strategy"]["retest_tolerance_ticks"] == 18
+    assert base["strategy"]["tp_rr"] == 2.0
+    assert base["feed"] == {
+        "provider": "csv",
+        "csv_path": CSV_FIXTURE_REL,
+        "series_mode": "raw",
+        "exclude_roll_sessions": False,
+        "replay_speed": 7.0,
+        "loop_sessions": False,
+        "start_date": "",
+        "latency_ms": 0,
+    }
+
+    baseline = payload["comparison"][0]
+    assert baseline["preset"] == "baseline"
+    for key, value in EXPECTED_BASELINE.items():
+        assert baseline[key] == value, (key, baseline[key], value)
+
     sample = payload["sample"]
     assert sample["status"] == "activity"
-    assert sample["active_presets"] >= 1
+    assert sample["active_presets"] == 9
     assert sample["total_presets"] == len(DEFAULT_PRESETS)
 
 
-def test_presets_catalog_matches_backend_counts_and_sample_provenance(client, profile_settings):
+def test_presets_catalog_matches_backend_counts_and_sample_provenance(client):
     response = client.get("/api/backtest/presets")
     assert response.status_code == 200, response.text
     body = response.json()
@@ -113,15 +158,7 @@ def test_presets_catalog_matches_backend_counts_and_sample_provenance(client, pr
     assert {
         preset["key"] for preset in body["presets"] if preset["default"]
     } == set(DEFAULT_PRESETS)
-    feed = profile_settings.feed
-    assert body["sample"] == {
-        "provider": feed.provider,
-        "kind": "csv" if feed.provider == "csv" else "synthetic",
-        "path": feed.csv_path if feed.provider == "csv" else None,
-        "file_name": Path(feed.csv_path).name if feed.provider == "csv" else None,
-        "series_mode": feed.series_mode,
-        "exclude_roll_sessions": feed.exclude_roll_sessions,
-    }
+    assert body["sample"] == EXPECTED_FEED
     assert body["note"]
 
 
@@ -211,8 +248,8 @@ def test_response_rejects_final_equity_mismatch(payload):
     _reject(payload, mutate, "final_equity")
 
 
-def test_presets_does_not_mutate_or_persist_active_config():
-    settings = Settings()
+def test_presets_does_not_mutate_or_persist_active_config(profile_settings):
+    settings = profile_settings.model_copy(deep=True)
     before = settings.model_dump()
     app = _app(settings)
 
@@ -228,14 +265,16 @@ def test_presets_does_not_mutate_or_persist_active_config():
 
     assert response.status_code == 200, response.text
     body = response.json()
-    assert body["data_source"] == "synthetic"
+    assert body["data_source"] == "csv"
+    assert body["is_synthetic"] is False
     assert body["default_presets"] is False
     assert body["preset_keys"] == ["baseline"]
     assert body["overrides"] == {"strategy": {"tp_rr": 1.5}}
     assert body["base_config"]["strategy"]["tp_rr"] == 1.5
+    assert body["base_config"]["risk"]["initial_capital"] == 12345.0
     assert settings.model_dump() == before
     assert app.state.engine.settings is settings
-    assert PROFILE.read_bytes() == PROFILE_BYTES
+    assert FIXTURE_PROFILE.read_bytes() == FIXTURE_PROFILE_BYTES
 
 
 def _row(trades: int) -> dict:

@@ -1,11 +1,15 @@
 """Verifica la tarea programada real del forward: alta, disparo y recuperación.
 
-No arranca el 8765 ni el 8766. Registra hashes antes/después y escribe
-`AUTOSTART_EVIDENCE.json` dentro de la ventana.
+Uso: ``python scripts/forward_autostart_check.py --window-id <ID>``.
+
+No arranca el 8765 ni el 8766. Exige que el 8765 ya esté escuchando y comprueba
+que conserva el mismo PID y los hashes de su configuración antes/después.
+Escribe ``AUTOSTART_EVIDENCE.json`` dentro de la ventana.
 """
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -23,8 +27,15 @@ from pathlib import Path
 from typing import Any
 
 PROJECT = Path(__file__).resolve().parents[1]
-WINDOW_ID = "2026-12-01_p1_filter025"
-WINDOW = PROJECT / "data" / "forward" / WINDOW_ID
+if str(PROJECT) not in sys.path:
+    sys.path.insert(0, str(PROJECT))
+
+from server.forward.paths import validate_window_id  # noqa: E402
+
+BOT_8765_CONFIGS = (
+    "data/config.json",
+    "profiles/live_8765/config.json",
+)
 TASK = "YEDBot-Forward-Autorun"
 BOT_TASK = "YEDBot-8766"
 PYTHON = sys.executable
@@ -73,6 +84,14 @@ def pid_on_port(port: int) -> int | None:
         if match:
             return int(match.group(1))
     return None
+
+
+def bot_8765_state() -> dict[str, Any]:
+    configs: dict[str, str | None] = {}
+    for relative in BOT_8765_CONFIGS:
+        path = PROJECT / relative
+        configs[relative] = sha256(path) if path.exists() else None
+    return {"pid": pid_on_port(8765), "configs": configs}
 
 
 def call(method: str, url: str, payload: Any = None, timeout: float = 6.0):
@@ -193,35 +212,44 @@ class Evidence:
         return all(item["ok"] for item in self.checks)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--window-id",
+        required=True,
+        help="Ventana forward existente bajo data/forward.",
+    )
+    args = parser.parse_args(argv)
+    try:
+        window_id = validate_window_id(args.window_id)
+    except ValueError as exc:
+        parser.error(str(exc))
+    window = PROJECT / "data" / "forward" / window_id
+
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
         sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:  # noqa: BLE001
         pass
     evidence = Evidence()
-    if not WINDOW.exists():
-        print(f"ABORTADO: no existe la ventana {WINDOW}", file=sys.stderr)
+    if not window.exists():
+        print(f"ABORTADO: no existe la ventana {window}", file=sys.stderr)
         return 2
     busy = [port for port in (8775, 8776, 8778) if listening(port)]
     if busy:
         print(f"ABORTADO: puertos ocupados {busy}", file=sys.stderr)
         return 2
 
-    snapshot = json.loads(
-        (WINDOW / "arms" / "control" / "profile" / "snapshot.json").read_text(
-            encoding="utf-8"
-        )
-    )
     guarded = {
         "data/config.json": PROJECT / "data/config.json",
+        "profiles/live_8765/config.json": PROJECT / "profiles/live_8765/config.json",
         "profiles/backtest_real/config.json": PROJECT / "profiles/backtest_real/config.json",
         "profiles/p2_freq/config.json": PROJECT / "profiles/p2_freq/config.json",
         "docs/protocolo_backtest.lock.json": PROJECT / "docs/protocolo_backtest.lock.json",
     }
     before = {
         "time": datetime.now().isoformat(timespec="seconds"),
-        "8765_listening": listening(8765),
+        "8765": bot_8765_state(),
         "8766": {
             "health": call("GET", "http://127.0.0.1:8766/api/health", timeout=4),
             "pid": pid_on_port(8766),
@@ -229,9 +257,14 @@ def main() -> int:
         },
         "task": task_info(TASK),
         "files": {name: file_state(path) for name, path in guarded.items()},
-        "db_8765": db_state(PROJECT / "data/yedbot.db"),
         "db_8766": db_state(PROJECT / "reports/backtest/preset_card_8766.db"),
     }
+    if before["8765"]["pid"] is None:
+        print(
+            "ABORTADO: el 8765 no está escuchando; se requiere su PID como línea base",
+            file=sys.stderr,
+        )
+        return 2
 
     task = before["task"]
     arguments = str(task.get("Arguments") or "")
@@ -249,7 +282,7 @@ def main() -> int:
     evidence.check(
         "acción acotada al forward (8775/8776, sin 8765/8766)",
         "server.forward.autorun" in arguments
-        and WINDOW_ID in arguments
+        and window_id in arguments
         and "8775,8776" in arguments
         and "8765" not in arguments
         and "8766" not in arguments
@@ -281,7 +314,7 @@ def main() -> int:
         for arm, port in (("control", 8775), ("treatment", 8776))
     }
     window_ok = all(
-        states[arm].get("window_id") == WINDOW_ID and states[arm].get("arm") == arm
+        states[arm].get("window_id") == window_id and states[arm].get("arm") == arm
         for arm in ("control", "treatment")
     )
     profile_ok = all(
@@ -300,7 +333,7 @@ def main() -> int:
             states[arm].get("config_file_sha256")
             == json.loads(
                 (
-                    WINDOW / "arms" / arm / "profile" / "snapshot.json"
+                    window / "arms" / arm / "profile" / "snapshot.json"
                 ).read_text(encoding="utf-8")
             )["config_file_sha256"]
             for arm in ("control", "treatment")
@@ -309,7 +342,7 @@ def main() -> int:
     )
 
     counts = {
-        arm: db_counts(WINDOW / "arms" / arm / "profile" / "yedbot.db")
+        arm: db_counts(window / "arms" / arm / "profile" / "yedbot.db")
         for arm in ("control", "treatment")
     }
     evidence.check(
@@ -329,7 +362,7 @@ def main() -> int:
     )
 
     heartbeat = json.loads(
-        (WINDOW / "arms" / "control" / "heartbeat.json").read_text(encoding="utf-8")
+        (window / "arms" / "control" / "heartbeat.json").read_text(encoding="utf-8")
     )
     old_pid = int(heartbeat["pid"])
     os.kill(old_pid, signal.SIGTERM)
@@ -338,7 +371,7 @@ def main() -> int:
     while time.time() < deadline:
         try:
             current = json.loads(
-                (WINDOW / "arms" / "control" / "heartbeat.json").read_text(
+                (window / "arms" / "control" / "heartbeat.json").read_text(
                     encoding="utf-8"
                 )
             )
@@ -354,7 +387,7 @@ def main() -> int:
             pass
         time.sleep(0.5)
 
-    events = read_jsonl(WINDOW / "arms" / "control" / "supervisor.jsonl")
+    events = read_jsonl(window / "arms" / "control" / "supervisor.jsonl")
     names = [str(item.get("event") or "") for item in events]
     exit_index = next(
         (
@@ -389,7 +422,7 @@ def main() -> int:
             "-m",
             "server.forward.autorun",
             "--window-id",
-            WINDOW_ID,
+            window_id,
             "--ports",
             "8775,8776",
             "--stop",
@@ -413,7 +446,7 @@ def main() -> int:
 
     after = {
         "time": datetime.now().isoformat(timespec="seconds"),
-        "8765_listening": listening(8765),
+        "8765": bot_8765_state(),
         "8766": {
             "health": call("GET", "http://127.0.0.1:8766/api/health", timeout=4),
             "pid": pid_on_port(8766),
@@ -421,21 +454,18 @@ def main() -> int:
         },
         "task": task_info(TASK),
         "files": {name: file_state(path) for name, path in guarded.items()},
-        "db_8765": db_state(PROJECT / "data/yedbot.db"),
         "db_8766": db_state(PROJECT / "reports/backtest/preset_card_8766.db"),
     }
 
     identical = (
         before["files"] == after["files"]
-        and before["db_8765"] == after["db_8765"]
         and before["db_8766"] == after["db_8766"]
     )
     evidence.check(
-        "hashes de config, DB y lock del 8765/8766 idénticos",
+        "hashes de configuración vigilados y DB del 8766 idénticos",
         identical,
         {
             "configs": before["files"] == after["files"],
-            "db_8765": before["db_8765"] == after["db_8765"],
             "db_8766": before["db_8766"] == after["db_8766"],
         },
     )
@@ -453,9 +483,17 @@ def main() -> int:
         },
     )
     evidence.check(
-        "el 8765 sigue sin arrancar",
-        before["8765_listening"] is False and after["8765_listening"] is False,
-        {"before": before["8765_listening"], "after": after["8765_listening"]},
+        "el 8765 conserva el mismo PID y los mismos hashes",
+        before["8765"]["pid"] is not None
+        and before["8765"]["pid"] == after["8765"]["pid"]
+        and before["8765"]["configs"] == after["8765"]["configs"]
+        and all(bool(value) for value in before["8765"]["configs"].values()),
+        {
+            "pid_before": before["8765"]["pid"],
+            "pid_after": after["8765"]["pid"],
+            "configs_before": before["8765"]["configs"],
+            "configs_after": after["8765"]["configs"],
+        },
     )
     evidence.check(
         "la tarea queda registrada y lista tras la prueba",
@@ -470,7 +508,7 @@ def main() -> int:
     )
 
     payload = {
-        "window_id": WINDOW_ID,
+        "window_id": window_id,
         "task": TASK,
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "before": before,
@@ -478,7 +516,7 @@ def main() -> int:
         "checks": evidence.checks,
         "ok": evidence.ok,
     }
-    (WINDOW / "AUTOSTART_EVIDENCE.json").write_text(
+    (window / "AUTOSTART_EVIDENCE.json").write_text(
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
     print(
@@ -486,7 +524,7 @@ def main() -> int:
             {
                 "passed": sum(1 for item in evidence.checks if item["ok"]),
                 "failed": sum(1 for item in evidence.checks if not item["ok"]),
-                "evidence": str(WINDOW / "AUTOSTART_EVIDENCE.json"),
+                "evidence": str(window / "AUTOSTART_EVIDENCE.json"),
             },
             indent=2,
         )

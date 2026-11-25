@@ -7,7 +7,17 @@ import { Icon } from '../icons';
 import { api } from '../api';
 import { useApp } from '../store';
 import type { ForwardValidationReport } from '../types';
-import { dateTimeET, elapsed, mergeBars, money, moneySigned, num, pct, exitReasonLabel } from '../utils';
+import {
+  contractLimitText,
+  dateTimeET,
+  elapsed,
+  exitReasonLabel,
+  mergeBars,
+  money,
+  moneySigned,
+  num,
+  pct,
+} from '../utils';
 
 export default function Dashboard() {
   const { snap, chartHistory } = useApp();
@@ -34,10 +44,7 @@ export default function Dashboard() {
   const or = snap.opening_range;
   const change = q?.change || 0;
   const stats = snap.stats;
-  const maxContracts = Number(snap.settings?.risk?.max_contracts ?? 0) || null;
-  const contractsLabel = maxContracts
-    ? `${maxContracts} contrato${maxContracts === 1 ? '' : 's'} máx.`
-    : 'límite no disponible';
+  const contractsLabel = contractLimitText(snap.settings?.risk?.max_contracts) ?? 'límite no disponible';
   const equityPoints = (snap.stats.equity_curve || []).map((p) => ({ ts: p.ts, value: p.equity }));
   const equityPeriod = equityPoints.length > 1
     ? `${dateTimeET(equityPoints[0].ts)} → ${dateTimeET(equityPoints[equityPoints.length - 1].ts)} · ${elapsed(equityPoints[equityPoints.length - 1].ts - equityPoints[0].ts)}`
@@ -94,6 +101,13 @@ export default function Dashboard() {
             sub={`Abierto ${money(-(risk.open_drawdown || 0))} · Límite diario $${num(risk.daily_loss_limit, 0)}`}
           />
         </Card>
+      </div>
+
+      <div className="section-title" style={{ marginTop: 0 }}>
+        Rendimiento histórico
+        <span className="muted" style={{ fontWeight: 400, marginLeft: 6 }}>
+          · todas las operaciones cerradas
+        </span>
       </div>
 
       <div className="grid cols-4" style={{ marginBottom: 12 }}>
@@ -184,7 +198,7 @@ export default function Dashboard() {
             <Card
               noBody
               title={<>Posiciones <span className="muted">({snap.position ? 1 : 0})</span></>}
-              actions={<span className="card-sub">MNQ · {contractsLabel}</span>}
+              actions={<span className="card-sub">MNQ</span>}
             >
               {snap.position ? (
                 <div className="table-wrap">
@@ -269,6 +283,7 @@ export default function Dashboard() {
               <div className="kv-row"><span className="kv-label">Ventana de operación</span><span className="kv-value mono">{snap.session.trade_window_start}–{snap.session.trade_window_end} ET</span></div>
               <div className="kv-row"><span className="kv-label">Cierre de sesión</span><span className="kv-value mono">{snap.session.close_time} ET</span></div>
               <div className="kv-row"><span className="kv-label">Operaciones hoy</span><span className="kv-value">{risk.trades_today} / {risk.max_trades_per_day}</span></div>
+              <div className="kv-row"><span className="kv-label">Máx. contratos</span><span className="kv-value" data-testid="contract-limit">{contractsLabel}</span></div>
               <div className="kv-row"><span className="kv-label">Bloqueo actual</span><span className={`kv-value ${risk.blocked_reason ? 'amber' : 'pos'}`}>{risk.blocked_reason || 'Ninguno'}</span></div>
               <div className="kv-row"><span className="kv-label">Última actualización</span><span className={`kv-value mono ${snap.data?.stale ? 'neg' : 'pos'}`}>{snap.data?.last_bar_ts ? dateTimeET(snap.data.last_bar_ts) : '—'} · {snap.data?.stale ? 'retrasada' : 'válida'}</span></div>
             </div>

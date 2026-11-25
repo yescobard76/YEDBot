@@ -39,7 +39,7 @@ export default function TopBar() {
 
   return (
     <header className="topbar">
-      <div className="tb-section" style={{ minWidth: 210 }}>
+      <div className="tb-section tb-state">
         <div className="tb-status">
           <span className={`dot ${statusTone} ${running ? 'pulse' : ''}`} />
           <span className="tb-status-text">{statusText}</span>
@@ -84,7 +84,7 @@ export default function TopBar() {
         })}
       </div>
 
-      <div className="tb-section">
+      <div className="tb-section tb-or">
         <span className="tb-label">Opening Range</span>
         <div style={{ display: 'flex', gap: 14 }}>
           <div>
@@ -103,7 +103,7 @@ export default function TopBar() {
         <span className="tb-sub muted">{or ? `${or.width.toFixed(2)} pts · ${or.width_pct.toFixed(2)}%` : '9:00–10:00 ET'}</span>
       </div>
 
-      <div className="tb-section">
+      <div className="tb-section tb-pnl">
         <span className="tb-label">P&L del día</span>
         <span className={`tb-value ${(risk?.daily_pnl || 0) > 0 ? 'pos' : (risk?.daily_pnl || 0) < 0 ? 'neg' : ''}`}>
           {moneySigned(risk?.daily_pnl || 0)}
@@ -111,7 +111,7 @@ export default function TopBar() {
         <span className="tb-sub muted">Acumulado {moneySigned(risk?.cum_pnl || 0)}</span>
       </div>
 
-      <div className="tb-section">
+      <div className="tb-section tb-dd">
         <span className="tb-label">Drawdown máx.</span>
         <span className="tb-value sm neg">{pct(risk?.max_drawdown_pct || 0, 2)}</span>
         <span className="tb-sub muted">Riesgo abierto {pct(risk?.risk_open_pct || 0, 2)}</span>
@@ -123,7 +123,7 @@ export default function TopBar() {
         <span className="tb-clock-date">{clock.date} ET</span>
       </div>
 
-      <div className="tb-section" style={{ borderLeft: '1px solid var(--line-soft)' }}>
+      <div className="tb-section tb-feed" style={{ borderLeft: '1px solid var(--line-soft)' }}>
         <FeedBadge data={snap?.data} />
         <span className="tb-sub muted">
           {snap?.data?.last_bar_ts ? `Última vela ${clockET(new Date(snap.data.last_bar_ts * 1000)).time}` : 'Esperando datos'}

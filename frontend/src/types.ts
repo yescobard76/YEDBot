@@ -450,6 +450,20 @@ export interface ForwardValidationReport {
       applicable_to_candidates: boolean;
     };
   };
+  manual_8765?: {
+    contract_limit?: {
+      value: number | null;
+      status: string;
+      source: string;
+      config_sha256?: string | null;
+      note?: string;
+    };
+  };
+  historical_reference?: {
+    label: string;
+    role?: string;
+    dev_metrics: ForwardValidationMetrics;
+  };
   holdout: {
     id: string;
     start: string;

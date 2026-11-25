@@ -35,6 +35,7 @@ redeclaran las ventanas.
 | filtro 0,25: 17 ops, +4.202,20, PF 4,25, DD 946,38 | `_manual_filter025_w1_w6.py` y `_manual_filter025_w1_w6.json` |
 | atribución con residual 0,00 | salida de `_manual_w1_w6_analysis.py` |
 | rentabilidad comparada y propuestas priorizadas | `FILTER025_PROFITABILITY.md` |
+| memo de decisión 8765 (estado, comparación y mejoras) | `docs/MANUAL_8765_DECISION_MEMO.md` |
 
 `_p2_w1_w6_confirm.py` es la confirmación independiente de original/P2 y
 escribe `p2_w1_w6_confirm.json`. `_manual_filter025_w1_w6.py` escribe

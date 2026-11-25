@@ -12,11 +12,15 @@ import csv
 import hashlib
 import io
 import json
+import os
 import sqlite3
 import sys
+import tempfile
+from datetime import date
 from pathlib import Path
 from typing import Any
 
+from .capture import guard_session_date
 from .identity import GENESIS, now_utc, read_snapshot, verify_snapshot
 from .ledger import Ledger, canonical_bytes, derive_status, read_records, verify_chain
 from .loader import ForwardIntegrityError, load_strict
@@ -37,9 +41,27 @@ TRACE_FIELDS = (
 )
 
 
+class SessionError(RuntimeError):
+    """La sesión no se puede cerrar de forma íntegra."""
+
+
+def _guard_session_date(value: str) -> str:
+    """Rechaza holdout, muestras prohibidas y fechas fuera del forward."""
+    try:
+        day = date.fromisoformat(str(value))
+    except (TypeError, ValueError) as exc:
+        raise SessionError(f"fecha de sesión inválida: {value!r} (usa YYYY-MM-DD)") from exc
+    try:
+        guard_session_date(day)
+    except Exception as exc:  # CaptureError es un ValueError; se conserva el mensaje.
+        raise SessionError(str(exc)) from exc
+    return day.isoformat()
+
+
 def _read_trades(db_path: Path) -> list[dict[str, Any]]:
+    """Lee la DB del brazo en modo read-only; un fallo no es una sesión vacía."""
     if not db_path.exists():
-        return []
+        raise SessionError(f"DB del brazo ausente: {db_path}")
     uri = f"file:{db_path.as_posix()}?mode=ro"
     try:
         conn = sqlite3.connect(uri, uri=True)
@@ -50,8 +72,8 @@ def _read_trades(db_path: Path) -> list[dict[str, Any]]:
             ).fetchall()
         finally:
             conn.close()
-    except sqlite3.Error:
-        return []
+    except sqlite3.Error as exc:
+        raise SessionError(f"no se puede leer la DB del brazo: {exc}") from exc
     return [dict(row) for row in rows]
 
 
@@ -92,23 +114,40 @@ def _profit_factor(pnls: list[float]) -> float | None:
     return round(gross_win / gross_loss, 4)
 
 
-def _write_json(path: Path, payload: dict[str, Any]) -> None:
+def _atomic_write(path: Path, data: bytes) -> None:
+    """Escribe un artefacto sellado sin dejar una versión parcial visible."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
-        encoding="utf-8",
+    fd, temporary = tempfile.mkstemp(
+        dir=str(path.parent), prefix=".forward-session-", suffix=".tmp"
+    )
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+
+
+def _write_json(path: Path, payload: dict[str, Any]) -> None:
+    _atomic_write(
+        path,
+        (json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode(
+            "utf-8"
+        ),
     )
 
 
 def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8", newline="\n") as handle:
-        for row in rows:
-            handle.write(json.dumps(row, sort_keys=True, ensure_ascii=False) + "\n")
+    buffer = io.StringIO()
+    for row in rows:
+        buffer.write(json.dumps(row, sort_keys=True, ensure_ascii=False) + "\n")
+    _atomic_write(path, buffer.getvalue().encode("utf-8"))
 
 
 def _write_curve(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
     buffer = io.StringIO()
     writer = csv.DictWriter(
         buffer, fieldnames=["seq", "ts", "equity", "peak", "drawdown"], lineterminator="\n"
@@ -116,7 +155,7 @@ def _write_curve(path: Path, rows: list[dict[str, Any]]) -> None:
     writer.writeheader()
     for row in rows:
         writer.writerow(row)
-    path.write_text(buffer.getvalue(), encoding="utf-8", newline="\n")
+    _atomic_write(path, buffer.getvalue().encode("utf-8"))
 
 
 def _file_hash(path: Path) -> str:
@@ -134,11 +173,15 @@ def _previous_session_hash(folder: Path, current: str) -> str:
     entries = sorted(path for path in folder.glob("*.json") if path.stem < current)
     if not entries:
         return GENESIS
+    path = entries[-1]
     try:
-        value = json.loads(entries[-1].read_text(encoding="utf-8"))
-    except Exception:  # noqa: BLE001
-        return GENESIS
-    return str(value.get("session_sha256") or GENESIS)
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except Exception as exc:  # noqa: BLE001
+        raise SessionError(f"sesión previa ilegible: {path}: {exc}") from exc
+    previous = str(value.get("session_sha256") or "")
+    if not previous:
+        raise SessionError(f"sesión previa sin session_sha256: {path}")
+    return previous
 
 
 def _signals_for(arm_path: Path, session_date: str) -> list[dict[str, Any]]:
@@ -167,6 +210,7 @@ def close_session(
 ) -> dict[str, Any]:
     window_id = validate_window_id(window_id)
     arm = validate_arm(arm)
+    session_date = _guard_session_date(session_date)
     profile = profile_dir(window_id, arm)
     arm_path = arm_dir(window_id, arm)
     snapshot = read_snapshot(profile)
@@ -189,6 +233,16 @@ def close_session(
         except ForwardIntegrityError as exc:
             problems = list(exc.problems)
 
+    initial = float(snapshot.get("initial_capital") or 25000.0)
+    trades: list[dict[str, Any]] = []
+    db_error = False
+    if not problems:
+        try:
+            trades = _read_trades(profile / "yedbot.db")
+        except SessionError as exc:
+            problems = [str(exc)]
+            db_error = True
+
     previous = _previous_session_hash(folder, session_date)
     if problems:
         record: dict[str, Any] = {
@@ -198,7 +252,7 @@ def close_session(
             "session": session_date,
             "closed_at": now_utc(),
             "valid": False,
-            "reason": "integridad T0",
+            "reason": "DB del brazo no legible" if db_error else "integridad T0",
             "integrity_problems": problems,
             "note": note,
             "artifacts": {},
@@ -212,6 +266,7 @@ def close_session(
             "INTEGRITY_FAIL",
             {
                 "stage": "session_close",
+                "reason": record["reason"],
                 "session": session_date,
                 "problems": problems,
                 "session_file": str(session_file),
@@ -234,8 +289,6 @@ def close_session(
             "problems": problems,
         }
 
-    initial = float(snapshot.get("initial_capital") or 25000.0)
-    trades = _read_trades(profile / "yedbot.db")
     day_trades = [trade for trade in trades if _trade_day(trade) == session_date]
     up_to = [trade for trade in trades if _trade_day(trade) <= session_date]
     curve, max_dd = _curve(up_to, initial)

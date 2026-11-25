@@ -1,6 +1,6 @@
 {
   "schema": "forward-validation-v1",
-  "generated_at": "2026-11-24T02:15:00+00:00",
+  "generated_at": "2026-11-25T02:43:43+00:00",
   "generated_by": "reports/backtest/build_forward_validation.py",
   "status": "insufficient_data",
   "decision": {
@@ -14,10 +14,10 @@
     "reasons": [
       "El dataset de desarrollo termina el 2026-06-30; no contiene la ventana H1 ni barras posteriores.",
       "El holdout H1 2026-07-01→2026-10-30 está sellado y no se ejecutó; usarlo violaría el protocolo v1.2.",
-      "No existe un protocolo forward pre-registrado para P2 ni para P2+BE. El lock forward existente prueba el filtro stop/ORB 0,25, una hipótesis distinta.",
+      "El protocolo forward de P2, P2+BE y manual está pre-registrado en docs/p2_be_1r_forward.lock.json, pero no se ha ejecutado; el lock del filtro 0,25 sigue siendo otra hipótesis.",
       "Las únicas métricas disponibles de P2 y P2+BE son in-sample sobre W1-W6 y no sirven para promover.",
       "P2+BE usa FullManagementExecution de un script de investigación, no el motor de producción.",
-      "La instancia 8766 (P1 5/200/210/24) es una referencia separada y no se modificó."
+      "La instancia 8766 (P1 · 5 contratos · SL 200 · 210/24) es una referencia separada y no se modificó."
     ]
   },
   "development": {
@@ -27,7 +27,7 @@
     "sessions": 362,
     "status": "in_sample",
     "role": "context_only_not_validation",
-    "source": "reports/backtest/_manual_w1_w6_analysis.log; p2_w1_w6_confirm.json; p2_be_1r_experiment.json",
+    "source": "reports/backtest/live_vs_original_mission.json; reports/backtest/p2_w1_w6_confirm.json; reports/backtest/p2_be_1r_experiment.json",
     "note": "Métricas de desarrollo. Se muestran para comparar, no para decidir."
   },
   "forward": {
@@ -41,15 +41,15 @@
     "earliest_preregistered_window": {
       "start": "2026-12-01",
       "end": "2029-11-30",
-      "source": "docs/p2_filtro_stop_or_forward.lock.json",
-      "hypothesis": "H-P2-FILTER-STOP-OR-025",
-      "applicable_to_candidates": false
+      "source": "docs/p2_be_1r_forward.lock.json",
+      "hypothesis": "H-P2-BE1R-MANUAL-FORWARD",
+      "applicable_to_candidates": true
     },
-    "candidate_forward_protocol": null,
-    "summary": "0 sesiones forward disponibles. El dataset termina el 2026-06-30; la primera ventana forward pre-registrada empieza el 2026-12-01 y pertenece a otra hipótesis.",
+    "candidate_forward_protocol": "H-P2-BE1R-MANUAL-FORWARD",
+    "summary": "0 sesiones forward disponibles. El dataset termina el 2026-06-30; el protocolo P2/P2+BE/manual está pre-registrado desde el 2026-12-01, pero no se ha ejecutado.",
     "reasons": [
-      "No hay csv forward en reports/backtest/p2_filtro_stop_or_forward/.",
-      "La ventana forward pre-registrada no cubre P2 ni P2+BE.",
+      "No hay csv forward en reports/backtest/p2_be_manual_forward/.",
+      "El protocolo P2/P2+BE/manual está pre-registrado, pero no ejecutado.",
       "No se ejecutó ninguna simulación nueva sobre datos de validación."
     ]
   },
@@ -81,6 +81,15 @@
       "can_execute": false,
       "hypothesis_id": "H-P2-FILTER-STOP-OR-025",
       "applicable_to_candidates": false
+    },
+    "p2_be_manual_forward": {
+      "path": "docs/P2_BE_1R_FORWARD.md",
+      "lock": "docs/p2_be_1r_forward.lock.json",
+      "sha256": "ad72a200943febc2382e40372d199b8a7fda2d78fa67818e96c27be779735dd5",
+      "status": "pre_registered_not_executed",
+      "can_execute": false,
+      "hypothesis_id": "H-P2-BE1R-MANUAL-FORWARD",
+      "applicable_to_candidates": true
     }
   },
   "candidates": [
@@ -96,9 +105,9 @@
         "ops": 72,
         "net_usd": 2022.94,
         "profit_factor": 1.22,
-        "expectancy_usd": 28.1,
         "max_drawdown_usd": 2891.66,
-        "max_drawdown_pct": 9.79,
+        "max_drawdown_pct": 9.793,
+        "expectancy_usd": 28.1,
         "expectancy_r": 0.18,
         "total_r": 13.19
       },
@@ -162,7 +171,8 @@
     "profiles_live_8765": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
     "p2_confirm_source": "3b2d654a6298b181c0ad1161a038e7f8f95eaa70de26c211f2e3d2f82b9e9312",
     "p2_be_experiment": "eebefb261c4663992a65dbbe7687cb204184e89481d68ccd4dc85940d29c13c0",
-    "baseline_log": "ce7be427502cb9a8e065d9b6e18edb445c885ab10b8e8c5c18aadc1c4069d744",
+    "live_vs_original_source": "40377a5daf096444acdd46c69f3da9c5d57233430625b261aa2caa378f0dab37",
+    "p2_be_forward_lock": "ad72a200943febc2382e40372d199b8a7fda2d78fa67818e96c27be779735dd5",
     "dataset": {
       "path": "data\\real\\bars_mnq_nq_es_1m.csv",
       "rows": 462150,
@@ -186,8 +196,15 @@
       "setup_validity_minutes": 210,
       "retest_tolerance_ticks": 24
     },
+    "contract_limit": {
+      "value": 10,
+      "status": "configured",
+      "source": "data/config.json#risk.max_contracts",
+      "config_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "note": "Leído de la configuración efectiva usada por la instancia 8765; no es un valor fijo del generador."
+    },
     "role": "current_live_instance",
-    "note": "8765 se levantó con una copia de data/config.json y SQLite propio; data/config.json permanece intacto."
+    "note": "8765 se levantó con una copia de data/config.json y SQLite propio; data/config.json permanece intacto. El límite de contratos se lee de la configuración efectiva, no de una constante del generador."
   },
   "other_instances": [
     {
@@ -206,13 +223,15 @@
   "historical_reference": {
     "label": "Original 5/200/150/12",
     "role": "historical_context_not_current_baseline",
+    "basis": "fixed_historical_reference",
+    "source": "docs/protocolo_backtest.lock.json; reports/backtest/_manual_common.py#ORIGINAL_FREQUENCY_PATCH",
     "dev_metrics": {
       "ops": 38,
       "net_usd": 661.44,
       "profit_factor": 1.13,
-      "expectancy_usd": 17.41,
       "max_drawdown_usd": 1967.82,
-      "max_drawdown_pct": 7.14,
+      "max_drawdown_pct": 7.141,
+      "expectancy_usd": 17.41,
       "expectancy_r": 0.13,
       "total_r": 4.98
     }

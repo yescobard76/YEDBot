@@ -145,6 +145,20 @@ def read_snapshot(profile: Path) -> dict[str, Any]:
     return value
 
 
+def config_file_path(profile: Path, snapshot: Mapping[str, Any]) -> Path:
+    """Resuelve el config del snapshot sin permitir rutas fuera del perfil."""
+    profile = Path(profile).resolve()
+    raw = Path(str(snapshot.get("config_path") or "config.json"))
+    if raw.is_absolute() or ".." in raw.parts:
+        raise ValueError(f"config_path fuera del perfil: {raw}")
+    candidate = (profile / raw).resolve()
+    try:
+        candidate.relative_to(profile)
+    except ValueError as exc:
+        raise ValueError(f"config_path fuera del perfil: {raw}") from exc
+    return candidate
+
+
 def verify_snapshot(
     profile: Path,
     snapshot: Mapping[str, Any],
@@ -155,8 +169,14 @@ def verify_snapshot(
     profile = Path(profile)
     problems: list[str] = []
 
-    config_path = profile / str(snapshot.get("config_path") or "config.json")
-    if not config_path.exists():
+    try:
+        config_path = config_file_path(profile, snapshot)
+    except ValueError as exc:
+        problems.append(str(exc))
+        config_path = None
+    if config_path is None:
+        pass
+    elif not config_path.exists():
         problems.append(f"config ausente: {config_path}")
     else:
         actual = file_sha256(config_path)

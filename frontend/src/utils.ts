@@ -86,6 +86,12 @@ export function pct(value: number | null | undefined, digits = 2, signed = false
   return `${signed && value > 0 ? '+' : ''}${num(value, digits)}%`;
 }
 
+export function contractLimitText(value: unknown): string | null {
+  const contracts = Number(value);
+  if (!Number.isInteger(contracts) || contracts <= 0) return null;
+  return `${contracts} contrato${contracts === 1 ? '' : 's'} máx.`;
+}
+
 export function timeET(ts?: number | null, withSeconds = true): string {
   if (!ts) return '—';
   return (withSeconds ? TIME_FMT : TIME_FMT_SHORT).format(new Date(ts * 1000));

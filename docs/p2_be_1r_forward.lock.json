@@ -1,0 +1,374 @@
+{
+  "schema": "p2-be-1r-manual-forward-lock-v2",
+  "protocol": "docs/P2_BE_1R_FORWARD.md",
+  "protocol_sha256": "240246aace8dba9930ecec807169d58361d227dc4594ff2e5586d5ffb7564164",
+  "version": "2.0",
+  "created": "2026-11-24",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-P2-BE1R-MANUAL-FORWARD",
+  "title": "Validación forward de P2 y P2 + break-even 1R frente a P2 y al manual 8765",
+  "relation_to_existing_plans": {
+    "separate_hypothesis": true,
+    "modifies_existing_documents_or_locks": false,
+    "current_forward_priority": "docs/FORWARD_ORIGINAL_VS_P1.md",
+    "current_priority_changed_by_this_lock": false,
+    "shared_sample_allowed": false,
+    "note": "No sustituye el plan original vs P1 ni el plan P2 + filtro 0,25. Si se ejecuta otro forward en la misma ventana, este estudio deja de ser una confirmación independiente."
+  },
+  "arms": {
+    "M": {
+      "id": "M",
+      "label": "Manual 8765",
+      "role": "live_benchmark",
+      "config_path": "data/config.json",
+      "profile_copy": "profiles/live_8765/config.json",
+      "config_sha256": "d3cff10d7842af4ab29c571c1fb8554841dfc128b9454df55eb53933286dcd10",
+      "config_file_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "profile_copy_sha256": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
+      "read_only": true,
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 300,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    },
+    "C": {
+      "id": "C",
+      "label": "P2 sin break-even",
+      "role": "candidate_p2",
+      "config_path": "profiles/p2_freq/config.json",
+      "config_sha256": "54656561bf692731d71013c6655155a566c9b4b49fe53a88d61bf20814310f4f",
+      "config_file_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+      "management": "none",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 200,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    },
+    "T": {
+      "id": "T",
+      "label": "P2 + break-even 1R",
+      "role": "candidate_p2_be",
+      "config_path": "profiles/p2_freq/config.json",
+      "config_sha256": "54656561bf692731d71013c6655155a566c9b4b49fe53a88d61bf20814310f4f",
+      "config_file_sha256": "ab161d6e53aa9825886596d597e65ee796bd6157b738f046bdc32a50f3f9aefb",
+      "management": "be_1r_next_bar",
+      "settings": {
+        "risk.max_contracts": 10,
+        "risk.max_sl_ticks": 200,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "risk.min_stop_or_ratio": 0.0,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "strategy.tp_rr": 3.0,
+        "live.live_enabled": false
+      }
+    }
+  },
+  "only_differences": {
+    "M_to_C": [
+      "risk.max_sl_ticks: 300 -> 200"
+    ],
+    "C_to_T": [
+      "execution management: none -> be_1r_next_bar"
+    ],
+    "not_changed": [
+      "risk.max_contracts = 10 en M, C y T",
+      "risk.min_stop_or_ratio = 0.0 en M, C y T",
+      "strategy.setup_validity_minutes = 210",
+      "strategy.retest_tolerance_ticks = 24",
+      "strategy.tp_rr = 3.0",
+      "risk.risk_per_trade_pct = 1.0",
+      "risk.max_trades_per_day = 3",
+      "risk.max_concurrent_positions = 1",
+      "feed/timestamps/contratos/rolls idénticos",
+      "live.live_enabled = false"
+    ]
+  },
+  "entry_relationship": {
+    "M_vs_C": "No pareado: max_sl_ticks=200 rechaza señales con stop >200 que M acepta. La comparación primaria es de cartera; el subconjunto común es descriptivo.",
+    "C_vs_T": "Pareado por señal: mismas entradas, timestamps y config; solo cambia la gestión BE. La qty puede diferir por camino de equity.",
+    "M_vs_T": "Comparación de promoción de cartera; el subconjunto común es descriptivo."
+  },
+  "be_policy": {
+    "id": "be_1r_next_bar",
+    "activation": "MFE_R >= 1.0 on a completed 1m bar",
+    "stop_level": "entry price rounded to tick",
+    "effective_from": "open of the next bar after activation",
+    "same_bar_execution": false,
+    "one_activation_per_trade": true,
+    "partial_exit": false,
+    "trailing": false,
+    "target_changed": false,
+    "gross_break_even": true,
+    "canonical_json": "{\"activation\":\"MFE_R >= 1.0 on a completed 1m bar\",\"effective_from\":\"open of the next bar after activation\",\"gross_break_even\":true,\"id\":\"be_1r_next_bar\",\"one_activation_per_trade\":true,\"partial_exit\":false,\"same_bar_execution\":false,\"stop_level\":\"entry price rounded to tick\",\"target_changed\":false,\"trailing\":false}",
+    "spec_sha256": "ee785864b4245ffbbc91e6640cb2c8461a131fc08830a71224454c5e0520fbf3",
+    "note": "Break-even de precio, no contable; no incluye comisiones ni slippage."
+  },
+  "frozen": {
+    "manual_note": "El perfil manual se lee de data/config.json en modo lectura. Si cambia su hash antes o durante la captura, el estudio se aborta; no se actualiza el benchmark en silencio.",
+    "p2_profile": "profiles/p2_freq/config.json",
+    "feed_overrides_common_to_all_arms": {
+      "provider": "csv",
+      "csv_path": "reports/backtest/p2_be_manual_forward/bars_forward.csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "loop_sessions": false,
+      "replay_speed": 1.0
+    }
+  },
+  "sample": {
+    "kind": "prospective_capture_forward_replay",
+    "status": "pending",
+    "start": "2026-12-01",
+    "end": "2029-11-30",
+    "calendar_sessions": 754,
+    "roll_sessions": 12,
+    "evaluated_sessions": 742,
+    "blocks": [
+      {"id": "F1", "start": "2026-12-01", "end": "2027-05-31", "calendar_sessions": 124, "roll_sessions": 2, "evaluated_sessions": 122},
+      {"id": "F2", "start": "2027-06-01", "end": "2027-11-30", "calendar_sessions": 127, "roll_sessions": 2, "evaluated_sessions": 125},
+      {"id": "F3", "start": "2027-12-01", "end": "2028-05-31", "calendar_sessions": 125, "roll_sessions": 2, "evaluated_sessions": 123},
+      {"id": "F4", "start": "2028-06-01", "end": "2028-11-30", "calendar_sessions": 127, "roll_sessions": 2, "evaluated_sessions": 125},
+      {"id": "F5", "start": "2028-12-01", "end": "2029-05-31", "calendar_sessions": 124, "roll_sessions": 2, "evaluated_sessions": 122},
+      {"id": "F6", "start": "2029-06-01", "end": "2029-11-30", "calendar_sessions": 127, "roll_sessions": 2, "evaluated_sessions": 125}
+    ],
+    "burn_in": {"start": "2026-11-23", "end": "2026-11-30", "excluded_from_analysis": true},
+    "expected_counts": {
+      "manual_trades": 148,
+      "p2_trades": 94,
+      "p2_be_trades": 94,
+      "common_pairs_C_T": 94,
+      "common_pairs_M_C_max": 94,
+      "basis": "Manual 72/362=19.9%; P2 46/362=12.7%; 742 sesiones. Los conteos son expectativas, no gates."
+    },
+    "minimums": {
+      "evaluated_sessions_min": 720,
+      "max_missing_month_share_pct": 20.0,
+      "max_consecutive_missing_sessions": 5,
+      "common_pairs_C_T_min": 60,
+      "trades_per_arm_min": 60,
+      "blocks_with_minimum": 5,
+      "block_pairs_C_T_min": 6,
+      "shorts_per_arm_min": 5,
+      "be_activations_min": 20,
+      "common_pair_share_C_T_min_pct": 85.0,
+      "common_pairs_M_C_min": 60,
+      "common_pair_share_C_in_M_min_pct": 95.0
+    }
+  },
+  "forbidden": [
+    {"id": "W1-W6", "start": "2025-01-10", "end": "2026-06-30", "reason": "Muestra usada para motivar P2 y BE; in-sample."},
+    {"id": "H1", "start": "2026-07-01", "end": "2026-10-30", "reason": "Holdout sellado por el protocolo v1.2."},
+    {"id": "EXTERNAL_2024", "start": "2024-01-02", "end": "2024-12-30", "reason": "Reservado por otra hipótesis; no independiente."},
+    {"id": "BURN_IN", "start": "2026-11-23", "end": "2026-11-30", "reason": "Solo plomería; excluido del análisis."}
+  ],
+  "capture": {
+    "provider": "Databento",
+    "dataset": "GLBX.MDP3",
+    "schema": "ohlcv-1m",
+    "stype_in": "raw_symbol",
+    "symbols": ["MNQ", "NQ", "ES"],
+    "contracts": 39,
+    "contracts_by_root": 13,
+    "rolls": 36,
+    "series_mode": "raw",
+    "session_hours_et": "09:00-15:59 (o cierre anticipado oficial)",
+    "one_session_per_file": true,
+    "captured_after_close_et": "16:05",
+    "append_only": true,
+    "backfill_allowed": false,
+    "synthetic_bars_allowed": false,
+    "shared_for_all_arms": true,
+    "manifest_fields": [
+      "window_id",
+      "session_date",
+      "captured_at_et",
+      "provider",
+      "schema",
+      "symbols",
+      "contracts",
+      "expiries",
+      "rows_per_symbol",
+      "first_bar_et",
+      "last_bar_et",
+      "sha256",
+      "validation.ok",
+      "validation.aligned",
+      "validation.gaps",
+      "validation.opening_range_complete",
+      "validation.roll_session",
+      "holdout_bars_read",
+      "forbidden_session"
+    ],
+    "note": "Una sesión perdida se registra y cuenta para S1; no se rellena, no se sustituye y no se descarga el holdout."
+  },
+  "gates": {
+    "integrity": {
+      "I1": "hashes del protocolo, lock, perfiles M/C y política BE verificados; procedencia del código registrada",
+      "I2": "sesiones solo en 2026-12-01..2029-11-30; cero W1-W6, H1, 2024 o burn-in",
+      "I3": "dataset válido: 39 contratos, 36 rolls, 12 rolls excluidos, 3 símbolos alineados, ORB completo, cero huecos injustificados",
+      "I4": "captura prospective, manifiesto por sesión, captured_at_et del mismo día, sin backfill ni datos sintéticos, SHA-256 por archivo",
+      "I5": "simetría: M/C solo difieren en max_sl_ticks; C/T solo en la política BE; feed, timestamps y resto idénticos",
+      "I6": "BE determinista: MFE en velas completadas, activación desde la vela siguiente, una activación, sin lookahead",
+      "I7": "sin parcial, trailing, cambio de target, qty o reentrada; diff exacto none -> be_1r_next_bar",
+      "I8": "determinismo: replay del 10% dos veces con mismos signal_id, activaciones BE y operaciones",
+      "I9": "one-shot: analysis.json no existe antes; una sola análisis de eficacia",
+      "I10": "holdout_bars_read=false y cero sesiones H1; cualquier lectura del holdout invalida el estudio",
+      "I11": "data/config.json y profiles/live_8765/config.json conservan el hash pre-registrado; el benchmark M no cambió",
+      "I12": "CSV forward y cada sesión tienen hash, manifiesto y cadena de custodia; sin sesiones duplicadas ni fuera de orden"
+    },
+    "sample": {
+      "S1": ">=720/742 sesiones; ningún mes <80%; ningún hueco >5 sesiones",
+      "S2": ">=60 pares de señales comunes C/T",
+      "S3": ">=60 operaciones cerradas por brazo (M, C, T)",
+      "S4": ">=5/6 bloques con >=6 pares C/T por brazo",
+      "S5": ">=5 cortos por brazo",
+      "S6": ">=20 activaciones BE en T",
+      "S7": ">=85% de las señales de C tienen pareja en T",
+      "S8": ">=60 pares M/C y >=95% de las operaciones de C tienen pareja en M"
+    },
+    "manual_profitability": {
+      "PM1": "net_profit_usd_candidato >= 0.90 * net_profit_usd_M",
+      "PM2": "profit_factor_candidato >= 1.25 and >= profit_factor_M",
+      "PM3": "expectancy_r_candidato >= 0.10 and >= expectancy_r_M",
+      "PM4": "RDD_USD_candidato >= 1.05 * RDD_USD_M; 95% CI lower for delta RDD_USD > 0",
+      "PM5": "max_drawdown_usd_candidato <= max_drawdown_usd_M and <= 2000.0",
+      "PM6": "drop_best_3_net_candidato > 0; top_trade_share_gross <= 0.50; best_month_share_net <= 0.50",
+      "PM7": "cost stress: net_candidato > 0 and profit_factor_candidato >= 1.10 with commission 1.24/side and slippage 2 ticks",
+      "PM8": "net_profit_usd_candidato > 0 and expectancy_usd_candidato > 0"
+    },
+    "be_incremental": {
+      "B1": "net_profit_usd_T >= 0.80 * net_profit_usd_C",
+      "B2": "total_r_T >= 0.80 * total_r_C",
+      "B3": "max_drawdown_usd_T <= 0.85 * max_drawdown_usd_C",
+      "B4": "RDD_USD_T >= 1.05 * RDD_USD_C; 95% CI lower > 0; includes 0 -> inconclusive",
+      "B5": "profit_factor_T >= 1.25 and expectancy_r_T >= 0.10",
+      "B6": "worst_loss_streak_T <= 12 and <= worst_loss_streak_C + 2",
+      "B7": ">=5/6 blocks net_T > 0; >=4/6 blocks RDD_T > RDD_C; no block DD_T > 1.50 * DD_C",
+      "B8": "cost stress: net_T > 0 and profit_factor_T >= 1.10 with commission 1.24/side and slippage 2 ticks"
+    },
+    "consistency": {
+      "C1": ">=5/6 blocks with net_profit_usd_candidato > 0",
+      "C2": ">=4/6 blocks with RDD_USD_candidato > RDD_USD_M",
+      "C3": "no block with max_drawdown_usd_candidato > 1.50 * max_drawdown_usd_M"
+    }
+  },
+  "decision": {
+    "ADOPT_T": "I, S, PM(C), consistency(C), PM(T), consistency(T) and B pass; T is promoted.",
+    "ADOPT_C": "I, S, PM(C) and consistency(C) pass; T fails B, PM(T) or consistency(T); C is promoted.",
+    "KEEP_M": "C fails PM, or no candidate meets the promotion gate; manual remains.",
+    "FAIL": "I and S pass but a candidate fails PM/B/C with clear negative evidence.",
+    "INCONCLUSO": "I or S fails; or RDD CI includes 0 without a clear failure; or fewer than 5 shorts; or minimum sample not met.",
+    "KILL": "K1-K5 met.",
+    "pass_scope": "Promotion candidate for a new operational preparation protocol; does not authorize LIVE or change live config.",
+    "no_promotion_if_C_fails": true,
+    "no_rescue": "No changing gates, seed, window, costs, subgroups or BE threshold after seeing results."
+  },
+  "kill": {
+    "interim_economic_kill": false,
+    "interim_note": "No interim efficacy analysis. Economic KILL is evaluated once at the end; technical aborts are the only prior stops.",
+    "K1": "I1-I12 fail, holdout read or capture not prospective -> abort",
+    "K2": "net_C < 0.70 * net_M OR DD_C > 1.25 * DD_M OR DD_C > 2500.0",
+    "K3": "net_T < 0.70 * net_C OR DD_T > 1.25 * DD_C OR DD_T > 2500.0",
+    "K4": "net_T < 0.70 * net_M OR DD_T > 1.25 * DD_M OR DD_T > 2500.0",
+    "K5": "candidate net <= 0 OR profit_factor < 1.00 OR expectancy_r < 0",
+    "effect": "KILL closes the hypothesis for this sample; no re-run with another threshold, window, subgroup or cost."
+  },
+  "stopping": {
+    "no_interim_efficacy": true,
+    "STOP-T1": "any integrity failure, forbidden session or holdout read -> abort immediately; no efficacy metrics",
+    "STOP-T2": "protocol/lock/M/C/policy hash changes before execution -> abort; new lock required",
+    "STOP-T3": "a completed month has <80% sessions or >5 consecutive missing sessions -> stop capture and classify INCONCLUSO; no backfill or extension",
+    "STOP-F1": "2029-11-30 with sealed sample, or 742 evaluated sessions -> one final analysis",
+    "STOP-F2": "S1-S8 fail -> INCONCLUSO; no efficacy analysis",
+    "STOP-F3": "K2-K5 met at the end -> KILL",
+    "note": "No stopping for P&L, drawdown, RDD, win rate or promising results. Daily capture produces integrity counts only, never P&L or decisions."
+  },
+  "statistics": {
+    "primary_endpoint": "delta RDD_USD = net_profit_usd / max_drawdown_usd, candidate minus manual",
+    "secondary_endpoint": "paired delta R per common C/T signal; session bootstrap; descriptive for M/C",
+    "bootstrap": {
+      "primary_unit": "6-month blocks",
+      "resamples": 10000,
+      "seed": 20261201,
+      "confidence": 0.95,
+      "min_valid_replicates": 9500
+    },
+    "multiplicity": "fixed hierarchical sequence; no alpha adjustment; subgroup analyses descriptive only",
+    "interim_efficacy": false,
+    "one_shot": true
+  },
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "status": "sealed_not_executed",
+    "executed": false,
+    "used_for_decision": false,
+    "bars_read": false
+  },
+  "execution_gate": {
+    "can_execute": false,
+    "phase0_implementation_authorized": false,
+    "requires_new_execution_lock": true,
+    "reasons": [
+      "El BE solo existe en scripts de investigación; run_partial_exit_1r_full.py fija min_stop_or_ratio=0.25 y no sirve para P2 sin filtro.",
+      "No existe una política BE versionada y testeada para el runner de replay.",
+      "No existe captura prospective ni CSV forward sellado.",
+      "server/market/databento_fetch.py no cubre el universo Z26-Z29 (39 contratos, 36 rolls) para este forward.",
+      "DATABENTO_API_KEY no está configurada.",
+      "No existe preflight ni runner one-shot para este lock.",
+      "No existe el directorio de salida ni un lock de ejecución."
+    ]
+  },
+  "phase0_requirements": [
+    "Política BE determinista y versionada, con P2 min_stop_or_ratio=0.0 y tests.",
+    "Carga read-only del perfil manual M con aborto si cambia el hash.",
+    "Captura prospective con manifiesto, SHA-256 y append-only.",
+    "Universo Z26-Z29: 39 contratos y 36 rolls.",
+    "DATABENTO_API_KEY fuera del repositorio.",
+    "Preflight, runner one-shot y lock de ejecución.",
+    "Tests de plomería con fixtures sintéticos; sin W1-W6 ni holdout."
+  ],
+  "artifacts": {
+    "protocol": "docs/P2_BE_1R_FORWARD.md",
+    "lock": "docs/p2_be_1r_forward.lock.json",
+    "future_output_dir": "reports/backtest/p2_be_manual_forward/",
+    "future_analysis_json": "reports/backtest/p2_be_manual_forward/analysis.json",
+    "future_analysis_md": "reports/backtest/p2_be_manual_forward/ANALISIS.md",
+    "created_now": ["docs/P2_BE_1R_FORWARD.md", "docs/p2_be_1r_forward.lock.json"]
+  },
+  "prior_evidence": {
+    "note": "Solo contexto in-sample; no se usan métricas históricas como umbrales forward ni como validación.",
+    "sources": [
+      "reports/backtest/MANUAL_8765_LIVE_ASSESSMENT.md",
+      "reports/backtest/FILTER025_PROFITABILITY.md",
+      "reports/backtest/p2_w1_w6_confirm.json",
+      "reports/backtest/p2_be_1r_experiment.json"
+    ]
+  },
+  "notes": [
+    "El manual es el benchmark vivo 10/300/210/24, no la configuración original 5/200/150/12.",
+    "P2 rechaza señales con stop >200; por eso M/C no es un contraste pareado.",
+    "El forward no ejecuta ni lee el holdout."
+  ]
+}
