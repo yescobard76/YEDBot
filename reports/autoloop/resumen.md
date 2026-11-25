@@ -1,12 +1,12 @@
 # Informe consolidado — config viva del 8765 vs original, y mejoras
 
-**Generado:** 2026-11-25T01:12:42+00:00  
+**Generado:** 2026-11-25T01:23:33+00:00  
 **Alcance:** W1–W6, 362 sesiones, `2025-01-10` → `2026-06-30`, CSV `adjusted`, capital inicial 25.000 USD.  
 **Naturaleza:** backtest in-sample reproducible. Holdout no leído. Ningún cambio aplicado al 8765.
 
 ## Resumen
 
-- La viva gana **1.361,50 USD** y +0,09 de PF frente a la original, pero con **923,84 USD más de drawdown**; el IC95 % del bootstrap incluye cero (p=0,6544).
+- La viva gana **+1.361,50 USD** y +0,09 de PF frente a la original, pero con **+923,84 USD más de drawdown**; el IC95 % del bootstrap incluye cero (p=0,6544).
 - Las **4** ventanas de exclusión de fase 3: **4** mejoran neto y DD; el efecto no depende del encuadre exacto.
 - **Candidato a forward:** `excl_1130_1330` (36 ops, RDD 2,327).
 - **Concentración:** el candidato debe 104,6 % del neto a 5 operaciones; sin ellas, -146,74. Confianza baja-media.
@@ -16,34 +16,37 @@
 
 Mismas ventanas y misma contabilidad para las dos. La original es `5/200/150/12`; la viva es `10/300/210/24`.
 
-| Métrica | Original | Viva 8765 | Diferencia |
+| Métrica | Viva 8765 | Original | Δ (viva − original) |
 |---|---:|---:|---:|
-| Operaciones | 38 | 72 | +34 |
-| Neto USD | 661,44 | 2.022,94 | **+1.361,50** |
-| Profit factor | 1,13 | 1,22 | +0,09 |
-| Drawdown USD | 1.967,82 | 2.891,66 | +923,84 |
-| Drawdown % | 7,14 | 9,79 | +2,65 |
-| Expectancy R | 0,130 | 0,180 | +0,050 |
-| Acierto % | 31,58 | 36,11 | +4,53 |
-| Expectancy USD/op | 17,41 | 28,10 | +10,69 |
-| Peor racha perdedora | 10 | 13 | +3 |
-| RDD (neto/DD) | 0,3361 | 0,6996 | +0,3634 |
+| Operaciones | 72 | 38 | +34 |
+| Neto USD | 2.022,94 | 661,44 | **+1.361,50** |
+| RDD (neto/DD) | 0,6996 | 0,3361 | +0,3634 |
+| Drawdown USD | 2.891,66 | 1.967,82 | +923,84 |
+| Drawdown % | 9,79 | 7,14 | +2,65 |
+| Profit factor | 1,22 | 1,13 | +0,09 |
+| Expectancy R | 0,180 | 0,130 | +0,050 |
+| Acierto % | 36,11 | 31,58 | +4,53 |
+| Expectancy USD/op | 28,10 | 17,41 | +10,69 |
 
-**Lectura:** la viva gana 1.361,50 USD más en la muestra, pero con 923,84 USD más de drawdown. La ventaja viene de tomar 34 señales más y usar hasta 10 contratos, no de ejecutar mejor las señales compartidas: en las 37 comunes la viva pierde 158,12 USD. El bootstrap por 6 bloques da IC95 % [-3.056,32; +6.965,66] y p=0,6544: incluye cero.
+**Lectura:** la viva gana +1.361,50 USD más en la muestra, pero con +923,84 USD más de drawdown; el RDD pasa de 0,3361 a 0,6996. La ventaja viene de 35 señales solo-manual y 1 solo-original, y de usar hasta 10 contratos, no de ejecutar mejor las señales compartidas: en las 37 comunes la viva hace -158,12 USD. El bootstrap por 6 bloques da IC95 % [-3.056,32; +6.965,66] y p=0,6544: incluye cero.
+
+**Trazabilidad de la comparación:** la viva son cifras de `resultados.jsonl` (`manual_base`): 72 ops, 2.022,94 USD, RDD 0,6996 y DD 2.891,66. La original NO tiene fila en `resultados.jsonl`; se usa como referencia externa declarada `reports/backtest/live_vs_original_mission.json#aggregate.original`, no como una fila inventada del JSONL.
 
 ### Parámetros que difieren
 
 | Parámetro | Original | Viva |
 |---|---:|---:|
+| `feed.replay_speed` (no afecta al backtest) | 4.5 | 8.0 |
 | `risk.max_contracts` | 5 | 10 |
 | `risk.max_sl_ticks` | 200 | 300 |
-| `strategy.setup_validity_minutes` | 150 | 210 |
 | `strategy.retest_tolerance_ticks` | 12 | 24 |
-| `feed.replay_speed` (no afecta al backtest) | 4.5 | 8.0 |
+| `strategy.setup_validity_minutes` | 150 | 210 |
 
-El resto de parámetros es idéntico: `risk_per_trade_pct=1,0`, `max_trades_per_day=3`, `max_concurrent_positions=1`, `tp_rr=3,0`, `min_stop_or_ratio=0,0`, ORB 1,2 %, comisión 0,62/lado y slippage 1 tick/lado. La única diferencia no económica es `feed.replay_speed` (4,5 vs 8,0).
+El resto de parámetros es idéntico: `risk_per_trade_pct=1.0`, `max_trades_per_day=3`, `max_concurrent_positions=1`, `tp_rr=3.0`, `min_stop_or_ratio=0.0`, rango mínimo 10 ticks, comisión 0.62/lado y slippage 1 tick/lado. La única diferencia no económica es `feed.replay_speed`.
 
-Fuente: `reports/backtest/live_vs_original_mission.json`, re-ejecutado en esta sesión (72 ops, +2.022,94 USD, PF 1,22, DD 2.891,66). La config viva se leyó de `data/config.json` y de `profiles/live_8765/config.json`, con hash idéntico `9bf4f9c7…e29479f` y sin escribir en el 8765.
+**Config viva:** `data/config.json` y `profiles/live_8765/config.json` tienen SHA-256 idéntico: `9bf4f9c7…5e29479f` y `9bf4f9c7…5e29479f`. **Original:** `profiles/backtest_real/config.json` con el patch original de la misión (`5/200/150/12`). Todo en solo lectura; no se escribió en el 8765.
+
+Fuente numérica: `resultados.jsonl` (`manual_base`) para la viva y `live_vs_original_mission.json#aggregate.original` para la original, porque el JSONL no contiene esa fila.
 
 ## 1b. Atribución por palanca y hechos vs inferencias
 
@@ -51,16 +54,16 @@ Descomposición secuencial exacta (original → P1 frecuencia → P2 sizing → 
 
 | Paso | Cambio | Δ neto | Δ expect. R | Δ DD | Δ PF | Δ peor racha |
 |---|---|---:|---:|---:|---:|---:|
-| Original → P1 | validez 150→210, retesteo 12→24; 5 contratos, SL 200 | +1.330,82 | +0,120 | -20,00 | +0,24 | 0 |
-| P1 → P2 | `max_contracts` 5→10 | +479,52 | 0,000 | +356,64 | +0,02 | 0 |
-| P2 → viva | `max_sl_ticks` 200→300 | -448,84 | -0,070 | +587,20 | -0,17 | +3 |
+| Original → P1 | `Frecuencia 210/24` | +1.330,82 | +0,120 | -20,00 | +0,24 | +0 |
+| P1 → P2 | `Max contratos 5 → 10` | +479,52 | 0,000 | +356,64 | +0,02 | +0 |
+| P2 → viva | `Stop 200 → 300` | -448,84 | -0,070 | +587,20 | -0,17 | +3 |
 | **Original → viva** | **total** | **+1.361,50** | **+0,050** | **+923,84** | **+0,09** | **+3** |
 
 **Hechos medidos:**
 
 - La frecuencia aporta +1.330,82 y -20,00 de DD con riesgo original; no es aditiva: en la variante que combina frecuencia con riesgo viva aporta +2.631,00 (interacción +1.300,18).
 - El sizing aporta +479,52 y +356,64 de DD; no cambia la expectancy R por operación (0,250 en P1 y P2).
-- El stop 300 resta -448,84 y añade +587,20 de DD; los 26 trades con stop >200 suman -392,60 y explican casi todo el lastre.
+- El Stop 200 → 300 resta -448,84 y añade +587,20 de DD; los 26 trades con stop >200 suman -392,60 y explican casi todo el lastre.
 - En las 37 señales comunes la manual hace 752,02 y la original 910,14: -158,12. La diferencia agregada son 35 señales solo-manual (+1.270,92) y 1 solo-original que la manual no toma y pierde -248,70 (evita esa pérdida).
 - Bootstrap por 6 bloques: media +1.390,94; IC95 % [-3.056,32; +6.965,66]; p=0,6544; incluye cero.
 - `feed.replay_speed` 4,5→8,0 no cambia la secuencia: en W1, 8× y 1× dan 19 ops, 2.735,34, PF 2,42, DD 901,04; Δ 0,00. Es operativo, no edge.
@@ -68,9 +71,9 @@ Descomposición secuencial exacta (original → P1 frecuencia → P2 sizing → 
 **Inferencias (plausibles, no demostradas):**
 
 - La ventaja agregada es cobertura de señales y apalancamiento, no mejor ejecución en los trades compartidos. El pareo lo sostiene en la muestra; no prueba causalidad fuera de ella.
-- El stop 300 es un lastre en W1–W6; no implica que lo sea en forward. El cohorte de 26 trades es una comparación de carteras, no un experimento aleatorio.
+- El Stop 200 → 300 es un lastre en W1–W6; no implica que lo sea en forward. El cohorte de 26 trades es una comparación de carteras, no un experimento aleatorio.
 - La frecuencia 210/24 captura señales extra de calidad media inferior: en las comunes la manual rinde menos; el agregado gana por las 35 extra.
-- El +2.269,38 de la DB viva frente al +2.022,94 del backtest no es atribuible a la config: son contabilidad, feed y ejecución distintos; no hay reconciliación trade a trade.
+- La diferencia entre la DB viva y el backtest no es atribuible a la config: son contabilidad, feed y ejecución distintos; no hay reconciliación trade a trade.
 
 **Datos que faltan / no permiten concluir:**
 
@@ -78,22 +81,6 @@ Descomposición secuencial exacta (original → P1 frecuencia → P2 sizing → 
 - Que la original sea mejor: tampoco tiene forward; solo se midió en el mismo histórico.
 - Que la mejor variante primaria funcione hacia adelante: sus cifras son in-sample; el candidato tiene 36 ops y top-5 104,6 %.
 - Cuantificar el efecto de régimen o de un broker real: 6 bloques, 72/38 trades, un solo instrumento (MNQ) y ejecución paper.
-
-### 1c. Contabilidad viva vs backtest (misma config, distinta fuente)
-
-La DB/dashboard del 8765 y el backtest usan la misma config, pero no son la misma contabilidad. El original no tiene contraparte viva, así que esta tabla no compara configuraciones: solo documenta el desfase.
-
-| Métrica | Backtest W1–W6 | DB viva 8765 | Diferencia |
-|---|---:|---:|---:|
-| Operaciones | 72 | 72 | 0 |
-| Neto USD | 2.022,94 | 2.269,38 | +246,44 |
-| Profit factor | 1,22 | 1,23 | +0,01 |
-| Win rate % | 36,11 | 36,1 | ≈0 |
-| Expectancy USD/op | 28,10 | 31,52 | +3,42 |
-| Peor racha | 13 | 13 | 0 |
-| Drawdown | 2.891,66 (9,79 %) | 10,34 % | +0,55 pp |
-
-Fuente: `profiles/live_8765/yedbot.db` y dashboard `GET /`; el backtest sale de `live_vs_original_mission.json`. El desfase de +246,44 USD no se puede asignar a un parámetro: no hay log de fills equivalente.
 
 ## 2. Ranking autónomo por RDD (W1–W6, in-sample)
 
@@ -264,14 +251,14 @@ Al arrancar ocupa unos 240 MB; corre a prioridad idle y se autopausa si la RAM l
 
 ## 6. Garantías
 
-- `data/config.json` y `profiles/live_8765/config.json` conservan `9bf4f9c7…e29479f`; PID 15108 y arranque `2026-11-23T20:12:49-06:00` sin cambios.
-- Sin escrituras en la DB del 8765, sin reinicio, sin commits ni pushes.
+- `data/config.json` y `profiles/live_8765/config.json` conservan el mismo SHA-256 (ver sección 1); el proceso del 8765 no se reinició ni se modificó.
+- Sin escrituras en la DB del 8765; solo lectura.
 - Holdout no leído; 2024 no usado.
 
 ## 7. Veredicto
 
-- La manual gana **+1.361,50 USD** en la muestra (PF 1,22 vs 1,13; expectancy 0,180 vs 0,130 R; RDD 0,6996 vs 0,3361), pero **no domina en riesgo**: DD +923,84 y peor racha 13 vs 10. El IC95 % del delta incluye cero.
-- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: en las 37 comunes la manual pierde 158,12. El stop 300 es el lastre (-448,84 de neto y +587,20 de DD).
+- La manual gana **+1.361,50 USD** en la muestra (PF 1,22 vs 1,13; expectancy 0,180 vs 0,130 R; RDD 0,6996 vs 0,3361), pero **no domina en riesgo**: DD +923,84. El IC95 % del delta incluye cero.
+- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: en las 37 comunes la manual pierde -158,12. El Stop 200 → 300 es el lastre (-448,84 de neto y +587,20 de DD).
 - **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el holdout está sellado y la muestra es de 72/38 ops in-sample.
 
 - La mejora de mayor Δneto es `excl_1130_1330` (+1.180,88 USD; confianza baja-media).

@@ -11,6 +11,8 @@ No modifica configuración, DB ni el 8765. Solo escribe en reports/autoloop/.
 
 from __future__ import annotations
 
+import copy
+import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -19,6 +21,9 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "reports" / "autoloop"
 MISSION = ROOT / "reports" / "backtest" / "live_vs_original_mission.json"
 CONC = OUT / "concentracion.json"
+LIVE_CONFIG = ROOT / "data" / "config.json"
+LIVE_PROFILE = ROOT / "profiles" / "live_8765" / "config.json"
+ORIGINAL_PROFILE = ROOT / "profiles" / "backtest_real" / "config.json"
 
 MIN_FORWARD_OPS = 20
 
@@ -153,6 +158,58 @@ def without_execution(patch: dict | None) -> dict:
     return {k: v for k, v in (patch or {}).items() if k != "execution"}
 
 
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def dotted_get(data: dict, key: str):
+    cur = data
+    for part in key.split("."):
+        if not isinstance(cur, dict) or part not in cur:
+            return None
+        cur = cur[part]
+    return cur
+
+
+def dotted_set(data: dict, key: str, value) -> None:
+    parts = key.split(".")
+    cur = data
+    for part in parts[:-1]:
+        cur = cur.setdefault(part, {})
+    cur[parts[-1]] = value
+
+
+def config_label(cfg: dict) -> str:
+    return "/".join(str(dotted_get(cfg, key)) for key in (
+        "risk.max_contracts",
+        "risk.max_sl_ticks",
+        "strategy.setup_validity_minutes",
+        "strategy.retest_tolerance_ticks",
+    ))
+
+
+def row_stat(row: dict, name: str):
+    aliases = {
+        "net": ("net", "net_profit"),
+        "dd": ("dd", "max_drawdown"),
+        "dd_pct": ("dd_pct", "max_drawdown_pct"),
+        "pf": ("pf", "profit_factor"),
+        "trades": ("trades",),
+        "avg_r": ("avg_r",),
+        "win_rate": ("win_rate",),
+        "expectancy": ("expectancy",),
+        "worst_streak": ("worst_loss_streak", "worst_streak"),
+    }
+    for key in aliases[name]:
+        if row.get(key) is not None:
+            return row[key]
+    return None
+
+
 def risk_for(patch: dict) -> str:
     risks = list(dict.fromkeys(RISK[k] for k in flat(patch) if k in RISK))
     return " ".join(risks) if risks else "Sin palanca de riesgo; es el control."
@@ -171,6 +228,84 @@ def main() -> int:
     base = next((r for r in results if r["id"] == "manual_base"), None)
     base_net = float(base.get("net") or 0) if base else 0.0
     base_dd = float(base.get("dd") or 0) if base else 0.0
+
+    # Config real: la viva se lee de data/config.json y del perfil del 8765;
+    # la original se reconstruye aplicando el lado "original" del diff de la
+    # misión al perfil de backtest. Así los parámetros del informe no son texto
+    # fijo y se detecta cualquier deriva entre archivos.
+    live_cfg = json.loads(LIVE_CONFIG.read_text(encoding="utf-8"))
+    live_profile_cfg = json.loads(LIVE_PROFILE.read_text(encoding="utf-8"))
+    original_cfg = copy.deepcopy(json.loads(ORIGINAL_PROFILE.read_text(encoding="utf-8")))
+    for item in mission.get("config_diff", []):
+        dotted_set(original_cfg, item["key"], item["original"])
+
+    live_label = config_label(live_cfg)
+    original_label = config_label(original_cfg)
+    live_flat = flat(live_cfg)
+    original_flat = flat(original_cfg)
+    config_diffs = [
+        {"key": key, "live": live_flat.get(key), "original": original_flat.get(key)}
+        for key in sorted(set(live_flat) | set(original_flat))
+        if live_flat.get(key) != original_flat.get(key)
+    ]
+    stop_label = (
+        f"Stop {dotted_get(original_cfg, 'risk.max_sl_ticks')} → "
+        f"{dotted_get(live_cfg, 'risk.max_sl_ticks')}"
+    )
+    live_hash = sha256_file(LIVE_CONFIG)
+    live_profile_hash = sha256_file(LIVE_PROFILE)
+    hashes_match = live_hash == live_profile_hash
+
+    # La viva sale siempre de resultados.jsonl (manual_base). Si el JSONL no
+    # trae una fila original, se declara explícitamente que esa pata es la
+    # referencia de la misión y no se inventa una fila.
+    live_row = base
+    original_row = next(
+        (r for r in results if r.get("id") in ("original", "original_reference")),
+        None,
+    )
+    original_in_jsonl = original_row is not None
+    original_source = (
+        f"resultados.jsonl#{original_row.get('id', 'original')}"
+        if original_in_jsonl
+        else "reports/backtest/live_vs_original_mission.json#aggregate.original"
+    )
+    if original_row is None:
+        original_row = dict(mission["aggregate"]["original"])
+    live_source = (
+        "resultados.jsonl#manual_base"
+        if live_row
+        else "reports/backtest/live_vs_original_mission.json#aggregate.live"
+    )
+    if live_row is None:
+        live_row = dict(mission["aggregate"]["live"])
+
+    live_ops = int(row_stat(live_row, "trades") or 0)
+    original_ops = int(row_stat(original_row, "trades") or 0)
+    live_net = float(row_stat(live_row, "net") or 0)
+    original_net = float(row_stat(original_row, "net") or 0)
+    live_dd = float(row_stat(live_row, "dd") or 0)
+    original_dd = float(row_stat(original_row, "dd") or 0)
+    live_rdd = live_net / max(live_dd, 1)
+    original_rdd = original_net / max(original_dd, 1)
+    live_pf = float(row_stat(live_row, "pf") or 0)
+    original_pf = float(row_stat(original_row, "pf") or 0)
+    live_dd_pct = row_stat(live_row, "dd_pct")
+    original_dd_pct = row_stat(original_row, "dd_pct")
+    live_avg_r = float(row_stat(live_row, "avg_r") or 0)
+    original_avg_r = float(row_stat(original_row, "avg_r") or 0)
+    live_win_rate = float(row_stat(live_row, "win_rate") or 0)
+    original_win_rate = float(row_stat(original_row, "win_rate") or 0)
+    live_expectancy = live_net / live_ops if live_ops else 0.0
+    original_expectancy = original_net / original_ops if original_ops else 0.0
+    common = mission["paired"][0]
+    common_live_net = float(common["a_common"]["net_profit"])
+    common_original_net = float(common["b_common"]["net_profit"])
+    common_delta = common_live_net - common_original_net
+    manual_only_ops = int(common["a_trades"]) - int(common["common_signals"])
+    original_only_ops = int(common["b_trades"]) - int(common["common_signals"])
+    manual_only_net = live_net - common_live_net
+    original_only_net = original_net - common_original_net
 
     # Clasificación por metadatos del propio resultado, no por IDs fijos:
     # fase 3 se marca con why="robustez: ..."; costes con execution.*.
@@ -278,7 +413,22 @@ def main() -> int:
 
     live = mission["aggregate"]["live"]
     orig = mission["aggregate"]["original"]
-    diff = mission["config_diff"]
+    p1 = mission["aggregate"]["p1"]
+    p2 = mission["aggregate"]["p2"]
+    attr = mission["attribution"]
+    diag = mission["diagnostics"]
+    significance = mission["significance"]
+    replay = mission["replay"]
+    freq = attr["frequency"]
+    sizing = attr["sizing"]
+    stop = attr["stop"]
+    freq_live = attr["frequency_live"]
+    step_labels = {
+        ("original", "p1"): "Original → P1",
+        ("p1", "p2"): "P1 → P2",
+        ("p2", "live"): "P2 → viva",
+    }
+    step_aggs = {"original": orig, "p1": p1, "p2": p2, "live": live}
     if not robust_ext:
         robust_line = ("- La prueba de robustez de la exclusión sigue en curso; "
                        "no se promociona nada.")
@@ -317,9 +467,9 @@ def main() -> int:
         "",
         "## Resumen",
         "",
-        f"- La viva gana **{n(live['net_profit'] - orig['net_profit'])} USD** "
-        f"y +{n(live['profit_factor'] - orig['profit_factor'])} de PF frente a la "
-        f"original, pero con **{n(live['max_drawdown'] - orig['max_drawdown'])} USD "
+        f"- La viva gana **{signed(live_net - original_net)} USD** "
+        f"y {signed(live_pf - original_pf)} de PF frente a la "
+        f"original, pero con **{signed(live_dd - original_dd)} USD "
         "más de drawdown**; el IC95 % del bootstrap incluye cero (p="
         f"{n(mission['significance']['p_two_sided'], 4)}).",
         robust_line,
@@ -329,68 +479,98 @@ def main() -> int:
         "",
         "## 1. Config viva vs original establecida",
         "",
-        "Mismas ventanas y misma contabilidad para las dos. La original es "
-        "`5/200/150/12`; la viva es `10/300/210/24`.",
+        f"Mismas ventanas y misma contabilidad para las dos. La original es "
+        f"`{original_label}`; la viva es `{live_label}`.",
         "",
-        "| Métrica | Original | Viva 8765 | Diferencia |",
+        "| Métrica | Viva 8765 | Original | Δ (viva − original) |",
         "|---|---:|---:|---:|",
-        f"| Operaciones | {orig['trades']} | {live['trades']} | "
-        f"{live['trades'] - orig['trades']:+d} |",
-        f"| Neto USD | {n(orig['net_profit'])} | {n(live['net_profit'])} | "
-        f"**{signed(live['net_profit'] - orig['net_profit'])}** |",
-        f"| Profit factor | {n(orig['profit_factor'])} | {n(live['profit_factor'])} | "
-        f"{signed(live['profit_factor'] - orig['profit_factor'])} |",
-        f"| Drawdown USD | {n(orig['max_drawdown'])} | {n(live['max_drawdown'])} | "
-        f"{signed(live['max_drawdown'] - orig['max_drawdown'])} |",
-        f"| Drawdown % | {n(orig.get('max_drawdown_pct'))} | "
-        f"{n(live.get('max_drawdown_pct'))} | "
-        f"{signed((live.get('max_drawdown_pct') or 0) - (orig.get('max_drawdown_pct') or 0))} |",
-        f"| Expectancy R | {n(orig.get('avg_r'), 3)} | {n(live.get('avg_r'), 3)} | "
-        f"{signed((live.get('avg_r') or 0) - (orig.get('avg_r') or 0), 3)} |",
-        f"| Acierto % | {n(orig.get('win_rate'))} | {n(live.get('win_rate'))} | "
-        f"{signed((live.get('win_rate') or 0) - (orig.get('win_rate') or 0))} |",
-        f"| Expectancy USD/op | {n(orig.get('expectancy'))} | "
-        f"{n(live.get('expectancy'))} | "
-        f"{signed((live.get('expectancy') or 0) - (orig.get('expectancy') or 0))} |",
-        f"| Peor racha perdedora | {orig.get('worst_loss_streak')} | "
-        f"{live.get('worst_loss_streak')} | "
-        f"{int(live.get('worst_loss_streak') or 0) - int(orig.get('worst_loss_streak') or 0):+d} |",
-        f"| RDD (neto/DD) | {n(orig['net_profit'] / max(orig['max_drawdown'], 1), 4)} | "
-        f"{n(live['net_profit'] / max(live['max_drawdown'], 1), 4)} | "
-        f"{signed(live['net_profit'] / max(live['max_drawdown'], 1) - orig['net_profit'] / max(orig['max_drawdown'], 1), 4)} |",
+        f"| Operaciones | {live_ops} | {original_ops} | "
+        f"{live_ops - original_ops:+d} |",
+        f"| Neto USD | {n(live_net)} | {n(original_net)} | "
+        f"**{signed(live_net - original_net)}** |",
+        f"| RDD (neto/DD) | {n(live_rdd, 4)} | {n(original_rdd, 4)} | "
+        f"{signed(live_rdd - original_rdd, 4)} |",
+        f"| Drawdown USD | {n(live_dd)} | {n(original_dd)} | "
+        f"{signed(live_dd - original_dd)} |",
+        f"| Drawdown % | {n(live_dd_pct)} | {n(original_dd_pct)} | "
+        f"{signed((live_dd_pct or 0) - (original_dd_pct or 0))} |",
+        f"| Profit factor | {n(live_pf)} | {n(original_pf)} | "
+        f"{signed(live_pf - original_pf)} |",
+        f"| Expectancy R | {n(live_avg_r, 3)} | {n(original_avg_r, 3)} | "
+        f"{signed(live_avg_r - original_avg_r, 3)} |",
+        f"| Acierto % | {n(live_win_rate)} | {n(original_win_rate)} | "
+        f"{signed(live_win_rate - original_win_rate)} |",
+        f"| Expectancy USD/op | {n(live_expectancy)} | "
+        f"{n(original_expectancy)} | "
+        f"{signed(live_expectancy - original_expectancy)} |",
         "",
         "**Lectura:** la viva gana "
-        f"{n(live['net_profit'] - orig['net_profit'])} USD más en la muestra, pero "
-        f"con {n(live['max_drawdown'] - orig['max_drawdown'])} USD más de drawdown. "
-        "La ventaja viene de tomar 34 señales más y usar hasta 10 contratos, no de "
-        "ejecutar mejor las señales compartidas: en las 37 comunes la viva pierde "
-        "158,12 USD. El bootstrap por 6 bloques da IC95 % "
+        f"{signed(live_net - original_net)} USD más en la muestra, pero "
+        f"con {signed(live_dd - original_dd)} USD más de drawdown; el RDD pasa de "
+        f"{n(original_rdd, 4)} a {n(live_rdd, 4)}. La ventaja viene de "
+        f"{manual_only_ops} señales solo-manual y {original_only_ops} "
+        f"solo-original, y de usar hasta "
+        f"{dotted_get(live_cfg, 'risk.max_contracts')} contratos, no de ejecutar "
+        f"mejor las señales compartidas: en las {common['common_signals']} comunes "
+        f"la viva hace {signed(common_delta)} USD. El bootstrap por "
+        f"{significance['blocks']} bloques da IC95 % "
         f"[{n(mission['significance']['ci95_low'])}; "
         f"{signed(mission['significance']['ci95_high'])}] y p="
         f"{n(mission['significance']['p_two_sided'], 4)}: incluye cero.",
+        "",
+        "**Trazabilidad de la comparación:** la viva son cifras de "
+        f"`resultados.jsonl` (`manual_base`): {live_ops} ops, {n(live_net)} USD, "
+        f"RDD {n(live_rdd, 4)} y DD {n(live_dd)}. La original "
+        + (
+            "también sale de `resultados.jsonl`."
+            if original_in_jsonl
+            else "NO tiene fila en `resultados.jsonl`; se usa como referencia "
+                 "externa declarada `reports/backtest/live_vs_original_mission.json#aggregate.original`, "
+                 "no como una fila inventada del JSONL."
+        ),
         "",
         "### Parámetros que difieren",
         "",
         "| Parámetro | Original | Viva |",
         "|---|---:|---:|",
     ]
-    for row in diff:
+    for row in config_diffs:
         note = " (no afecta al backtest)" if "replay_speed" in row["key"] else ""
         lines.append(
             f"| `{row['key']}`{note} | {row['original']} | {row['live']} |"
         )
+    risk_pct = dotted_get(live_cfg, "risk.risk_per_trade_pct")
+    max_day = dotted_get(live_cfg, "risk.max_trades_per_day")
+    max_conc = dotted_get(live_cfg, "risk.max_concurrent_positions")
+    tp_rr = dotted_get(live_cfg, "strategy.tp_rr")
+    min_stop = dotted_get(live_cfg, "risk.min_stop_or_ratio")
+    orb = dotted_get(live_cfg, "strategy.min_range_ticks")
+    commission = dotted_get(live_cfg, "execution.commission_per_contract_side")
+    slippage = dotted_get(live_cfg, "execution.slippage_ticks")
     lines += [
         "",
-        "El resto de parámetros es idéntico: `risk_per_trade_pct=1,0`, "
-        "`max_trades_per_day=3`, `max_concurrent_positions=1`, `tp_rr=3,0`, "
-        "`min_stop_or_ratio=0,0`, ORB 1,2 %, comisión 0,62/lado y slippage "
-        "1 tick/lado. La única diferencia no económica es `feed.replay_speed` "
-        "(4,5 vs 8,0).",
+        "El resto de parámetros es idéntico: "
+        f"`risk_per_trade_pct={risk_pct}`, `max_trades_per_day={max_day}`, "
+        f"`max_concurrent_positions={max_conc}`, `tp_rr={tp_rr}`, "
+        f"`min_stop_or_ratio={min_stop}`, rango mínimo {orb} ticks, comisión "
+        f"{commission}/lado y slippage {slippage} tick/lado. La única diferencia "
+        "no económica es `feed.replay_speed`.",
         "",
-        "Fuente: `reports/backtest/live_vs_original_mission.json`, re-ejecutado "
-        "en esta sesión (72 ops, +2.022,94 USD, PF 1,22, DD 2.891,66). La config "
-        "viva se leyó de `data/config.json` y de `profiles/live_8765/config.json`, "
-        "con hash idéntico `9bf4f9c7…e29479f` y sin escribir en el 8765.",
+        f"**Config viva:** `data/config.json` y `profiles/live_8765/config.json` "
+        f"tienen SHA-256 {'idéntico' if hashes_match else 'DISTINTO'}: "
+        f"`{live_hash[:8]}…{live_hash[-8:]}` y "
+        f"`{live_profile_hash[:8]}…{live_profile_hash[-8:]}`. **Original:** "
+        f"`profiles/backtest_real/config.json` con el patch original de la "
+        f"misión (`{original_label}`). Todo en solo lectura; no se escribió en el "
+        "8765.",
+        "",
+        "Fuente numérica: `resultados.jsonl` (`manual_base`) para la viva y "
+        + (
+            "`resultados.jsonl` para la original."
+            if original_in_jsonl
+            else "`live_vs_original_mission.json#aggregate.original` para la "
+                 "original, porque el JSONL no contiene esa fila."
+        ),
         "",
         "## 1b. Atribución por palanca y hechos vs inferencias",
         "",
@@ -401,44 +581,69 @@ def main() -> int:
         "",
         "| Paso | Cambio | Δ neto | Δ expect. R | Δ DD | Δ PF | Δ peor racha |",
         "|---|---|---:|---:|---:|---:|---:|",
-        "| Original → P1 | validez 150→210, retesteo 12→24; 5 contratos, SL 200 | "
-        "+1.330,82 | +0,120 | -20,00 | +0,24 | 0 |",
-        "| P1 → P2 | `max_contracts` 5→10 | +479,52 | 0,000 | +356,64 | +0,02 | 0 |",
-        "| P2 → viva | `max_sl_ticks` 200→300 | -448,84 | -0,070 | +587,20 | -0,17 | +3 |",
-        "| **Original → viva** | **total** | **+1.361,50** | **+0,050** | "
-        "**+923,84** | **+0,09** | **+3** |",
+    ]
+    for step in attr["sequential"]:
+        before = step_aggs[step["from"]]
+        after = step_aggs[step["to"]]
+        label = step_labels[(step["from"], step["to"])]
+        lines.append(
+            f"| {label} | `{step['lever']}` | {signed(step['delta_net'])} | "
+            f"{signed(after['avg_r'] - before['avg_r'], 3)} | "
+            f"{signed(step['delta_dd'])} | {signed(step['delta_pf'])} | "
+            f"{step['delta_streak']:+d} |"
+        )
+    total = attr["total"]
+    lines += [
+        f"| **Original → viva** | **total** | **{signed(total['delta_net'])}** | "
+        f"**{signed(live['avg_r'] - orig['avg_r'], 3)}** | "
+        f"**{signed(total['delta_dd'])}** | **{signed(live['profit_factor'] - orig['profit_factor'])}** | "
+        f"**{total['delta_streak']:+d}** |",
         "",
         "**Hechos medidos:**",
         "",
-        "- La frecuencia aporta +1.330,82 y -20,00 de DD con riesgo original; "
-        "no es aditiva: en la variante que combina frecuencia con riesgo viva "
-        "aporta +2.631,00 (interacción +1.300,18).",
-        "- El sizing aporta +479,52 y +356,64 de DD; no cambia la expectancy R "
-        "por operación (0,250 en P1 y P2).",
-        "- El stop 300 resta -448,84 y añade +587,20 de DD; los 26 trades con "
-        "stop >200 suman -392,60 y explican casi todo el lastre.",
-        "- En las 37 señales comunes la manual hace 752,02 y la original 910,14: "
-        "-158,12. La diferencia agregada son 35 señales solo-manual "
-        "(+1.270,92) y 1 solo-original que la manual no toma y pierde -248,70 "
+        f"- La frecuencia aporta {signed(freq['delta_net'])} y "
+        f"{signed(freq['delta_dd'])} de DD con riesgo original; no es aditiva: "
+        f"en la variante que combina frecuencia con riesgo viva aporta "
+        f"{signed(freq_live['delta_net'])} (interacción "
+        f"{signed(diag['frequency_interaction'])}).",
+        f"- El sizing aporta {signed(sizing['delta_net'])} y "
+        f"{signed(sizing['delta_dd'])} de DD; no cambia la expectancy R por "
+        f"operación ({n(p1['avg_r'], 3)} en P1 y P2).",
+        f"- El {stop_label} resta {signed(stop['delta_net'])} y añade "
+        f"{signed(stop['delta_dd'])} de DD; los {diag['stop_gt_200']['count']} "
+        f"trades con stop >200 suman {signed(diag['stop_gt_200']['net'])} y "
+        "explican casi todo el lastre.",
+        f"- En las {common['common_signals']} señales comunes la manual hace "
+        f"{n(common_live_net)} y la original {n(common_original_net)}: "
+        f"{signed(common_delta)}. La diferencia agregada son {manual_only_ops} "
+        f"señales solo-manual ({signed(manual_only_net)}) y {original_only_ops} "
+        f"solo-original que la manual no toma y pierde {signed(original_only_net)} "
         "(evita esa pérdida).",
-        "- Bootstrap por 6 bloques: media +1.390,94; IC95 % [-3.056,32; "
-        "+6.965,66]; p=0,6544; incluye cero.",
-        "- `feed.replay_speed` 4,5→8,0 no cambia la secuencia: en W1, 8× y 1× "
-        "dan 19 ops, 2.735,34, PF 2,42, DD 901,04; Δ 0,00. Es operativo, no edge.",
+        f"- Bootstrap por {significance['blocks']} bloques: media "
+        f"{signed(significance['mean_delta'])}; IC95 % "
+        f"[{n(significance['ci95_low'])}; {signed(significance['ci95_high'])}]; "
+        f"p={n(significance['p_two_sided'], 4)}; incluye cero.",
+        f"- `feed.replay_speed` 4,5→8,0 no cambia la secuencia: en W1, 8× y 1× "
+        f"dan {replay['8.0']['trades']} ops, {n(replay['8.0']['net_profit'])}, "
+        f"PF {n(replay['8.0']['profit_factor'])}, DD "
+        f"{n(replay['8.0']['max_drawdown'])}; Δ {n(replay['delta_net'])}. Es "
+        "operativo, no edge.",
         "",
         "**Inferencias (plausibles, no demostradas):**",
         "",
         "- La ventaja agregada es cobertura de señales y apalancamiento, no mejor "
         "ejecución en los trades compartidos. El pareo lo sostiene en la muestra; "
         "no prueba causalidad fuera de ella.",
-        "- El stop 300 es un lastre en W1–W6; no implica que lo sea en forward. "
-        "El cohorte de 26 trades es una comparación de carteras, no un "
-        "experimento aleatorio.",
-        "- La frecuencia 210/24 captura señales extra de calidad media inferior: "
-        "en las comunes la manual rinde menos; el agregado gana por las 35 extra.",
-        "- El +2.269,38 de la DB viva frente al +2.022,94 del backtest no es "
-        "atribuible a la config: son contabilidad, feed y ejecución distintos; "
-        "no hay reconciliación trade a trade.",
+        f"- El {stop_label} es un lastre en W1–W6; no implica que lo sea en forward. "
+        f"El cohorte de {diag['stop_gt_200']['count']} trades es una comparación "
+        "de carteras, no un experimento aleatorio.",
+        f"- La frecuencia {dotted_get(live_cfg, 'strategy.setup_validity_minutes')}/"
+        f"{dotted_get(live_cfg, 'strategy.retest_tolerance_ticks')} captura "
+        f"señales extra de calidad media inferior: en las comunes la manual "
+        f"rinde menos; el agregado gana por las {manual_only_ops} extra.",
+        "- La diferencia entre la DB viva y el backtest no es atribuible a la "
+        "config: son contabilidad, feed y ejecución distintos; no hay "
+        "reconciliación trade a trade.",
         "",
         "**Datos que faltan / no permiten concluir:**",
         "",
@@ -451,28 +656,9 @@ def main() -> int:
         f"{candidate.get('trades') if candidate else 'n/d'} ops"
         + (f" y top-5 {n(conc_c.get('top5_share_pct'), 1)} %."
            if conc_c else "."),
-        "- Cuantificar el efecto de régimen o de un broker real: 6 bloques, "
-        "72/38 trades, un solo instrumento (MNQ) y ejecución paper.",
-        "",
-        "### 1c. Contabilidad viva vs backtest (misma config, distinta fuente)",
-        "",
-        "La DB/dashboard del 8765 y el backtest usan la misma config, pero no son "
-        "la misma contabilidad. El original no tiene contraparte viva, así que "
-        "esta tabla no compara configuraciones: solo documenta el desfase.",
-        "",
-        "| Métrica | Backtest W1–W6 | DB viva 8765 | Diferencia |",
-        "|---|---:|---:|---:|",
-        "| Operaciones | 72 | 72 | 0 |",
-        "| Neto USD | 2.022,94 | 2.269,38 | +246,44 |",
-        "| Profit factor | 1,22 | 1,23 | +0,01 |",
-        "| Win rate % | 36,11 | 36,1 | ≈0 |",
-        "| Expectancy USD/op | 28,10 | 31,52 | +3,42 |",
-        "| Peor racha | 13 | 13 | 0 |",
-        "| Drawdown | 2.891,66 (9,79 %) | 10,34 % | +0,55 pp |",
-        "",
-        "Fuente: `profiles/live_8765/yedbot.db` y dashboard `GET /`; el backtest "
-        "sale de `live_vs_original_mission.json`. El desfase de +246,44 USD no se "
-        "puede asignar a un parámetro: no hay log de fills equivalente.",
+        f"- Cuantificar el efecto de régimen o de un broker real: "
+        f"{significance['blocks']} bloques, {live_ops}/{original_ops} trades, "
+        "un solo instrumento (MNQ) y ejecución paper.",
         "",
         "## 2. Ranking autónomo por RDD (W1–W6, in-sample)",
         "",
@@ -1024,23 +1210,26 @@ def main() -> int:
         "",
         "## 6. Garantías",
         "",
-        "- `data/config.json` y `profiles/live_8765/config.json` conservan "
-        "`9bf4f9c7…e29479f`; PID 15108 y arranque "
-        "`2026-11-23T20:12:49-06:00` sin cambios.",
-        "- Sin escrituras en la DB del 8765, sin reinicio, sin commits ni pushes.",
+        "- `data/config.json` y `profiles/live_8765/config.json` conservan el "
+        "mismo SHA-256 (ver sección 1); el proceso del 8765 no se reinició ni "
+        "se modificó.",
+        "- Sin escrituras en la DB del 8765; solo lectura.",
         "- Holdout no leído; 2024 no usado.",
         "",
         "## 7. Veredicto",
         "",
-        "- La manual gana **+1.361,50 USD** en la muestra (PF 1,22 vs 1,13; "
-        "expectancy 0,180 vs 0,130 R; RDD 0,6996 vs 0,3361), pero **no domina "
-        "en riesgo**: DD +923,84 y peor racha 13 vs 10. El IC95 % del delta "
-        "incluye cero.",
-        "- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: "
-        "en las 37 comunes la manual pierde 158,12. El stop 300 es el lastre "
-        "(-448,84 de neto y +587,20 de DD).",
-        "- **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el "
-        "holdout está sellado y la muestra es de 72/38 ops in-sample.",
+        f"- La manual gana **{signed(live_net - original_net)} USD** en la "
+        f"muestra (PF {n(live_pf)} vs {n(original_pf)}; expectancy "
+        f"{n(live_avg_r, 3)} vs {n(original_avg_r, 3)} R; RDD {n(live_rdd, 4)} vs "
+        f"{n(original_rdd, 4)}), pero **no domina en riesgo**: DD "
+        f"{signed(live_dd - original_dd)}. El IC95 % del delta incluye cero.",
+        f"- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: "
+        f"en las {common['common_signals']} comunes la manual pierde "
+        f"{signed(common_delta)}. El {stop_label} es el lastre "
+        f"({signed(stop['delta_net'])} de neto y {signed(stop['delta_dd'])} de DD).",
+        f"- **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el "
+        f"holdout está sellado y la muestra es de {live_ops}/{original_ops} ops "
+        "in-sample.",
         "",
     ]
     if improvements:
@@ -1069,17 +1258,36 @@ def main() -> int:
         "generated_at": now,
         "scope": mission["scope"],
         "live_vs_original": {
-            "live": live,
-            "original": orig,
-            "delta": {
-                "trades": live["trades"] - orig["trades"],
-                "net": round(live["net_profit"] - orig["net_profit"], 2),
-                "pf": round(live["profit_factor"] - orig["profit_factor"], 2),
-                "dd": round(live["max_drawdown"] - orig["max_drawdown"], 2),
+            "live_source": live_source,
+            "original_source": original_source,
+            "original_in_jsonl": original_in_jsonl,
+            "live_config": live_label,
+            "original_config": original_label,
+            "config_hashes": {
+                "data/config.json": live_hash,
+                "profiles/live_8765/config.json": live_profile_hash,
+                "hashes_match": hashes_match,
+            },
+            "live": live_row,
+            "original": original_row,
+            "comparison": {
+                "ops": {"live": live_ops, "original": original_ops,
+                        "delta": live_ops - original_ops},
+                "net": {"live": round(live_net, 2),
+                        "original": round(original_net, 2),
+                        "delta": round(live_net - original_net, 2)},
+                "rdd": {"live": round(live_rdd, 4),
+                        "original": round(original_rdd, 4),
+                        "delta": round(live_rdd - original_rdd, 4)},
+                "drawdown": {"live": round(live_dd, 2),
+                             "original": round(original_dd, 2),
+                             "delta": round(live_dd - original_dd, 2)},
+                "profit_factor": {"live": live_pf, "original": original_pf,
+                                  "delta": round(live_pf - original_pf, 2)},
             },
             "significance": mission["significance"],
         },
-        "config_diff": diff,
+        "config_diff": config_diffs,
         "ranking": ranked,
         "extension": extension,
         "concentration": conc,
@@ -1107,24 +1315,14 @@ def main() -> int:
         "verifications": verifications,
         "attribution": mission.get("attribution"),
         "paired_common": {
-            "common_signals": 37,
-            "manual_net": 752.02,
-            "original_net": 910.14,
-            "delta": -158.12,
-            "manual_only_count": 35,
-            "manual_only_net": 1270.92,
-            "original_only_count": 1,
-            "original_only_net": -248.70,
-        },
-        "runtime_ledger": {
-            "source": "profiles/live_8765/yedbot.db + dashboard GET /",
-            "trades": 72,
-            "net": 2269.38,
-            "pf": 1.23,
-            "win_rate": 36.1,
-            "expectancy_usd": 31.52,
-            "worst_loss_streak": 13,
-            "max_drawdown_pct": 10.34,
+            "common_signals": common["common_signals"],
+            "manual_net": common_live_net,
+            "original_net": common_original_net,
+            "delta": round(common_delta, 2),
+            "manual_only_count": manual_only_ops,
+            "manual_only_net": round(manual_only_net, 2),
+            "original_only_count": original_only_ops,
+            "original_only_net": round(original_only_net, 2),
         },
         "controls": {
             "stop": "touch reports/autoloop/STOP",
