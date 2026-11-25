@@ -1,7 +1,7 @@
 # Informe consolidado — config viva del 8765 vs original, y mejoras
 
-**Generado:** 2026-11-25T01:23:33+00:00  
-**Alcance:** W1–W6, 362 sesiones, `2025-01-10` → `2026-06-30`, CSV `adjusted`, capital inicial 25.000 USD.  
+**Generado:** 2026-11-25T01:41:54+00:00  
+**Alcance:** W1, W2, W3, W4, W5, W6 · 362 sesiones · `2025-01-10 09:00` → `2026-06-30 15:59` · CSV `adjusted` · capital inicial 25.000 USD.  
 **Naturaleza:** backtest in-sample reproducible. Holdout no leído. Ningún cambio aplicado al 8765.
 
 ## Resumen
@@ -28,9 +28,9 @@ Mismas ventanas y misma contabilidad para las dos. La original es `5/200/150/12`
 | Acierto % | 36,11 | 31,58 | +4,53 |
 | Expectancy USD/op | 28,10 | 17,41 | +10,69 |
 
-**Lectura:** la viva gana +1.361,50 USD más en la muestra, pero con +923,84 USD más de drawdown; el RDD pasa de 0,3361 a 0,6996. La ventaja viene de 35 señales solo-manual y 1 solo-original, y de usar hasta 10 contratos, no de ejecutar mejor las señales compartidas: en las 37 comunes la viva hace -158,12 USD. El bootstrap por 6 bloques da IC95 % [-3.056,32; +6.965,66] y p=0,6544: incluye cero.
+**Lectura:** la viva gana +1.361,50 USD más en la muestra, pero con +923,84 USD más de drawdown; el RDD pasa de 0,3361 a 0,6996. La diferencia agregada es de escala: +34 operaciones y hasta 10 contratos, no una mejora de la expectancy por operación (0,180 vs 0,130 R). El bootstrap por 6 bloques da IC95 % [-3.056,32; +6.965,66] y p=0,6544: incluye cero.
 
-**Trazabilidad de la comparación:** la viva son cifras de `resultados.jsonl` (`manual_base`): 72 ops, 2.022,94 USD, RDD 0,6996 y DD 2.891,66. La original NO tiene fila en `resultados.jsonl`; se usa como referencia externa declarada `reports/backtest/live_vs_original_mission.json#aggregate.original`, no como una fila inventada del JSONL.
+**Trazabilidad de la comparación:** ambas patas son filas reales del JSONL. Viva: `reports/autoloop/resultados.jsonl#manual_base` (72 ops, 2.022,94 USD, RDD 0,6996, DD 2.891,66). Original: `reports/autoloop/resultados_original.jsonl#original_5_200_150_12` (38 ops, 661,44 USD, RDD 0,3361, DD 1.967,82). **Ventana común verificada:** W1, W2, W3, W4, W5, W6, 362 sesiones, `2025-01-10 09:00` → `2026-06-30 15:59`; mismas fechas, sesiones y dataset en las dos filas.
 
 ### Parámetros que difieren
 
@@ -46,7 +46,7 @@ El resto de parámetros es idéntico: `risk_per_trade_pct=1.0`, `max_trades_per_
 
 **Config viva:** `data/config.json` y `profiles/live_8765/config.json` tienen SHA-256 idéntico: `9bf4f9c7…5e29479f` y `9bf4f9c7…5e29479f`. **Original:** `profiles/backtest_real/config.json` con el patch original de la misión (`5/200/150/12`). Todo en solo lectura; no se escribió en el 8765.
 
-Fuente numérica: `resultados.jsonl` (`manual_base`) para la viva y `live_vs_original_mission.json#aggregate.original` para la original, porque el JSONL no contiene esa fila.
+Fuente numérica: `reports/autoloop/resultados.jsonl#manual_base` para la viva y `reports/autoloop/resultados_original.jsonl#original_5_200_150_12` para la original; ambas patas se re-ejecutaron con el runner W1–W6 y el dataset `data/bars.csv`, y la fila original se agregó al JSONL en esta sesión.
 
 ## 1b. Atribución por palanca y hechos vs inferencias
 
@@ -179,6 +179,11 @@ La base está aún más concentrada (178,2 %; sin top-5, -1.581,40) y el origina
 
 Ordenadas por Δneto medido frente a la base. El RDD y el DD indican el coste en riesgo; ninguna está aplicada. **3** variantes superan a la base en neto; se listan las 3 mejores. `daily_loss_2`, `range_min_15` salen idénticas a la base en neto y DD: no llegaron a activarse en esta muestra, así que no son una palanca demostrada.
 
+**Lectura desde la comparación viva vs original:**
+
+- El stop es la palanca que separa directamente la viva de la original. La fila `sl_200` aísla el cambio 300→200: +448,84 USD de neto y -587,20 USD de DD frente a la viva. Volver a 200 es la primera acción de parámetro; la exclusión horaria puede dar más Δneto, pero es una selección in-sample más frágil.
+- El sizing de la viva (10 contratos) no se reduce: `contracts_7` mide -353,46 USD de neto y -110,46 USD de DD frente a la base. Menos contratos recorta algo de dolor, pero sacrifica más rentabilidad.
+
 **Lectura de confianza:** el candidato `excl_1130_1330` debe 104,6 % del neto a 5 operaciones; sin ellas, -146,74. La mejora #1 es `excl_1130_1330` (+1.180,88 USD), con confianza baja-media; es la mayor de la muestra, pero frágil.
 
 | # | Regla / parámetro | Valor propuesto | Δ neto esperado | Δ DD | Confianza | Riesgo | Verificación |
@@ -258,7 +263,7 @@ Al arrancar ocupa unos 240 MB; corre a prioridad idle y se autopausa si la RAM l
 ## 7. Veredicto
 
 - La manual gana **+1.361,50 USD** en la muestra (PF 1,22 vs 1,13; expectancy 0,180 vs 0,130 R; RDD 0,6996 vs 0,3361), pero **no domina en riesgo**: DD +923,84. El IC95 % del delta incluye cero.
-- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: en las 37 comunes la manual pierde -158,12. El Stop 200 → 300 es el lastre (-448,84 de neto y +587,20 de DD).
+- La ventaja es **cobertura de señales + sizing**, no una mejora de la expectancy por operación; la tabla agregada no aísla la ejecución por señal. El Stop 200 → 300 es el lastre (-448,84 de neto y +587,20 de DD).
 - **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el holdout está sellado y la muestra es de 72/38 ops in-sample.
 
 - La mejora de mayor Δneto es `excl_1130_1330` (+1.180,88 USD; confianza baja-media).

@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "reports" / "autoloop"
 MISSION = ROOT / "reports" / "backtest" / "live_vs_original_mission.json"
 CONC = OUT / "concentracion.json"
+ORIGINAL_RESULTS = OUT / "resultados_original.jsonl"
 LIVE_CONFIG = ROOT / "data" / "config.json"
 LIVE_PROFILE = ROOT / "profiles" / "live_8765" / "config.json"
 ORIGINAL_PROFILE = ROOT / "profiles" / "backtest_real" / "config.json"
@@ -89,8 +90,8 @@ def conc_level(top5_share) -> str:
     return "baja"
 
 
-def load_results() -> list[dict]:
-    path = OUT / "resultados.jsonl"
+def load_results(path: Path | None = None) -> list[dict]:
+    path = path or (OUT / "resultados.jsonl")
     rows = []
     if not path.exists():
         return rows
@@ -192,6 +193,65 @@ def config_label(cfg: dict) -> str:
     ))
 
 
+def verify_window_rows(live_row: dict, original_row: dict) -> dict:
+    live_windows = live_row.get("windows") or {}
+    original_windows = original_row.get("windows") or {}
+    if not live_windows or not original_windows:
+        raise RuntimeError(
+            "Las filas live/original no declaran ventanas; no se puede verificar "
+            "la ventana común."
+        )
+    if set(live_windows) != set(original_windows):
+        raise RuntimeError(
+            "Ventanas distintas: "
+            f"live={sorted(live_windows)} original={sorted(original_windows)}"
+        )
+    fields = ("start", "end", "first", "last", "sessions")
+    per_window = {}
+    for key in sorted(live_windows):
+        lw, ow = live_windows[key], original_windows[key]
+        mismatches = {
+            field: (lw.get(field), ow.get(field))
+            for field in fields
+            if lw.get(field) != ow.get(field)
+        }
+        if mismatches:
+            raise RuntimeError(f"{key}: ventanas no coincidentes: {mismatches}")
+        per_window[key] = {
+            "start": lw["start"],
+            "end": lw["end"],
+            "first": lw["first"],
+            "last": lw["last"],
+            "sessions": lw["sessions"],
+        }
+    for label, row in (("live", live_row), ("original", original_row)):
+        window_trades = sum(int(w.get("trades") or 0) for w in row["windows"].values())
+        window_net = sum(float(w.get("net") or 0) for w in row["windows"].values())
+        if window_trades != int(row.get("trades") or 0):
+            raise RuntimeError(
+                f"{label}: ops de ventanas {window_trades} != total {row.get('trades')}"
+            )
+        if abs(window_net - float(row.get("net") or 0)) > 0.05:
+            raise RuntimeError(
+                f"{label}: neto de ventanas {window_net:.2f} != total {row.get('net')}"
+            )
+    if live_row.get("dataset") != original_row.get("dataset"):
+        raise RuntimeError(
+            "Dataset distinto: "
+            f"live={live_row.get('dataset')!r} "
+            f"original={original_row.get('dataset')!r}"
+        )
+    sessions = sum(int(w["sessions"]) for w in per_window.values())
+    return {
+        "first": min(w["first"] for w in per_window.values()),
+        "last": max(w["last"] for w in per_window.values()),
+        "sessions": sessions,
+        "days": sessions,
+        "windows": per_window,
+        "dataset": live_row.get("dataset"),
+    }
+
+
 def row_stat(row: dict, name: str):
     aliases = {
         "net": ("net", "net_profit"),
@@ -217,6 +277,7 @@ def risk_for(patch: dict) -> str:
 
 def main() -> int:
     results = load_results()
+    reference_results = load_results(ORIGINAL_RESULTS)
     mission = json.loads(MISSION.read_text(encoding="utf-8"))
     verifications = []
     for name in ("verificacion_top.json", "verificacion_excl.json",
@@ -256,29 +317,42 @@ def main() -> int:
     live_profile_hash = sha256_file(LIVE_PROFILE)
     hashes_match = live_hash == live_profile_hash
 
-    # La viva sale siempre de resultados.jsonl (manual_base). Si el JSONL no
-    # trae una fila original, se declara explícitamente que esa pata es la
-    # referencia de la misión y no se inventa una fila.
+    # Ambas patas tienen que ser filas reales del JSONL: la viva es el control
+    # manual_base y la original se ejecutó en un JSONL aparte con el mismo
+    # runner y las mismas ventanas. No hay fallback a agregados de la misión.
+    if base is None:
+        raise RuntimeError("Falta la fila manual_base en resultados.jsonl")
     live_row = base
-    original_row = next(
-        (r for r in results if r.get("id") in ("original", "original_reference")),
-        None,
-    )
-    original_in_jsonl = original_row is not None
+    original_pairs = [
+        (row, ORIGINAL_RESULTS)
+        for row in reference_results
+        if row.get("role") == "original"
+    ] + [
+        (row, OUT / "resultados.jsonl")
+        for row in results
+        if row.get("role") == "original"
+    ]
+    if not original_pairs:
+        raise RuntimeError(
+            "No hay fila role=original en resultados_original.jsonl; ejecuta "
+            "reports/autoloop/run_original_reference.py"
+        )
+    original_row, original_path = original_pairs[0]
+    original_in_jsonl = True
+    live_source = f"{(OUT / 'resultados.jsonl').relative_to(ROOT).as_posix()}#manual_base"
     original_source = (
-        f"resultados.jsonl#{original_row.get('id', 'original')}"
-        if original_in_jsonl
-        else "reports/backtest/live_vs_original_mission.json#aggregate.original"
+        f"{original_path.relative_to(ROOT).as_posix()}#{original_row.get('id')}"
     )
-    if original_row is None:
-        original_row = dict(mission["aggregate"]["original"])
-    live_source = (
-        "resultados.jsonl#manual_base"
-        if live_row
-        else "reports/backtest/live_vs_original_mission.json#aggregate.live"
-    )
-    if live_row is None:
-        live_row = dict(mission["aggregate"]["live"])
+    if live_row.get("config_label") and live_row["config_label"] != live_label:
+        raise RuntimeError(
+            f"manual_base declara {live_row['config_label']}, config viva {live_label}"
+        )
+    if original_row.get("config_label") and original_row["config_label"] != original_label:
+        raise RuntimeError(
+            f"La fila original declara {original_row['config_label']}, "
+            f"config reconstruida {original_label}"
+        )
+    window_check = verify_window_rows(live_row, original_row)
 
     live_ops = int(row_stat(live_row, "trades") or 0)
     original_ops = int(row_stat(original_row, "trades") or 0)
@@ -411,8 +485,6 @@ def main() -> int:
         conc_confidence = "n/d"
         conc_line = "- Concentración: pendiente de la re-ejecución limpia."
 
-    live = mission["aggregate"]["live"]
-    orig = mission["aggregate"]["original"]
     p1 = mission["aggregate"]["p1"]
     p2 = mission["aggregate"]["p2"]
     attr = mission["attribution"]
@@ -428,7 +500,7 @@ def main() -> int:
         ("p1", "p2"): "P1 → P2",
         ("p2", "live"): "P2 → viva",
     }
-    step_aggs = {"original": orig, "p1": p1, "p2": p2, "live": live}
+    step_aggs = {"original": original_row, "p1": p1, "p2": p2, "live": live_row}
     if not robust_ext:
         robust_line = ("- La prueba de robustez de la exclusión sigue en curso; "
                        "no se promociona nada.")
@@ -460,8 +532,9 @@ def main() -> int:
         "# Informe consolidado — config viva del 8765 vs original, y mejoras",
         "",
         f"**Generado:** {now}  ",
-        "**Alcance:** W1–W6, 362 sesiones, `2025-01-10` → `2026-06-30`, "
-        "CSV `adjusted`, capital inicial 25.000 USD.  ",
+        f"**Alcance:** {', '.join(window_check['windows'])} · "
+        f"{window_check['sessions']} sesiones · `{window_check['first']}` → "
+        f"`{window_check['last']}` · CSV `adjusted` · capital inicial 25.000 USD.  ",
         "**Naturaleza:** backtest in-sample reproducible. Holdout no leído. "
         "Ningún cambio aplicado al 8765.",
         "",
@@ -507,27 +580,23 @@ def main() -> int:
         "**Lectura:** la viva gana "
         f"{signed(live_net - original_net)} USD más en la muestra, pero "
         f"con {signed(live_dd - original_dd)} USD más de drawdown; el RDD pasa de "
-        f"{n(original_rdd, 4)} a {n(live_rdd, 4)}. La ventaja viene de "
-        f"{manual_only_ops} señales solo-manual y {original_only_ops} "
-        f"solo-original, y de usar hasta "
-        f"{dotted_get(live_cfg, 'risk.max_contracts')} contratos, no de ejecutar "
-        f"mejor las señales compartidas: en las {common['common_signals']} comunes "
-        f"la viva hace {signed(common_delta)} USD. El bootstrap por "
-        f"{significance['blocks']} bloques da IC95 % "
-        f"[{n(mission['significance']['ci95_low'])}; "
+        f"{n(original_rdd, 4)} a {n(live_rdd, 4)}. La diferencia agregada es de "
+        f"escala: {live_ops - original_ops:+d} operaciones y hasta "
+        f"{dotted_get(live_cfg, 'risk.max_contracts')} contratos, no una mejora "
+        f"de la expectancy por operación ({n(live_avg_r, 3)} vs "
+        f"{n(original_avg_r, 3)} R). El bootstrap por {significance['blocks']} "
+        f"bloques da IC95 % [{n(mission['significance']['ci95_low'])}; "
         f"{signed(mission['significance']['ci95_high'])}] y p="
         f"{n(mission['significance']['p_two_sided'], 4)}: incluye cero.",
         "",
-        "**Trazabilidad de la comparación:** la viva son cifras de "
-        f"`resultados.jsonl` (`manual_base`): {live_ops} ops, {n(live_net)} USD, "
-        f"RDD {n(live_rdd, 4)} y DD {n(live_dd)}. La original "
-        + (
-            "también sale de `resultados.jsonl`."
-            if original_in_jsonl
-            else "NO tiene fila en `resultados.jsonl`; se usa como referencia "
-                 "externa declarada `reports/backtest/live_vs_original_mission.json#aggregate.original`, "
-                 "no como una fila inventada del JSONL."
-        ),
+        "**Trazabilidad de la comparación:** ambas patas son filas reales del "
+        f"JSONL. Viva: `{live_source}` ({live_ops} ops, {n(live_net)} USD, RDD "
+        f"{n(live_rdd, 4)}, DD {n(live_dd)}). Original: `{original_source}` "
+        f"({original_ops} ops, {n(original_net)} USD, RDD {n(original_rdd, 4)}, "
+        f"DD {n(original_dd)}). **Ventana común verificada:** "
+        f"{', '.join(window_check['windows'])}, {window_check['sessions']} "
+        f"sesiones, `{window_check['first']}` → `{window_check['last']}`; "
+        "mismas fechas, sesiones y dataset en las dos filas.",
         "",
         "### Parámetros que difieren",
         "",
@@ -564,13 +633,10 @@ def main() -> int:
         f"misión (`{original_label}`). Todo en solo lectura; no se escribió en el "
         "8765.",
         "",
-        "Fuente numérica: `resultados.jsonl` (`manual_base`) para la viva y "
-        + (
-            "`resultados.jsonl` para la original."
-            if original_in_jsonl
-            else "`live_vs_original_mission.json#aggregate.original` para la "
-                 "original, porque el JSONL no contiene esa fila."
-        ),
+        f"Fuente numérica: `{live_source}` para la viva y "
+        f"`{original_source}` para la original; ambas patas se re-ejecutaron con "
+        "el runner W1–W6 y el dataset `data/bars.csv`, y la fila original se "
+        "agregó al JSONL en esta sesión.",
         "",
         "## 1b. Atribución por palanca y hechos vs inferencias",
         "",
@@ -595,8 +661,8 @@ def main() -> int:
     total = attr["total"]
     lines += [
         f"| **Original → viva** | **total** | **{signed(total['delta_net'])}** | "
-        f"**{signed(live['avg_r'] - orig['avg_r'], 3)}** | "
-        f"**{signed(total['delta_dd'])}** | **{signed(live['profit_factor'] - orig['profit_factor'])}** | "
+        f"**{signed(live_avg_r - original_avg_r, 3)}** | "
+        f"**{signed(total['delta_dd'])}** | **{signed(live_pf - original_pf)}** | "
         f"**{total['delta_streak']:+d}** |",
         "",
         "**Hechos medidos:**",
@@ -942,6 +1008,25 @@ def main() -> int:
         and abs(float(r.get("dd") or 0) - base_dd) <= 0.005
     ]
 
+    def single_patch_row(key: str, value) -> dict | None:
+        for row in results:
+            patch = flat(row.get("patch") or {})
+            if row.get("id") != "manual_base" and patch == {key: value}:
+                return row
+        return None
+
+    original_stop = dotted_get(original_cfg, "risk.max_sl_ticks")
+    live_contracts = dotted_get(live_cfg, "risk.max_contracts")
+    stop_row = single_patch_row("risk.max_sl_ticks", original_stop)
+    sizing_row = next(
+        (
+            row for row in results
+            if set(flat(row.get("patch") or {})) == {"risk.max_contracts"}
+            and flat(row["patch"])["risk.max_contracts"] != live_contracts
+        ),
+        None,
+    )
+
     def confidence_for(row: dict) -> str:
         trades = int(row.get("trades") or 0)
         if trades < MIN_FORWARD_OPS:
@@ -1016,6 +1101,31 @@ def main() -> int:
             "demostrada."
         )
     lines += [intro, ""]
+    if stop_row or sizing_row:
+        lines += ["**Lectura desde la comparación viva vs original:**"]
+        lines += [""]
+        if stop_row:
+            stop_delta = float(stop_row.get("net") or 0) - base_net
+            stop_dd = float(stop_row.get("dd") or 0) - base_dd
+            lines.append(
+                f"- El stop es la palanca que separa directamente la viva de la "
+                f"original. La fila `{stop_row['id']}` aísla el cambio "
+                f"{dotted_get(live_cfg, 'risk.max_sl_ticks')}→{original_stop}: "
+                f"{signed(stop_delta)} USD de neto y {signed(stop_dd)} USD de DD "
+                f"frente a la viva. Volver a {original_stop} es la primera acción "
+                "de parámetro; la exclusión horaria puede dar más Δneto, pero es "
+                "una selección in-sample más frágil."
+            )
+        if sizing_row:
+            size_delta = float(sizing_row.get("net") or 0) - base_net
+            size_dd = float(sizing_row.get("dd") or 0) - base_dd
+            lines.append(
+                f"- El sizing de la viva ({live_contracts} contratos) no se "
+                f"reduce: `{sizing_row['id']}` mide {signed(size_delta)} USD de "
+                f"neto y {signed(size_dd)} USD de DD frente a la base. Menos "
+                "contratos recorta algo de dolor, pero sacrifica más rentabilidad."
+            )
+        lines += [""]
     if conc_c and improvements:
         first = improvements[0]
         first_delta = float(first.get("net") or 0) - base_net
@@ -1223,9 +1333,9 @@ def main() -> int:
         f"{n(live_avg_r, 3)} vs {n(original_avg_r, 3)} R; RDD {n(live_rdd, 4)} vs "
         f"{n(original_rdd, 4)}), pero **no domina en riesgo**: DD "
         f"{signed(live_dd - original_dd)}. El IC95 % del delta incluye cero.",
-        f"- La ventaja es **cobertura de señales + sizing**, no mejor ejecución: "
-        f"en las {common['common_signals']} comunes la manual pierde "
-        f"{signed(common_delta)}. El {stop_label} es el lastre "
+        f"- La ventaja es **cobertura de señales + sizing**, no una mejora de la "
+        f"expectancy por operación; la tabla agregada no aísla la ejecución por "
+        f"señal. El {stop_label} es el lastre "
         f"({signed(stop['delta_net'])} de neto y {signed(stop['delta_dd'])} de DD).",
         f"- **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el "
         f"holdout está sellado y la muestra es de {live_ops}/{original_ops} ops "
@@ -1268,6 +1378,35 @@ def main() -> int:
                 "profiles/live_8765/config.json": live_profile_hash,
                 "hashes_match": hashes_match,
             },
+            "provenance": {
+                "dataset": window_check["dataset"],
+                "common_window": {
+                    "first": window_check["first"],
+                    "last": window_check["last"],
+                    "sessions": window_check["sessions"],
+                    "days": window_check["days"],
+                    "windows": list(window_check["windows"]),
+                },
+                "live": {
+                    "path": live_source.split("#", 1)[0],
+                    "filter": "id=manual_base",
+                    "run_id": live_row.get("run_id"),
+                    "first": window_check["first"],
+                    "last": window_check["last"],
+                    "sessions": window_check["sessions"],
+                    "days": window_check["days"],
+                },
+                "original": {
+                    "path": original_source.split("#", 1)[0],
+                    "filter": "role=original",
+                    "run_id": original_row.get("run_id"),
+                    "first": window_check["first"],
+                    "last": window_check["last"],
+                    "sessions": window_check["sessions"],
+                    "days": window_check["days"],
+                },
+            },
+            "window_check": window_check,
             "live": live_row,
             "original": original_row,
             "comparison": {

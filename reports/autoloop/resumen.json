@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-25T01:23:33+00:00",
+  "generated_at": "2026-11-25T01:41:54+00:00",
   "scope": {
     "windows": [
       "W1",
@@ -19,9 +19,9 @@
     "initial_capital": 25000.0
   },
   "live_vs_original": {
-    "live_source": "resultados.jsonl#manual_base",
-    "original_source": "reports/backtest/live_vs_original_mission.json#aggregate.original",
-    "original_in_jsonl": false,
+    "live_source": "reports/autoloop/resultados.jsonl#manual_base",
+    "original_source": "reports/autoloop/resultados_original.jsonl#original_5_200_150_12",
+    "original_in_jsonl": true,
     "live_config": "10/300/210/24",
     "original_config": "5/200/150/12",
     "config_hashes": {
@@ -29,11 +29,102 @@
       "profiles/live_8765/config.json": "9bf4f9c7e1dce51bcb27e59f421d5adc28f342574f8ce2469d5250405e29479f",
       "hashes_match": true
     },
+    "provenance": {
+      "dataset": "data/bars.csv",
+      "common_window": {
+        "first": "2025-01-10 09:00",
+        "last": "2026-06-30 15:59",
+        "sessions": 362,
+        "days": 362,
+        "windows": [
+          "W1",
+          "W2",
+          "W3",
+          "W4",
+          "W5",
+          "W6"
+        ]
+      },
+      "live": {
+        "path": "reports/autoloop/resultados.jsonl",
+        "filter": "id=manual_base",
+        "run_id": "manual_base__w1_w6__same-dataset",
+        "first": "2025-01-10 09:00",
+        "last": "2026-06-30 15:59",
+        "sessions": 362,
+        "days": 362
+      },
+      "original": {
+        "path": "reports/autoloop/resultados_original.jsonl",
+        "filter": "role=original",
+        "run_id": "original_5_200_150_12__w1_w6__same-dataset",
+        "first": "2025-01-10 09:00",
+        "last": "2026-06-30 15:59",
+        "sessions": 362,
+        "days": 362
+      }
+    },
+    "window_check": {
+      "first": "2025-01-10 09:00",
+      "last": "2026-06-30 15:59",
+      "sessions": 362,
+      "days": 362,
+      "windows": {
+        "W1": {
+          "start": "2025-01-10",
+          "end": "2025-03-31",
+          "first": "2025-01-10 09:00",
+          "last": "2025-03-31 15:59",
+          "sessions": 54
+        },
+        "W2": {
+          "start": "2025-04-01",
+          "end": "2025-06-30",
+          "first": "2025-04-01 09:00",
+          "last": "2025-06-30 15:59",
+          "sessions": 61
+        },
+        "W3": {
+          "start": "2025-07-01",
+          "end": "2025-09-30",
+          "first": "2025-07-01 09:00",
+          "last": "2025-09-30 15:59",
+          "sessions": 63
+        },
+        "W4": {
+          "start": "2025-10-01",
+          "end": "2025-12-31",
+          "first": "2025-10-01 09:00",
+          "last": "2025-12-31 15:59",
+          "sessions": 63
+        },
+        "W5": {
+          "start": "2026-01-01",
+          "end": "2026-03-31",
+          "first": "2026-01-02 09:00",
+          "last": "2026-03-31 15:59",
+          "sessions": 60
+        },
+        "W6": {
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "first": "2026-04-01 09:00",
+          "last": "2026-06-30 15:59",
+          "sessions": 61
+        }
+      },
+      "dataset": "data/bars.csv"
+    },
     "live": {
       "ts": "2026-11-24T18:48:04+00:00",
       "id": "manual_base",
-      "patch": {},
+      "role": "live",
+      "run_id": "manual_base__w1_w6__same-dataset",
+      "config_label": "10/300/210/24",
+      "profile": "data\\config.json",
+      "dataset": "data/bars.csv",
       "why": "control: configuración viva 10/300/210/24",
+      "patch": {},
       "trades": 72,
       "net": 2022.94,
       "pf": 1.22,
@@ -44,702 +135,170 @@
       "rdd": 0.6996,
       "windows": {
         "W1": {
+          "start": "2025-01-10",
+          "end": "2025-03-31",
+          "first": "2025-01-10 09:00",
+          "last": "2025-03-31 15:59",
           "sessions": 54,
-          "net": 2735.34,
           "trades": 19,
+          "net": 2735.34,
           "pf": 2.42,
           "dd": 901.04
         },
         "W2": {
+          "start": "2025-04-01",
+          "end": "2025-06-30",
+          "first": "2025-04-01 09:00",
+          "last": "2025-06-30 15:59",
           "sessions": 61,
-          "net": 418.3,
           "trades": 8,
+          "net": 418.3,
           "pf": 1.47,
           "dd": 898.84
         },
         "W3": {
+          "start": "2025-07-01",
+          "end": "2025-09-30",
+          "first": "2025-07-01 09:00",
+          "last": "2025-09-30 15:59",
           "sessions": 63,
-          "net": -1088.22,
           "trades": 17,
+          "net": -1088.22,
           "pf": 0.58,
           "dd": 2184.32
         },
         "W4": {
+          "start": "2025-10-01",
+          "end": "2025-12-31",
+          "first": "2025-10-01 09:00",
+          "last": "2025-12-31 15:59",
           "sessions": 63,
-          "net": 2461.48,
           "trades": 12,
+          "net": 2461.48,
           "pf": 5.05,
           "dd": 229.48
         },
         "W5": {
+          "start": "2026-01-01",
+          "end": "2026-03-31",
+          "first": "2026-01-02 09:00",
+          "last": "2026-03-31 15:59",
           "sessions": 60,
-          "net": -1497.14,
           "trades": 6,
+          "net": -1497.14,
           "pf": 0.0,
           "dd": 1497.14
         },
         "W6": {
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "first": "2026-04-01 09:00",
+          "last": "2026-06-30 15:59",
           "sessions": 61,
-          "net": -1006.82,
           "trades": 10,
+          "net": -1006.82,
           "pf": 0.39,
           "dd": 1394.52
         }
-      }
+      },
+      "source": "reports/autoloop/run_original_reference.py"
     },
     "original": {
+      "ts": "2026-11-25T01:36:42+00:00",
+      "id": "original_5_200_150_12",
+      "role": "original",
+      "run_id": "original_5_200_150_12__w1_w6__same-dataset",
+      "config_label": "5/200/150/12",
+      "profile": "profiles\\backtest_real\\config.json",
+      "dataset": "data/bars.csv",
+      "why": "referencia original 5/200/150/12; no es una variante de la viva",
+      "patch": {
+        "risk": {
+          "max_contracts": 5,
+          "max_sl_ticks": 200
+        },
+        "strategy": {
+          "setup_validity_minutes": 150,
+          "retest_tolerance_ticks": 12
+        }
+      },
       "trades": 38,
-      "wins": 12,
-      "losses": 26,
-      "breakeven": 0,
-      "win_rate": 31.58,
-      "profit_factor": 1.13,
-      "expectancy": 17.41,
-      "net_profit": 661.44,
-      "gross_profit": 5641.66,
-      "gross_loss": -4980.22,
-      "fees": 178.56,
-      "avg_win": 470.14,
-      "avg_loss": -191.55,
-      "avg_trade": 17.41,
+      "net": 661.44,
+      "pf": 1.13,
+      "dd": 1967.82,
+      "dd_pct": 7.141,
       "avg_r": 0.13,
-      "avg_mfe_r": 1.48,
-      "avg_mae_r": -0.94,
-      "avg_open_drawdown": 368.32,
-      "max_open_drawdown": 780.0,
-      "max_open_drawdown_pct": 3.12,
-      "open_drawdown": 780.0,
-      "open_drawdown_pct": 3.12,
-      "avg_mfe": 1.48,
-      "avg_mae": -0.94,
-      "total_r": 4.98,
-      "best_trade": 768.8,
-      "worst_trade": -450.72,
-      "max_drawdown": 1967.82,
-      "max_drawdown_pct": 7.141,
-      "equity_trough": 25589.06,
-      "sharpe": 0.82,
-      "sortino": 1.58,
-      "best_win_streak": 4,
-      "worst_loss_streak": 10,
-      "current_win_streak": 0,
-      "current_loss_streak": 2,
-      "avg_duration_sec": 4215,
-      "avg_win_r": 2.48,
-      "avg_loss_r": -0.99,
-      "equity_curve": [
-        {
-          "ts": 1736959560,
-          "equity": 25000.0
-        },
-        {
-          "ts": 1736959920,
-          "equity": 24831.3
-        },
-        {
-          "ts": 1737996840,
-          "equity": 24380.58
-        },
-        {
-          "ts": 1739307360,
-          "equity": 24543.36
-        },
-        {
-          "ts": 1739566560,
-          "equity": 24835.88
-        },
-        {
-          "ts": 1741796520,
-          "equity": 24610.92
-        },
-        {
-          "ts": 1742232840,
-          "equity": 24407.22
-        },
-        {
-          "ts": 1742572560,
-          "equity": 24908.52
-        },
-        {
-          "ts": 1743095640,
-          "equity": 25364.82
-        },
-        {
-          "ts": 1747068240,
-          "equity": 25203.62
-        },
-        {
-          "ts": 1747415760,
-          "equity": 25067.42
-        },
-        {
-          "ts": 1747943760,
-          "equity": 24985.94
-        },
-        {
-          "ts": 1750873200,
-          "equity": 25633.22
-        },
-        {
-          "ts": 1751912400,
-          "equity": 26156.74
-        },
-        {
-          "ts": 1751991960,
-          "equity": 25902.52
-        },
-        {
-          "ts": 1752607380,
-          "equity": 26607.56
-        },
-        {
-          "ts": 1753377120,
-          "equity": 26488.34
-        },
-        {
-          "ts": 1754935440,
-          "equity": 26139.62
-        },
-        {
-          "ts": 1756921500,
-          "equity": 25951.14
-        },
-        {
-          "ts": 1757349120,
-          "equity": 25844.94
-        },
-        {
-          "ts": 1757437260,
-          "equity": 25706.24
-        },
-        {
-          "ts": 1758298980,
-          "equity": 25522.76
-        },
-        {
-          "ts": 1759513560,
-          "equity": 26056.28
-        },
-        {
-          "ts": 1764353700,
-          "equity": 26670.56
-        },
-        {
-          "ts": 1766597400,
-          "equity": 27439.36
-        },
-        {
-          "ts": 1766782560,
-          "equity": 27556.88
-        },
-        {
-          "ts": 1767636420,
-          "equity": 27428.18
-        },
-        {
-          "ts": 1769018460,
-          "equity": 27194.48
-        },
-        {
-          "ts": 1771519620,
-          "equity": 26963.28
-        },
-        {
-          "ts": 1773934560,
-          "equity": 26724.06
-        },
-        {
-          "ts": 1774280520,
-          "equity": 26520.36
-        },
-        {
-          "ts": 1775502900,
-          "equity": 26458.14
-        },
-        {
-          "ts": 1775578980,
-          "equity": 26227.92
-        },
-        {
-          "ts": 1776963780,
-          "equity": 26086.72
-        },
-        {
-          "ts": 1777907820,
-          "equity": 25838.02
-        },
-        {
-          "ts": 1779208680,
-          "equity": 25589.06
-        },
-        {
-          "ts": 1779475260,
-          "equity": 25907.86
-        },
-        {
-          "ts": 1779813060,
-          "equity": 25899.16
-        },
-        {
-          "ts": 1781722020,
-          "equity": 25661.44
-        }
-      ],
-      "daily": [
-        {
-          "key": "2025-01-15",
-          "label": "01-15",
-          "pnl": -168.7
-        },
-        {
-          "key": "2025-01-27",
-          "label": "01-27",
-          "pnl": -450.72
-        },
-        {
-          "key": "2025-02-11",
-          "label": "02-11",
-          "pnl": 162.78
-        },
-        {
-          "key": "2025-02-14",
-          "label": "02-14",
-          "pnl": 292.52
-        },
-        {
-          "key": "2025-03-12",
-          "label": "03-12",
-          "pnl": -224.96
-        },
-        {
-          "key": "2025-03-17",
-          "label": "03-17",
-          "pnl": -203.7
-        },
-        {
-          "key": "2025-03-21",
-          "label": "03-21",
-          "pnl": 501.3
-        },
-        {
-          "key": "2025-03-27",
-          "label": "03-27",
-          "pnl": 456.3
-        },
-        {
-          "key": "2025-05-12",
-          "label": "05-12",
-          "pnl": -161.2
-        },
-        {
-          "key": "2025-05-16",
-          "label": "05-16",
-          "pnl": -136.2
-        },
-        {
-          "key": "2025-05-22",
-          "label": "05-22",
-          "pnl": -81.48
-        },
-        {
-          "key": "2025-06-25",
-          "label": "06-25",
-          "pnl": 647.28
-        },
-        {
-          "key": "2025-07-07",
-          "label": "07-07",
-          "pnl": 523.52
-        },
-        {
-          "key": "2025-07-08",
-          "label": "07-08",
-          "pnl": -254.22
-        },
-        {
-          "key": "2025-07-15",
-          "label": "07-15",
-          "pnl": 705.04
-        },
-        {
-          "key": "2025-07-24",
-          "label": "07-24",
-          "pnl": -119.22
-        },
-        {
-          "key": "2025-08-11",
-          "label": "08-11",
-          "pnl": -348.72
-        },
-        {
-          "key": "2025-09-03",
-          "label": "09-03",
-          "pnl": -188.48
-        },
-        {
-          "key": "2025-09-08",
-          "label": "09-08",
-          "pnl": -106.2
-        },
-        {
-          "key": "2025-09-09",
-          "label": "09-09",
-          "pnl": -138.7
-        },
-        {
-          "key": "2025-09-19",
-          "label": "09-19",
-          "pnl": -183.48
-        },
-        {
-          "key": "2025-10-03",
-          "label": "10-03",
-          "pnl": 533.52
-        },
-        {
-          "key": "2025-11-28",
-          "label": "11-28",
-          "pnl": 614.28
-        },
-        {
-          "key": "2025-12-24",
-          "label": "12-24",
-          "pnl": 768.8
-        },
-        {
-          "key": "2025-12-26",
-          "label": "12-26",
-          "pnl": 117.52
-        },
-        {
-          "key": "2026-01-05",
-          "label": "01-05",
-          "pnl": -128.7
-        },
-        {
-          "key": "2026-01-21",
-          "label": "01-21",
-          "pnl": -233.7
-        },
-        {
-          "key": "2026-02-19",
-          "label": "02-19",
-          "pnl": -231.2
-        },
-        {
-          "key": "2026-03-19",
-          "label": "03-19",
-          "pnl": -239.22
-        },
-        {
-          "key": "2026-03-23",
-          "label": "03-23",
-          "pnl": -203.7
-        },
-        {
-          "key": "2026-04-06",
-          "label": "04-06",
-          "pnl": -62.22
-        },
-        {
-          "key": "2026-04-07",
-          "label": "04-07",
-          "pnl": -230.22
-        },
-        {
-          "key": "2026-04-23",
-          "label": "04-23",
-          "pnl": -141.2
-        },
-        {
-          "key": "2026-05-04",
-          "label": "05-04",
-          "pnl": -248.7
-        },
-        {
-          "key": "2026-05-19",
-          "label": "05-19",
-          "pnl": -248.96
-        },
-        {
-          "key": "2026-05-22",
-          "label": "05-22",
-          "pnl": 318.8
-        },
-        {
-          "key": "2026-05-26",
-          "label": "05-26",
-          "pnl": -8.7
-        },
-        {
-          "key": "2026-06-17",
-          "label": "06-17",
-          "pnl": -237.72
-        }
-      ],
-      "monthly": [
-        {
-          "key": "2025-01",
-          "label": "2025-01",
-          "trades": 2,
-          "pnl": -619.4200000000001,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2025-02",
-          "label": "2025-02",
-          "trades": 2,
-          "pnl": 455.29999999999995,
-          "wins": 2,
-          "win_rate": 100.0
-        },
-        {
-          "key": "2025-03",
-          "label": "2025-03",
-          "trades": 4,
-          "pnl": 528.94,
-          "wins": 2,
-          "win_rate": 50.0
-        },
-        {
-          "key": "2025-05",
-          "label": "2025-05",
-          "trades": 3,
-          "pnl": -378.88,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2025-06",
-          "label": "2025-06",
-          "trades": 1,
-          "pnl": 647.28,
-          "wins": 1,
-          "win_rate": 100.0
-        },
-        {
-          "key": "2025-07",
-          "label": "2025-07",
-          "trades": 4,
-          "pnl": 855.1199999999999,
-          "wins": 2,
-          "win_rate": 50.0
-        },
-        {
-          "key": "2025-08",
-          "label": "2025-08",
-          "trades": 1,
-          "pnl": -348.72,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2025-09",
-          "label": "2025-09",
-          "trades": 4,
-          "pnl": -616.86,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2025-10",
-          "label": "2025-10",
-          "trades": 1,
-          "pnl": 533.52,
-          "wins": 1,
-          "win_rate": 100.0
-        },
-        {
-          "key": "2025-11",
-          "label": "2025-11",
-          "trades": 1,
-          "pnl": 614.28,
-          "wins": 1,
-          "win_rate": 100.0
-        },
-        {
-          "key": "2025-12",
-          "label": "2025-12",
-          "trades": 2,
-          "pnl": 886.3199999999999,
-          "wins": 2,
-          "win_rate": 100.0
-        },
-        {
-          "key": "2026-01",
-          "label": "2026-01",
-          "trades": 2,
-          "pnl": -362.4,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2026-02",
-          "label": "2026-02",
-          "trades": 1,
-          "pnl": -231.2,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2026-03",
-          "label": "2026-03",
-          "trades": 2,
-          "pnl": -442.91999999999996,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2026-04",
-          "label": "2026-04",
-          "trades": 3,
-          "pnl": -433.64,
-          "wins": 0,
-          "win_rate": 0.0
-        },
-        {
-          "key": "2026-05",
-          "label": "2026-05",
-          "trades": 4,
-          "pnl": -187.55999999999995,
-          "wins": 1,
-          "win_rate": 25.0
-        },
-        {
-          "key": "2026-06",
-          "label": "2026-06",
-          "trades": 1,
-          "pnl": -237.72,
-          "wins": 0,
-          "win_rate": 0.0
-        }
-      ],
-      "by_hour": [
-        {
-          "key": 11,
-          "trades": 7,
-          "pnl": -1040.94,
-          "wins": 1,
-          "losses": 6,
-          "label": "11:00",
-          "win_rate": 14.3
-        },
-        {
-          "key": 12,
-          "trades": 9,
-          "pnl": -649.1400000000002,
-          "wins": 1,
-          "losses": 8,
-          "label": "12:00",
-          "win_rate": 11.1
-        },
-        {
-          "key": 13,
-          "trades": 12,
-          "pnl": 961.4799999999998,
-          "wins": 4,
-          "losses": 8,
-          "label": "13:00",
-          "win_rate": 33.3
-        },
-        {
-          "key": 14,
-          "trades": 4,
-          "pnl": 255.87999999999997,
-          "wins": 2,
-          "losses": 2,
-          "label": "14:00",
-          "win_rate": 50.0
-        },
-        {
-          "key": 15,
-          "trades": 6,
-          "pnl": 1134.1599999999999,
-          "wins": 4,
-          "losses": 2,
-          "label": "15:00",
-          "win_rate": 66.7
-        }
-      ],
-      "by_direction": [
-        {
-          "key": "long",
-          "trades": 21,
-          "pnl": 335.35999999999973,
-          "wins": 7,
-          "losses": 14,
-          "label": "Larga",
-          "win_rate": 33.3
-        },
-        {
-          "key": "short",
-          "trades": 17,
-          "pnl": 326.0799999999997,
-          "wins": 5,
-          "losses": 12,
-          "label": "Corta",
-          "win_rate": 29.4
-        }
-      ],
-      "by_signal": [
-        {
-          "key": "ORB+SMT+Retest",
-          "trades": 38,
-          "pnl": 661.4399999999996,
-          "wins": 12,
-          "losses": 26,
-          "label": "ORB+SMT+Retest",
-          "win_rate": 31.6
-        }
-      ],
-      "by_weekday": [
-        {
-          "key": 0,
-          "trades": 10,
-          "pnl": -1390.3400000000004,
-          "wins": 1,
-          "losses": 9,
-          "label": "Lun"
-        },
-        {
-          "key": 1,
-          "trades": 7,
-          "pnl": -12.980000000000086,
-          "wins": 2,
-          "losses": 5,
-          "label": "Mar"
-        },
-        {
-          "key": 2,
-          "trades": 7,
-          "pnl": 362.52,
-          "wins": 2,
-          "losses": 5,
-          "label": "Mié"
-        },
-        {
-          "key": 3,
-          "trades": 6,
-          "pnl": -356.02,
-          "wins": 1,
-          "losses": 5,
-          "label": "Jue"
-        },
-        {
-          "key": 4,
+      "win_rate": 31.58,
+      "rdd": 0.3361,
+      "windows": {
+        "W1": {
+          "start": "2025-01-10",
+          "end": "2025-03-31",
+          "first": "2025-01-10 09:00",
+          "last": "2025-03-31 15:59",
+          "sessions": 54,
           "trades": 8,
-          "pnl": 2058.2599999999998,
-          "wins": 6,
-          "losses": 2,
-          "label": "Vie"
+          "net": 364.82,
+          "pf": 1.35,
+          "dd": 619.42
+        },
+        "W2": {
+          "start": "2025-04-01",
+          "end": "2025-06-30",
+          "first": "2025-04-01 09:00",
+          "last": "2025-06-30 15:59",
+          "sessions": 61,
+          "trades": 4,
+          "net": 268.4,
+          "pf": 1.71,
+          "dd": 378.88
+        },
+        "W3": {
+          "start": "2025-07-01",
+          "end": "2025-09-30",
+          "first": "2025-07-01 09:00",
+          "last": "2025-09-30 15:59",
+          "sessions": 63,
+          "trades": 9,
+          "net": -110.46,
+          "pf": 0.92,
+          "dd": 1084.8
+        },
+        "W4": {
+          "start": "2025-10-01",
+          "end": "2025-12-31",
+          "first": "2025-10-01 09:00",
+          "last": "2025-12-31 15:59",
+          "sessions": 63,
+          "trades": 4,
+          "net": 2034.12,
+          "pf": null,
+          "dd": 0.0
+        },
+        "W5": {
+          "start": "2026-01-01",
+          "end": "2026-03-31",
+          "first": "2026-01-02 09:00",
+          "last": "2026-03-31 15:59",
+          "sessions": 60,
+          "trades": 5,
+          "net": -1036.52,
+          "pf": 0.0,
+          "dd": 1036.52
+        },
+        "W6": {
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "first": "2026-04-01 09:00",
+          "last": "2026-06-30 15:59",
+          "sessions": 61,
+          "trades": 8,
+          "net": -858.92,
+          "pf": 0.27,
+          "dd": 931.3
         }
-      ],
-      "distribution": {
-        "wins": 12,
-        "losses": 26,
-        "breakeven": 0
-      }
+      },
+      "source": "reports/autoloop/run_original_reference.py"
     },
     "comparison": {
       "ops": {
@@ -934,8 +493,13 @@
     {
       "ts": "2026-11-24T18:48:04+00:00",
       "id": "manual_base",
-      "patch": {},
+      "role": "live",
+      "run_id": "manual_base__w1_w6__same-dataset",
+      "config_label": "10/300/210/24",
+      "profile": "data\\config.json",
+      "dataset": "data/bars.csv",
       "why": "control: configuración viva 10/300/210/24",
+      "patch": {},
       "trades": 72,
       "net": 2022.94,
       "pf": 1.22,
@@ -946,48 +510,73 @@
       "rdd": 0.6996,
       "windows": {
         "W1": {
+          "start": "2025-01-10",
+          "end": "2025-03-31",
+          "first": "2025-01-10 09:00",
+          "last": "2025-03-31 15:59",
           "sessions": 54,
-          "net": 2735.34,
           "trades": 19,
+          "net": 2735.34,
           "pf": 2.42,
           "dd": 901.04
         },
         "W2": {
+          "start": "2025-04-01",
+          "end": "2025-06-30",
+          "first": "2025-04-01 09:00",
+          "last": "2025-06-30 15:59",
           "sessions": 61,
-          "net": 418.3,
           "trades": 8,
+          "net": 418.3,
           "pf": 1.47,
           "dd": 898.84
         },
         "W3": {
+          "start": "2025-07-01",
+          "end": "2025-09-30",
+          "first": "2025-07-01 09:00",
+          "last": "2025-09-30 15:59",
           "sessions": 63,
-          "net": -1088.22,
           "trades": 17,
+          "net": -1088.22,
           "pf": 0.58,
           "dd": 2184.32
         },
         "W4": {
+          "start": "2025-10-01",
+          "end": "2025-12-31",
+          "first": "2025-10-01 09:00",
+          "last": "2025-12-31 15:59",
           "sessions": 63,
-          "net": 2461.48,
           "trades": 12,
+          "net": 2461.48,
           "pf": 5.05,
           "dd": 229.48
         },
         "W5": {
+          "start": "2026-01-01",
+          "end": "2026-03-31",
+          "first": "2026-01-02 09:00",
+          "last": "2026-03-31 15:59",
           "sessions": 60,
-          "net": -1497.14,
           "trades": 6,
+          "net": -1497.14,
           "pf": 0.0,
           "dd": 1497.14
         },
         "W6": {
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "first": "2026-04-01 09:00",
+          "last": "2026-06-30 15:59",
           "sessions": 61,
-          "net": -1006.82,
           "trades": 10,
+          "net": -1006.82,
           "pf": 0.39,
           "dd": 1394.52
         }
-      }
+      },
+      "source": "reports/autoloop/run_original_reference.py"
     },
     {
       "ts": "2026-11-24T18:48:04+00:00",
