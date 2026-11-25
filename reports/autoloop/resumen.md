@@ -1,6 +1,6 @@
 # Informe consolidado — config viva del 8765 vs original, y mejoras
 
-**Generado:** 2026-11-25T01:46:43+00:00  
+**Generado:** 2026-11-25T01:55:09+00:00  
 **Alcance:** W1, W2, W3, W4, W5, W6 · 362 sesiones · `2025-01-10 09:00` → `2026-06-30 15:59` · CSV `adjusted` · capital inicial 25.000 USD.  
 **Naturaleza:** backtest in-sample reproducible. Holdout no leído. Ningún cambio aplicado al 8765.
 
@@ -216,6 +216,18 @@ Detalle y verificación de cada una:
 - **Efecto medido:** 46 ops, neto 2.471,78 (Δ 448,84), PF 1,39, DD 2.304,46 (Δ -587,20), RDD 1,073.
 - **Riesgo:** Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado.
 - **Verificación exacta:** `python research/verify_variant.py --id sl_200` debe dar 46 ops, 2.471,78, PF 1,39 y DD 2.304,46. Después, forward mínimo con muestra prospectiva.
+
+### 3.1 Reprecio exacto de `excl_1130_1330`
+
+Re-ejecutado con la ejecución exacta de `data/config.json`: comisión 0,62 USD/lado y slippage 1 tick/lado. Misma ventana W1–W6 (362 sesiones), mismo dataset `data/bars.csv`; no es el estrés de costes de la sección 2c.
+
+| Pata | Ops | Neto USD | PF | DD USD | RDD |
+|---|---:|---:|---:|---:|---:|
+| Base `manual_base` | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,6996 |
+| `excl_1130_1330` | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,3274 |
+| **Δ (excl − base)** | **-36** | **+1.180,88** | **+0,68** | **-1.515,12** | **+1,6278** |
+
+Con estos costes, la variante queda en +1.180,88 USD de neto y -1.515,12 USD de DD frente a la base, con 36 operaciones y RDD 2,3274. Es la misma muestra in-sample; no valida forward ni autoriza tocar el 8765.
 
 ## 4. Candidato a forward
 

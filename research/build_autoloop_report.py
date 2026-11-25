@@ -3,6 +3,7 @@
 Fuentes de la comparación:
 - reports/autoloop/resultados.jsonl (fila live manual_base)
 - reports/autoloop/resultados_original.jsonl (fila original)
+- reports/autoloop/reprecio_excl_1130_1330.jsonl (reprecio del candidato)
 
 La misión aporta atribución y significancia de contexto; no alimenta la tabla
 comparativa. No modifica configuración, DB ni el 8765. Solo escribe en
@@ -22,6 +23,7 @@ OUT = ROOT / "reports" / "autoloop"
 MISSION = ROOT / "reports" / "backtest" / "live_vs_original_mission.json"
 CONC = OUT / "concentracion.json"
 ORIGINAL_RESULTS = OUT / "resultados_original.jsonl"
+REPRICE_RESULTS = OUT / "reprecio_excl_1130_1330.jsonl"
 LIVE_CONFIG = ROOT / "data" / "config.json"
 LIVE_PROFILE = ROOT / "profiles" / "live_8765" / "config.json"
 ORIGINAL_PROFILE = ROOT / "profiles" / "backtest_real" / "config.json"
@@ -265,6 +267,7 @@ def risk_for(patch: dict) -> str:
 def main() -> int:
     results = load_results()
     reference_results = load_results(ORIGINAL_RESULTS)
+    reprice_rows = load_results(REPRICE_RESULTS)
     mission = json.loads(MISSION.read_text(encoding="utf-8"))
     verifications = []
     for name in ("verificacion_top.json", "verificacion_excl.json",
@@ -339,6 +342,43 @@ def main() -> int:
             f"config reconstruida {original_label}"
         )
     window_check = verify_window_rows(live_row, original_row)
+
+    reprice = next((r for r in reprice_rows if r.get("role") == "reprice"), None)
+    if reprice is None:
+        raise RuntimeError(
+            "Falta el reprecio del candidato; ejecuta "
+            "reports/autoloop/reprice_excl.py"
+        )
+    if reprice.get("config_sha256") != live_hash:
+        raise RuntimeError("El reprecio no se ejecutó con la config viva actual")
+    if reprice.get("execution") != live_cfg.get("execution"):
+        raise RuntimeError("El reprecio no usa la ejecución exacta de data/config.json")
+    if reprice.get("dataset") != window_check["dataset"]:
+        raise RuntimeError("El reprecio no usa el dataset de la comparación")
+    if set(reprice.get("windows") or {}) != set(window_check["windows"]):
+        raise RuntimeError("El reprecio no cubre las mismas ventanas W1-W6")
+    for key, win in window_check["windows"].items():
+        rep = reprice["windows"][key]
+        for field in ("first", "last", "sessions"):
+            if rep.get(field) != win[field]:
+                raise RuntimeError(
+                    f"Reprecio {key}: {field}={rep.get(field)!r}, "
+                    f"se esperaba {win[field]!r}"
+                )
+    for label, row, rep in (("base", live_row, reprice["base"]),
+                            ("excl", next((r for r in results
+                                           if r.get("id") == "excl_1130_1330"), None),
+                             reprice["variant"])):
+        if row is None:
+            continue
+        for field in ("trades", "net", "pf", "dd"):
+            left = float(row.get(field) or 0)
+            right = float(rep.get(field) or 0)
+            if field == "trades":
+                if int(left) != int(right):
+                    raise RuntimeError(f"Reprecio {label}: ops {right} != {left}")
+            elif abs(left - right) > (0.01 if field == "pf" else 0.05):
+                raise RuntimeError(f"Reprecio {label}: {field} {right} != {left}")
 
     live_ops = int(row_stat(live_row, "trades") or 0)
     original_ops = int(row_stat(original_row, "trades") or 0)
@@ -1205,6 +1245,36 @@ def main() -> int:
         return "no cumple el filtro de candidato."
 
     lines += [
+        "### 3.1 Reprecio exacto de `excl_1130_1330`",
+        "",
+        f"Re-ejecutado con la ejecución exacta de `data/config.json`: comisión "
+        f"{n(reprice['execution']['commission_per_contract_side'])} USD/lado y "
+        f"slippage {reprice['execution']['slippage_ticks']} tick/lado. Misma "
+        f"ventana W1–W6 ({sum(int(w['sessions']) for w in reprice['windows'].values())} sesiones), mismo "
+        f"dataset `{reprice['dataset']}`; no es el estrés de costes de la "
+        "sección 2c.",
+        "",
+        "| Pata | Ops | Neto USD | PF | DD USD | RDD |",
+        "|---|---:|---:|---:|---:|---:|",
+        f"| Base `manual_base` | {reprice['base']['trades']} | "
+        f"{n(reprice['base']['net'])} | {n(reprice['base']['pf'])} | "
+        f"{n(reprice['base']['dd'])} | {n(reprice['base']['rdd'], 4)} |",
+        f"| `excl_1130_1330` | {reprice['variant']['trades']} | "
+        f"{n(reprice['variant']['net'])} | {n(reprice['variant']['pf'])} | "
+        f"{n(reprice['variant']['dd'])} | {n(reprice['variant']['rdd'], 4)} |",
+        f"| **Δ (excl − base)** | **{reprice['delta']['trades']:+d}** | "
+        f"**{signed(reprice['delta']['net'])}** | "
+        f"**{signed(float(reprice['variant']['pf'] or 0) - float(reprice['base']['pf'] or 0))}** | "
+        f"**{signed(reprice['delta']['dd'])}** | "
+        f"**{signed(reprice['delta']['rdd'], 4)}** |",
+        "",
+        f"Con estos costes, la variante queda en "
+        f"{signed(reprice['delta']['net'])} USD de neto y "
+        f"{signed(reprice['delta']['dd'])} USD de DD frente a la base, con "
+        f"{reprice['variant']['trades']} operaciones y RDD "
+        f"{n(reprice['variant']['rdd'], 4)}. Es la misma muestra in-sample; no "
+        "valida forward ni autoriza tocar el 8765.",
+        "",
         "## 4. Candidato a forward",
         "",
     ]
@@ -1410,6 +1480,16 @@ def main() -> int:
             "significance": mission["significance"],
         },
         "config_diff": config_diffs,
+        "reprice": {
+            "source": REPRICE_RESULTS.relative_to(ROOT).as_posix(),
+            "run_id": reprice.get("run_id"),
+            "config_sha256": reprice.get("config_sha256"),
+            "execution": reprice["execution"],
+            "windows": reprice["windows"],
+            "base": reprice["base"],
+            "variant": reprice["variant"],
+            "delta": reprice["delta"],
+        },
         "ranking": ranked,
         "extension": extension,
         "concentration": conc,
