@@ -1,13 +1,13 @@
 # Informe consolidado — config viva del 8765 vs original, y mejoras
 
-**Generado:** 2026-11-25T00:57:08+00:00  
+**Generado:** 2026-11-25T01:12:42+00:00  
 **Alcance:** W1–W6, 362 sesiones, `2025-01-10` → `2026-06-30`, CSV `adjusted`, capital inicial 25.000 USD.  
 **Naturaleza:** backtest in-sample reproducible. Holdout no leído. Ningún cambio aplicado al 8765.
 
 ## Resumen
 
 - La viva gana **1.361,50 USD** y +0,09 de PF frente a la original, pero con **923,84 USD más de drawdown**; el IC95 % del bootstrap incluye cero (p=0,6544).
-- La exclusión 11:30–13:30 aguanta **4 de 4** ventanas vecinas: el efecto no depende del encuadre exacto.
+- Las **4** ventanas de exclusión de fase 3: **4** mejoran neto y DD; el efecto no depende del encuadre exacto.
 - **Candidato a forward:** `excl_1130_1330` (36 ops, RDD 2,327).
 - **Concentración:** el candidato debe 104,6 % del neto a 5 operaciones; sin ellas, -146,74. Confianza baja-media.
 - **Nada aplicado al 8765**: mismo PID, mismos hashes, misma config.
@@ -76,7 +76,7 @@ Descomposición secuencial exacta (original → P1 frecuencia → P2 sizing → 
 
 - Que la manual sea superior en forward: no hay muestra prospectiva, el holdout está sellado y el IC95 % incluye cero.
 - Que la original sea mejor: tampoco tiene forward; solo se midió en el mismo histórico.
-- Que el stop 200 o la exclusión horaria funcionen hacia adelante: sus cifras son in-sample; la exclusión tiene 36 ops y top-5 104,6 %.
+- Que la mejor variante primaria funcione hacia adelante: sus cifras son in-sample; el candidato tiene 36 ops y top-5 104,6 %.
 - Cuantificar el efecto de régimen o de un broker real: 6 bloques, 72/38 trades, un solo instrumento (MNQ) y ejecución paper.
 
 ### 1c. Contabilidad viva vs backtest (misma config, distinta fuente)
@@ -101,21 +101,18 @@ RDD = neto / drawdown máximo. Todas las filas usan la misma muestra; **es una s
 
 | # | Variante | Ops | Neto USD | PF | DD USD | RDD | Δ neto vs base | Cambio |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
-| 1 | excl_1130_1330+sl_200 | 17 | 2.805,52 | 2,74 | 813,86 | 3,447 | +782,58 | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30; `risk.max_sl_ticks` → 200 |
-| 2 | excl_1130_1330 | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,327 | +1.180,88 | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30 |
-| 3 | excl_1130_1330+daily_loss_2 | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,327 | +1.180,88 | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30; `risk.max_daily_loss_pct` → 2.0 |
-| 4 | excl_1130_1330+range_min_15 | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,327 | +1.180,88 | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30; `strategy.min_range_ticks` → 15 |
-| 5 | sl_200 | 46 | 2.471,78 | 1,39 | 2.304,46 | 1,073 | +448,84 | `risk.max_sl_ticks` → 200 |
-| 6 | manual_base | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | sin cambios (control) |
-| 7 | daily_loss_2 | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | `risk.max_daily_loss_pct` → 2.0 |
-| 8 | range_min_15 | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | `strategy.min_range_ticks` → 15 |
-| 9 | tol_18 | 70 | 1.960,38 | 1,22 | 2.887,88 | 0,679 | -62,56 | `strategy.retest_tolerance_ticks` → 18 |
-| 10 | sl_buffer_8 | 71 | 1.822,38 | 1,20 | 2.847,92 | 0,640 | -200,56 | `strategy.sl_buffer_ticks` → 8 |
-| 11 | contracts_7 | 72 | 1.669,48 | 1,19 | 2.781,20 | 0,600 | -353,46 | `risk.max_contracts` → 7 |
-| 12 | rr_2_5 | 72 | 1.462,18 | 1,16 | 2.891,66 | 0,506 | -560,76 | `strategy.tp_rr` → 2.5 |
-| 13 | validity_180 | 66 | 1.154,30 | 1,13 | 2.625,74 | 0,440 | -868,64 | `strategy.setup_validity_minutes` → 180 |
-| 14 | rr_3_5 | 72 | 977,44 | 1,10 | 3.635,80 | 0,269 | -1.045,50 | `strategy.tp_rr` → 3.5 |
-| 15 | sl_250 | 60 | 728,06 | 1,08 | 3.186,32 | 0,229 | -1.294,88 | `risk.max_sl_ticks` → 250 |
+| 1 | excl_1130_1330 | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,327 | +1.180,88 | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30 |
+| 2 | sl_200 | 46 | 2.471,78 | 1,39 | 2.304,46 | 1,073 | +448,84 | `risk.max_sl_ticks` → 200 |
+| 3 | manual_base | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | sin cambios (control) |
+| 4 | daily_loss_2 | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | `risk.max_daily_loss_pct` → 2.0 |
+| 5 | range_min_15 | 72 | 2.022,94 | 1,22 | 2.891,66 | 0,700 | 0,00 | `strategy.min_range_ticks` → 15 |
+| 6 | tol_18 | 70 | 1.960,38 | 1,22 | 2.887,88 | 0,679 | -62,56 | `strategy.retest_tolerance_ticks` → 18 |
+| 7 | sl_buffer_8 | 71 | 1.822,38 | 1,20 | 2.847,92 | 0,640 | -200,56 | `strategy.sl_buffer_ticks` → 8 |
+| 8 | contracts_7 | 72 | 1.669,48 | 1,19 | 2.781,20 | 0,600 | -353,46 | `risk.max_contracts` → 7 |
+| 9 | rr_2_5 | 72 | 1.462,18 | 1,16 | 2.891,66 | 0,506 | -560,76 | `strategy.tp_rr` → 2.5 |
+| 10 | validity_180 | 66 | 1.154,30 | 1,13 | 2.625,74 | 0,440 | -868,64 | `strategy.setup_validity_minutes` → 180 |
+| 11 | rr_3_5 | 72 | 977,44 | 1,10 | 3.635,80 | 0,269 | -1.045,50 | `strategy.tp_rr` → 3.5 |
+| 12 | sl_250 | 60 | 728,06 | 1,08 | 3.186,32 | 0,229 | -1.294,88 | `risk.max_sl_ticks` → 250 |
 
 ## 2b. Robustez de la exclusión horaria (fase 3)
 
@@ -124,15 +121,15 @@ Misma muestra; cambia solo la ventana de exclusión. Si el efecto es real, las v
 | Variante | Ops | Neto | PF | DD | RDD | Δ neto vs base |
 |---|---:|---:|---:|---:|---:|---:|
 | excl_1100_1300 | 26 | 2.500,18 | 1,92 | 501,90 | 4,981 | +477,24 |
-| excl_1130_1230 | 48 | 3.340,90 | 1,67 | 1.259,18 | 2,653 | +1.317,96 |
 | excl_1200_1400 | 46 | 3.500,94 | 1,65 | 1.835,30 | 1,908 | +1.478,00 |
+| excl_1130_1230 | 48 | 3.340,90 | 1,67 | 1.259,18 | 2,653 | +1.317,96 |
 | excl_1130_1330+validity_180 | 31 | 2.025,98 | 1,62 | 1.351,58 | 1,499 | +3,04 |
 
-**4 de 4** ventanas vecinas mejoran neto y DD frente a la base. La exclusión es robusta al encuadre; el candidato sigue en pie.
+**4 de 4** ventanas vecinas mejoran neto y DD frente a la base. La familia de exclusión es robusta al encuadre; el candidato sigue en pie.
 
 `excl_1130_1330+validity_180` apenas mejora el neto (+3,04); su aporte es de riesgo (DD), no de rentabilidad.
 
-La mejor de la extensión es `excl_1100_1300` (26 ops, RDD 4,981). No se re-selecciona como candidato: elegir el máximo de cuatro ventanas después de ver el resultado es doble in-sample. Vale como confirmación de familia, no como nueva promesa.
+La mejor de la extensión es `excl_1100_1300` (26 ops, RDD 4,981). No se re-selecciona como candidato: elegir el máximo de 4 ventanas después de ver el resultado es doble in-sample. Vale como confirmación de familia, no como nueva promesa.
 
 ## 2c. Sensibilidad a costes (estrés)
 
@@ -140,11 +137,11 @@ Base: comisión 0,62 USD/lado y slippage 1 tick/lado. Estrés: se duplican ambos
 
 | Variante | Ops | Neto | PF | DD | RDD | Δ neto vs base |
 |---|---:|---:|---:|---:|---:|---:|
-| excl_1130_1330+sl_200+cost_x2 | 17 | 2.638,54 | 2,56 | 843,22 | 3,129 | +615,60 |
-| excl_1130_1330+cost_x2 | 36 | 2.975,14 | 1,81 | 1.421,08 | 2,094 | +952,20 |
 | cost_x2 | 72 | 1.436,88 | 1,15 | 3.023,82 | 0,475 | -586,06 |
+| excl_1130_1330+cost_x2 | 36 | 2.975,14 | 1,81 | 1.421,08 | 2,094 | +952,20 |
+| excl_1130_1330+sl_200+cost_x2 | 17 | 2.638,54 | 2,56 | 843,22 | 3,129 | +615,60 |
 
-El candidato **sigue ganando a la base incluso con el doble de costes**: el edge no depende de un reprecio optimista.
+El candidato `excl_1130_1330` **sigue ganando a la base incluso con el doble de costes**: el edge no depende de un reprecio optimista.
 El estrés resta 228,68 USD al candidato (3.203,82 → 2.975,14), pero conserva +952,20 frente a la base.
 
 ## 2d. Concentración y estabilidad temporal (W1–W6)
@@ -187,19 +184,21 @@ La base está aún más concentrada (178,2 %; sin top-5, -1.581,40) y el origina
 | Variante | Ops | Neto | PF | DD | RDD |
 |---|---:|---:|---:|---:|---:|
 | excl_1100_1300+sl_200 | 15 | 2.362,02 | 2,47 | 501,90 | 4,706 |
+| excl_1130_1330+sl_200 | 17 | 2.805,52 | 2,74 | 813,86 | 3,447 |
+| excl_1130_1330+daily_loss_2 | 36 | 3.203,82 | 1,90 | 1.376,54 | 2,327 |
 
 
 ## 3. Mejoras priorizadas por impacto en rentabilidad
 
-Ordenadas por Δneto medido frente a la base. El RDD y el DD indican el coste en riesgo; ninguna está aplicada. En la pasada principal, solo tres palancas superan a la base en neto. `daily_loss_2` y `range_min_15` salen idénticas a la base: esos dos guards no llegaron a activarse en esta muestra, así que no son una palanca demostrada.
+Ordenadas por Δneto medido frente a la base. El RDD y el DD indican el coste en riesgo; ninguna está aplicada. **3** variantes superan a la base en neto; se listan las 3 mejores. `daily_loss_2`, `range_min_15` salen idénticas a la base en neto y DD: no llegaron a activarse en esta muestra, así que no son una palanca demostrada.
 
-**Lectura de confianza:** el candidato debe 104,6 % del neto a 5 operaciones; sin ellas, -146,74. La mejora #1 es la mayor de la muestra, pero frágil: no es una ventaja frecuente.
+**Lectura de confianza:** el candidato `excl_1130_1330` debe 104,6 % del neto a 5 operaciones; sin ellas, -146,74. La mejora #1 es `excl_1130_1330` (+1.180,88 USD), con confianza baja-media; es la mayor de la muestra, pero frágil.
 
 | # | Regla / parámetro | Valor propuesto | Δ neto esperado | Δ DD | Confianza | Riesgo | Verificación |
 |---:|---|---|---:|---:|---|---|---|
-| 1 | `excl_1130_1330` | `entry_exclusion_start/end` = 11:30 / 13:30 | +1.180,88 | -1.515,12 | baja-media | Menos oportunidades; horario in-sample; top-5 = 104,6 % del neto | `verify_variant.py --id excl_1130_1330` + forward |
-| 2 | `excl_1130_1330+sl_200` | exclusión 11:30–13:30 + `max_sl_ticks` = 200 | +782,58 | -2.077,80 | muy baja (17 ops) | Muestra insuficiente; dos palancas a la vez | `verify_variant.py --id excl_1130_1330+sl_200`; no promover |
-| 3 | `sl_200` | `max_sl_ticks` = 200 | +448,84 | -587,20 | media | Recorta stops profundos que podrían recuperar | `verify_variant.py --id sl_200` + forward |
+| 1 | `excl_1130_1330` | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30 | +1.180,88 | -1.515,12 | baja-media | Menos oportunidades y dependencia de un horario elegido in-sample. Top-5 = 104,6 % del neto; sin ellas, -146,74. | `verify_variant.py --id excl_1130_1330` + forward |
+| 2 | `excl_1130_1330+sl_200` | `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30; `risk.max_sl_ticks` → 200 | +782,58 | -2.077,80 | muy baja (17 ops) | Menos oportunidades y dependencia de un horario elegido in-sample. Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado. Muestra insuficiente (17 ops): no promover. | `verify_variant.py --id excl_1130_1330+sl_200`; no promover |
+| 3 | `sl_200` | `risk.max_sl_ticks` → 200 | +448,84 | -587,20 | media | Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado. | `verify_variant.py --id sl_200` + forward |
 
 Detalle y verificación de cada una:
 
@@ -207,8 +206,8 @@ Detalle y verificación de cada una:
 
 - **Cambio exacto:** `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30.
 - **Efecto medido:** 36 ops, neto 3.203,82 (Δ 1.180,88), PF 1,90, DD 1.376,54 (Δ -1.515,12), RDD 2,327.
-- **Riesgo:** Menos oportunidades y dependencia de un horario elegido in-sample.
-- **Verificación exacta:** `python research/verify_variant.py --id excl_1130_1330` debe dar 36 ops, 3.203,82, PF 1,90 y DD 1.376,54; después, forward mínimo con muestra prospectiva.
+- **Riesgo:** Menos oportunidades y dependencia de un horario elegido in-sample. Top-5 = 104,6 % del neto; sin ellas, -146,74.
+- **Verificado:** re-ejecutado en un proceso aparte; ops, neto, PF y DD coinciden. La comprobación debe dar 36 ops, 3.203,82, PF 1,90 y DD 1.376,54. Después, forward mínimo con muestra prospectiva.
 
 - **Confianza condicionada:** top-5 = 104,6 % del neto; sin esas cinco, -146,74. Edge de pocos eventos, no una ventaja frecuente.
 
@@ -216,25 +215,25 @@ Detalle y verificación de cada una:
 
 - **Cambio exacto:** `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30; `risk.max_sl_ticks` → 200.
 - **Efecto medido:** 17 ops, neto 2.805,52 (Δ 782,58), PF 2,74, DD 813,86 (Δ -2.077,80), RDD 3,447.
-- **Riesgo:** Menos oportunidades y dependencia de un horario elegido in-sample. Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado.
-- **Verificación exacta:** `python research/verify_variant.py --id excl_1130_1330+sl_200` debe dar 17 ops, 2.805,52, PF 2,74 y DD 813,86. Con 17 ops no se promueve: primero ampliar muestra.
+- **Riesgo:** Menos oportunidades y dependencia de un horario elegido in-sample. Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado. Muestra insuficiente (17 ops): no promover.
+- **Verificado:** re-ejecutado en un proceso aparte; ops, neto, PF y DD coinciden. La comprobación debe dar 17 ops, 2.805,52, PF 2,74 y DD 813,86. Con 17 ops no se promueve: primero ampliar muestra.
 
 ### 3. `sl_200` — 448,84 USD
 
 - **Cambio exacto:** `risk.max_sl_ticks` → 200.
 - **Efecto medido:** 46 ops, neto 2.471,78 (Δ 448,84), PF 1,39, DD 2.304,46 (Δ -587,20), RDD 1,073.
 - **Riesgo:** Recorta stops profundos: menos operaciones y posible sesgo a stops que el mercado habría respetado.
-- **Verificación exacta:** `python research/verify_variant.py --id sl_200` debe dar 46 ops, 2.471,78, PF 1,39 y DD 2.304,46.
+- **Verificación exacta:** `python research/verify_variant.py --id sl_200` debe dar 46 ops, 2.471,78, PF 1,39 y DD 2.304,46. Después, forward mínimo con muestra prospectiva.
 
 ## 4. Candidato a forward
 
-El mejor RDD de la pasada principal es `excl_1130_1330+sl_200` (3,447), pero suma 17 operaciones; se descarta para forward por muestra insuficiente.
+El mejor RDD absoluto de `resultados.jsonl` es `excl_1100_1300` (4,981; 26 ops); es una ventana de robustez de fase 3; elegirla como candidato sería doble in-sample.
 
 **excl_1130_1330** — `risk.entry_exclusion_start` → 11:30; `risk.entry_exclusion_end` → 13:30.
 
 - Muestra: 36 operaciones, neto 3.203,82 USD (Δ +1.180,88 vs base), PF 1,90, DD 1.376,54, RDD 2,327.
 - **Concentración:** top-5 = 104,6 % del neto; sin esas cinco, -146,74; racha perdedora 7; el DD máximo tardó 182,0 días en recuperarse. Confianza baja-media.
-- **Robustez:** la exclusión aguantó 4/4 ventanas vecinas.
+- **Robustez:** 4/4 ventanas de exclusión mejoran neto y DD.
 - **Qué falta:** un lock forward propio, muestra prospectiva y diluir la dependencia de 5 operaciones antes de subir tamaño. El holdout sigue sellado.
 - **No hacer:** aplicarlo al 8765 ni promoverlo a tamaño pleno; solo forward mínimo con muestra prospectiva.
 
@@ -274,4 +273,9 @@ Al arrancar ocupa unos 240 MB; corre a prioridad idle y se autopausa si la RAM l
 - La manual gana **+1.361,50 USD** en la muestra (PF 1,22 vs 1,13; expectancy 0,180 vs 0,130 R; RDD 0,6996 vs 0,3361), pero **no domina en riesgo**: DD +923,84 y peor racha 13 vs 10. El IC95 % del delta incluye cero.
 - La ventaja es **cobertura de señales + sizing**, no mejor ejecución: en las 37 comunes la manual pierde 158,12. El stop 300 es el lastre (-448,84 de neto y +587,20 de DD).
 - **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el holdout está sellado y la muestra es de 72/38 ops in-sample.
-- La propuesta #1 por impacto nominal es la exclusión 11:30–13:30 (+1.180,88), pero su confianza es baja-media por concentración; la palanca estructural más defendible es `max_sl_ticks=200` (+448,84, DD -587,20), porque no depende del horario. Ninguna se despliega sin forward.
+
+- La mejora de mayor Δneto es `excl_1130_1330` (+1.180,88 USD; confianza baja-media).
+- **Candidato a forward:** `excl_1130_1330` (36 ops, RDD 2,327).
+- **Mejor RDD absoluto:** `excl_1100_1300` (4,981; es una ventana de robustez de fase 3; elegirla como candidato sería doble in-sample.)
+
+Ninguna se despliega sin forward.

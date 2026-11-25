@@ -20,21 +20,7 @@ OUT = ROOT / "reports" / "autoloop"
 MISSION = ROOT / "reports" / "backtest" / "live_vs_original_mission.json"
 CONC = OUT / "concentracion.json"
 
-COST_IDS = {
-    "cost_x2", "excl_1130_1330+cost_x2", "excl_1130_1330+sl_200+cost_x2",
-}
-
-ROBUST_IDS = {
-    "excl_1100_1300", "excl_1200_1400", "excl_1130_1230",
-    "excl_1130_1330+validity_180",
-}
-
-MAIN_IDS = {
-    "manual_base", "sl_200", "sl_250", "rr_2_5", "rr_3_5", "tol_18",
-    "validity_180", "contracts_7", "sl_buffer_8", "excl_1130_1330",
-    "daily_loss_2", "range_min_15", "excl_1130_1330+sl_200",
-    "excl_1130_1330+daily_loss_2", "excl_1130_1330+range_min_15",
-}
+MIN_FORWARD_OPS = 20
 
 RISK = {
     "risk.max_sl_ticks": "Recorta stops profundos: menos operaciones y posible sesgo a "
@@ -129,6 +115,44 @@ def describe_patch(patch: dict) -> str:
     return "; ".join(parts) if parts else "sin cambios (control)"
 
 
+def why_of(row: dict) -> str:
+    return str(row.get("why") or "").strip().lower()
+
+
+def is_cost_row(row: dict) -> bool:
+    if why_of(row).startswith(("estrés", "estres")):
+        return True
+    return any(k.startswith("execution.") for k in flat(row.get("patch") or {}))
+
+
+def is_robust_row(row: dict) -> bool:
+    if why_of(row).startswith("robustez"):
+        return True
+    # Fallback estructural para filas antiguas/sin "why": una exclusión
+    # combinada con otra palanca de estrategia es una prueba de fase 3, no la
+    # variante primaria de exclusión.
+    if is_combo_row(row):
+        return False
+    keys = set(flat(row.get("patch") or {}))
+    return (
+        "risk.entry_exclusion_start" in keys
+        and any(k.startswith("strategy.") for k in keys)
+    )
+
+
+def is_combo_row(row: dict) -> bool:
+    return why_of(row).startswith(("combinación adaptativa",
+                                   "combinacion adaptativa"))
+
+
+def patch_key(patch: dict | None) -> str:
+    return json.dumps(patch or {}, sort_keys=True, ensure_ascii=False)
+
+
+def without_execution(patch: dict | None) -> dict:
+    return {k: v for k, v in (patch or {}).items() if k != "execution"}
+
+
 def risk_for(patch: dict) -> str:
     risks = list(dict.fromkeys(RISK[k] for k in flat(patch) if k in RISK))
     return " ".join(risks) if risks else "Sin palanca de riesgo; es el control."
@@ -144,7 +168,89 @@ def main() -> int:
         if vpath.exists():
             verifications.append(json.loads(vpath.read_text(encoding="utf-8")))
     conc = json.loads(CONC.read_text(encoding="utf-8")) if CONC.exists() else None
-    conc_c = conc["concentration"]["candidate"] if conc else None
+    base = next((r for r in results if r["id"] == "manual_base"), None)
+    base_net = float(base.get("net") or 0) if base else 0.0
+    base_dd = float(base.get("dd") or 0) if base else 0.0
+
+    # Clasificación por metadatos del propio resultado, no por IDs fijos:
+    # fase 3 se marca con why="robustez: ..."; costes con execution.*.
+    primary = [
+        r for r in results
+        if not is_cost_row(r) and not is_robust_row(r) and not is_combo_row(r)
+    ]
+    ranked = sorted(
+        primary, key=lambda r: float(r.get("rdd") or 0), reverse=True
+    )
+    primary_ids = {r["id"] for r in primary}
+
+    def combo_components(row: dict) -> list[str]:
+        text = why_of(row)
+        if ":" in text:
+            text = text.split(":", 1)[1]
+        return [part.strip() for part in text.split("+") if part.strip()]
+
+    # Las mejoras incluyen combinaciones solo si todos sus componentes son
+    # variantes primarias; las combinaciones de una ventana de fase 3 se
+    # quedan en la sección de extensión.
+    improvement_pool = []
+    for row in results:
+        if is_cost_row(row) or is_robust_row(row):
+            continue
+        if is_combo_row(row):
+            components = combo_components(row)
+            if components and not all(c in primary_ids for c in components):
+                continue
+        improvement_pool.append(row)
+    extension = sorted(
+        [r for r in results if r["id"] not in primary_ids],
+        key=lambda r: float(r.get("rdd") or 0), reverse=True,
+    )
+    robust_ext = [r for r in results if is_robust_row(r)]
+    excl_ext = robust_ext  # alias histórico del informe
+    cost_ext = [r for r in results if is_cost_row(r)]
+    robust_ok = [
+        r for r in robust_ext
+        if float(r.get("net") or 0) > base_net
+        and float(r.get("dd") or 0) < base_dd
+    ]
+    robustness = {
+        "tested": len(robust_ext),
+        "passed": len(robust_ok),
+        "ids": [r["id"] for r in robust_ext],
+        "forward_ready": (len(robust_ok) >= 3) if robust_ext else None,
+    }
+    pool = [
+        r for r in ranked
+        if r["id"] != "manual_base" and float(r.get("net") or 0) > 0
+        and int(r.get("trades") or 0) >= MIN_FORWARD_OPS
+    ]
+    if robust_ext and not robustness["forward_ready"]:
+        pool = [
+            r for r in pool
+            if "risk.entry_exclusion_start" not in flat(r.get("patch") or {})
+        ]
+    candidate = pool[0] if pool else base
+
+    # Mejor RDD absoluto de resultados.jsonl: incluye fase 3 y combinaciones,
+    # pero excluye el control y las filas de estrés de costes.
+    rdd_pool = [
+        r for r in results
+        if r["id"] != "manual_base"
+        and not is_cost_row(r)
+        and float(r.get("rdd") or 0) > 0
+    ]
+    best_rdd = max(
+        rdd_pool, key=lambda r: float(r.get("rdd") or 0), default=None
+    )
+
+    # La foto de concentración se hizo con un patch concreto. Solo se usa si
+    # sigue siendo el candidato actual; si no, se evita atribuirle sus métricas.
+    conc_snapshot_c = conc["concentration"]["candidate"] if conc else None
+    conc_matches = bool(
+        conc and candidate
+        and patch_key(conc.get("candidate_patch")) == patch_key(candidate.get("patch"))
+    )
+    conc_c = conc_snapshot_c if conc_matches else None
     if conc_c:
         level = conc_level(conc_c.get("top5_share_pct"))
         conc_confidence = {
@@ -160,66 +266,44 @@ def main() -> int:
             f"sin ellas, {n(conc_c.get('net_ex_top5'))}. Confianza "
             f"{conc_confidence}."
         )
+    elif conc:
+        conc_confidence = "n/d"
+        conc_line = (
+            "- **Concentración:** la re-ejecución limpia se hizo con otro "
+            "patch; no se usa para el candidato actual."
+        )
     else:
         conc_confidence = "n/d"
         conc_line = "- Concentración: pendiente de la re-ejecución limpia."
 
-    base = next((r for r in results if r["id"] == "manual_base"), None)
-    base_net = float(base.get("net") or 0) if base else 0.0
-    base_dd = float(base.get("dd") or 0) if base else 0.0
-    ranked = sorted(
-        [r for r in results if r["id"] in MAIN_IDS],
-        key=lambda r: float(r.get("rdd") or 0), reverse=True,
-    )
-    extension = sorted(
-        [r for r in results if r["id"] not in MAIN_IDS],
-        key=lambda r: float(r.get("rdd") or 0), reverse=True,
-    )
-    excl_ext = [r for r in extension if r["id"] in ROBUST_IDS]
-    cost_ext = [r for r in extension if r["id"] in COST_IDS]
-    robust_ok = [
-        r for r in excl_ext
-        if float(r.get("net") or 0) > base_net
-        and float(r.get("dd") or 0) < base_dd
-    ]
-    robustness = {
-        "tested": len(excl_ext),
-        "passed": len(robust_ok),
-        "ids": [r["id"] for r in excl_ext],
-        "forward_ready": (len(robust_ok) >= 3) if excl_ext else None,
-    }
-    pool = [
-        r for r in ranked
-        if r["id"] != "manual_base" and float(r.get("net") or 0) > 0
-        and int(r.get("trades") or 0) >= 20
-    ]
-    if excl_ext and not robustness["forward_ready"]:
-        pool = [
-            r for r in pool
-            if "risk.entry_exclusion_start" not in flat(r.get("patch") or {})
-        ]
-    candidate = pool[0] if pool else base
     live = mission["aggregate"]["live"]
     orig = mission["aggregate"]["original"]
     diff = mission["config_diff"]
-    if not excl_ext:
+    if not robust_ext:
         robust_line = ("- La prueba de robustez de la exclusión sigue en curso; "
                        "no se promociona nada.")
     elif robustness["forward_ready"]:
         robust_line = (
-            f"- La exclusión 11:30–13:30 aguanta **{len(robust_ok)} de "
-            f"{len(excl_ext)}** ventanas vecinas: el efecto no depende del "
+            f"- Las **{len(robust_ext)}** ventanas de exclusión de fase 3: "
+            f"**{len(robust_ok)}** mejoran neto y DD; el efecto no depende del "
             "encuadre exacto."
         )
     else:
         robust_line = (
-            f"- La exclusión 11:30–13:30 solo aguanta **{len(robust_ok)} de "
-            f"{len(excl_ext)}** ventanas vecinas: es frágil y **no va a forward**."
+            f"- Solo **{len(robust_ok)} de {len(robust_ext)}** ventanas de "
+            "exclusión mejoran neto y DD: la familia es frágil y **no va a "
+            "forward**."
         )
-    candidate_line = (
-        f"- **Candidato a forward:** `{candidate['id']}` "
-        f"({candidate.get('trades')} ops, RDD {n(candidate.get('rdd'), 3)})."
-    )
+    if candidate and candidate["id"] != "manual_base":
+        candidate_line = (
+            f"- **Candidato a forward:** `{candidate['id']}` "
+            f"({candidate.get('trades')} ops, RDD {n(candidate.get('rdd'), 3)})."
+        )
+    else:
+        candidate_line = (
+            "- **Candidato a forward:** ninguno supera el filtro de muestra y "
+            "neto; no se promociona nada."
+        )
 
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     lines = [
@@ -362,8 +446,11 @@ def main() -> int:
         "holdout está sellado y el IC95 % incluye cero.",
         "- Que la original sea mejor: tampoco tiene forward; solo se midió en el "
         "mismo histórico.",
-        "- Que el stop 200 o la exclusión horaria funcionen hacia adelante: sus "
-        "cifras son in-sample; la exclusión tiene 36 ops y top-5 104,6 %.",
+        "- Que la mejor variante primaria funcione hacia adelante: sus cifras "
+        "son in-sample; el candidato tiene "
+        f"{candidate.get('trades') if candidate else 'n/d'} ops"
+        + (f" y top-5 {n(conc_c.get('top5_share_pct'), 1)} %."
+           if conc_c else "."),
         "- Cuantificar el efecto de régimen o de un broker real: 6 bloques, "
         "72/38 trades, un solo instrumento (MNQ) y ejecución paper.",
         "",
@@ -426,10 +513,11 @@ def main() -> int:
             "",
             f"**{len(robust_ok)} de {len(excl_ext)}** ventanas vecinas mejoran "
             "neto y DD frente a la base. "
-            + ("La exclusión es robusta al encuadre; el candidato sigue en pie."
+            + ("La familia de exclusión es robusta al encuadre; el candidato "
+               "sigue en pie."
                if robustness["forward_ready"] else
-               "Solo la ventana exacta funciona: trátalo como sobreajuste y no lo "
-               "lleves a forward."),
+               "Solo una parte de las ventanas funciona: trátalo como "
+               "sobreajuste y no lo lleves a forward."),
             "",
         ]
         marginal = [
@@ -446,13 +534,14 @@ def main() -> int:
         best_ext = max(
             excl_ext, key=lambda r: float(r.get("rdd") or 0), default=None
         )
-        if best_ext and best_ext["id"] != "excl_1130_1330":
+        if best_ext and candidate and best_ext["id"] != candidate["id"]:
             lines += [
                 f"La mejor de la extensión es `{best_ext['id']}` "
                 f"({best_ext.get('trades')} ops, RDD {n(best_ext.get('rdd'), 3)}). "
-                "No se re-selecciona como candidato: elegir el máximo de cuatro "
-                "ventanas después de ver el resultado es doble in-sample. Vale "
-                "como confirmación de familia, no como nueva promesa.",
+                f"No se re-selecciona como candidato: elegir el máximo de "
+                f"{len(excl_ext)} ventanas después de ver el resultado es doble "
+                "in-sample. Vale como confirmación de familia, no como nueva "
+                "promesa.",
                 "",
             ]
     robust_sigs = {
@@ -482,23 +571,24 @@ def main() -> int:
                 f"{n(row.get('pf'))} | {n(row.get('dd'))} | "
                 f"{n(row.get('rdd'), 3)} | {signed(delta)} |"
             )
+        cand_base_patch = without_execution(candidate.get("patch")) if candidate else {}
         cand_cost = next(
-            (r for r in cost_ext if r["id"] == "excl_1130_1330+cost_x2"),
+            (r for r in cost_ext
+             if without_execution(r.get("patch")) == cand_base_patch),
             None,
-        )
+        ) if candidate and candidate["id"] != "manual_base" else None
         if cand_cost:
             survives = float(cand_cost.get("net") or 0) > base_net
             lines += [
                 "",
-                ("El candidato **sigue ganando a la base incluso con el doble de "
-                 "costes**: el edge no depende de un reprecio optimista."
+                (f"El candidato `{candidate['id']}` **sigue ganando a la base "
+                 "incluso con el doble de costes**: el edge no depende de un "
+                 "reprecio optimista."
                  if survives else
-                 "El candidato **no sobrevive** al doble de costes: el edge "
-                 "dependía de costes favorables."),
+                 f"El candidato `{candidate['id']}` **no sobrevive** al doble "
+                 "de costes: el edge dependía de costes favorables."),
             ]
-            nocost = next(
-                (r for r in results if r["id"] == "excl_1130_1330"), None
-            )
+            nocost = candidate
             if nocost:
                 drag = (float(cand_cost.get("net") or 0)
                         - float(nocost.get("net") or 0))
@@ -511,13 +601,24 @@ def main() -> int:
                 ]
             lines += [""]
         else:
-            lines += [""]
+            lines += [
+                "No hay fila de estrés de costes para el candidato actual; no "
+                "se puede comprobar con `resultados.jsonl`.",
+                "",
+            ]
     if conc:
         cc = conc["concentration"]
 
         def cells(fn):
             return " | ".join(fn(cc[k]) for k in ("candidate", "base", "original"))
 
+        if not conc_matches:
+            lines += [
+                "**Aviso:** la re-ejecución limpia se hizo con otro patch; el "
+                f"candidato actual es `{candidate['id'] if candidate else 'n/d'}`. "
+                "Esta sección describe la foto fija, no el candidato actual.",
+                "",
+            ]
         lines += [
             "## 2d. Concentración y estabilidad temporal (W1–W6)",
             "",
@@ -601,7 +702,7 @@ def main() -> int:
     other_ext = []
     seen_ext = set(robust_sigs)
     for r in extension:
-        if r["id"] in ROBUST_IDS or r["id"] in COST_IDS:
+        if is_robust_row(r) or is_cost_row(r):
             continue
         sig = (
             r.get("trades"),
@@ -627,37 +728,14 @@ def main() -> int:
                 f"{n(row.get('rdd'), 3)} |"
             )
         lines += [""]
-    lines += [
-        "",
-        "## 3. Mejoras priorizadas por impacto en rentabilidad",
-        "",
-        "Ordenadas por Δneto medido frente a la base. El RDD y el DD indican el "
-        "coste en riesgo; ninguna está aplicada. En la pasada principal, solo tres "
-        "palancas superan a la base en neto. `daily_loss_2` y `range_min_15` salen idénticas a la base: "
-        "esos dos guards no llegaron a activarse en esta muestra, así que no son "
-        "una palanca demostrada.",
-        "",
-    ]
-    if conc_c:
-        lines += [
-            f"**Lectura de confianza:** el candidato debe "
-            f"{n(conc_c['top5_share_pct'], 1)} % del neto a 5 operaciones; sin "
-            f"ellas, {n(conc_c['net_ex_top5'])}. La mejora #1 es la mayor de la "
-            "muestra, pero frágil: no es una ventaja frecuente.",
-            "",
-        ]
     ordered = sorted(
-        [r for r in ranked
+        [r for r in improvement_pool
          if r["id"] != "manual_base"
          and float(r.get("net") or 0) - base_net > 0.005],
         key=lambda r: float(r.get("net") or 0) - base_net,
         reverse=True,
     )
-    improvements = []
-    verified = {
-        v["id"] for v in verifications
-        if v.get("match") and all(v["match"].values())
-    }
+    improvements_all = []
     seen = set()
     for row in ordered:
         signature = (
@@ -669,105 +747,200 @@ def main() -> int:
         if signature in seen:
             continue
         seen.add(signature)
-        improvements.append(row)
-        if len(improvements) == 5:
-            break
-    lines += [
-        "| # | Regla / parámetro | Valor propuesto | Δ neto esperado | Δ DD | "
-        "Confianza | Riesgo | Verificación |",
-        "|---:|---|---|---:|---:|---|---|---|",
+        improvements_all.append(row)
+    improvements = improvements_all[:5]
+    noops = [
+        r for r in ranked
+        if r["id"] != "manual_base"
+        and abs(float(r.get("net") or 0) - base_net) <= 0.005
+        and abs(float(r.get("dd") or 0) - base_dd) <= 0.005
     ]
-    for i, row in enumerate(improvements, 1):
-        delta = float(row.get("net") or 0) - base_net
-        ddd = float(row.get("dd") or 0) - float(base.get("dd") or 0) if base else 0
-        if row["id"] == "excl_1130_1330":
-            change = "`entry_exclusion_start/end` = 11:30 / 13:30"
-            confidence = conc_confidence
-            risk = "Menos oportunidades; horario in-sample; top-5 = 104,6 % del neto"
-            verify = "`verify_variant.py --id excl_1130_1330` + forward"
-        elif row["id"] == "excl_1130_1330+sl_200":
-            change = "exclusión 11:30–13:30 + `max_sl_ticks` = 200"
-            confidence = "muy baja (17 ops)"
-            risk = "Muestra insuficiente; dos palancas a la vez"
-            verify = "`verify_variant.py --id excl_1130_1330+sl_200`; no promover"
-        elif row["id"] == "sl_200":
-            change = "`max_sl_ticks` = 200"
-            confidence = "media"
-            risk = "Recorta stops profundos que podrían recuperar"
-            verify = "`verify_variant.py --id sl_200` + forward"
-        else:
-            change = describe_patch(row.get("patch") or {})
-            confidence = "n/d"
-            risk = risk_for(row.get("patch") or {})
-            verify = "Rerun limpio + forward"
-        lines.append(
-            f"| {i} | `{row['id']}` | {change} | {signed(delta)} | "
-            f"{signed(ddd)} | {confidence} | {risk} | {verify} |"
+
+    def confidence_for(row: dict) -> str:
+        trades = int(row.get("trades") or 0)
+        if trades < MIN_FORWARD_OPS:
+            return f"muy baja ({trades} ops)"
+        if conc_c and candidate and row.get("id") == candidate.get("id"):
+            return conc_confidence
+        if trades < 30:
+            return "baja"
+        if trades < 50:
+            return "media"
+        return "media-alta"
+
+    def risk_text(row: dict) -> str:
+        parts = [risk_for(row.get("patch") or {})]
+        trades = int(row.get("trades") or 0)
+        if trades < MIN_FORWARD_OPS:
+            parts.append(f"Muestra insuficiente ({trades} ops): no promover.")
+        if conc_c and candidate and row.get("id") == candidate.get("id"):
+            parts.append(
+                f"Top-5 = {n(conc_c.get('top5_share_pct'), 1)} % del neto; "
+                f"sin ellas, {n(conc_c.get('net_ex_top5'))}."
+            )
+        return " ".join(parts)
+
+    def verify_text(row: dict) -> str:
+        text = f"`verify_variant.py --id {row['id']}`"
+        if int(row.get("trades") or 0) < MIN_FORWARD_OPS:
+            return text + "; no promover"
+        return text + " + forward"
+
+    verified = {
+        v["id"]: v for v in verifications
+        if v.get("match") and all(v["match"].values())
+    }
+
+    def was_verified(row: dict) -> bool:
+        v = verified.get(row["id"])
+        if not v:
+            return False
+        return (
+            v.get("trades") == row.get("trades")
+            and round(float(v.get("net") or 0), 2)
+            == round(float(row.get("net") or 0), 2)
+            and round(float(v.get("pf") or 0), 2)
+            == round(float(row.get("pf") or 0), 2)
+            and round(float(v.get("dd") or 0), 2)
+            == round(float(row.get("dd") or 0), 2)
         )
-    lines += ["", "Detalle y verificación de cada una:", ""]
-    for i, row in enumerate(improvements, 1):
-        delta = float(row.get("net") or 0) - base_net
-        ddd = float(row.get("dd") or 0) - float(base.get("dd") or 0) if base else 0
-        if row["id"] == "excl_1130_1330":
-            verification = (
-                "- **Verificación exacta:** `python research/verify_variant.py "
-                "--id excl_1130_1330` debe dar 36 ops, 3.203,82, PF 1,90 y DD "
-                "1.376,54; después, forward mínimo con muestra prospectiva."
-            )
-        elif row["id"] == "excl_1130_1330+sl_200":
-            verification = (
-                "- **Verificación exacta:** `python research/verify_variant.py "
-                "--id excl_1130_1330+sl_200` debe dar 17 ops, 2.805,52, PF "
-                "2,74 y DD 813,86. Con 17 ops no se promueve: primero ampliar "
-                "muestra."
-            )
-        elif row["id"] == "sl_200":
-            verification = (
-                "- **Verificación exacta:** `python research/verify_variant.py "
-                "--id sl_200` debe dar 46 ops, 2.471,78, PF 1,39 y DD 2.304,46."
-            )
-        elif row["id"] in verified:
-            verification = (
-                "- **Verificado:** re-ejecutado en un proceso aparte; ops, neto, "
-                "PF y DD coinciden (Δneto 0,00)."
-            )
-        else:
-            verification = (
-                "- **Verificación:** repetir esta variante con "
-                f"`python research/verify_variant.py --id {row['id']}` y exigir "
-                "que neto/PF/DD coincidan."
-            )
+
+    lines += [
+        "",
+        "## 3. Mejoras priorizadas por impacto en rentabilidad",
+        "",
+    ]
+    if improvements:
+        intro = (
+            "Ordenadas por Δneto medido frente a la base. El RDD y el DD "
+            "indican el coste en riesgo; ninguna está aplicada. "
+            f"**{len(improvements_all)}** variantes superan a la base en neto; "
+            f"se listan las {len(improvements)} mejores."
+        )
+    else:
+        intro = (
+            "Ordenadas por Δneto medido frente a la base. Ninguna variante "
+            "supera a la base en neto con la muestra actual."
+        )
+    if noops:
+        noop_ids = "`, `".join(r["id"] for r in noops)
+        intro += (
+            f" `{noop_ids}` salen idénticas a la base en neto y DD: no "
+            "llegaron a activarse en esta muestra, así que no son una palanca "
+            "demostrada."
+        )
+    lines += [intro, ""]
+    if conc_c and improvements:
+        first = improvements[0]
+        first_delta = float(first.get("net") or 0) - base_net
         lines += [
-            f"### {i}. `{row['id']}` — {n(delta)} USD",
-            "",
-            f"- **Cambio exacto:** {describe_patch(row.get('patch') or {})}.",
-            f"- **Efecto medido:** {row.get('trades')} ops, neto {n(row.get('net'))} "
-            f"(Δ {n(delta)}), PF {n(row.get('pf'))}, DD {n(row.get('dd'))} "
-            f"(Δ {n(ddd)}), RDD {n(row.get('rdd'), 3)}.",
-            f"- **Riesgo:** {risk_for(row.get('patch') or {})}",
-            verification,
+            f"**Lectura de confianza:** el candidato `{candidate['id']}` debe "
+            f"{n(conc_c['top5_share_pct'], 1)} % del neto a 5 operaciones; sin "
+            f"ellas, {n(conc_c['net_ex_top5'])}. La mejora #1 es "
+            f"`{first['id']}` ({signed(first_delta)} USD), con confianza "
+            f"{confidence_for(first)}; es la mayor de la muestra, pero frágil.",
             "",
         ]
-        if conc_c and row["id"] == "excl_1130_1330":
+    if improvements:
+        lines += [
+            "| # | Regla / parámetro | Valor propuesto | Δ neto esperado | Δ DD | "
+            "Confianza | Riesgo | Verificación |",
+            "|---:|---|---|---:|---:|---|---|---|",
+        ]
+        for i, row in enumerate(improvements, 1):
+            delta = float(row.get("net") or 0) - base_net
+            ddd = (float(row.get("dd") or 0) - base_dd) if base else 0.0
+            lines.append(
+                f"| {i} | `{row['id']}` | {describe_patch(row.get('patch') or {})} "
+                f"| {signed(delta)} | {signed(ddd)} | {confidence_for(row)} "
+                f"| {risk_text(row)} | {verify_text(row)} |"
+            )
+        lines += ["", "Detalle y verificación de cada una:", ""]
+        for i, row in enumerate(improvements, 1):
+            delta = float(row.get("net") or 0) - base_net
+            ddd = (float(row.get("dd") or 0) - base_dd) if base else 0.0
+            trades = int(row.get("trades") or 0)
+            expected = (
+                f"{trades} ops, {n(row.get('net'))}, PF {n(row.get('pf'))} "
+                f"y DD {n(row.get('dd'))}"
+            )
+            if was_verified(row):
+                verification = (
+                    "- **Verificado:** re-ejecutado en un proceso aparte; ops, "
+                    f"neto, PF y DD coinciden. La comprobación debe dar {expected}."
+                )
+            else:
+                verification = (
+                    "- **Verificación exacta:** `python research/verify_variant.py "
+                    f"--id {row['id']}` debe dar {expected}."
+                )
+            if trades < MIN_FORWARD_OPS:
+                verification += (
+                    f" Con {trades} ops no se promueve: primero ampliar muestra."
+                )
+            else:
+                verification += (
+                    " Después, forward mínimo con muestra prospectiva."
+                )
             lines += [
-                f"- **Confianza condicionada:** top-5 = "
-                f"{n(conc_c['top5_share_pct'], 1)} % del neto; sin esas cinco, "
-                f"{n(conc_c['net_ex_top5'])}. Edge de pocos eventos, no una "
-                "ventaja frecuente.",
+                f"### {i}. `{row['id']}` — {n(delta)} USD",
+                "",
+                f"- **Cambio exacto:** {describe_patch(row.get('patch') or {})}.",
+                f"- **Efecto medido:** {trades} ops, neto "
+                f"{n(row.get('net'))} (Δ {n(delta)}), PF {n(row.get('pf'))}, "
+                f"DD {n(row.get('dd'))} (Δ {n(ddd)}), RDD "
+                f"{n(row.get('rdd'), 3)}.",
+                f"- **Riesgo:** {risk_text(row)}",
+                verification,
                 "",
             ]
+            if conc_c and candidate and row["id"] == candidate["id"]:
+                lines += [
+                    f"- **Confianza condicionada:** top-5 = "
+                    f"{n(conc_c['top5_share_pct'], 1)} % del neto; sin esas "
+                    f"cinco, {n(conc_c['net_ex_top5'])}. Edge de pocos eventos, "
+                    "no una ventaja frecuente.",
+                    "",
+                ]
+    else:
+        lines += [
+            "No hay una tabla de mejoras primarias que mostrar con estos "
+            "`resultados.jsonl`.",
+            "",
+        ]
+    def best_rdd_reason(row: dict) -> str:
+        if is_robust_row(row):
+            return (
+                "es una ventana de robustez de fase 3; elegirla como candidato "
+                "sería doble in-sample."
+            )
+        if is_combo_row(row):
+            return (
+                "es una combinación de palancas; no se selecciona como "
+                "candidato."
+            )
+        trades = int(row.get("trades") or 0)
+        if trades < MIN_FORWARD_OPS:
+            return f"suma {trades} operaciones; muestra insuficiente."
+        return "no cumple el filtro de candidato."
+
     lines += [
         "## 4. Candidato a forward",
         "",
     ]
-    if candidate:
+    if candidate and candidate["id"] != "manual_base":
         cnet = float(candidate.get("net") or 0)
-        top = ranked[0] if ranked else None
-        if top and top["id"] != candidate["id"]:
+        if best_rdd and best_rdd["id"] != candidate["id"]:
             lines += [
-                f"El mejor RDD de la pasada principal es `{top['id']}` "
-                f"({n(top.get('rdd'), 3)}), pero suma {top.get('trades')} "
-                "operaciones; se descarta para forward por muestra insuficiente.",
+                f"El mejor RDD absoluto de `resultados.jsonl` es "
+                f"`{best_rdd['id']}` ({n(best_rdd.get('rdd'), 3)}; "
+                f"{best_rdd.get('trades')} ops); {best_rdd_reason(best_rdd)}",
+                "",
+            ]
+        elif best_rdd and best_rdd["id"] == candidate["id"]:
+            lines += [
+                "El candidato es también el mejor RDD absoluto de "
+                "`resultados.jsonl`.",
                 "",
             ]
         lines += [
@@ -783,15 +956,17 @@ def main() -> int:
              f"{conc_c['max_losing_streak']}; el DD máximo tardó "
              f"{n(conc_c['max_dd_duration_days'], 1)} días en recuperarse. "
              f"Confianza {conc_confidence}."
-             if conc_c else "- **Concentración:** pendiente de la re-ejecución."),
+             if conc_c else
+             "- **Concentración:** la foto fija no corresponde al candidato "
+             "actual; no se usa para confianza."),
             ("- **Robustez:** pendiente; la fase 3 aún no cerró las ventanas."
              if robustness["forward_ready"] is None else
-             "- **Robustez:** la exclusión aguantó "
-             f"{len(robust_ok)}/{len(excl_ext)} ventanas vecinas."
+             f"- **Robustez:** {len(robust_ok)}/{len(robust_ext)} ventanas "
+             "de exclusión mejoran neto y DD."
              if robustness["forward_ready"] else
-             "- **Robustez:** la exclusión falló la prueba de ventanas vecinas "
-             f"({len(robust_ok)}/{len(excl_ext)}); por eso el candidato es el "
-             "tope de stop 200 y no la ventana horaria."),
+             f"- **Robustez:** solo {len(robust_ok)}/{len(robust_ext)} "
+             "ventanas de exclusión mejoran neto y DD; por eso el candidato no "
+             "se elige de esa familia."),
             ("- **Qué falta:** un lock forward propio, muestra prospectiva y "
              "diluir la dependencia de 5 operaciones antes de subir tamaño. "
              "El holdout sigue sellado."
@@ -802,6 +977,12 @@ def main() -> int:
              "solo forward mínimo con muestra prospectiva."
              if conc_c and conc_confidence in ("baja", "baja-media") else
              "- **No hacer:** aplicarlo al 8765 por el resultado in-sample."),
+            "",
+        ]
+    else:
+        lines += [
+            "No hay un candidato que cumpla el filtro de muestra y neto; no se "
+            "promociona nada.",
             "",
         ]
     if verifications:
@@ -860,13 +1041,27 @@ def main() -> int:
         "(-448,84 de neto y +587,20 de DD).",
         "- **No cambiar el 8765 hoy.** No hay forward de ninguna de las dos, el "
         "holdout está sellado y la muestra es de 72/38 ops in-sample.",
-        "- La propuesta #1 por impacto nominal es la exclusión 11:30–13:30 "
-        "(+1.180,88), pero su confianza es baja-media por concentración; la "
-        "palanca estructural más defendible es `max_sl_ticks=200` (+448,84, "
-        "DD -587,20), porque no depende del horario. Ninguna se despliega sin "
-        "forward.",
         "",
     ]
+    if improvements:
+        first = improvements[0]
+        first_delta = float(first.get("net") or 0) - base_net
+        lines.append(
+            f"- La mejora de mayor Δneto es `{first['id']}` "
+            f"({signed(first_delta)} USD; confianza {confidence_for(first)})."
+        )
+    if candidate and candidate["id"] != "manual_base":
+        lines.append(
+            f"- **Candidato a forward:** `{candidate['id']}` "
+            f"({candidate.get('trades')} ops, RDD "
+            f"{n(candidate.get('rdd'), 3)})."
+        )
+    if best_rdd and candidate and best_rdd["id"] != candidate["id"]:
+        lines.append(
+            f"- **Mejor RDD absoluto:** `{best_rdd['id']}` "
+            f"({n(best_rdd.get('rdd'), 3)}; {best_rdd_reason(best_rdd)})"
+        )
+    lines += ["", "Ninguna se despliega sin forward.", ""]
 
     md = "\n".join(lines)
     (OUT / "resumen.md").write_text(md, encoding="utf-8")
@@ -890,6 +1085,8 @@ def main() -> int:
         "concentration": conc,
         "robustness": robustness,
         "candidate": candidate,
+        "best_rdd": best_rdd,
+        "concentration_matches_candidate": conc_matches,
         "improvements": [
             {
                 "id": r["id"],
@@ -901,6 +1098,9 @@ def main() -> int:
                 "dd": r.get("dd"),
                 "rdd": r.get("rdd"),
                 "risk": risk_for(r.get("patch") or {}),
+                "confidence": confidence_for(r),
+                "verification": verify_text(r),
+                "is_candidate": bool(candidate and r["id"] == candidate["id"]),
             }
             for r in improvements
         ],
