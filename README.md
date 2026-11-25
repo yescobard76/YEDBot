@@ -291,6 +291,12 @@ hash están en [`docs/PROTOCOLO_BACKTEST.md`](docs/PROTOCOLO_BACKTEST.md) y
 rolls, con costes y limitaciones, están en
 [`docs/PROVEEDORES.md`](docs/PROVEEDORES.md#41-opciones-concretas-para-1m-con-contratos-y-rolls).
 
+### Auditoría de la instancia 8765
+
+Configuración efectiva, P&L paper y mejoras priorizadas de la instancia manual:
+[`docs/CONFIG_8765_RENTABILIDAD.md`](docs/CONFIG_8765_RENTABILIDAD.md). Es un análisis
+read-only; no modifica ni reinicia el 8765.
+
 ## 7. Pruebas
 
 ```bash
