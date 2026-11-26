@@ -1,0 +1,532 @@
+{
+  "schema": "live-manual-vs-original-20261126-v1",
+  "generated_at": "2026-11-26T01:25:13.675342+00:00",
+  "source_profile": "profiles\\live_8765\\config.json",
+  "source_profile_sha256_before": "1b981d247b6ca6e828a73782ce016fcfd78a4332bcc932b89e5a17c7d945f81c",
+  "source_profile_sha256_after": "1b981d247b6ca6e828a73782ce016fcfd78a4332bcc932b89e5a17c7d945f81c",
+  "snapshot": "logs\\live_manual_profile_1b981d247b6c.json",
+  "snapshot_sha256": "1b981d247b6ca6e828a73782ce016fcfd78a4332bcc932b89e5a17c7d945f81c",
+  "scope": {
+    "windows": [
+      "W1",
+      "W2",
+      "W3",
+      "W4",
+      "W5",
+      "W6"
+    ],
+    "sessions": 362,
+    "start": "2025-01-10 09:00",
+    "last": "2026-06-30 15:59",
+    "dataset": "data/bars.csv",
+    "dataset_sha256": "1cc455e937e6cf2fad201bec95c78774b4028f012311b7a66ecedbad03f0af8a",
+    "initial_capital": 25000.0,
+    "holdout_used": false
+  },
+  "reference": {
+    "path": "reports/autoloop/resultados_original.jsonl",
+    "sha256_before": "bee126582f5ec13c2dd8f014dca275408676195bcbf873ee9cb05ab436029214",
+    "sha256_after": "bee126582f5ec13c2dd8f014dca275408676195bcbf873ee9cb05ab436029214",
+    "fixed": {
+      "trades": 38,
+      "net": 661.44,
+      "max_drawdown": 1967.82,
+      "profit_factor": 1.13
+    },
+    "matched_by_harness": true
+  },
+  "live_state": {
+    "api_config_path": "logs\\8765_config_live_20261126.json",
+    "api_config_sha256": "ca7629296abf3ee42a18af64d36103d21e8be2178d3c1a1808ce0199df68c6a3",
+    "api_status_path": "logs\\8765_status_live_20261126.json",
+    "api_status_sha256": "48dae518757c2081e9b646a5fbf4cf9e192dea98cb42045e3d3e636172b5ea3f",
+    "api_stats_path": "logs\\8765_stats_live_20261126.json",
+    "api_stats_sha256": "9f13c75760e80d4d2243a32feb850c0c1c3abdfe481e813b9394e9c0de9692b7",
+    "state": {
+      "captured_server_time": 1795655368875,
+      "status": "running",
+      "mode": "paper",
+      "instrument": "MNQ",
+      "session_date": "2025-02-28",
+      "equity": 26902.18,
+      "initial_capital": 25000.0,
+      "trades": 12,
+      "net_profit": 1902.18,
+      "max_drawdown": 438.96,
+      "max_drawdown_pct": 1.686,
+      "open_position": false,
+      "trades_today": 0,
+      "daily_pnl": 0.0
+    },
+    "settings": {
+      "instrument": "MNQ",
+      "reference_symbol": "NQ",
+      "comparison_symbol": "ES",
+      "mode": "paper",
+      "orb": {
+        "start": "09:00",
+        "end": "10:00",
+        "timezone": "America/New_York",
+        "max_width_pct": 1.2
+      },
+      "smt": {
+        "enabled": true,
+        "pivot_depth": 5,
+        "window_minutes": 60,
+        "tolerance_ticks": 8,
+        "min_break_ticks": 2,
+        "validity_minutes": 120,
+        "detect_tf": "1m",
+        "require_recovery": true
+      },
+      "strategy": {
+        "name": "YED ORB+SMT",
+        "confirm_tf": "15m",
+        "require_close_breakout": true,
+        "breakout_buffer_ticks": 2,
+        "min_range_ticks": 10,
+        "setup_validity_minutes": 210,
+        "use_smt": true,
+        "allow_reentry_after_false_breakout": false,
+        "entry_reference": "or_retracement",
+        "or_retracement_pct": 0.382,
+        "retest_depth": 1.0,
+        "retest_tolerance_ticks": 24,
+        "require_recovery_close": true,
+        "entry_trigger": "touch",
+        "sl_mode": "structural",
+        "sl_buffer_ticks": 4,
+        "atr_period": 14,
+        "atr_sl_mult": 1.2,
+        "tp_rr": 2.0,
+        "structural_depth": 3
+      },
+      "risk": {
+        "initial_capital": 25000.0,
+        "risk_per_trade_pct": 1.0,
+        "max_daily_loss_pct": 3.0,
+        "max_daily_profit_pct": 0.0,
+        "max_trades_per_day": 3,
+        "max_concurrent_positions": 1,
+        "max_contracts": 8,
+        "max_sl_ticks": 300,
+        "min_stop_or_ratio": 0.0,
+        "trade_window_start": "09:00",
+        "trade_window_end": "15:30",
+        "entry_exclusion_start": "",
+        "entry_exclusion_end": "",
+        "close_at_session_end": true,
+        "session_close_time": "15:55",
+        "cooldown_minutes": 5,
+        "no_trade_after_consecutive_losses": 0
+      },
+      "execution": {
+        "tick_size": 0.25,
+        "tick_value": 0.5,
+        "point_value": 2.0,
+        "slippage_ticks": 1,
+        "commission_per_contract_side": 0.62,
+        "fill_model": "signal_price",
+        "simulate_partial_fills": false,
+        "partial_fill_ratio": 0.6,
+        "max_slippage_ticks": 4
+      },
+      "feed": {
+        "provider": "csv",
+        "csv_path": "data/bars.csv",
+        "series_mode": "adjusted",
+        "exclude_roll_sessions": true,
+        "replay_speed": 8.0,
+        "loop_sessions": true,
+        "start_date": "",
+        "latency_ms": 0
+      },
+      "live": {
+        "broker": "none",
+        "environment": "demo",
+        "account_ref": "",
+        "data_feed": "",
+        "live_enabled": false,
+        "live_confirmation": ""
+      }
+    }
+  },
+  "config_diff_manual_live_vs_original": {
+    "execution.fill_model": [
+      "signal_price",
+      "next_open"
+    ],
+    "feed.replay_speed": [
+      8.0,
+      4.5
+    ],
+    "risk.max_contracts": [
+      8,
+      5
+    ],
+    "risk.max_sl_ticks": [
+      300,
+      200
+    ],
+    "strategy.entry_reference": [
+      "or_retracement",
+      "or_mid"
+    ],
+    "strategy.entry_trigger": [
+      "touch",
+      "close"
+    ],
+    "strategy.retest_tolerance_ticks": [
+      24,
+      12
+    ],
+    "strategy.setup_validity_minutes": [
+      210,
+      150
+    ],
+    "strategy.tp_rr": [
+      2.0,
+      3.0
+    ]
+  },
+  "variants": {
+    "original": "ORIGINAL_PATH + ORIGINAL_FREQUENCY_PATCH (150/12)",
+    "manual_live": "profiles/live_8765/config.json, fill_model=signal_price",
+    "manual_next_open": "same live config, fill_model=next_open for fair fill",
+    "p1_5_200_210_24": "5/200/210/24, TP3, or_mid/close, next_open (P1)"
+  },
+  "windows": [
+    {
+      "window": "W1",
+      "sessions": 54,
+      "first": "2025-01-10 09:00",
+      "last": "2025-03-31 15:59",
+      "variants": {
+        "original": {
+          "trades": 8,
+          "net_pnl": 364.82,
+          "return_pct": 1.4593,
+          "max_drawdown": 619.42,
+          "profit_factor": 1.35,
+          "win_rate": 50.0,
+          "fees": 39.68
+        },
+        "manual_live": {
+          "trades": 19,
+          "net_pnl": 1486.16,
+          "return_pct": 5.9446,
+          "max_drawdown": 940.38,
+          "profit_factor": 1.64,
+          "win_rate": 47.37,
+          "fees": 81.84
+        },
+        "manual_next_open": {
+          "trades": 19,
+          "net_pnl": 359.88,
+          "return_pct": 1.4395,
+          "max_drawdown": 1391.8,
+          "profit_factor": 1.13,
+          "win_rate": 47.37,
+          "fees": 78.12
+        },
+        "p1_5_200_210_24": {
+          "trades": 14,
+          "net_pnl": 1700.06,
+          "return_pct": 6.8002,
+          "max_drawdown": 602.86,
+          "profit_factor": 2.41,
+          "win_rate": 50.0,
+          "fees": 69.44
+        }
+      }
+    },
+    {
+      "window": "W2",
+      "sessions": 61,
+      "first": "2025-04-01 09:00",
+      "last": "2025-06-30 15:59",
+      "variants": {
+        "original": {
+          "trades": 4,
+          "net_pnl": 268.4,
+          "return_pct": 1.0736,
+          "max_drawdown": 378.88,
+          "profit_factor": 1.71,
+          "win_rate": 25.0,
+          "fees": 18.6
+        },
+        "manual_live": {
+          "trades": 8,
+          "net_pnl": 291.98,
+          "return_pct": 1.1679,
+          "max_drawdown": 563.06,
+          "profit_factor": 1.3,
+          "win_rate": 37.5,
+          "fees": 28.52
+        },
+        "manual_next_open": {
+          "trades": 8,
+          "net_pnl": 71.48,
+          "return_pct": 0.2859,
+          "max_drawdown": 673.56,
+          "profit_factor": 1.07,
+          "win_rate": 37.5,
+          "fees": 28.52
+        },
+        "p1_5_200_210_24": {
+          "trades": 5,
+          "net_pnl": 445.44,
+          "return_pct": 1.7818,
+          "max_drawdown": 465.64,
+          "profit_factor": 1.96,
+          "win_rate": 40.0,
+          "fees": 23.56
+        }
+      }
+    },
+    {
+      "window": "W3",
+      "sessions": 63,
+      "first": "2025-07-01 09:00",
+      "last": "2025-09-30 15:59",
+      "variants": {
+        "original": {
+          "trades": 9,
+          "net_pnl": -110.46,
+          "return_pct": -0.4418,
+          "max_drawdown": 1084.8,
+          "profit_factor": 0.92,
+          "win_rate": 22.22,
+          "fees": 35.96
+        },
+        "manual_live": {
+          "trades": 18,
+          "net_pnl": -166.72,
+          "return_pct": -0.6669,
+          "max_drawdown": 1330.82,
+          "profit_factor": 0.93,
+          "win_rate": 38.89,
+          "fees": 65.72
+        },
+        "manual_next_open": {
+          "trades": 18,
+          "net_pnl": -883.72,
+          "return_pct": -3.5349,
+          "max_drawdown": 1816.06,
+          "profit_factor": 0.65,
+          "win_rate": 38.89,
+          "fees": 65.72
+        },
+        "p1_5_200_210_24": {
+          "trades": 11,
+          "net_pnl": -238.4,
+          "return_pct": -0.9536,
+          "max_drawdown": 1248.74,
+          "profit_factor": 0.84,
+          "win_rate": 18.18,
+          "fees": 43.4
+        }
+      }
+    },
+    {
+      "window": "W4",
+      "sessions": 63,
+      "first": "2025-10-01 09:00",
+      "last": "2025-12-31 15:59",
+      "variants": {
+        "original": {
+          "trades": 4,
+          "net_pnl": 2034.12,
+          "return_pct": 8.1365,
+          "max_drawdown": 0.0,
+          "profit_factor": null,
+          "win_rate": 100.0,
+          "fees": 14.88
+        },
+        "manual_live": {
+          "trades": 10,
+          "net_pnl": 2687.98,
+          "return_pct": 10.7519,
+          "max_drawdown": 0.96,
+          "profit_factor": 2800.98,
+          "win_rate": 90.0,
+          "fees": 28.52
+        },
+        "manual_next_open": {
+          "trades": 10,
+          "net_pnl": 2601.98,
+          "return_pct": 10.4079,
+          "max_drawdown": 120.96,
+          "profit_factor": 22.51,
+          "win_rate": 90.0,
+          "fees": 28.52
+        },
+        "p1_5_200_210_24": {
+          "trades": 3,
+          "net_pnl": 1960.6,
+          "return_pct": 7.8424,
+          "max_drawdown": 0.0,
+          "profit_factor": null,
+          "win_rate": 100.0,
+          "fees": 12.4
+        }
+      }
+    },
+    {
+      "window": "W5",
+      "sessions": 60,
+      "first": "2026-01-02 09:00",
+      "last": "2026-03-31 15:59",
+      "variants": {
+        "original": {
+          "trades": 5,
+          "net_pnl": -1036.52,
+          "return_pct": -4.1461,
+          "max_drawdown": 1036.52,
+          "profit_factor": 0.0,
+          "win_rate": 0.0,
+          "fees": 28.52
+        },
+        "manual_live": {
+          "trades": 5,
+          "net_pnl": -389.56,
+          "return_pct": -1.5582,
+          "max_drawdown": 696.62,
+          "profit_factor": 0.53,
+          "win_rate": 20.0,
+          "fees": 23.56
+        },
+        "manual_next_open": {
+          "trades": 5,
+          "net_pnl": -376.06,
+          "return_pct": -1.5042,
+          "max_drawdown": 515.62,
+          "profit_factor": 0.43,
+          "win_rate": 20.0,
+          "fees": 23.56
+        },
+        "p1_5_200_210_24": {
+          "trades": 6,
+          "net_pnl": -1240.22,
+          "return_pct": -4.9609,
+          "max_drawdown": 1240.22,
+          "profit_factor": 0.0,
+          "win_rate": 0.0,
+          "fees": 34.72
+        }
+      }
+    },
+    {
+      "window": "W6",
+      "sessions": 61,
+      "first": "2026-04-01 09:00",
+      "last": "2026-06-30 15:59",
+      "variants": {
+        "original": {
+          "trades": 8,
+          "net_pnl": -858.92,
+          "return_pct": -3.4357,
+          "max_drawdown": 931.3,
+          "profit_factor": 0.27,
+          "win_rate": 12.5,
+          "fees": 40.92
+        },
+        "manual_live": {
+          "trades": 12,
+          "net_pnl": 640.82,
+          "return_pct": 2.5633,
+          "max_drawdown": 557.86,
+          "profit_factor": 1.48,
+          "win_rate": 41.67,
+          "fees": 39.68
+        },
+        "manual_next_open": {
+          "trades": 12,
+          "net_pnl": -291.94,
+          "return_pct": -1.1678,
+          "max_drawdown": 787.36,
+          "profit_factor": 0.82,
+          "win_rate": 41.67,
+          "fees": 38.44
+        },
+        "p1_5_200_210_24": {
+          "trades": 7,
+          "net_pnl": -635.22,
+          "return_pct": -2.5409,
+          "max_drawdown": 707.6,
+          "profit_factor": 0.33,
+          "win_rate": 14.29,
+          "fees": 34.72
+        }
+      }
+    }
+  ],
+  "aggregate": {
+    "original": {
+      "trades": 38,
+      "net_pnl": 661.44,
+      "return_pct": 2.6458,
+      "max_drawdown": 1967.82,
+      "max_drawdown_pct": 7.141,
+      "profit_factor": 1.13,
+      "win_rate": 31.58,
+      "expectancy": 17.41,
+      "fees": 178.56,
+      "avg_r": 0.13,
+      "max_qty": 5,
+      "net_by_window": 661.44
+    },
+    "manual_live": {
+      "trades": 72,
+      "net_pnl": 4550.66,
+      "return_pct": 18.2026,
+      "max_drawdown": 1330.82,
+      "max_drawdown_pct": 4.799,
+      "profit_factor": 1.58,
+      "win_rate": 47.22,
+      "expectancy": 63.2,
+      "fees": 267.84,
+      "avg_r": 0.31,
+      "max_qty": 8,
+      "net_by_window": 4550.66
+    },
+    "manual_next_open": {
+      "trades": 72,
+      "net_pnl": 1481.62,
+      "return_pct": 5.9265,
+      "max_drawdown": 2054.46,
+      "max_drawdown_pct": 7.784,
+      "profit_factor": 1.17,
+      "win_rate": 47.22,
+      "expectancy": 20.58,
+      "fees": 262.88,
+      "avg_r": 0.15,
+      "max_qty": 8,
+      "net_by_window": 1481.62
+    },
+    "p1_5_200_210_24": {
+      "trades": 46,
+      "net_pnl": 1992.26,
+      "return_pct": 7.969,
+      "max_drawdown": 1947.82,
+      "max_drawdown_pct": 6.747,
+      "profit_factor": 1.37,
+      "win_rate": 32.61,
+      "expectancy": 43.31,
+      "fees": 218.24,
+      "avg_r": 0.25,
+      "max_qty": 5,
+      "net_by_window": 1992.26
+    }
+  },
+  "constraints": {
+    "config_written": false,
+    "db_written": false,
+    "holdout_accessed": false,
+    "original_results_written": false,
+    "process_touched": false,
+    "reprice_rerun": false,
+    "tracked_artifacts_written": false
+  },
+  "seconds": 492.2
+}
