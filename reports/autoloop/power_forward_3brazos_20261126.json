@@ -1,0 +1,134 @@
+{
+  "schema": "forward-3arm-power-20261126-v2",
+  "generated_by": "reports/autoloop/power_forward_3brazos_20261126.py",
+  "sources": {
+    "series": "reports\\autoloop\\improvement_proposals_20261126_1x.json",
+    "series_sha256": "07dde1bef1975899c68c2a4bd6a975e9454e7496477d8fae357edfa71e06e247",
+    "mission": "reports\\backtest\\live_vs_original_mission.json",
+    "mission_sha256": "d615e7a8b59ccf89419aa4d9604375c730a5a923e5981fdd769cfd0a62ff686c",
+    "calendar": "reports\\autoloop\\_delta_dump_p1_5_200.json",
+    "calendar_sha256": "a0697b8e4027424257464b5e86e61c5fa5058c3d3bdd5762bc215c6f5fd65a80"
+  },
+  "method": {
+    "unit": "session",
+    "zero_if_no_trade": true,
+    "paired_by_session": true,
+    "sessions": 362,
+    "target_sessions": 742,
+    "sessions_per_year": 247.3,
+    "alpha_two_sided": 0.05,
+    "power": 0.8,
+    "z_alpha": 1.959964,
+    "z_beta": 0.841621,
+    "n80_formula": "((z_alpha + z_beta) * sigma_d / abs(mean_delta))^2",
+    "mde_formula": "(z_alpha + z_beta) * sigma_d * sqrt(742)",
+    "bootstrap": {
+      "method": "session_cluster_percentile",
+      "resamples": 10000,
+      "seed": 20261201,
+      "confidence": 0.95,
+      "one_sided": "direction of the historical effect"
+    },
+    "published_precision": "mean and sd shown with 6 decimals; N80 and MDE recomputed from those values"
+  },
+  "validation": {
+    "calendar_sessions": 362,
+    "calendar_unique": 362,
+    "c_trades_days": 38,
+    "l_trades_days": 72,
+    "p1_trades_days": 46,
+    "c_sum_usd": 661.44,
+    "l_sum_usd": 1481.62,
+    "p1_sum_usd": 1992.26,
+    "p1_block_sums_usd": [
+      1700.06,
+      445.44,
+      -238.4,
+      1960.6,
+      -1240.22,
+      -635.22
+    ],
+    "p1_block_sums_expected_usd": [
+      1700.06,
+      445.44,
+      -238.4,
+      1960.6,
+      -1240.22,
+      -635.22
+    ],
+    "p1_block_sums_match": true,
+    "published_6dp_all_match": true
+  },
+  "contrasts": {
+    "L_minus_C": {
+      "delta_total_usd": 820.18,
+      "mean_per_session_usd": 2.265691,
+      "sd_per_session_usd": 120.915272,
+      "n80_sessions": 22354.7,
+      "n80_years": 90.4,
+      "mde_total_usd_at_742": 9227.56,
+      "mde_per_session_usd_at_742": 12.4361,
+      "ci95_total_usd": [
+        -3695.94,
+        5247.44
+      ],
+      "bootstrap_se_total_usd": 2292.57,
+      "p_one_sided_le0": 0.3644,
+      "p_one_sided_ge0": 0.6356,
+      "published_6dp_check": {
+        "n80_sessions": 22354.7,
+        "mde_total_usd_at_742": 9227.56,
+        "matches": true
+      }
+    },
+    "P1_minus_C": {
+      "delta_total_usd": 1330.82,
+      "mean_per_session_usd": 3.676298,
+      "sd_per_session_usd": 58.989026,
+      "n80_sessions": 2020.8,
+      "n80_years": 8.17,
+      "mde_total_usd_at_742": 4501.7,
+      "mde_per_session_usd_at_742": 6.067,
+      "ci95_total_usd": [
+        -728.64,
+        3633.94
+      ],
+      "bootstrap_se_total_usd": 1107.83,
+      "p_one_sided_le0": 0.1076,
+      "p_one_sided_ge0": 0.8924,
+      "published_6dp_check": {
+        "n80_sessions": 2020.8,
+        "mde_total_usd_at_742": 4501.7,
+        "matches": true
+      }
+    },
+    "L_minus_P1": {
+      "delta_total_usd": -510.64,
+      "mean_per_session_usd": -1.410608,
+      "sd_per_session_usd": 125.121248,
+      "n80_sessions": 61752.9,
+      "n80_years": 249.71,
+      "mde_total_usd_at_742": 9548.54,
+      "mde_per_session_usd_at_742": 12.8686,
+      "ci95_total_usd": [
+        -5190.38,
+        4140.44
+      ],
+      "bootstrap_se_total_usd": 2369.28,
+      "p_one_sided_le0": 0.585,
+      "p_one_sided_ge0": 0.415,
+      "published_6dp_check": {
+        "n80_sessions": 61752.9,
+        "mde_total_usd_at_742": 9548.54,
+        "matches": true
+      }
+    }
+  },
+  "notes": [
+    "Las tres series son exactas a nivel de sesion: 362 sesiones, cero si no hay operacion.",
+    "C y L usan pnl ya neto de fees de improvement_proposals_20261126_1x.json.",
+    "P1 usa aggregate.p1.daily de live_vs_original_mission.json: 46 fechas, suma 1992.26; sus seis sumas por bloque coinciden exactamente con W1-W6.",
+    "El N80 de L-P1 es para detectar |delta| con dos colas; NO es potencia de superioridad de L, cuyo signo historico es negativo.",
+    "El IC y el p usan bootstrap por sesion con semilla 20261201; no se usa el IC antiguo de la auditoria de fills."
+  ]
+}

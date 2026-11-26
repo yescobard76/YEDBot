@@ -1,0 +1,772 @@
+{
+  "schema": "forward-3arm-preregistration-lock-v1",
+  "protocol": "reports/autoloop/PRE_REGISTRO_FORWARD_3BRAZOS_20261126.md",
+  "protocol_sha256": "7cd3da09ffbbf0a8e0240b4b9e2d695ecf7030bcffc800968c1b6d96820161ff",
+  "power_artifact": "reports/autoloop/power_forward_3brazos_20261126.json",
+  "power_artifact_sha256": "d93b8198bfb54d488a182c92a2e5134593ff1015fd16454b39f2c1d99fca3875",
+  "lock_version": "1.0",
+  "created": "2026-11-26",
+  "status": "pre_registered_not_executed",
+  "hypothesis_id": "H-FWD-3ARM-ORIGINAL-LIVE-P1",
+  "title": "Forward unico de tres brazos: original 5/200/150/12, viva 8/300/210/24 con next_open y P1 5/200/210/24",
+  "nature": "Prospective forward pre-registration only. No window, profile, capture, CSV, database, replay, backtest or forward execution has occurred.",
+  "relation_to_existing_plans": {
+    "modifies_existing_documents_or_locks": false,
+    "edits_existing_profiles": false,
+    "supersedes_for_execution": [
+      "docs/p1_5_200_210_24_forward.lock.json"
+    ],
+    "supersedes_note": "Si este plan se autoriza y ejecuta, sustituye la ejecucion del forward P1 de dos brazos sobre la misma ventana. No edita ni reescribe el lock P1; solo declara que no pueden ejecutarse ambos sobre la misma muestra.",
+    "shared_window_allowed": false,
+    "overlaps_with": [
+      "docs/p1_5_200_210_24_forward.lock.json",
+      "docs/FORWARD_ORIGINAL_VS_P1.md",
+      "docs/pre_registro_sl200_10c_vs_p1.lock.json",
+      "docs/excl_1200_1400_forward.lock.json",
+      "docs/manual_filter_stop_or_025.lock.json"
+    ],
+    "independence_note": "La ventana 2026-12-01 -> 2029-11-30 se comparte con otros planes. Solo uno puede ejecutarse; este lock no es una confirmacion independiente."
+  },
+  "source_profiles": {
+    "original_base": {
+      "path": "profiles/backtest_real/config.json",
+      "file_sha256": "8fd7cfa28fa0e0eb98a6ac283e7426ccc74fa6dc76845723fca4d335e7b4df4f",
+      "role": "base para C; contiene 210/24 y se parchea a 150/12",
+      "read_only": true
+    },
+    "live": {
+      "path": "profiles/live_8765/config.json",
+      "file_sha256": "1b981d247b6ca6e828a73782ce016fcfd78a4332bcc932b89e5a17c7d945f81c",
+      "role": "base para L; se clona y solo se cambia fill_model a next_open",
+      "read_only": true
+    },
+    "p1": {
+      "path": "profiles/p1_forward_control/config.json",
+      "file_sha256": "8058b7d7002de547a535a349dbe7f3557e4aaea1e92d392b064dd51b0b8b624b",
+      "role": "base para P1; se clona y se overriddea el feed",
+      "read_only": true
+    }
+  },
+  "canonical_hashes": {
+    "original_5_200_150_12": "87b8b9f18dbce9e4739112cf734850fe75de7e82e7548425d246027d2234e708",
+    "p1_5_200_210_24": "5527b32cd54353c52968a47fb84471b7012846cefa06413349bcba7085e7e087",
+    "live_8_300_210_24_next_open": null,
+    "note": "El hash canonico de L con next_open se calcula en fase 0. No se usa el hash de la config viva con signal_price como hash del brazo."
+  },
+  "profiles": {
+    "C": {
+      "id": "C",
+      "label": "Original canonica 5/200/150/12",
+      "role": "control_benchmark",
+      "planned_path": "profiles/fwd_c_original_5_200_150_12/config.json",
+      "materialized": false,
+      "settings": {
+        "risk.max_contracts": 5,
+        "risk.max_sl_ticks": 200,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "risk.min_stop_or_ratio": 0.0,
+        "strategy.setup_validity_minutes": 150,
+        "strategy.retest_tolerance_ticks": 12,
+        "strategy.tp_rr": 3.0,
+        "strategy.entry_reference": "or_mid",
+        "strategy.entry_trigger": "close",
+        "execution.fill_model": "next_open",
+        "mode": "paper",
+        "live.live_enabled": false
+      }
+    },
+    "L": {
+      "id": "L",
+      "label": "Viva con fill justo 8/300/210/24, next_open",
+      "role": "live_package_challenger",
+      "planned_path": "profiles/fwd_l_manual_8_300_210_24_next_open/config.json",
+      "materialized": false,
+      "settings": {
+        "risk.max_contracts": 8,
+        "risk.max_sl_ticks": 300,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "risk.min_stop_or_ratio": 0.0,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "strategy.tp_rr": 2.0,
+        "strategy.entry_reference": "or_retracement",
+        "strategy.entry_trigger": "touch",
+        "execution.fill_model": "next_open",
+        "mode": "paper",
+        "live.live_enabled": false
+      }
+    },
+    "P1": {
+      "id": "P1",
+      "label": "P1 5/200/210/24",
+      "role": "frequency_challenger",
+      "planned_path": "profiles/fwd_p1_5_200_210_24/config.json",
+      "materialized": false,
+      "settings": {
+        "risk.max_contracts": 5,
+        "risk.max_sl_ticks": 200,
+        "risk.risk_per_trade_pct": 1.0,
+        "risk.max_trades_per_day": 3,
+        "risk.max_concurrent_positions": 1,
+        "risk.min_stop_or_ratio": 0.0,
+        "strategy.setup_validity_minutes": 210,
+        "strategy.retest_tolerance_ticks": 24,
+        "strategy.tp_rr": 3.0,
+        "strategy.entry_reference": "or_mid",
+        "strategy.entry_trigger": "close",
+        "execution.fill_model": "next_open",
+        "mode": "paper",
+        "live.live_enabled": false
+      }
+    }
+  },
+  "only_difference": {
+    "C_vs_P1": [
+      {
+        "path": "strategy.setup_validity_minutes",
+        "C": 150,
+        "P1": 210
+      },
+      {
+        "path": "strategy.retest_tolerance_ticks",
+        "C": 12,
+        "P1": 24
+      }
+    ],
+    "C_vs_L": [
+      {
+        "path": "risk.max_contracts",
+        "C": 5,
+        "L": 8
+      },
+      {
+        "path": "risk.max_sl_ticks",
+        "C": 200,
+        "L": 300
+      },
+      {
+        "path": "strategy.setup_validity_minutes",
+        "C": 150,
+        "L": 210
+      },
+      {
+        "path": "strategy.retest_tolerance_ticks",
+        "C": 12,
+        "L": 24
+      },
+      {
+        "path": "strategy.tp_rr",
+        "C": 3.0,
+        "L": 2.0
+      },
+      {
+        "path": "strategy.entry_reference",
+        "C": "or_mid",
+        "L": "or_retracement"
+      },
+      {
+        "path": "strategy.entry_trigger",
+        "C": "close",
+        "L": "touch"
+      }
+    ],
+    "L_vs_P1": [
+      {
+        "path": "risk.max_contracts",
+        "L": 8,
+        "P1": 5
+      },
+      {
+        "path": "risk.max_sl_ticks",
+        "L": 300,
+        "P1": 200
+      },
+      {
+        "path": "strategy.tp_rr",
+        "L": 2.0,
+        "P1": 3.0
+      },
+      {
+        "path": "strategy.entry_reference",
+        "L": "or_retracement",
+        "P1": "or_mid"
+      },
+      {
+        "path": "strategy.entry_trigger",
+        "L": "touch",
+        "P1": "close"
+      }
+    ],
+    "scope": "Despues del override comun de feed, mode=paper, live.live_enabled=false y fill_model=next_open. Verificado con los tres archivos fuente."
+  },
+  "not_changed": [
+    "risk.risk_per_trade_pct = 1.0 en los tres",
+    "risk.max_trades_per_day = 3 en los tres",
+    "risk.max_concurrent_positions = 1 en los tres",
+    "risk.min_stop_or_ratio = 0.0 en los tres; el filtro 0.25 no se activa",
+    "orb, smt, ventana, cooldown, cierre de sesion y limites diarios identicos",
+    "execution.fill_model = next_open en los tres",
+    "feed comun, timestamps, contratos, rolls, comisiones y slippage identicos",
+    "mode = paper y live.live_enabled = false en los tres",
+    "broker = none en los tres"
+  ],
+  "historical_motivation": {
+    "role": "in_sample_motivation_not_validation",
+    "window": "W1-W6 2025-01-10 -> 2026-06-30",
+    "sessions": 362,
+    "fill": "next_open",
+    "cost": "exact 1x, salvo donde se indique 2x",
+    "arms_1x": {
+      "C": {
+        "trades": 38,
+        "net_usd": 661.44,
+        "pf": 1.13,
+        "dd_usd": 1967.82,
+        "fees_usd": 178.56
+      },
+      "L": {
+        "trades": 72,
+        "net_usd": 1481.62,
+        "pf": 1.17,
+        "dd_usd": 2054.46,
+        "fees_usd": 262.88
+      },
+      "P1": {
+        "trades": 46,
+        "net_usd": 1992.26,
+        "pf": 1.37,
+        "dd_usd": 1947.82,
+        "fees_usd": 218.24
+      }
+    },
+    "arms_2x": {
+      "C": {
+        "net_usd": 347.38,
+        "pf": 1.07,
+        "dd_usd": 2064.14
+      },
+      "L": {
+        "net_usd": 1014.74,
+        "pf": 1.11,
+        "dd_usd": 2284.92
+      },
+      "P1": {
+        "net_usd": 1607.02,
+        "pf": 1.28,
+        "dd_usd": 2044.14
+      }
+    },
+    "deltas_1x": {
+      "L_minus_C_usd": 820.18,
+      "P1_minus_C_usd": 1330.82,
+      "L_minus_P1_usd": -510.64
+    },
+    "live_signal_price_context": {
+      "net_usd": 4550.66,
+      "dd_usd": 1330.82,
+      "note": "No es L. L usa next_open; el comparable es 1481.62."
+    },
+    "bootstrap_correction": {
+      "seed": 20261201,
+      "old_ci95_live_minus_original": [
+        -1865.6,
+        3018.68
+      ],
+      "old_p_two_sided": 0.501,
+      "new_daily_ci95_live_minus_original": [
+        -3695.94,
+        5247.44
+      ],
+      "new_daily_se_total": 2292.57,
+      "new_daily_p_one_sided_le0": 0.3644,
+      "new_daily_ci95_p1_minus_original": [
+        -728.64,
+        3633.94
+      ],
+      "new_daily_p_one_sided_le0_p1": 0.1076,
+      "note": "El IC antiguo no se reproduce con la serie diaria de 362 sesiones. Este lock usa el bootstrap por sesion del script, semilla 20261201; no hereda el IC antiguo."
+    },
+    "p1_lock_ci_warning": {
+      "source": "docs/p1_5_200_210_24_forward.lock.json",
+      "reported_ci95": [
+        -2708.45,
+        2540.14
+      ],
+      "reported_p": 0.9978,
+      "issue": "El centro del IC es -84.16, compatible con P1 - manual (-30.68), no con P1 - original (+1330.82). No se hereda.",
+      "exact_daily_ci95_p1_minus_original": [
+        -728.64,
+        3633.94
+      ],
+      "exact_daily_p_one_sided_le0": 0.1076
+    }
+  },
+  "power": {
+    "artifact": "reports\\autoloop\\power_forward_3brazos_20261126.json",
+    "artifact_sha256": "d93b8198bfb54d488a182c92a2e5134593ff1015fd16454b39f2c1d99fca3875",
+    "script": "reports\\autoloop\\power_forward_3brazos_20261126.py",
+    "script_sha256": "7b9aae5ce9d8f87607b8215a27938743a3856258f534be3001ce382a55e60a2f",
+    "estimate_type": "exact_daily_362_sessions",
+    "provisional": false,
+    "blocking": false,
+    "method": {
+      "unit": "session",
+      "zero_if_no_trade": true,
+      "paired_by_session": true,
+      "sessions": 362,
+      "target_sessions": 742,
+      "sessions_per_year": 247.3,
+      "alpha_two_sided": 0.05,
+      "power": 0.8,
+      "z_alpha": 1.959964,
+      "z_beta": 0.841621,
+      "n80_formula": "((z_alpha + z_beta) * sigma_d / abs(mean_delta))^2",
+      "mde_formula": "(z_alpha + z_beta) * sigma_d * sqrt(742)",
+      "bootstrap": {
+        "method": "session_cluster_percentile",
+        "resamples": 10000,
+        "seed": 20261201,
+        "confidence": 0.95,
+        "one_sided": "direction of the historical effect"
+      },
+      "published_precision": "mean and sd shown with 6 decimals; N80 and MDE recomputed from those values"
+    },
+    "sources": {
+      "series": "reports\\autoloop\\improvement_proposals_20261126_1x.json",
+      "series_sha256": "07dde1bef1975899c68c2a4bd6a975e9454e7496477d8fae357edfa71e06e247",
+      "mission": "reports\\backtest\\live_vs_original_mission.json",
+      "mission_sha256": "d615e7a8b59ccf89419aa4d9604375c730a5a923e5981fdd769cfd0a62ff686c",
+      "calendar": "reports\\autoloop\\_delta_dump_p1_5_200.json",
+      "calendar_sha256": "a0697b8e4027424257464b5e86e61c5fa5058c3d3bdd5762bc215c6f5fd65a80"
+    },
+    "validation": {
+      "calendar_sessions": 362,
+      "calendar_unique": 362,
+      "c_trades_days": 38,
+      "l_trades_days": 72,
+      "p1_trades_days": 46,
+      "c_sum_usd": 661.44,
+      "l_sum_usd": 1481.62,
+      "p1_sum_usd": 1992.26,
+      "p1_block_sums_usd": [
+        1700.06,
+        445.44,
+        -238.4,
+        1960.6,
+        -1240.22,
+        -635.22
+      ],
+      "p1_block_sums_expected_usd": [
+        1700.06,
+        445.44,
+        -238.4,
+        1960.6,
+        -1240.22,
+        -635.22
+      ],
+      "p1_block_sums_match": true,
+      "published_6dp_all_match": true
+    },
+    "contrasts": {
+      "L_minus_C": {
+        "delta_total_usd": 820.18,
+        "mean_per_session_usd": 2.265691,
+        "sd_per_session_usd": 120.915272,
+        "n80_sessions": 22354.7,
+        "n80_years": 90.4,
+        "mde_total_usd_at_742": 9227.56,
+        "mde_per_session_usd_at_742": 12.4361,
+        "ci95_total_usd": [
+          -3695.94,
+          5247.44
+        ],
+        "bootstrap_se_total_usd": 2292.57,
+        "p_one_sided_le0": 0.3644,
+        "p_one_sided_ge0": 0.6356,
+        "published_6dp_check": {
+          "n80_sessions": 22354.7,
+          "mde_total_usd_at_742": 9227.56,
+          "matches": true
+        }
+      },
+      "P1_minus_C": {
+        "delta_total_usd": 1330.82,
+        "mean_per_session_usd": 3.676298,
+        "sd_per_session_usd": 58.989026,
+        "n80_sessions": 2020.8,
+        "n80_years": 8.17,
+        "mde_total_usd_at_742": 4501.7,
+        "mde_per_session_usd_at_742": 6.067,
+        "ci95_total_usd": [
+          -728.64,
+          3633.94
+        ],
+        "bootstrap_se_total_usd": 1107.83,
+        "p_one_sided_le0": 0.1076,
+        "p_one_sided_ge0": 0.8924,
+        "published_6dp_check": {
+          "n80_sessions": 2020.8,
+          "mde_total_usd_at_742": 4501.7,
+          "matches": true
+        }
+      },
+      "L_minus_P1": {
+        "delta_total_usd": -510.64,
+        "mean_per_session_usd": -1.410608,
+        "sd_per_session_usd": 125.121248,
+        "n80_sessions": 61752.9,
+        "n80_years": 249.71,
+        "mde_total_usd_at_742": 9548.54,
+        "mde_per_session_usd_at_742": 12.8686,
+        "ci95_total_usd": [
+          -5190.38,
+          4140.44
+        ],
+        "bootstrap_se_total_usd": 2369.28,
+        "p_one_sided_le0": 0.585,
+        "p_one_sided_ge0": 0.415,
+        "published_6dp_check": {
+          "n80_sessions": 61752.9,
+          "mde_total_usd_at_742": 9548.54,
+          "matches": true
+        },
+        "n80_interpretation": "N80 para detectar |delta| con dos colas; no es potencia de superioridad de L, cuyo signo historico es negativo."
+      }
+    },
+    "verdict": "L-C: N80 22354.7 sesiones (90.40 anos), MDE 9227.56 USD. P1-C: N80 2020.8 sesiones (8.17 anos), MDE 4501.70 USD. L-P1: N80 61752.9 sesiones (249.71 anos) para |delta|, MDE 9548.54 USD; descriptivo. Ningun contraste es confirmatorio en la ventana de 742 sesiones."
+  },
+  "sample": {
+    "kind": "prospective_capture_forward_replay",
+    "status": "pending",
+    "start": "2026-12-01",
+    "end": "2029-11-30",
+    "calendar_sessions": 754,
+    "roll_sessions": 12,
+    "evaluated_sessions": 742,
+    "blocks": [
+      {
+        "id": "F1",
+        "start": "2026-12-01",
+        "end": "2027-05-31",
+        "evaluated_sessions": 122
+      },
+      {
+        "id": "F2",
+        "start": "2027-06-01",
+        "end": "2027-11-30",
+        "evaluated_sessions": 125
+      },
+      {
+        "id": "F3",
+        "start": "2027-12-01",
+        "end": "2028-05-31",
+        "evaluated_sessions": 123
+      },
+      {
+        "id": "F4",
+        "start": "2028-06-01",
+        "end": "2028-11-30",
+        "evaluated_sessions": 125
+      },
+      {
+        "id": "F5",
+        "start": "2028-12-01",
+        "end": "2029-05-31",
+        "evaluated_sessions": 122
+      },
+      {
+        "id": "F6",
+        "start": "2029-06-01",
+        "end": "2029-11-30",
+        "evaluated_sessions": 125
+      }
+    ],
+    "burn_in": {
+      "start": "2026-11-23",
+      "end": "2026-11-30",
+      "excluded": true
+    },
+    "forbidden": [
+      {
+        "id": "W1-W6",
+        "start": "2025-01-10",
+        "end": "2026-06-30",
+        "reason": "in-sample; solo motivacion/potencia"
+      },
+      {
+        "id": "H1",
+        "start": "2026-07-01",
+        "end": "2026-10-30",
+        "reason": "holdout sellado; no se lee ni se ejecuta"
+      },
+      {
+        "id": "EXTERNAL_2024",
+        "start": "2024-01-02",
+        "end": "2024-12-30",
+        "reason": "reservado por otra hipotesis"
+      },
+      {
+        "id": "BURN_IN",
+        "start": "2026-11-23",
+        "end": "2026-11-30",
+        "reason": "solo plomeria; excluido"
+      }
+    ],
+    "minimums": {
+      "evaluated_sessions_min": 720,
+      "max_missing_month_share_pct": 20.0,
+      "max_consecutive_missing_sessions": 5,
+      "trades_min_per_arm": 60,
+      "blocks_with_minimum": 5,
+      "trades_min_per_block_per_arm": 6,
+      "shorts_min_per_arm": 5,
+      "months_with_trades_min": 12,
+      "max_consecutive_zero_months": 4
+    },
+    "expected_trades": {
+      "C": 77.9,
+      "P1": 94.3,
+      "L": 147.6,
+      "basis": "tasas W1-W6 sobre 742 sesiones; estimacion de trabajo, no promesa"
+    },
+    "independent_confirmation": false
+  },
+  "capture": {
+    "provider": "databento",
+    "dataset": "GLBX.MDP3",
+    "schema": "ohlcv-1m",
+    "roots": [
+      "MNQ",
+      "NQ",
+      "ES"
+    ],
+    "series_mode": "raw",
+    "timezone": "America/New_York",
+    "session": "RTH 09:00-15:59 ET; cierre anticipado oficial",
+    "contracts": [
+      "Z26",
+      "H27",
+      "M27",
+      "U27",
+      "Z27",
+      "H28",
+      "M28",
+      "U28",
+      "Z28",
+      "H29",
+      "M29",
+      "U29",
+      "Z29"
+    ],
+    "contracts_total": 39,
+    "rolls_total": 36,
+    "roll_sessions_total": 12,
+    "prospective": true,
+    "one_session_per_file": true,
+    "append_only": true,
+    "backfill": false,
+    "synthetic_bars": false,
+    "allow_adjusted_series": false,
+    "per_session_manifest": true,
+    "capture_after_close_et": "16:05",
+    "feed_override_common_to_all_arms": {
+      "provider": "csv",
+      "csv_path": "data/forward/<WINDOW_ID>/bars_forward.csv",
+      "series_mode": "raw",
+      "exclude_roll_sessions": true,
+      "loop_sessions": false,
+      "replay_speed": 1.0,
+      "start_date": "",
+      "latency_ms": 0
+    },
+    "feed_exists": false
+  },
+  "costs": {
+    "exact": {
+      "commission_per_side": 0.62,
+      "slippage_ticks_per_side": 1,
+      "tick_value": 0.5
+    },
+    "stress_x2": {
+      "commission_per_side": 1.24,
+      "slippage_ticks_per_side": 2,
+      "tick_value": 0.5
+    },
+    "both_required_for_dd_gate": true,
+    "primary_regime": "exact"
+  },
+  "analysis": {
+    "primary": {
+      "id": "E1",
+      "name": "delta_net_usd_live_minus_original",
+      "formula": "sum_sessions(net_L(s) - net_C(s))",
+      "unit": "session",
+      "zero_if_no_trade": true,
+      "bootstrap": {
+        "method": "session_cluster_percentile",
+        "resamples": 10000,
+        "seed": 20261201,
+        "confidence": 0.95,
+        "one_sided_null": "delta_net_usd <= 0",
+        "min_valid_resamples": 9500
+      },
+      "multiplicity": "Holm across E1 and E2",
+      "pass": "delta > 0 y limite inferior del IC95% (Holm) > 0"
+    },
+    "secondary_confirmatory": {
+      "id": "E2",
+      "name": "delta_net_usd_p1_minus_original",
+      "same_bootstrap": true,
+      "pass": "delta > 0 y limite inferior del IC95% (Holm) > 0"
+    },
+    "descriptive": {
+      "E3": "delta_net_usd_live_minus_p1",
+      "E4": "delta_expectancy_r_live_minus_original",
+      "E5": "delta_expectancy_r_p1_minus_original"
+    },
+    "co_criterion_live": "delta_expectancy_r_live_minus_original > 0; si la ventaja USD desaparece al normalizar por riesgo, es sizing, no estrategia",
+    "drawdown_gate": {
+      "id": "DD2000",
+      "applies_to": [
+        "L",
+        "P1"
+      ],
+      "exact": "DD <= 2000 USD",
+      "stress_x2": "DD <= 2000 USD",
+      "both_required": true,
+      "failure": "FAIL aunque el neto sea positivo",
+      "historical": {
+        "C": {
+          "exact": 1967.82,
+          "x2": 2064.14
+        },
+        "L": {
+          "exact": 2054.46,
+          "x2": 2284.92
+        },
+        "P1": {
+          "exact": 1947.82,
+          "x2": 2044.14
+        }
+      }
+    },
+    "quality": {
+      "PF_exact_min": 1.1,
+      "expectancy_r_positive": true,
+      "PF_x2_min": 1.1,
+      "net_x2_positive": true
+    },
+    "robustness": {
+      "drop_best_3_net_positive": true,
+      "top_trade_share_gross_max_pct": 50.0,
+      "delta_positive_blocks_min": 4,
+      "months_with_trades_min": 12,
+      "max_consecutive_zero_months": 4,
+      "rdd_vs_original": "informativo"
+    },
+    "no_interim_efficacy_look": true,
+    "no_parameter_search": true,
+    "no_subgroup_rescue": true,
+    "one_shot": true
+  },
+  "decision": {
+    "PASS_L": "Integridad, muestra, E1 Holm, co-criterio R, DD exacto/2x, calidad y robustez. Habilita memo; no autoriza LIVE ni cambia el 8765.",
+    "PASS_P1": "Integridad, muestra, E2 Holm, DD exacto/2x, calidad y robustez. Habilita memo; no autoriza LIVE.",
+    "FAIL": "Integridad/muestra OK, pero E1/E2, DD o calidad fallan con evidencia clara. Se mantiene la config actual.",
+    "INCONCLUSO": "Faltan minimos, el IC incluye cero sin fallo claro, o faltan cortos. No se promociona; no se cambia nada.",
+    "ANULA": "Se lee H1, hay backfill/sinteticos, cambia codigo/perfil/feed/lock, o hay mas de un analisis.",
+    "default_action": "no cambiar el 8765",
+    "pass_authorizes_live": false,
+    "pass_changes_live_config": false,
+    "pass_requires_new_decision": true,
+    "automatic_winner": false,
+    "descriptive_ranking_if_both_pass": [
+      "net_usd_desc",
+      "dd_usd_asc",
+      "rdd_desc"
+    ]
+  },
+  "execution_gate": {
+    "can_execute": false,
+    "forward_executed": false,
+    "capture_created": false,
+    "profiles_created": false,
+    "window_created": false,
+    "analysis_created": false,
+    "reasons": [
+      "El arnes actual es de dos brazos: ARM_PORTS, capture.ARMS y autorun --ports estan cableados a control/treatment.",
+      "init_window impone max_contracts=5 y max_sl_ticks=200 a todos los brazos y el filtro por nombre de brazo; no puede materializar L (8/300) ni P1 sin corromper el sizing.",
+      "No existen los tres perfiles forward ni el verificador del diff 2/7/5.",
+      "No existe captura prospectiva ni CSV forward; el path legacy p1_filter025 no se reutiliza.",
+      "autorun_state.json declara running en 8775/8776, pero la comprobacion actual no ve listeners; el estado real debe verificarse antes de fase 0. No se reutiliza su ventana/captura.",
+      "No existe lock de ejecucion, preflight ni runner one-shot para tres brazos.",
+      "No hay autorizacion para paper en tiempo real ni para LIVE.",
+      "La ventana se comparte con otros locks; solo uno puede ejecutarse."
+    ]
+  },
+  "phase0_requirements": [
+    "Verificar el estado real del forward de dos brazos (estado declarado running, sin listeners observados) y resolver puertos/procesos sin tocar el 8765.",
+    "Extender paths, capture, autorun, init_window y panel a tres brazos; tests sinteticos; congelar hash de codigo.",
+    "Materializar los tres perfiles con el override comun y verificar el diff exacto C-P1 (2), C-L (7), L-P1 (5).",
+    "Calcular hashes canonicos de los tres perfiles; el de L con next_open no existe todavia.",
+    "Construir/recibir la captura prospectiva raw y verificar 742 sesiones, 39 contratos, 36 rolls, 12 rolls excluidos, 3 simbolos alineados.",
+    "Verificar la serie diaria exacta de P1 persistida en reports/backtest/live_vs_original_mission.json (aggregate.p1.daily): 46 fechas, suma 1992.26, alineada con el calendario de 362 sesiones; congelar su hash. No es bloqueante.",
+    "Crear la ventana T0 con tres brazos, puertos libres, perfiles y feed congelados.",
+    "Implementar preflight, runner one-shot y lock de ejecucion; rechazar W1-W6, H1, 2024 y burn-in.",
+    "Solo entonces iniciar captura/replay."
+  ],
+  "holdout": {
+    "id": "H1",
+    "start": "2026-07-01",
+    "end": "2026-10-30",
+    "status": "sealed_not_executed",
+    "executed": false,
+    "used_for_decision": false,
+    "bars_read": false
+  },
+  "guards": {
+    "existing_configs_modified": false,
+    "existing_profiles_modified": false,
+    "live_8765_touched": false,
+    "live_8765_config_touched": false,
+    "database_accessed": false,
+    "holdout_accessed": false,
+    "backtests_run": false,
+    "forward_executed": false,
+    "capture_created": false,
+    "profiles_created": false,
+    "window_created": false,
+    "analysis_created": false,
+    "no_live_authorization": true,
+    "only_reports_artifacts": true
+  },
+  "artifacts": {
+    "protocol": "reports/autoloop/PRE_REGISTRO_FORWARD_3BRAZOS_20261126.md",
+    "lock": "reports/autoloop/pre_registro_forward_3brazos_20261126.lock.json",
+    "power": "reports/autoloop/power_forward_3brazos_20261126.json",
+    "future_window_dir": "data/forward/<WINDOW_ID>/",
+    "future_output_dir": "reports/backtest/<WINDOW_ID>/",
+    "created_now": [
+      "reports/autoloop/PRE_REGISTRO_FORWARD_3BRAZOS_20261126.md",
+      "reports/autoloop/pre_registro_forward_3brazos_20261126.lock.json",
+      "reports/autoloop/power_forward_3brazos_20261126.json",
+      "reports/autoloop/power_forward_3brazos_20261126.py"
+    ],
+    "power_script": "reports/autoloop/power_forward_3brazos_20261126.py"
+  },
+  "notes": [
+    "C es la original canonica 5/200/150/12, no la config viva 8/300/210/24.",
+    "L es la viva con next_open y feed comun; no es la config viva con signal_price.",
+    "P1 es 5/200/210/24, TP3, or_mid/close, filtro 0.",
+    "La tabla de potencia usa la serie diaria exacta para L-C y una aproximacion por bloques para P1-C.",
+    "El forward de 742 sesiones no esta potenciado para los deltas historicos; es un estudio de estimacion/seguridad, no una prueba confirmatoria.",
+    "No se ha ejecutado ningun forward, captura, replay, backtest nuevo ni paper.",
+    "No se ha tocado el 8765, su configuracion, su DB ni H1."
+  ],
+  "power_script": "reports\\autoloop\\power_forward_3brazos_20261126.py",
+  "power_script_sha256": "7b9aae5ce9d8f87607b8215a27938743a3856258f534be3001ce382a55e60a2f"
+}
