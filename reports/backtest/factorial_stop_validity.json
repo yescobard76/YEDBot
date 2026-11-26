@@ -1,0 +1,460 @@
+{
+  "generated_at": "2026-11-25T18:02:54",
+  "design": {
+    "tipo": "factorial 2x2",
+    "stop": [
+      200,
+      300
+    ],
+    "frecuencia": [
+      "150/12",
+      "210/24"
+    ],
+    "qty": 1,
+    "metrica_principal": "R por operacion (r_multiple)",
+    "celdas": {
+      "A": {
+        "stop": 200,
+        "validity": 150,
+        "retest": 12,
+        "source": "original ya medido"
+      },
+      "B": {
+        "stop": 200,
+        "validity": 210,
+        "retest": 24,
+        "source": "P2 ya medido (sl_200)"
+      },
+      "C": {
+        "stop": 300,
+        "validity": 150,
+        "retest": 12,
+        "source": "corrida nueva qty=1"
+      },
+      "D": {
+        "stop": 300,
+        "validity": 210,
+        "retest": 24,
+        "source": "manual ya medido"
+      }
+    },
+    "holdout": "no abierto; solo W1-W6 (2025-01-10..2026-06-30)"
+  },
+  "cell_metrics": {
+    "A": {
+      "ops": 38,
+      "total_r": 4.98,
+      "mean_r": 0.1311,
+      "r_pf": 1.2012,
+      "r_dd": 10.15,
+      "rdd_r": 0.4906,
+      "win_rate": 31.58,
+      "avg_win_r": 2.4775,
+      "avg_loss_r": -0.99,
+      "max_consecutive_losses": 10,
+      "net_usd_1": 378.88,
+      "net_usd_dynamic": 661.44,
+      "qty_min": 2,
+      "qty_max": 5,
+      "avg_qty": 3.7895,
+      "qty_counts": {
+        "2": 7,
+        "3": 11,
+        "4": 3,
+        "5": 17
+      },
+      "by_window": {
+        "W1": {
+          "ops": 8,
+          "total_r": 4.52,
+          "mean_r": 0.565,
+          "r_pf": 2.1188
+        },
+        "W2": {
+          "ops": 4,
+          "total_r": 0.45,
+          "mean_r": 0.1125,
+          "r_pf": 1.1829
+        },
+        "W3": {
+          "ops": 9,
+          "total_r": -1.16,
+          "mean_r": -0.1289,
+          "r_pf": 0.8364
+        },
+        "W4": {
+          "ops": 4,
+          "total_r": 9.44,
+          "mean_r": 2.36,
+          "r_pf": null
+        },
+        "W5": {
+          "ops": 5,
+          "total_r": -5.07,
+          "mean_r": -1.014,
+          "r_pf": 0.0
+        },
+        "W6": {
+          "ops": 8,
+          "total_r": -3.2,
+          "mean_r": -0.4,
+          "r_pf": 0.4745
+        }
+      }
+    },
+    "B": {
+      "ops": 46,
+      "total_r": 11.56,
+      "mean_r": 0.2513,
+      "r_pf": 1.4126,
+      "r_dd": 10.15,
+      "rdd_r": 1.1389,
+      "win_rate": 32.61,
+      "avg_win_r": 2.6387,
+      "avg_loss_r": -0.934,
+      "max_consecutive_losses": 10,
+      "net_usd_1": 882.46,
+      "net_usd_dynamic": 2471.78,
+      "qty_min": 2,
+      "qty_max": 10,
+      "avg_qty": 4.9565,
+      "qty_counts": {
+        "2": 9,
+        "3": 10,
+        "4": 7,
+        "5": 3,
+        "6": 3,
+        "7": 5,
+        "8": 2,
+        "9": 2,
+        "10": 5
+      },
+      "by_window": {
+        "W1": {
+          "ops": 14,
+          "total_r": 9.83,
+          "mean_r": 0.7021,
+          "r_pf": 2.5778
+        },
+        "W2": {
+          "ops": 5,
+          "total_r": 3.1,
+          "mean_r": 0.62,
+          "r_pf": 2.245
+        },
+        "W3": {
+          "ops": 11,
+          "total_r": -2.11,
+          "mean_r": -0.1918,
+          "r_pf": 0.7408
+        },
+        "W4": {
+          "ops": 3,
+          "total_r": 9.01,
+          "mean_r": 3.0033,
+          "r_pf": null
+        },
+        "W5": {
+          "ops": 6,
+          "total_r": -6.08,
+          "mean_r": -1.0133,
+          "r_pf": 0.0
+        },
+        "W6": {
+          "ops": 7,
+          "total_r": -2.19,
+          "mean_r": -0.3129,
+          "r_pf": 0.5689
+        }
+      }
+    },
+    "C": {
+      "ops": 60,
+      "total_r": 0.97,
+      "mean_r": 0.0162,
+      "r_pf": 1.0244,
+      "r_dd": 13.15,
+      "rdd_r": 0.0738,
+      "win_rate": 31.67,
+      "avg_win_r": 2.1447,
+      "avg_loss_r": -0.9945,
+      "max_consecutive_losses": 13,
+      "net_usd_1": 124.1,
+      "net_usd_dynamic": 124.1,
+      "qty_min": 1,
+      "qty_max": 1,
+      "avg_qty": 1.0,
+      "qty_counts": {
+        "1": 60
+      },
+      "by_window": {
+        "W1": {
+          "ops": 13,
+          "total_r": 6.86,
+          "mean_r": 0.5277,
+          "r_pf": 1.973
+        },
+        "W2": {
+          "ops": 6,
+          "total_r": -1.55,
+          "mean_r": -0.2583,
+          "r_pf": 0.6525
+        },
+        "W3": {
+          "ops": 14,
+          "total_r": -2.11,
+          "mean_r": -0.1507,
+          "r_pf": 0.7911
+        },
+        "W4": {
+          "ops": 11,
+          "total_r": 9.04,
+          "mean_r": 0.8218,
+          "r_pf": 3.2544
+        },
+        "W5": {
+          "ops": 5,
+          "total_r": -5.07,
+          "mean_r": -1.014,
+          "r_pf": 0.0
+        },
+        "W6": {
+          "ops": 11,
+          "total_r": -6.2,
+          "mean_r": -0.5636,
+          "r_pf": 0.3179
+        }
+      }
+    },
+    "D": {
+      "ops": 72,
+      "total_r": 13.19,
+      "mean_r": 0.1832,
+      "r_pf": 1.3064,
+      "r_dd": 13.15,
+      "rdd_r": 1.003,
+      "win_rate": 36.11,
+      "avg_win_r": 2.1631,
+      "avg_loss_r": -0.9567,
+      "max_consecutive_losses": 13,
+      "net_usd_1": 1361.72,
+      "net_usd_dynamic": 2022.94,
+      "qty_min": 1,
+      "qty_max": 10,
+      "avg_qty": 3.7361,
+      "qty_counts": {
+        "1": 12,
+        "2": 23,
+        "3": 10,
+        "4": 6,
+        "5": 4,
+        "6": 3,
+        "7": 5,
+        "8": 2,
+        "9": 2,
+        "10": 5
+      },
+      "by_window": {
+        "W1": {
+          "ops": 19,
+          "total_r": 14.3,
+          "mean_r": 0.7526,
+          "r_pf": 2.7354
+        },
+        "W2": {
+          "ops": 8,
+          "total_r": 1.97,
+          "mean_r": 0.2463,
+          "r_pf": 1.4388
+        },
+        "W3": {
+          "ops": 17,
+          "total_r": -4.17,
+          "mean_r": -0.2453,
+          "r_pf": 0.6568
+        },
+        "W4": {
+          "ops": 12,
+          "total_r": 12.36,
+          "mean_r": 1.03,
+          "r_pf": 4.0823
+        },
+        "W5": {
+          "ops": 6,
+          "total_r": -6.08,
+          "mean_r": -1.0133,
+          "r_pf": 0.0
+        },
+        "W6": {
+          "ops": 10,
+          "total_r": -5.19,
+          "mean_r": -0.519,
+          "r_pf": 0.3577
+        }
+      }
+    }
+  },
+  "effects": {
+    "mean_r": {
+      "stop_200_a_300_en_freq_150": -0.1149,
+      "stop_200_a_300_en_freq_210": -0.0681,
+      "stop_efecto_principal": -0.0915,
+      "freq_150_a_210_en_stop_200": 0.1202,
+      "freq_150_a_210_en_stop_300": 0.167,
+      "freq_efecto_principal": 0.1436,
+      "interaccion": 0.0468
+    },
+    "total_r": {
+      "stop_200_a_300_en_freq_150": -4.01,
+      "stop_200_a_300_en_freq_210": 1.63,
+      "stop_efecto_principal": -1.19,
+      "freq_150_a_210_en_stop_200": 6.58,
+      "freq_150_a_210_en_stop_300": 12.22,
+      "freq_efecto_principal": 9.4,
+      "interaccion": 5.64
+    },
+    "ops": {
+      "stop_200_a_300_en_freq_150": 22.0,
+      "stop_200_a_300_en_freq_210": 26.0,
+      "stop_efecto_principal": 24.0,
+      "freq_150_a_210_en_stop_200": 8.0,
+      "freq_150_a_210_en_stop_300": 12.0,
+      "freq_efecto_principal": 10.0,
+      "interaccion": 4.0
+    },
+    "per_window_mean_r": {
+      "W1": {
+        "mean_r": {
+          "A": 0.565,
+          "B": 0.7021,
+          "C": 0.5277,
+          "D": 0.7526
+        },
+        "stop_efecto_principal": 0.0066,
+        "freq_efecto_principal": 0.181
+      },
+      "W2": {
+        "mean_r": {
+          "A": 0.1125,
+          "B": 0.62,
+          "C": -0.2583,
+          "D": 0.2463
+        },
+        "stop_efecto_principal": -0.3723,
+        "freq_efecto_principal": 0.506
+      },
+      "W3": {
+        "mean_r": {
+          "A": -0.1289,
+          "B": -0.1918,
+          "C": -0.1507,
+          "D": -0.2453
+        },
+        "stop_efecto_principal": -0.0377,
+        "freq_efecto_principal": -0.0788
+      },
+      "W4": {
+        "mean_r": {
+          "A": 2.36,
+          "B": 3.0033,
+          "C": 0.8218,
+          "D": 1.03
+        },
+        "stop_efecto_principal": -1.7557,
+        "freq_efecto_principal": 0.4257
+      },
+      "W5": {
+        "mean_r": {
+          "A": -1.014,
+          "B": -1.0133,
+          "C": -1.014,
+          "D": -1.0133
+        },
+        "stop_efecto_principal": 0.0,
+        "freq_efecto_principal": 0.0007
+      },
+      "W6": {
+        "mean_r": {
+          "A": -0.4,
+          "B": -0.3129,
+          "C": -0.5636,
+          "D": -0.519
+        },
+        "stop_efecto_principal": -0.1848,
+        "freq_efecto_principal": 0.0658
+      }
+    },
+    "robustez": {
+      "ventanas_stop_positivas": 1,
+      "ventanas_stop_negativas": 4,
+      "ventanas_freq_positivas": 5,
+      "ventanas_freq_negativas": 1,
+      "ventanas_evaluadas": 6
+    }
+  },
+  "contracts": {
+    "A": {
+      "max_qty_historico": 5,
+      "net_usd_dinamico": 661.44,
+      "net_usd_qty1_derivado": 378.88,
+      "delta_usd_por_contratos": 282.56,
+      "delta_usd_pct_dinamico": 42.72,
+      "avg_qty": 3.7895,
+      "total_r": 4.98,
+      "mean_r": 0.1311,
+      "nota": "R no cambia; el delta USD es sizing, no edge"
+    },
+    "B": {
+      "max_qty_historico": 10,
+      "net_usd_dinamico": 2471.78,
+      "net_usd_qty1_derivado": 882.46,
+      "delta_usd_por_contratos": 1589.32,
+      "delta_usd_pct_dinamico": 64.3,
+      "avg_qty": 4.9565,
+      "total_r": 11.56,
+      "mean_r": 0.2513,
+      "nota": "R no cambia; el delta USD es sizing, no edge"
+    },
+    "D": {
+      "max_qty_historico": 10,
+      "net_usd_dinamico": 2022.94,
+      "net_usd_qty1_derivado": 1361.72,
+      "delta_usd_por_contratos": 661.22,
+      "delta_usd_pct_dinamico": 32.69,
+      "avg_qty": 3.7361,
+      "total_r": 13.19,
+      "mean_r": 0.1832,
+      "nota": "R no cambia; el delta USD es sizing, no edge"
+    },
+    "C": {
+      "max_qty_historico": 1,
+      "net_usd_dinamico": 124.1,
+      "net_usd_qty1_derivado": 124.1,
+      "delta_usd_por_contratos": 0.0,
+      "delta_usd_pct_dinamico": 0.0,
+      "avg_qty": 1.0,
+      "total_r": 0.97,
+      "mean_r": 0.0162,
+      "nota": "celda nueva ya ejecutada a qty=1"
+    }
+  },
+  "control": {
+    "estado": "ok",
+    "ventana": "W1",
+    "ops": 19,
+    "r_control": 14.3,
+    "r_manual_derivado": 14.3,
+    "usd_control": 1322.94,
+    "usd_manual_qty1_derivado": 1322.94,
+    "qty": [
+      1
+    ],
+    "conclusion": "qty=1 no altera senales ni R; las celdas A/B/D son validas"
+  },
+  "sources": {
+    "A": "reports\\autoloop\\_fresh_original_1x.json",
+    "B": "reports\\autoloop\\progreso.json#sl_200",
+    "C": "reports\\backtest\\_factorial_cell_c.json",
+    "D": "reports\\autoloop\\_fresh_manual_1x.json"
+  }
+}
