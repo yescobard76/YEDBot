@@ -666,7 +666,10 @@ Este acto es solo de diseño:
 - No se ejecutó forward, replay, backtest nuevo ni paper.
 - No se modificaron locks ni documentos existentes.
 - Los únicos artefactos nuevos están en `reports/autoloop/`.
-- No hay commit ni push.
+- El script, este documento, el JSON y el lock se versionan en un commit
+  acotado (`cadb6a2`); el repositorio tiene auto-push y lo publicó en
+  `origin/main`, sin `git push` manual. La corrección de esta nota va en un
+  commit de seguimiento igualmente acotado.
 
 La comprobación final de salud, PID, hashes de config/DB, HEAD y rutas fuera
 de `reports/` se hace al cerrar la misión, no dentro del protocolo.
@@ -700,6 +703,10 @@ de `reports/` se hace al cerrar la misión, no dentro del protocolo.
 - `profiles/backtest_real/config.json`,
   `profiles/live_8765/config.json`,
   `profiles/p1_forward_control/config.json` — fuentes de los perfiles.
+
+**Versionado:** los cuatro artefactos están en `git ls-files`; el commit
+inicial es `cadb6a2`. El script se ejecuta con
+`python reports/autoloop/power_forward_3brazos_20261126.py --check`.
 
 **Estado final:** `pre_registered_not_executed`, `can_execute=false`. No hay
 captura, no hay CSV, no hay ventana, no hay perfil nuevo y no hay análisis.

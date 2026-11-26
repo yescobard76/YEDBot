@@ -1,7 +1,7 @@
 {
   "schema": "forward-3arm-preregistration-lock-v1",
   "protocol": "reports/autoloop/PRE_REGISTRO_FORWARD_3BRAZOS_20261126.md",
-  "protocol_sha256": "7cd3da09ffbbf0a8e0240b4b9e2d695ecf7030bcffc800968c1b6d96820161ff",
+  "protocol_sha256": "de31756215e8c28d9f4069bc735da8516491c60ee863f4b0e0d25a746eac305c",
   "power_artifact": "reports/autoloop/power_forward_3brazos_20261126.json",
   "power_artifact_sha256": "d93b8198bfb54d488a182c92a2e5134593ff1015fd16454b39f2c1d99fca3875",
   "lock_version": "1.0",
