@@ -228,4 +228,75 @@ La corrida nueva de C + control terminó en **178,9 s (≈3 min)** con 4 proceso
 2. **Stop 300:** no es un lever de edge (−0,0915 R/op, 4/6 ventanas negativas). En 150/12 hunde la celda C a 0,97 R; en 210/24 solo compra 26 operaciones marginales (+1,63 R, +3,00 R-DD). La manual no gana por el stop.
 3. **Contratos:** cero efecto en R; todo el efecto es sizing. El +448,84 USD del `sl_200` se convierte en −479,26 USD a qty=1. El ranking USD anterior no es un ranking de edge.
 
-**No se adopta ninguna mejora, no se cambia la configuración y no se toca el 8765.** Si se prioriza el total observado a 1 contrato, D (manual) sigue primera; si se prioriza calidad/DD, B (200/210) es mejor. La diferencia entre ambas no es el stop: es la frecuencia y el sizing. **H1 sigue sellado.**
+**No se adopta ninguna mejora, no se cambia la configuración y no se toca el 8765.** Bajo el criterio de rentabilidad ajustada a riesgo, la recomendación única es **B (200/210)**, no D; D solo sería preferible bajo un mandato explícito de total absoluto, que este informe no adopta. La diferencia entre ambas no es el stop: es la frecuencia y el sizing. El plan de validación está en §9. **H1 sigue sellado.**
+
+---
+
+## 9. Propuestas priorizadas por rentabilidad ajustada a riesgo
+
+### 9.1 Criterio y orden
+
+El criterio de este informe es **rentabilidad por unidad de riesgo**, no el R total bruto: primero **RDD_R**, después **R/op** y **PF**; el R total y el USD a qty=1 se usan como guardrails, no como prueba de edge. El orden de las propuestas es:
+
+1. **Consolidar la frecuencia 210/24** — el lever dominante y ya presente en la manual.
+2. **Stop 200 (B)** — el único candidato de mejora bajo el criterio risk-adjusted.
+3. **qty=1 como decisión separada de sizing** — no escalar contratos para “mejorar” el edge.
+
+Todas las cifras son **in-sample W1–W6** y describen lo observado, no una promesa forward.
+
+### 9.2 Resumen de propuestas
+
+| # | Propuesta | Cambio exacto | Evidencia del factorial | Impacto observado | Coste / riesgo |
+|---:|---|---|---|---|---|
+| 1 | **Consolidar frecuencia 210/24** | Ninguno: mantener `setup_validity_minutes=210` y `retest_tolerance_ticks=24`; no volver a 150/12 | Efecto principal **+0,1436 R/op**, **+9,40 R**, positivo 5/6 ventanas. A→B: +0,1202 R/op, +6,58 R, PF 1,2012→1,4126, RDD_R 0,4906→1,1389, R-DD 10,15→10,15, 38→46 ops. C→D: +0,1670, +12,22, PF 1,0244→1,3064, RDD_R 0,0738→1,0030, R-DD 13,15→13,15, 60→72 ops | Mayor edge y mayor total; no aumenta el R-DD en ninguna rama | Más operaciones y exposición (38→46 y 60→72); W3 negativo; in-sample |
+| 2 | **Stop 200 (B) como candidato** | `risk.max_sl_ticks: 300 → 200`; mantener 210/24, qty=1 y el resto igual | B: **0,2513 R/op**, 11,56 R, PF **1,4126**, R-DD **10,15**, RDD_R **1,1389**, 46 ops, USD1 **882,46**. D: 0,1832, 13,19, 1,3064, 13,15, 1,0030, 72, 1.361,72 | Δ **+0,0681 R/op (+37,2 %)**, RDD_R **+0,1359 (+13,5 %)**, PF **+0,1062 (+8,1 %)**, R-DD **−3,00 (−22,8 %)**; pero **−1,63 R totales (−12,4 %)**, **−479,26 USD1 (−35,2 %)** y **−26 ops**. R/op gana W2/W3/W4/W6, pierde W1 y empata W5 | Menos total absoluto y menos operaciones; stop más ajustado; W1 peor; in-sample; sin OOS |
+| 3 | **qty=1 / no escalar como edge** | Mantener `max_contracts=1` en la validación; no subir qty ni `risk_per_trade_pct` para buscar USD | R invariante. B: +1.589,32 USD dinámicos por sizing (**64,30 %** de su USD dinámico); D: +661,22 (**32,69 %**); A: +282,56 (**42,72 %**). `sl_200` pasa de **+448,84** frente a la manual en dinámico a **−479,26** a qty=1 | Escalar qty multiplica USD y DD, pero **no** R/op, PF ni RDD_R | Apalancamiento, margen, slippage y path; decisión de capital separada; el 8765 no se toca |
+
+### 9.3 Recomendación única: B, no D
+
+**La recomendación es B (stop 200, frecuencia 210/24), bajo el criterio de rentabilidad ajustada a riesgo. No es un empate con D.**
+
+- **B gana en calidad:** +37,2 % de R/op (0,2513 vs 0,1832), +13,5 % de RDD_R (1,1389 vs 1,0030), +8,1 % de PF (1,4126 vs 1,3064) y −22,8 % de R-DD (10,15 vs 13,15). Además gana en R/op en **W2, W3, W4 y W6**, pierde en **W1** y empata en **W5**.
+- **D gana en total absoluto:** +14,1 % de R total (13,19 vs 11,56) y +54,3 % de USD a qty=1 (1.361,72 vs 882,46). B conserva el **87,6 %** del R total de D. Pero la ventaja de D son **26 operaciones extra** que aportan **+1,63 R** (0,0627 R/op), muy por debajo del 0,2513 R/op de B, y **+3,00 R-DD**. Es volumen, no edge.
+- **Qué se prioriza:** la rentabilidad por unidad de riesgo y por unidad de drawdown. **Qué se sacrifica:** 1,63 R totales y 479,26 USD a qty=1. **Qué se gana:** +0,0681 R/op, +0,1359 RDD_R, +0,1062 PF y 3,00 R menos de DD.
+- **D no es una mejora, es el statu quo.** Solo sería preferible si el mandato explícito fuera “máximo R total absoluto en la muestra”, aceptando 26 operaciones marginales y más DD. Este informe no adopta ese mandato.
+- **No se aplica al 8765.** B es el candidato a validación fuera de muestra; la configuración viva sigue intacta hasta que exista esa validación.
+
+### 9.4 Sizing: decisión separada del edge
+
+- **El R es invariante a qty.** B y D conservan exactamente su R total, R/op, PF y RDD_R al pasar a qty=1; solo cambia el USD. En R, qty **no gana ni pierde ninguna de las seis ventanas**: las seis son idénticas; el efecto es exclusivamente USD/DD. El “extra” de USD de las celdas de qty alta es **apalancamiento**: 64,30 % en B, 32,69 % en D y 42,72 % en A.
+- **El ranking USD se invierte al fijar qty=1.** `sl_200` pasa de **+448,84 USD** frente a la manual en dinámico a **−479,26 USD** a qty=1. Por tanto, el USD dinámico **no** sirve para elegir stop, frecuencia ni “mejor estrategia”; mezcla edge con sizing.
+- **Recomendación de qty:** mantener **qty=1** para la validación del edge y **no elevar contratos ni `risk_per_trade_pct`** como si fuera una mejora de estrategia. Escalar qty multiplica linealmente el USD y el drawdown, pero no mejora R/op, PF ni RDD_R; añade riesgo de margen, slippage y path dependence.
+- **Si se decide escalar capital**, que sea una decisión separada de asignación de capital, con presupuesto de riesgo propio y pre-registrada; no se mezcla con la hipótesis B vs D. El `max_contracts=10` actual del 8765 **no se modifica** en esta misión.
+
+### 9.5 Qué NO hacer
+
+1. **No adoptar el stop 300 por el R total bruto de D.** Su total se compra con 26 operaciones de 0,0627 R/op y +3,00 R-DD; en 150/12 el stop 300 deja C en **0,97 R, PF 1,0244 y RDD_R 0,0738**. El stop 300 no es un lever de edge.
+2. **No usar el ranking USD dinámico para elegir stop o contratos.** `sl_200` +448,84 → −479,26 a qty=1; B tiene 64,30 % de su USD dinámico como sizing.
+3. **No extrapolar a intradía, otros símbolos, otros timeframes ni otra sesión.** La evidencia es NQ/MNQ, ORB+SMT, W1–W6; no hay ninguna prueba fuera de ese marco.
+4. **No subir qty para “mejorar la rentabilidad”.** El apalancamiento no cambia el edge y aumenta el DD y el riesgo operativo.
+5. **No adoptar las exclusiones horarias ni parámetros nuevos con esta evidencia.** No se probaron en este factorial; la lista anterior era USD y no pasó RC/RDD. Añadirlos ahora sería otro barrido in-sample.
+6. **No abrir H1 ni reutilizar W1–W6 como confirmación.** H1 sigue sellado; W1–W6 ya está explorado y no es una muestra independiente.
+
+### 9.6 Plan mínimo de validación antes de tocar dinero real
+
+**Estado:** H1 (`2026-07-01 → 2026-10-30`) y W7+ siguen **sellados**. No se leen, no se ejecutan y no se usan para este informe. La validación que sigue es un plan, no una corrida.
+
+**Diseño mínimo:**
+
+1. **Una sola hipótesis primaria:** B (200/210) vs D (300/210), con **qty=1**, mismo instrumento, misma sesión, mismos costes y misma definición de R/op. Pre-registrar y bloquear el protocolo antes de abrir la muestra.
+2. **Test primario:** bootstrap/permutación por bloques de sesión, pareado por sesión, **α = 0,05** a dos colas. Si se miran A/C, seis ventanas o subgrupos, aplicar **Holm** a los secundarios o **White Reality Check** con α familiar 0,05; no hacer fishing de ventanas.
+3. **Muestra mínima:** **≥100 operaciones de B** en una muestra nueva. H1 tiene 85 sesiones; al ritmo observado de B (46/362 ≈ 0,127 ops/sesión) serían **≈11 operaciones**, insuficientes. Cien operaciones de B exigirían **≈787 sesiones** al mismo ritmo; si no se dispone de una muestra así, no se puede confirmar con el efecto observado y no se toca dinero real.
+4. **Umbral de confirmación:**
+   - **Δ R/op (B − D) ≥ +0,05 R** y **IC 95 % inferior > 0**.
+   - **RDD_R(B) ≥ RDD_R(D) + 0,10**.
+   - **R total(B) ≥ 85 % del R total(D)** — se acepta perder hasta 15 % de total por mejor calidad; el 87,6 % observado pasaría, un 15 %+ no.
+   - **PF(B) ≥ PF(D)** y **R-DD(B) ≤ R-DD(D)**.
+   - **Coste x2:** el Δ R/op debe seguir siendo > 0.
+   - Si el mandato fuera total absoluto, el umbral sería D ≥ B + 10 % de R total con RDD_R no peor; **no es el criterio recomendado**.
+5. **Qué lo confirmaría:** superar el test primario y todos los guardrails anteriores en la muestra OOS, con el protocolo bloqueado y sin cambios de parámetros. Si falla cualquiera, **no se cambia la configuración** y no se toca dinero real.
+6. **Qué no se prueba:** exclusiones horarias, parámetros nuevos, otros símbolos, intradía, otro timeframe o otra sesión. No hay evidencia y añadirlos sería multiple testing.
+
+### 9.7 Integridad de esta edición
+
+Esta edición solo modifica este documento; no re-ejecuta backtests, no re-barre parámetros y no toca artefactos de resultados. Verificación final: **8765 PID 16016**, listener `127.0.0.1:8765`, log **580 B** sin cambios; DB `profiles/live_8765/yedbot.db` leída en **read-only: 72 trades / 730 eventos**; `data/config.json` y `profiles/live_8765/config.json` SHA-256 `9bf4f9c7…e29479f`; locks `55d89872…` y `38e818f6…`; holdout no leído ni ejecutado. **H1 sigue sellado.**
